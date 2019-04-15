@@ -1,6 +1,7 @@
 name: skelebot
 description: ML Build Tool
 version: 0.1.0
+skelebotVersion: 0.1.0
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 language: Python
