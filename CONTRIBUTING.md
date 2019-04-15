@@ -110,25 +110,3 @@ A key concept of this project is simplicity. In order to make things easier for 
 Skelebot, this project should at a minimum only require the skelebot.yaml file in the root of
 their project code. Since the purpose is to bring project tasks into a single location, the
 skelebot.yaml file should be that location. All project configuration should exist in this file.
-
-### Key Tasks
-
- * Dependency Management
- * Job Execution
- * Project Versioning
- * Continuous Integration
- * Artifact Management
-
-### Planned Features
-
- * Scaffolding TravisCI
-> The option to construct the travis ci file through skelebot. In keeping with the core concept
-  of the project, this should be generated through skelebot from configuration in the skelebot.yaml
- file using a skelebot command. NOTE: We may want to make this generic to other CI/CICD tools in the future.
- * Configurable Volume Mapping
-> Allow the user to specify volume mapping in skelebot.yaml (similar to copy)
- * Environment Configurations
-> Allow for multiple configurations of skelebot based on environment. This should be a specific section
-  of the skelebot.yaml config where users can specify environment names and any overriding config underneath.
-  Needs to expose an optional parameter (--env -e) to allow users to select the environment config that will
-  overwrite the default config.
