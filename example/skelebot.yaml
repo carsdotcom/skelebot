@@ -1,0 +1,74 @@
+name: iris-example
+description: Example Skelebot Project
+version: 0.1.0
+skelebotVersion: 0.1.0
+maintainer: Sean Shookman
+contact: sshookman@cars.com
+language: Python
+ephemeral: False
+
+dependencies: 
+- numpy
+- pandas
+- scipy
+- scikit-learn
+
+ignore: 
+- '**/*.RData'
+- '**/*.csv'
+- '**/*.model'
+- '**/*.pyc'
+
+jobs: 
+- name: loadData
+  source: src/loadData.py
+  mode: i
+  help: Load the Iris Dataset and save it into the data folder for the train job to access
+  mapped:
+  - data/
+- name: train
+  source: src/train.py
+  mode: i
+  help: Use the data loaded in the loadData job to train the iris model
+  mapped:
+  - models/
+  args:
+  - name: algorithm
+    help: The algorithm to use when building the model
+    choices:
+    - glm
+    - rf
+    - xgb
+  params:
+  - name: name
+    alt: n
+    help: The name for the model that will be saved in the models folder (do not include extension)
+    default: model
+- name: score
+  source: src/score.py
+  mode: i
+  help: Use the model that was built in the train job to score new data against the iris model
+  mapped:
+  - scored/
+  params:
+  - name: name
+    alt: n
+    help: The name for the model that will be used for scoring the data
+    default: model
+  - name: output
+    alt: o
+    help: The name of the output file for the results that will be saved into the ouput folder (do not include extension)
+    default: scored
+
+artifacts: 
+- name: model
+  file: models/model.pkl
+  deploy: 
+    type: Artifactory
+    url: http://my-artifactory-url.com
+    repo: iris-example
+    path: models
+
+jupyter: 
+  port: 8888
+  folder: .

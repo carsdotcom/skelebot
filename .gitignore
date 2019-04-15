@@ -1,0 +1,11 @@
+skelebot.egg-info/
+skelebot/__pycache__/
+*.pyc
+build/
+dist/
+tmp/
+.eggs/
+*.zip
+.cache/
+.coverage
+htmlcov/

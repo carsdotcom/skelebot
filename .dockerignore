@@ -1,0 +1,6 @@
+**/*.zip
+**/*.RData
+**/*.pkl
+**/*.csv
+**/*.model
+**/*.pyc
