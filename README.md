@@ -53,7 +53,7 @@ optional arguments:
 
 ## Getting Started
 
-To get started using Skelebot you can follow the documentation found [here](docs/index.md).
+To get started using Skelebot you can follow the documentation found [here](https://carsdotcom.github.io/skelebot/).
 
 ## Contributing
 
