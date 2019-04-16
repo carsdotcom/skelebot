@@ -1,4 +1,4 @@
-[Home](index.md) > Environments
+[Home](index.md)
 
 ---
 
@@ -13,3 +13,7 @@ To enable an environment, pass the -e (--env) parameter followed by the name of 
 ```
 
 Environment configurations can override any property in the skelebot yaml, even jobs.
+
+---
+
+<center><< [Docker Ignores](docker-ignores.md)  |  [Versioning](versioning.md) >></center>

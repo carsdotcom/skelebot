@@ -1,4 +1,4 @@
-[Home](index.md) > Priming
+[Home](index.md)
 
 ---
 
@@ -11,3 +11,7 @@ Skelebot generates files, such as the Dockerfile, based on the contents of the s
 ```
 
 Once complete the .dockerignore file and the Dockerfile will be visible in your project folder, unless you have your project set to 'ephemeral' mode. The Docker Image for the project will also be built with the default job set as the run command, as specified in the skelebot.yaml.
+
+---
+
+<center><< [Jobs](jobs.md)  |  [Docker Ignores](docker-ignores.md) >></center>

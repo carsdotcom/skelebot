@@ -1,4 +1,4 @@
-[Home](index.md) > Plugins
+[Home](index.md)
 
 ---
 
@@ -60,3 +60,7 @@ This command would then be executed using the plugin name.
 > skelebot testPlugin
 http://www.github.com/mystuff/myrepo
 ```
+
+---
+
+<center><< [Jupyter](jupyter.md)  |  [Home](index.md) >></center>

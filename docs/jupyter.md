@@ -1,4 +1,4 @@
-[Home](index.md) > Jupyter
+[Home](index.md)
 
 ---
 
@@ -22,3 +22,7 @@ jupyter:
   folder: my-notebooks/r-notebooks
 ...
 ```
+
+---
+
+<center><< [HDFS Kerberos](hdfs-kerberos.md)  |  [Plugins](plugins.md) >></center>

@@ -1,4 +1,4 @@
-[Home](index.md) > Dependencies
+[Home](index.md)
 
 ---
 
@@ -31,3 +31,6 @@ dependencies:
 
 NOTE: When installing via 'file:' or 'github:' the ability to specify a version is not available.
 
+---
+
+<center><< [Scaffolding](scaffolding.md)  |  [Jobs](jobs.md) >></center>

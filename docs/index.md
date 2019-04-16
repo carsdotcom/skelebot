@@ -1,6 +1,3 @@
-# Skelebot
-**Machine Learning Project Management Tool**
-
 Machine learning projects are too often just a loose collection of unorganized scripts. Skelebot aims to bring order to that chaos.
 
 ---

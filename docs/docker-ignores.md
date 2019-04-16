@@ -1,4 +1,4 @@
-[Home](index.md) > Docker Ignores
+[Home](index.md)
 
 ---
 
@@ -31,3 +31,7 @@ jobs:
   - scoring-data/
 ...
 ```
+
+---
+
+<center><< [Priming](priming.md)  |  [Environments](environments.md) >></center>

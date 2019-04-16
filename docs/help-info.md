@@ -1,4 +1,4 @@
-[Home](index.md) > Help Info
+[Home](index.md)
 
 ---
 
@@ -65,3 +65,7 @@ optional arguments:
   -s, --skip-build      Skip the build process and attempt to use previous docker build
   -n, --native          Run natively instead of through Docker
 ```
+
+---
+
+<center><< [Installing](installing.md)  |  [Scaffolding](scaffolding.md) >></center>

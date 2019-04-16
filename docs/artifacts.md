@@ -1,4 +1,4 @@
-[Home](index.md) > Artifacts
+[Home](index.md)
 
 ---
 
@@ -42,3 +42,7 @@ display when executing the commands, or they can be passed as parameters in the 
 
  - **--user (-u)** - The Artifactory username
  - **--token (-t)** - The token associated to the Artifactory username
+
+---
+
+<center><< [Copy Commands](copy-commands.md)  |  [HDFS Kerberos](hdfs-kerberos.md) >></center>

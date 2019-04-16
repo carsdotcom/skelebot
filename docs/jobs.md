@@ -1,4 +1,4 @@
-[Home](index.md) > Jobs
+[Home](index.md)
 
 ---
 
@@ -63,3 +63,6 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
  - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
 
+---
+
+<center><< [Dependencies](dependencies.md)  |  [Priming](priming.md) >></center>

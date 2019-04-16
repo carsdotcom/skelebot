@@ -1,4 +1,4 @@
-[Home](index.md) > Versioning
+[Home](index.md)
 
 ---
 
@@ -15,3 +15,6 @@ bump command. It is recommended to use the bump command since it will follow the
 
 More information on semantic versioning (when to bump major, minor, and patch) can be found on [semver.org](https://semver.org/).
 
+---
+
+<center><< [Environments](environments.md)  |  [Copy Commands](copy-commands.md) >></center>
