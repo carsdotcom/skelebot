@@ -1,0 +1,4 @@
+pyyaml
+artifactory
+argparse
+coverage
