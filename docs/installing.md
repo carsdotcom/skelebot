@@ -19,4 +19,4 @@ Once this is complete, you will be able to use Skelebot from anywhere on the sys
 
 ---
 
-<center><< <a href="index.md">Home</a>  |  <a href="help-info.md">Help Info</a> >></center>
+<center><< <a href="index.html">Home</a>  |  <a href="help-info.html">Help Info</a> >></center>

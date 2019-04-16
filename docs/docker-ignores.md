@@ -34,4 +34,4 @@ jobs:
 
 ---
 
-<center><< [Priming](priming.md)  |  [Environments](environments.md) >></center>
+<center><< <a href="priming.html">Priming</a>  |  <a href="environments.html">Environments</a> >></center>

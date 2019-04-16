@@ -17,4 +17,4 @@ More information on semantic versioning (when to bump major, minor, and patch) c
 
 ---
 
-<center><< [Environments](environments.md)  |  [Copy Commands](copy-commands.md) >></center>
+<center><< <a href="environments.html">Environments</a>  |  <a href="copy-commands.html">Copy Commands</a> >></center>

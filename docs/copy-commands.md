@@ -17,4 +17,4 @@ Due to the fact that these COPY commands will be placed in the Dockerfile in the
 
 ---
 
-<center><< [Versioning](versioning.md)  |  [Artifacts](artifacts.md) >></center>
+<center><< <a href="versioning.html">Versioning</a>  |  <a href="artifacts.html">Artifacts</a> >></center>

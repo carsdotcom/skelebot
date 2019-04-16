@@ -33,4 +33,4 @@ NOTE: When installing via 'file:' or 'github:' the ability to specify a version 
 
 ---
 
-<center><< [Scaffolding](scaffolding.md)  |  [Jobs](jobs.md) >></center>
+<center><< <a href="scaffolding.html">Scaffolding</a>  |  <a href="jobs.html">Jobs</a> >></center>

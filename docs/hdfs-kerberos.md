@@ -23,4 +23,4 @@ The krbConf file is the configuration file for your kerberos setup that must be 
 
 ---
 
-<center><< [Artifacts](artifacts.md)  |  [Jupyter](jupyter.md) >></center>
+<center><< <a href="artifacts.html">Artifacts</a>  |  <a href="jupyter.html">Jupyter</a> >></center>

@@ -65,4 +65,4 @@ Skelebot has some optional parameters that allow you to control how the jobs are
 
 ---
 
-<center><< [Dependencies](dependencies.md)  |  [Priming](priming.md) >></center>
+<center><< <a href="dependencies.html">Dependencies</a>  |  <a href="priming.html">Priming</a> >></center>

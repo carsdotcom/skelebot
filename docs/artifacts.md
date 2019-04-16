@@ -45,4 +45,4 @@ display when executing the commands, or they can be passed as parameters in the 
 
 ---
 
-<center><< [Copy Commands](copy-commands.md)  |  [HDFS Kerberos](hdfs-kerberos.md) >></center>
+<center><< <a href="copy-commands.html">Copy Commands</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>

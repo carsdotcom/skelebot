@@ -14,4 +14,4 @@ Once complete the .dockerignore file and the Dockerfile will be visible in your 
 
 ---
 
-<center><< [Jobs](jobs.md)  |  [Docker Ignores](docker-ignores.md) >></center>
+<center><< <a href="jobs.html">Jobs</a>  |  <a href="docker-ignores.html">Docker Ignores</a> >></center>

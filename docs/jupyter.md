@@ -25,4 +25,4 @@ jupyter:
 
 ---
 
-<center><< [HDFS Kerberos](hdfs-kerberos.md)  |  [Plugins](plugins.md) >></center>
+<center><< <a href="hdfs-kerberos.html">HDFS Kerberos</a>  |  <a href="plugins.html">Plugins</a> >></center>

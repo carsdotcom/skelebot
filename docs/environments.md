@@ -16,4 +16,4 @@ Environment configurations can override any property in the skelebot yaml, even 
 
 ---
 
-<center><< [Docker Ignores](docker-ignores.md)  |  [Versioning](versioning.md) >></center>
+<center><< <a href="docker-ignores.html">Docker Ignores</a>  |  <a href="versioning.html">Versioning</a> >></center>

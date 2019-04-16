@@ -63,4 +63,4 @@ http://www.github.com/mystuff/myrepo
 
 ---
 
-<center><< [Jupyter](jupyter.md)  |  [Home](index.md) >></center>
+<center><< <a href="jupyter.html">Jupyter</a>  |  <a href="index.html">Home</a> >></center>

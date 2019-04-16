@@ -68,4 +68,4 @@ optional arguments:
 
 ---
 
-<center><< [Installing](installing.md)  |  [Scaffolding](scaffolding.md) >></center>
+<center><< <a href="installing.html">Installing</a>  |  <a href="scaffolding.html">Scaffolding</a> >></center>

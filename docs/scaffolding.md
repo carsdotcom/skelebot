@@ -62,4 +62,4 @@ The structure produced is merely a suggestion and does not need to be adhered to
 
 ---
 
-<center><< [Help Info](help-info.md)  |  [Dependencies](dependencies.md) >></center>
+<center><< <a href="help-info.html">Help Info</a>  |  <a href="dependencies.html">Dependencies</a> >></center>
