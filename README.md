@@ -3,8 +3,8 @@
   <img src="https://www.cars.com/react-shop-webapp/static/cars-logo.c3ccfb95f1c14e7c071e1d3d8c44d28c.png"><br><br>
 </div>
 -->
-![Version](https://img.shields.io/badge/Version-0.1.0-green.svg)
-![License](https://img.shields.io/badge/License-MIT-red.svg)
+![Version](https://img.shields.io/badge/Version-0.1.0-green.svg?style=plastic)
+[![CircleCI token](https://img.shields.io/circleci/token/cb75132d9ffe340a42dd5deea2f0fff43eb61042/project/github/carsdotcom/skelebot/master.svg?style=plastic)](https://circleci.com/gh/carsdotcom/skelebot)
 
 # Skelebot <!--TODO: Replace this with LOGO/MASCOT -->
 
