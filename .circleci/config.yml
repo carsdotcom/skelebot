@@ -6,25 +6,6 @@ jobs:
     working_directory: ~/skelebot
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            - v1-dependencies-
-
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-
       - run:
           name: run tests
-          command: |
-            . venv/bin/activate
-            python setup.py test
+          command: python setup.py test
