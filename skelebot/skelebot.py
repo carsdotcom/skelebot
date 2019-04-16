@@ -5,7 +5,7 @@ from .config.config import Config
 from .config.yaml import override
 from .artifactory.artifactory import pushArtifact, pullArtifact
 from .plugin.plugin import installPlugin, pluginCommand
-from .jupyter.jupyter import jupyter
+from .docker.djupyter import jupyter
 from .globals import VERSION
 from .docker.dexec import dexec
 from .docker.dbuild import dbuild

@@ -1,4 +1,6 @@
 import os
+from .dname import getImageName
+from .dbuild import dbuild
 
 def jupyter(config, args):
     port = config.jupyter.port
@@ -18,15 +20,10 @@ def jupyter(config, args):
         allowRoot = " --allow-root"
     params = "--ip=0.0.0.0 --port=8888{allowRoot}".format(allowRoot=allowRoot)
 
-    name = config.name.lower().replace(" ", "-")
-    status = 0
-    if (not args.skip_build):
-        config.generateDockerfile()
-        config.generateDockerignore()
-        status = status + os.system("docker build -t " + name + " .")
-        if (config.ephemeral == True):
-            os.remove("Dockerfile")
+    status = dbuild(config)
+
     if (status == 0):
+        name = getImageName(config)
         drun = "docker run --rm -p {port}:8888 -iv $PWD:/app {krb} {image} /bin/bash -c '{krbInit} jupyter notebook {params} --notebook-dir={folder}'"
         drun = drun.format(port=port, krb=krb, image=name, krbInit=krbInit, params=params, folder=folder)
         os.system(drun)
