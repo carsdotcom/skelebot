@@ -12,6 +12,7 @@ dependencies:
 - artifactory
 - argparse
 - coverage
+- pytest
 ignore: 
 - '**/*.zip'
 - '**/*.RData'
