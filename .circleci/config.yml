@@ -7,11 +7,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: upgrade pip
-          command: pip install -U pip
+          name: pip env
+          command: |
+            sudo pip install pipenv
+            pipenv install
       - run:
           name: install dependencies
-          command: pip install -r requirements.txt
+          command: pipenv run pip install -r requirements.txt
       - run:
           name: run tests
-          command: python setup.py test
+          command: pipenv run python setup.py test
