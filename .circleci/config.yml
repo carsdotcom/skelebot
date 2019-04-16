@@ -7,6 +7,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: upgrade pip
+          command: pip install -U pip
+      - run:
           name: install dependencies
           command: pip install -r requirements.txt
       - run:
