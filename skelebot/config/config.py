@@ -5,6 +5,7 @@ from .kerberos import *
 from .plugin import *
 from .jupyter import *
 from .templates import *
+from ..globals import IMAGE_VERSION_MAP
 
 class Config(YamlClass):
     'Config object for skelebot projects'
@@ -80,12 +81,12 @@ class Config(YamlClass):
     def getBaseImage(self):
         languageImages = {
             "Python": {
-                "base": "skelebot/python-base",
-                "krb": "skelebot/python-krb"
+                "base": "skelebot/python-base:{version}".format(version=IMAGE_VERSION_MAP[self.skelebotVersion]),
+                "krb": "skelebot/python-krb:{version}".format(version=IMAGE_VERSION_MAP[self.skelebotVersion])
             },
             "R":{
-                "base": "skelebot/r-devtools",
-                "krb": "skelebot/r-krb"
+                "base": "skelebot/r-devtools:{version}".format(version=IMAGE_VERSION_MAP[self.skelebotVersion]),
+                "krb": "skelebot/r-krb:{version}".format(version=IMAGE_VERSION_MAP[self.skelebotVersion])
             }
         }
 

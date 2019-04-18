@@ -124,5 +124,13 @@ class TestYaml(TestCase):
         self.assertEqual(self.config.artifacts[0].deploy.repo, genConfig.artifacts[0].deploy.repo)
         self.assertEqual(self.config.artifacts[0].deploy.path, genConfig.artifacts[0].deploy.path)
 
+    def test_override(self):
+        orig = { "one": 1, "two": 2, "sub": { "three": 3, "four": 4 } }
+        over = { "two": 22, "sub": { "three": 33 } }
+        expected = { "one": 1, "two": 22, "sub": { "three": 33, "four": 4 } }
+
+        result = sb.yaml.override(orig, over)
+        self.assertEqual(expected, result)
+
 if __name__ == '__main__':
     unittest.main()

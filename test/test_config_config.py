@@ -18,7 +18,7 @@ class TestConfigConfig(TestCase):
         copy = ["my-file:/srv/file", "other-file:/var/file"]
         ports = ["1127:8080", "1128:8081"]
 
-        self.cfg = sb.config.Config("proj", "my proj", "0.1.0", "1", "sean", "me", "Python", kerberos, commands, deps, ignore, jobs, artifacts,
+        self.cfg = sb.config.Config("proj", "my proj", "0.1.0", "0.1.0", "sean", "me", "Python", kerberos, commands, deps, ignore, jobs, artifacts,
                                     copy, "False", plugins, ports=ports, primaryJob="run")
 
         def genFile(content, filepath):
@@ -32,7 +32,7 @@ class TestConfigConfig(TestCase):
         expected = """name: proj
 description: my proj
 version: 0.1.0
-skelebotVersion: 1
+skelebotVersion: 0.1.0
 maintainer: sean
 contact: me
 language: Python
@@ -106,16 +106,16 @@ jupyter:
     # Test that the appropriate base image is returned
     def test_getBaseImage(self):
         cfg = self.cfg
-        self.assertEqual("skelebot/python-krb", cfg.getBaseImage())
+        self.assertEqual("skelebot/python-krb:0.1", cfg.getBaseImage())
 
         cfg.language = "R"
-        self.assertEqual("skelebot/r-krb", cfg.getBaseImage())
+        self.assertEqual("skelebot/r-krb:0.1", cfg.getBaseImage())
 
         cfg.kerberos = None
-        self.assertEqual("skelebot/r-devtools", cfg.getBaseImage())
+        self.assertEqual("skelebot/r-devtools:0.1", cfg.getBaseImage())
 
         cfg.language = "Python"
-        self.assertEqual("skelebot/python-base", cfg.getBaseImage())
+        self.assertEqual("skelebot/python-base:0.1", cfg.getBaseImage())
 
     # Test that the version is bumped by patch
     def test_bumpPatch(self):

@@ -38,9 +38,6 @@ def buildDockerfile(config):
             else:
                 docker += rInstall.format(dep=dep)
 
-    if (config.kerberos != None):
-        docker += "COPY {keytab} /krb/auth.keytab\n".format(keytab=config.kerberos.keytab)
-    
     docker += "COPY . /app\n"
 
     # Add the COPY commands to the bottom of the Dockerfile
@@ -48,9 +45,10 @@ def buildDockerfile(config):
         for copy in config.copy:
             docker += "COPY {src} {dest}\n".format(src=copy.split(":")[0], dest=copy.split(":")[1])
 
-    # Final Kerberos setup (keeps COPY at the end since it is fast and subject to change)
+    # Final Kerberos setup
     if (config.kerberos != None):
         docker += "COPY {krb} /etc/krb5.conf\n".format(krb=config.kerberos.krbConf)
+        docker += "COPY {keytab} /krb/auth.keytab\n".format(keytab=config.kerberos.keytab)
 
     # Set the CMD to execute the primary job by default (if there is one)
     runJob = None

@@ -48,7 +48,7 @@ def override(orig, over):
         if k in merged:
             v1 = merged[k]
             if isinstance(v1, dict) and isinstance(v2, collections.Mapping):
-                merged[k] = merge_dicts(v1, v2)
+                merged[k] = {**v1, **v2}
             else:
                 merged[k] = copy.deepcopy(v2)
         else:

@@ -1,1 +1,1 @@
-extensionCommands = {"py":"python ", "r":"Rscript ", "sh":"./"}
+extensionCommands = {"py":"python ", "R":"Rscript ", "sh":"./"}

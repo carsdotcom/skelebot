@@ -7,10 +7,8 @@ from .extensionCommands import extensionCommands
 def drun(config, runJob, arguments, params, skipBuild=False):
     # Construct the kerberos volume mappings and init command if required
     krbInit = ""
-    krb = ""
     if (config.kerberos != None):
         krbInit = "/./krb/init.sh {user} &&".format(user=config.kerberos.hdfsUser)
-        krb += "-v {keytab}:/krb/auth.keytab".format(keytab=config.kerberos.keytab)
 
     # Construct the port mappings
     ports = ""
@@ -32,6 +30,6 @@ def drun(config, runJob, arguments, params, skipBuild=False):
         name = getImageName(config)
         ext = runJob.source.split(".")[1]
         runCMD = "docker run --name {image}-{jobName} --rm -{mode}{ports}{vmaps} {image} /bin/bash -c '{krbInit} {command}{script} {args} {params}'"
-        runCMD = runCMD.format(jobName=runJob.name, krb=krb, image=name, krbInit=krbInit, command=extensionCommands[ext], vmaps=vmaps,
+        runCMD = runCMD.format(jobName=runJob.name, image=name, krbInit=krbInit, command=extensionCommands[ext], vmaps=vmaps,
                            mode=runJob.mode, ports=ports, script=runJob.source, args=arguments, params=params)
         os.system(runCMD)
