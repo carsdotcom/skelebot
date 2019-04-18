@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -17,3 +19,6 @@ jobs:
       - run:
           name: run tests
           command: pipenv run coverage run --source=skelebot setup.py test && pipenv run coverage report
+      - codecov/upload:
+          file: {{ coverage_report_filepath }}
+          toekn: cb75132d9ffe340a42dd5deea2f0fff43eb61042

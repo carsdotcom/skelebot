@@ -11,8 +11,6 @@ def drun(config, runJob, arguments, params, skipBuild=False):
     if (config.kerberos != None):
         krbInit = "/./krb/init.sh {user} &&".format(user=config.kerberos.hdfsUser)
         krb += "-v {keytab}:/krb/auth.keytab".format(keytab=config.kerberos.keytab)
-        if (config.kerberos.cdhJars != None):
-            krb += " -v {cdhJars}:/etc/CDH/jars/".format(cdhJars=config.kerberos.cdhJars)
 
     # Construct the port mappings
     ports = ""
