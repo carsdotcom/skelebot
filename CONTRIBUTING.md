@@ -54,25 +54,38 @@ appropriate to the circumstances. Maintainers are obligated to maintain
 confidentiality with regard to the reporter of an incident.
 
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 1.3.0, available at https://www.contributor-covenant.org/version/1/3/0/code-of-conduct.html
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org),
+[version 1.3.0](https://www.contributor-covenant.org/version/1/3/0/code-of-conduct.html).
 
-[homepage]: https://www.contributor-covenant.org
+## Project Scope
+
+The purpose of this project is to create a generic build tool for machine learning projects. The
+concept is to bring all of the various project management tasks that are done for ml projects
+under one roof: Skelebot.
+
+A key concept of this project is simplicity. In order to make things easier for the end-user of
+Skelebot, this project should at a minimum only require the skelebot.yaml file in the root of
+their project code. Since the purpose is to bring project tasks into a single location, the
+skelebot.yaml file should be that location. All project configuration should exist in this file.
 
 ## Guidelines for Contributing
 
 ### Read The Docs
 
-A lot of the information about the project can be found in the README. Make sure you have gone
-over the README as well as this CONTRIBUTING document before starting on any contributions to
-the project.
+A lot of the information about the project can be found in the [README](README.md) and the
+[GitHub Pages](https://carsdotcom.github.io/skelebot/). Make sure you have gone over the
+documentation before starting on any contributions to the project.
 
 ### Announce Your Work
 
-If there is a reported issue that you are trying to fix, comment that you intend to solve it,
-and possibly discuss with the project maintainers the best approach before starting to code.
-If you intend to add new functionality, announce exactly what you are working on in detail
-after making sure that it is in the scope of the project defined below.
+All issues (bugs, features, and tasks) are tracked in GitHub [Issues](https://github.com/carsdotcom/skelebot/issues).
+
+If you would like to request a new feature or raise a bug, you can use the appropriate issues
+templates to do so. Before opening a feature request, be sure it fits into the 'Project Scope'
+that is defined above.
+
+If there is a reported issue that you would like to work on, comment on the issue directly
+and discuss with the project maintainers the best approach before starting to code.
 
 Letting others know what you are working on helps prevent contributors from stepping on each
 others' toes, and helps the maintainers to plan and organize the project.
@@ -99,14 +112,3 @@ Once you have made your changes in your forked repository branch (and all tests 
 can open a Pull Request to get your code reviewed by the maintainers. Iterate your changes as the
 project maintainers comment on your code. Once the maintainers have agreed that the code is ready,
 it will be merged into the master branch of this repository.
-
-## Project Scope
-
-The purpose of this project is to create a generic build tool for machine learning projects. The
-concept is to bring all of the various project management tasks that are done for ml projects
-under one roof: Skelebot.
-
-A key concept of this project is simplicity. In order to make things easier for the end-user of
-Skelebot, this project should at a minimum only require the skelebot.yaml file in the root of
-their project code. Since the purpose is to bring project tasks into a single location, the
-skelebot.yaml file should be that location. All project configuration should exist in this file.
