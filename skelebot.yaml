@@ -1,11 +1,10 @@
 name: skelebot
 description: ML Build Tool
-version: 0.1.0
+version: 0.1.1
 skelebotVersion: 0.1.0
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 language: Python
-standalone: False
 ephemeral: False
 dependencies: 
 - pyyaml
@@ -31,11 +30,11 @@ jobs:
   source: test.sh
   mode: i
   help: Run the test cases for the project with coverage
-  params:
+  params: 
   - name: coverage
     alt: c
     default: n
-    choices:
+    choices: 
     - y
     - n
 primaryJob: test
