@@ -1,44 +1,47 @@
+from ..globals import COMPONENTS
+from ..globals import DESCRIPTION
+from ..globals import VERSION
 import argparse
-from argparse import RawTextHelpFormatter
+import sys
 
-DESCRIPTION = """
-\033[1m{project}\033[0m
-{desc}
------------------------------------
-Version: {pVersion}
-Environment: {env}
-Skelebot Version (project): {sbVersion}
-Skelebot Version (installed): {version}
------------------------------------"""
+# Construct the Argument Parser based on the config file and parse the args that were passed in
+def parseArgs(config=None):
+    env = getEnvironment()
+    desc = getDescription(config)
 
-class Parser():
+    # Construct the root argument parser from which all sub-parsers will be built
+    parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
+    subparsers = parser.add_subparsers(dest="job")
 
-    def __init__(self, config=None):
-        # Obtain the env manually from the args
-        isNext = False
-        env = None
-        for arg in sys.argv:
-            if (isNext):
-                env = arg
-                isNext = False
-            if (arg == "-e") or (arg == "--env"):
-                isNext = True
+    # Add all the component subparsers to the root parser
+    for component in COMPONENTS:
+        subparsers = component.addParsers(subparsers)
 
-        desc = "Skelebot Version: {version}".format(version=VERSION)
-        if (config != None):
-            name = " ".join([word.capitalize() for word in config.name.split("-")])
-            desc = config.description
-            version = config.version
-            sbVersion = config.skelebotVersion
-            desc = DESCRIPTION.format(sbVersion=sbVersion, version=VERSION, project=name, desc=desc, pVersion=version, env=env)
+    args = parser.parse_args()
+    return args
 
-        parser = argparse.ArgumentParser(description=desc, formatter_class=RawTextHelpFormatter)
-        subparsers = parser.add_subparsers(dest="job")
+# Obtain the environment parameter from the skelebot command string
+def getEnvironment():
+    isNext = False
+    env = None
+    for arg in sys.argv:
+        if (isNext):
+            env = arg
+            break
 
+        if (arg == "-e") or (arg == "--env"):
+            isNext = True
 
-        # Add the plugin command for installing new skelebot plugins from zip files
-        pluginParser = subparsers.add_parser("plugin", help="Install a plugin for skelebot from a local zip file")
-        pluginParser.add_argument("plugin", help="The zip file of the skelebot plugin")
+    return env
 
-    def parseArgs(self):
+# Construct the description text for the '--help' output
+def getDescription(config=None):
+    description = "Skelebot Version: {version}".format(version=VERSION)
+    if (config != None):
+        name = " ".join([word.capitalize() for word in config.name.split("-")])
+        description = config.description
+        version = config.version
+        sbVersion = config.skelebotVersion
+        description = DESCRIPTION.format(sbVersion=sbVersion, version=VERSION, project=name, desc=desc, pVersion=version, env=env)
 
+    return description

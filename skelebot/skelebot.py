@@ -1,4 +1,4 @@
-import .parser.parser
+from .parser import parser
 
 def main():
-    args <- parser.parseArgs()
+    args = parser.parseArgs()
