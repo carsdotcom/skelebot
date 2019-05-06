@@ -1,7 +1,14 @@
-import abc
+from ..globals import ACTIVATION.CONFIG
 
-class Component(abc.ABC):
+class Component():
 
-    @abc.abstractmethod
-    def addParsers(self, subparsers):
-        return subparsers
+    @classmethod
+    def load(cls, config): return None
+
+    @classmethod
+    def getOrderedAttrs(cls): return []
+
+    @classmethod
+    def activationLevel(cls): return ACTIVATION.CONFIG
+
+    def addParsers(self, subparsers): return subparsers

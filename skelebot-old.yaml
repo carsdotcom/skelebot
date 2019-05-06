@@ -1,0 +1,43 @@
+name: skelebot
+description: ML Build Tool
+version: 0.1.2
+skelebotVersion: 0.1.0
+maintainer: Sean Shookman
+contact: sshookman@cars.com
+language: Python
+ephemeral: False
+dependencies: 
+- pyyaml
+- artifactory
+- argparse
+- coverage
+- pytest
+ignore: 
+- '**/*.zip'
+- '**/*.RData'
+- '**/*.pkl'
+- '**/*.csv'
+- '**/*.model'
+- '**/*.pyc'
+jobs: 
+- name: publish
+  source: publish.sh
+  mode: i
+  help: Build, Tag, and Publish the Docker Base Images
+  args: 
+  - name: version
+- name: test
+  source: test.sh
+  mode: i
+  help: Run the test cases for the project with coverage
+  params: 
+  - name: coverage
+    alt: c
+    default: n
+    choices: 
+    - y
+    - n
+primaryJob: test
+jupyter: 
+  port: 1127
+  folder: .

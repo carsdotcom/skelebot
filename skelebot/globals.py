@@ -11,6 +11,10 @@ Skelebot Version (project): {sbVersion}
 Skelebot Version (installed): {version}
 -----------------------------------"""
 
-COMPONENTS = [
-    Plugin()
-]
+ACTIVATION.BASE = 1
+ACTIVATION.PROJECT = 2
+ACTIVATION.CONFIG = 4
+
+COMPONENTS = {
+    "plugin": Plugin
+}

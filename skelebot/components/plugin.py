@@ -1,7 +1,11 @@
 from ..objects.component import Component
 
 class Plugin(Component):
-    
+
+    @classmethod
+    def requiresConfig(cls):
+        return False
+
     # Add a parser for the plugin command with a single argument for the plugin's zip file
     def addParsers(self, subparsers):
         parser = subparsers.add_parser("plugin", help="Install a plugin for skelebot from a local zip file")

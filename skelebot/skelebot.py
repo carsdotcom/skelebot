@@ -1,4 +1,7 @@
 from .parser import parser
+from .files import yaml
 
 def main():
-    args = parser.parseArgs()
+
+    config = yaml.loadConfig()
+    args = parser.parseArgs(config)
