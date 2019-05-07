@@ -23,7 +23,7 @@ class Config():
         self.components = components
 
     def addComponent(self, component):
-        components.append(component)
+        self.components.append(component)
 
     @classmethod
     def getOrderedAttrs(cls):

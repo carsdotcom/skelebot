@@ -1,5 +1,5 @@
 from ..objects.config import Config
-from ..globals import COMPONENT_OBJECTS
+from ..components.activeComponents import getComponent
 
 import yaml
 import os
@@ -23,8 +23,8 @@ def loadConfig():
                         # Load the component object by name using it's Class from the global mapping
                         values[attr] = []
                         for compName in cfg[attr]:
-                            if (compName in COMPONENT_OBJECTS):
-                                compClass = COMPONENT_OBJECTS[compName]
+                            compClass = getComponent(compName)
+                            if (compClass != None):
                                 component = compClass.load(cfg[attr][compName])
                                 values[attr].append(component)
                     else:
