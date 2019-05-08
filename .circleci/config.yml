@@ -14,6 +14,6 @@ jobs:
       - run:
           name: install dependencies
           command: pipenv run pip install -r requirements.txt
-      - run:
-          name: run tests
-          command: pipenv run coverage run --source=skelebot setup.py test && pipenv run coverage report
+      #- run:
+          #name: run tests
+          #command: pipenv run coverage run --source=skelebot setup.py test && pipenv run coverage report
