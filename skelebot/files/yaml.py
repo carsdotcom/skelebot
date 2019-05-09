@@ -1,5 +1,7 @@
 from ..objects.config import Config
-from ..components.activeComponents import getComponent
+from ..objects.component import Activation
+from ..components.componentFactory import buildComponent, buildComponents
+from ..components.plugin import Plugin
 
 import yaml
 import os
@@ -9,51 +11,51 @@ COMPONENTS_ATTRIBUTE = "components"
 # Attempts to load the skelebot.yaml file into a Config object along with all of the activated componenets 
 def loadConfig():
 
-    config = readYaml()
-    if (config != None):
+    yamlData = readYaml()
+    config = None
+    if (yamlData is None):
+        config = Config()
+    else:
         values = {}
         for attr in Config.getOrderedAttrs():
-            value = None
-            if (attr in cfg):
-                if (attr == COMPONENTS_ATTRIBUTE):
-                    value = loadComponents(cfg[COMPONENTS_ATTRIBUTE])
-                else:
-                    value = cfg[attr]
-            values[attr] = value
+            values[attr] = yamlData[attr] if (attr in yamlData) else None
+            # [TODO] Load jobs into objects
 
         config = Config(**values)
+
+    config.components = loadComponents(yamlData)
 
     return config
 
 # Reads the skelebot.yaml file from the current path and loads it into a dict if present
 def readYaml():
-    config = None
+    yamlData = None
     cwd = os.getcwd()
     cfgFile = "{path}/skelebot.yaml".format(path=cwd)
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
-            cfg = yaml.load(stream)
+            yamlData = yaml.load(stream)
 
-    return config
+    return yamlData
 
 
 # Parses the components section of skelebot.yaml config to generate the complete list of components
 # for the project based on the active component list and each components Activation attribute
-def loadComponents(config):
+def loadComponents(yamlData):
 
-    if (config is None):
-        # Since there is no config, loads BASE and ALWAYS activation components with default values
-        # TODO
-    else:
-        # Since there is a config, loads component objects that are present in config and also in the active list
-        components = []
-        for compName in componentConfig:
-            compClass = getComponent(compName)
-            if (compClass != None):
-                component = compClass.load(cfg[attr][compName])
+    components = []
+    if (yamlData is None):
+        components = buildComponents([Activation.EMPTY, Activation.ALWAYS])
+    elif (COMPONENTS_ATTRIBUTE in yamlData):
+        yamlConfig = yamlData[COMPONENTS_ATTRIBUTE]
+        compNames = []
+        for compName in yamlConfig:
+            component = buildComponent(compName, yamlConfig[compName])
+            if (component is not None):
                 components.append(component)
+                compNames.append(component.__class__.__name__)
 
-        # Loads additional components that are not in config but are active and available without config (ACTIVATION = ALWAYS | PROJECT)
+        components.extend(buildComponents([Activation.PROJECT, Activation.ALWAYS], ignores=compNames))
 
     return components
 

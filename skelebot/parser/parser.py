@@ -1,4 +1,3 @@
-from ..components.activeComponents import getComponents
 from ..common import DESCRIPTION
 from ..common import VERSION
 import argparse
@@ -14,23 +13,7 @@ def parseArgs(config=None):
     parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
     subparsers = parser.add_subparsers(dest="job")
 
-    # Identify and load component parsers from the master list based on their activation value
-    for componentClass in getComponents():
-        component = config.getComponent(componentClass.__name__) if (config != None) else None
-        activation = componentClass.activation
-
-        # TODO: Need to move this logic into the YAML loading process so the config object can simply be used as intended
-        # TODO: Should be able to clean up this logic, but make sure it's working first #TruthTableForTheWin
-        if (activation == Activation.EMPTY) and (config is None): # Activate if the command was run outside of a skelebot project
-            subparsers = componentClass().addParsers(subParsers)
-        elif (activation == Activation.CONFIG) and (component != None): # Activate if the component is present in the config
-            subparsers = component.addParsers(subParsers)
-        elif (activation == Activation.PROJECT) and (config != None): # Add as long as there is a project present
-            component = componentClass() if (component is None) else component
-            subparsers = component.addParsers(subParsers)
-        elif (activation == Activation.ALWAYS): # Add no matter what
-            component = componentClass() if (component is None) else component
-            subparsers = component.addParsers(subParsers)
+    # [TODO] Run component based parsers
 
     args = parser.parse_args()
     return args

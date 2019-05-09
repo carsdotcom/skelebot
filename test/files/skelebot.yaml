@@ -1,0 +1,40 @@
+name: test
+description: test cases
+version: 6.6.6
+skelebotVersion: 0.1.0
+maintainer: Mega Man
+contact: megaman@cars.com
+language: Python
+primaryJob: build
+ephemeral: False
+dependencies:
+- pyyaml
+- artifactory
+- argparse
+- coverage
+- pytest
+ignores:
+- '**/*.zip'
+- '**/*.RData'
+- '**/*.pkl'
+- '**/*.csv'
+- '**/*.model'
+- '**/*.pyc'
+jobs:
+- name: build
+  source: build.sh
+  mode: i
+  help: Build
+  args:
+  - name: version
+  params:
+  - name: env
+    alt: e
+    choices:
+    - local
+    - dev
+    - prod
+components:
+  jupyter:
+    port: 1127
+    folder: notebooks/
