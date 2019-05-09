@@ -20,7 +20,6 @@ def loadConfig():
     else:
         values = {}
         for attr in yamlData.keys():
-            print("FOUND YAML KEY: ", attr)
             if (attr in list(vars(Config).keys())) and (attr != "components"):
                 if (attr == "jobs"):
                     values[attr] = Job.loadList(yamlData[attr])
