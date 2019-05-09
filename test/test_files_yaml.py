@@ -28,6 +28,7 @@ class TestYaml(TestCase):
         self.assertEqual(config.ephemeral, False)
         self.assertEqual(config.dependencies, ["pyyaml", "artifactory", "argparse", "coverage", "pytest"])
         self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
+        self.assertEqual(config.jobs[0].name, "build")
         # [TODO] Validate the jobs list of objects
         components = []
         for component in config.components:

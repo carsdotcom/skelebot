@@ -1,4 +1,5 @@
 from ..objects.config import Config
+from ..objects.job import Job
 from ..objects.component import Activation
 from ..components.componentFactory import buildComponent, buildComponents
 from ..components.plugin import Plugin
@@ -12,14 +13,19 @@ COMPONENTS_ATTRIBUTE = "components"
 def loadConfig():
 
     yamlData = readYaml()
+
     config = None
     if (yamlData is None):
         config = Config()
     else:
         values = {}
-        for attr in Config.getOrderedAttrs():
-            values[attr] = yamlData[attr] if (attr in yamlData) else None
-            # [TODO] Load jobs into objects
+        for attr in yamlData.keys():
+            print("FOUND YAML KEY: ", attr)
+            if (attr in list(vars(Config).keys())) and (attr != "components"):
+                if (attr == "jobs"):
+                    values[attr] = Job.loadList(yamlData[attr])
+                else:
+                    values[attr] = yamlData[attr] if (attr in yamlData) else None
 
         config = Config(**values)
 

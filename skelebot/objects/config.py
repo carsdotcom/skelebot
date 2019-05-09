@@ -6,7 +6,7 @@ class Config():
     skelebotVersion = None
     maintainer = None
     contact = None
-    langauge = None
+    language = None
     primaryJob = None
     ephemeral = None
     dependencies = None
@@ -30,8 +30,3 @@ class Config():
         self.ignores = ignores
         self.components = components
         self.jobs = jobs
-
-    @classmethod
-    def getOrderedAttrs(cls):
-        return ["name", "description", "version", "skelebotVersion", "maintainer", "contact", "language", "primaryJob", "ephemeral",
-                "dependencies", "ignores", "jobs"]
