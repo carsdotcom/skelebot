@@ -1,4 +1,5 @@
 from .skeleYaml import SkeleYaml
+from ..common import IMAGE_VERSION, LANGUAGE_IMAGE
 
 # The base object for the configurations for a Skelebot project
 class Config(SkeleYaml):
@@ -44,3 +45,15 @@ class Config(SkeleYaml):
         dct = super(Config, self).toDict()
         dct["components"] = dctComp
         return dct
+
+    # Returns the proper base image based on the values for language, kerberos, and version in the project config
+    def getBaseImage(self):
+        isKerberosEnabled = False
+        for component in self.components:
+            if (component.__class__.__name__.lower() == "kerberos"):
+                isKerberosEnabled = True
+        imageVariant = "krb" if (isKerberosEnabled) else "base"
+        version = IMAGE_VERSION[self.skelebotVersion]
+        image = LANGUAGE_IMAGE[self.language][imageVariant]
+        return image.format(version=version)
+

@@ -9,11 +9,12 @@ import os
 
 COMPONENTS_ATTRIBUTE = "components"
 FILE_PATH = "{path}/skelebot.yaml"
+ENV_FILE_PATH = "{path}/skelebot-{env}.yaml"
 
 # Attempts to load the skelebot.yaml file into a Config object along with all of the activated componenets
-def loadConfig():
+def loadConfig(env=None):
 
-    yamlData = readYaml()
+    yamlData = readYaml(env)
 
     config = None
     if (yamlData is None):
@@ -33,16 +34,42 @@ def loadConfig():
 
     return config
 
-# Reads the skelebot.yaml file from the current path and loads it into a dict if present
-def readYaml():
+# Given a Config object, this function will generate the skelebot.yaml file with the values in the object
+def saveConfig(config):
+    yml = yaml.dump(config.toDict(), default_flow_style=False)
+    skelebotYaml = open(FILE_PATH.format(path=os.getcwd()), "w")
+    skelebotYaml.write(yml)
+    skelebotYaml.close()
+
+# Reads the skelebot.yaml file (and env override if present) from the current path and loads it into a dict if present
+def readYaml(env=None):
     yamlData = None
     cfgFile = FILE_PATH.format(path=os.getcwd())
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
             yamlData = yaml.load(stream)
+            if (env is not None):
+                envFile = ENV_FILE_PATH.format(path=cwd, env=env)
+                if os.path.isfile(envFile):
+                    with open(envFile, 'r') as stream:
+                        override = yaml.load(stream)
+                        yamlData = override(yamlData, override)
 
     return yamlData
 
+# Override one dictionary with data from another dictionary
+def override(orig, over):
+    merged = copy.deepcopy(orig)
+    for k, v2 in over.items():
+        if k in merged:
+            v1 = merged[k]
+            if isinstance(v1, dict) and isinstance(v2, collections.Mapping):
+                merged[k] = {**v1, **v2}
+            else:
+                merged[k] = copy.deepcopy(v2)
+        else:
+            merged[k] = copy.deepcopy(v2)
+    return merged
 
 # Parses the components section of skelebot.yaml config to generate the complete list of components
 # for the project based on the active component list and each components Activation attribute
@@ -64,14 +91,3 @@ def loadComponents(yamlData):
         components.extend(buildComponents([Activation.PROJECT, Activation.ALWAYS], ignores=compNames))
 
     return components
-
-def noop(self, *args, **kw):
-    pass
-
-# Given a Config object, this function will generate the skelebot.yaml file with the values in the object
-def saveConfig(config):
-    #yaml.emitter.Emitter.process_tag = noop
-    yml = yaml.dump(config.toDict(), default_flow_style=False)
-    skelebotYaml = open(FILE_PATH.format(path=os.getcwd()), "w")
-    skelebotYaml.write(yml)
-    skelebotYaml.close()

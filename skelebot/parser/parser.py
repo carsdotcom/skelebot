@@ -4,10 +4,9 @@ import argparse
 import sys
 
 # Construct the Argument Parser based on the config file and parse the args that were passed in
-def parseArgs(config=None):
+def parseArgs(config=None, env=None):
 
-    env = getEnvironment()
-    desc = getDescription(env, config)
+    desc = getDescription(config, env)
 
     # Construct the root argument parser from which all sub-parsers will be built
     parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
@@ -20,22 +19,8 @@ def parseArgs(config=None):
     args = parser.parse_args()
     return args
 
-# Obtain the environment parameter from the skelebot command string prior to contructing the arg parser
-def getEnvironment():
-    isNext = False
-    env = None
-    for arg in sys.argv:
-        if (isNext):
-            env = arg
-            break
-
-        if (arg == "-e") or (arg == "--env"):
-            isNext = True
-
-    return env
-
 # Construct the description text for the '--help' output
-def getDescription(env, config=None):
+def getDescription(config=None, env=None):
     description = "Skelebot Version: {version}".format(version=VERSION)
     if (config != None):
         name = " ".join([word.capitalize() for word in config.name.split("-")])

@@ -1,9 +1,11 @@
 from .plugin import Plugin
 from .jupyter import Jupyter
+from .kerberos import Kerberos
 
 COMPONENTS = {
     Plugin.__name__.lower(): Plugin,
-    Jupyter.__name__.lower(): Jupyter
+    Jupyter.__name__.lower(): Jupyter,
+    Kerberos.__name__.lower(): Kerberos
 }
 
 def buildComponents(activations=[], ignores=[]):

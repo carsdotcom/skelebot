@@ -14,3 +14,4 @@ class Component(SkeleYaml):
     def load(cls, config): return cls(**config)
 
     def addParsers(self, subparsers): return subparsers
+    def appendDockerfile(self): return ""
