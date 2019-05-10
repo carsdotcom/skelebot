@@ -1,5 +1,6 @@
 from .parser import parser
 from .files import yaml
+import sys
 
 # Obtain the environment parameter from the skelebot command string prior to contructing the arg parser
 def getEnvironment():
