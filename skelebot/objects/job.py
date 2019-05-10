@@ -1,6 +1,7 @@
+from .skeleYaml import SkeleYaml
 from .param import Param
 
-class Job():
+class Job(SkeleYaml):
     name = None
     source = None
     mode = None

@@ -8,8 +8,9 @@ import yaml
 import os
 
 COMPONENTS_ATTRIBUTE = "components"
+FILE_PATH = "{path}/skelebot.yaml"
 
-# Attempts to load the skelebot.yaml file into a Config object along with all of the activated componenets 
+# Attempts to load the skelebot.yaml file into a Config object along with all of the activated componenets
 def loadConfig():
 
     yamlData = readYaml()
@@ -20,7 +21,7 @@ def loadConfig():
     else:
         values = {}
         for attr in yamlData.keys():
-            if (attr in list(vars(Config).keys())) and (attr != "components"):
+            if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE):
                 if (attr == "jobs"):
                     values[attr] = Job.loadList(yamlData[attr])
                 else:
@@ -35,8 +36,7 @@ def loadConfig():
 # Reads the skelebot.yaml file from the current path and loads it into a dict if present
 def readYaml():
     yamlData = None
-    cwd = os.getcwd()
-    cfgFile = "{path}/skelebot.yaml".format(path=cwd)
+    cfgFile = FILE_PATH.format(path=os.getcwd())
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
             yamlData = yaml.load(stream)
@@ -51,18 +51,27 @@ def loadComponents(yamlData):
     components = []
     if (yamlData is None):
         components = buildComponents([Activation.EMPTY, Activation.ALWAYS])
-    elif (COMPONENTS_ATTRIBUTE in yamlData):
-        yamlConfig = yamlData[COMPONENTS_ATTRIBUTE]
+    else:
         compNames = []
-        for compName in yamlConfig:
-            component = buildComponent(compName, yamlConfig[compName])
-            if (component is not None):
-                components.append(component)
-                compNames.append(component.__class__.__name__)
+        if (COMPONENTS_ATTRIBUTE in yamlData):
+            yamlConfig = yamlData[COMPONENTS_ATTRIBUTE]
+            for compName in yamlConfig:
+                component = buildComponent(compName, yamlConfig[compName])
+                if (component is not None):
+                    components.append(component)
+                    compNames.append(component.__class__.__name__)
 
         components.extend(buildComponents([Activation.PROJECT, Activation.ALWAYS], ignores=compNames))
 
     return components
 
+def noop(self, *args, **kw):
+    pass
+
 # Given a Config object, this function will generate the skelebot.yaml file with the values in the object
-#def saveConfig(config):
+def saveConfig(config):
+    #yaml.emitter.Emitter.process_tag = noop
+    yml = yaml.dump(config.toDict(), default_flow_style=False)
+    skelebotYaml = open(FILE_PATH.format(path=os.getcwd()), "w")
+    skelebotYaml.write(yml)
+    skelebotYaml.close()

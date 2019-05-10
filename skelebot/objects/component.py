@@ -1,3 +1,4 @@
+from .skeleYaml import SkeleYaml
 from enum import Enum
 
 class Activation(Enum):
@@ -6,10 +7,10 @@ class Activation(Enum):
     PROJECT = 3
     ALWAYS = 4
 
-class Component():
+class Component(SkeleYaml):
     activation = Activation.CONFIG
 
     @classmethod
-    def load(cls, config): return None
+    def load(cls, config): return cls(**config)
 
     def addParsers(self, subparsers): return subparsers

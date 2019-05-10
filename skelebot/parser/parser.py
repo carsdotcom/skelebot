@@ -13,7 +13,9 @@ def parseArgs(config=None):
     parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
     subparsers = parser.add_subparsers(dest="job")
 
-    # [TODO] Run component based parsers
+    # Add the parsers from the active components in the config
+    for component in config.components:
+        subparsers = component.addParsers(subparsers)
 
     args = parser.parse_args()
     return args

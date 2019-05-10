@@ -1,5 +1,6 @@
 from ..objects.component import *
 
+# This component provides the ability to install plugins into a Skelebot install at any time
 class Plugin(Component):
     activation = Activation.ALWAYS
 

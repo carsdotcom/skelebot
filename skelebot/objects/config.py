@@ -1,5 +1,7 @@
+from .skeleYaml import SkeleYaml
+
 # The base object for the configurations for a Skelebot project
-class Config():
+class Config(SkeleYaml):
     name = None
     description = None
     version = None
@@ -30,3 +32,15 @@ class Config():
         self.ignores = ignores
         self.components = components
         self.jobs = jobs
+
+    # Adds extra logic to handle the components coversion to dict since the YAML and Object structures don't exactly match
+    def toDict(self):
+        dctComp = {}
+        for component in self.components:
+            componentDct = component.toDict()
+            if (componentDct != {}):
+                dctComp[component.__class__.__name__.lower()] = componentDct
+
+        dct = super(Config, self).toDict()
+        dct["components"] = dctComp
+        return dct

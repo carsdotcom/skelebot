@@ -1,18 +1,16 @@
-name: test
-description: test cases
-version: 6.6.6
-skelebotVersion: 0.1.0
-maintainer: Mega Man
+components:
+  jupyter:
+    folder: notebooks/
+    port: 1127
 contact: megaman@cars.com
-language: Python
-primaryJob: build
-ephemeral: False
 dependencies:
 - pyyaml
 - artifactory
 - argparse
 - coverage
 - pytest
+description: test cases
+ephemeral: false
 ignores:
 - '**/*.zip'
 - '**/*.RData'
@@ -21,20 +19,30 @@ ignores:
 - '**/*.model'
 - '**/*.pyc'
 jobs:
-- name: build
-  source: build.sh
-  mode: i
-  help: Build
-  args:
+- args:
   - name: version
+  help: Build
+  ignores:
+  - data/bigFile.pkl
+  - data/evenBiggerFile.pkl
+  mappings:
+  - data/
+  - output/
+  - temp/
+  mode: i
+  name: build
   params:
-  - name: env
-    alt: e
+  - alt: e
     choices:
     - local
     - dev
     - prod
-components:
-  jupyter:
-    port: 1127
-    folder: notebooks/
+    default: local
+    name: env
+  source: build.sh
+language: Python
+maintainer: Mega Man
+name: test
+primaryJob: build
+skelebotVersion: 0.1.0
+version: 6.6.6

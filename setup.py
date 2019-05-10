@@ -18,8 +18,8 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     setup_requires=["pytest-runner"],
-    tests_require=config["components"]["dependencies"],
-    install_requires=config["components"]["dependencies"],
+    tests_require=config["dependencies"],
+    install_requires=config["dependencies"],
     entry_points={
         'console_scripts': [
             'skelebot = skelebot:main',

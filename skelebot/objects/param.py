@@ -1,4 +1,6 @@
-class Param():
+from .skeleYaml import SkeleYaml
+
+class Param(SkeleYaml):
     name = None
     alt = None
     default = None

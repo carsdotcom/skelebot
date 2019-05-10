@@ -2,8 +2,8 @@ from .plugin import Plugin
 from .jupyter import Jupyter
 
 COMPONENTS = {
-    "plugin": Plugin,
-    "jupyter": Jupyter
+    Plugin.__name__.lower(): Plugin,
+    Jupyter.__name__.lower(): Jupyter
 }
 
 def buildComponents(activations=[], ignores=[]):

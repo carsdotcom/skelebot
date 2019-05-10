@@ -11,12 +11,7 @@ class TestYaml(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    # Test to ensure that the config loads from skelebot.yaml properly when it is present
-    @mock.patch('os.getcwd')
-    def test_loadConfig_with_yaml(self, mock_getcwd):
-        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
-
-        config = sb.files.yaml.loadConfig()
+    def validateYaml(self, config):
         self.assertEqual(config.name, "test")
         self.assertEqual(config.description, "test cases")
         self.assertEqual(config.version, "6.6.6")
@@ -29,7 +24,16 @@ class TestYaml(TestCase):
         self.assertEqual(config.dependencies, ["pyyaml", "artifactory", "argparse", "coverage", "pytest"])
         self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
         self.assertEqual(config.jobs[0].name, "build")
-        # [TODO] Validate the jobs list of objects
+        self.assertEqual(config.jobs[0].source, "build.sh")
+        self.assertEqual(config.jobs[0].mode, "i")
+        self.assertEqual(config.jobs[0].help, "Build")
+        self.assertEqual(config.jobs[0].mappings, ["data/", "output/", "temp/"])
+        self.assertEqual(config.jobs[0].ignores, ["data/bigFile.pkl", "data/evenBiggerFile.pkl"])
+        self.assertEqual(config.jobs[0].args[0].name, "version")
+        self.assertEqual(config.jobs[0].params[0].name, "env")
+        self.assertEqual(config.jobs[0].params[0].alt, "e")
+        self.assertEqual(config.jobs[0].params[0].default, "local")
+        self.assertEqual(config.jobs[0].params[0].choices, ["local", "dev", "prod"])
         components = []
         for component in config.components:
             componentClass = component.__class__.__name__
@@ -44,6 +48,13 @@ class TestYaml(TestCase):
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
+    # Test to ensure that the config loads from skelebot.yaml properly when it is present
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_yaml(self, mock_getcwd):
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        config = sb.files.yaml.loadConfig()
+        self.validateYaml(config)
+
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
     @mock.patch('os.getcwd')
     def test_loadConfig_without_yaml(self, mock_getcwd):
@@ -51,6 +62,18 @@ class TestYaml(TestCase):
 
         config = sb.files.yaml.loadConfig()
 
+        self.assertEqual(config.name, None)
+        self.assertEqual(config.description, None)
+        self.assertEqual(config.version, None)
+        self.assertEqual(config.skelebotVersion, None)
+        self.assertEqual(config.maintainer, None)
+        self.assertEqual(config.contact, None)
+        self.assertEqual(config.language, None)
+        self.assertEqual(config.primaryJob, None)
+        self.assertEqual(config.ephemeral, None)
+        self.assertEqual(config.dependencies, [])
+        self.assertEqual(config.ignores, [])
+        self.assertEqual(config.jobs, [])
         components = []
         for component in config.components:
             components.append(component.__class__.__name__)
@@ -59,6 +82,17 @@ class TestYaml(TestCase):
         expectedComponents = ["Plugin"]
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
+
+    # Test to ensure that the yaml generation works properly with a complete config object (ends up testing the loading process as well)
+    @mock.patch('os.getcwd')
+    def test_saveConfig(self, mock_getcwd):
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        config = sb.files.yaml.loadConfig()
+
+        sb.files.yaml.saveConfig(config)
+        config = sb.files.yaml.loadConfig()
+        self.validateYaml(config)
+
 
 if __name__ == '__main__':
     unittest.main()
