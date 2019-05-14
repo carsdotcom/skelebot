@@ -1,5 +1,6 @@
 from .parser import parser
-from .files import dockerfile, yaml
+from .files import yaml
+from .scaffolding import scaffolder
 import sys
 
 # [TODO] Move this to the env System
@@ -24,4 +25,4 @@ def main():
     config = yaml.loadConfig(env)
     args = parser.parseArgs(config, env)
 
-    dockerfile.buildDockerfile(config)
+    scaffolder.scaffold()

@@ -25,3 +25,8 @@ LANGUAGE_IMAGE = {
         "krb": "skelebot/r-krb:{version}"
     }
 }
+
+LANGUAGE_DEPENDENCIES = {
+    "Python":["numpy", "pandas", "scipy", "scikit-learn"],
+    "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]
+}

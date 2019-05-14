@@ -1,3 +1,4 @@
+from ..objects.component import Activation
 from .plugin import Plugin
 from .jupyter import Jupyter
 from .kerberos import Kerberos

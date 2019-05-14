@@ -15,3 +15,5 @@ class Component(SkeleYaml):
 
     def addParsers(self, subparsers): return subparsers
     def appendDockerfile(self): return ""
+    def appendDockerignore(self): return ""
+    def scaffold(self): return None

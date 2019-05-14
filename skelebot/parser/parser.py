@@ -22,7 +22,7 @@ def parseArgs(config=None, env=None):
 # Construct the description text for the '--help' output
 def getDescription(config=None, env=None):
     description = "Skelebot Version: {version}".format(version=VERSION)
-    if (config != None):
+    if (config.name != None):
         name = " ".join([word.capitalize() for word in config.name.split("-")])
         description = config.description
         version = config.version

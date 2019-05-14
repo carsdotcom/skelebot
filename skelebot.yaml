@@ -13,7 +13,7 @@ dependencies:
 - argparse
 - coverage
 - pytest
-ignore: 
+ignores: 
 - '**/*.zip'
 - '**/*.RData'
 - '**/*.pkl'
