@@ -13,7 +13,15 @@ class Component(SkeleYaml):
     @classmethod
     def load(cls, config): return cls(**config)
 
-    def addParsers(self, subparsers): return subparsers
-    def appendDockerfile(self): return ""
-    def appendDockerignore(self): return ""
+    # Scaffolding System Hooks
     def scaffold(self): return None
+
+    # Parsing System Hooks
+    def addParsers(self, subparsers): return subparsers
+
+    # Execution System Hooks
+    def appendDockerignore(self): return ""
+    def appendDockerfile(self): return ""
+    def prependCommand(self, job, native): return None
+    def appendCommand(self, job, native): return None
+    def addDockerRunParams(self, job): return None

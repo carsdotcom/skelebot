@@ -57,3 +57,5 @@ class Config(SkeleYaml):
         image = LANGUAGE_IMAGE[self.language][imageVariant]
         return image.format(version=version)
 
+    def getImageName(self):
+        return self.name.lower().replace(" ", "-")
