@@ -24,7 +24,7 @@ class TestCommandBuilder(TestCase):
         job = config.jobs[0]
 
         expected = "./build.sh 0.1 --env local"
-        command = sb.docker.commandBuilder.build(config, job, args)
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
 

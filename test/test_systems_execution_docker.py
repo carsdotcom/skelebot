@@ -26,7 +26,7 @@ class TestDocker(TestCase):
         config = sb.files.yaml.loadConfig()
         config.ephemeral = True
 
-        status = sb.docker.docker.build(config)
+        status = sb.systems.execution.docker.build(config)
         mock_system.assert_called_once_with("docker build -t test .")
         mock_remove.assert_any_call("Dockerfile")
         mock_remove.assert_any_call(".dockerignore")
@@ -44,7 +44,7 @@ class TestDocker(TestCase):
 
         config = sb.files.yaml.loadConfig()
 
-        status = sb.docker.docker.build(config)
+        status = sb.systems.execution.docker.build(config)
         mock_system.assert_called_once_with("docker build -t test .")
         self.assertEqual(status, 1)
 
@@ -59,10 +59,10 @@ class TestDocker(TestCase):
 
         config = sb.files.yaml.loadConfig()
         job = config.jobs[0]
-        command = sb.docker.commandBuilder.build(config, job, args)
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v $PWD/output/:/app/output/ -v $PWD/temp/:/app/temp/ test /bin/bash -c './build.sh 0.1 --env local'"
-        status = sb.docker.docker.run(config, job, command)
+        status = sb.systems.execution.docker.run(config, job, command)
         mock_system.assert_called_once_with(expected)
         self.assertEqual(status, 1)
 

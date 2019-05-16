@@ -1,6 +1,6 @@
-from ..objects.config import Config
-from ..files.dockerfile import buildDockerfile
-from ..files.dockerignore import buildDockerignore
+from ...objects.config import Config
+from ...files.dockerfile import buildDockerfile
+from ...files.dockerignore import buildDockerignore
 
 import os
 

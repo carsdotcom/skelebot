@@ -1,4 +1,4 @@
-from ..common import EXT_COMMAND
+from ...common import EXT_COMMAND
 
 COMMAND = "{pre}{extCommand}{file}{params}{post}"
 
