@@ -37,7 +37,7 @@ def run(config, job, command):
             params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
 
     # Construct the additional parameters from the components
-    for component in components:
+    for component in config.components:
         addParams = component.addDockerRunParams(job)
         if (addParams is not None):
             params += " {params}".format(params=addParams)

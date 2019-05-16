@@ -48,22 +48,23 @@ class TestDocker(TestCase):
         mock_system.assert_called_once_with("docker build -t test .")
         self.assertEqual(status, 1)
 
-    #@mock.patch('os.system')
-    #@mock.patch('os.getcwd')
-    #def test_run(self, mock_getcwd, mock_system):
-        #folderPath = "{path}/test/files".format(path=self.path)
-        #args = Namespace(version='0.1')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
+    def test_run(self, mock_getcwd, mock_system):
+        folderPath = "{path}/test/files".format(path=self.path)
+        args = Namespace(version='0.1')
 
-        #mock_getcwd.return_value = folderPath
-        #mock_system.return_value = 1
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 1
 
-        #config = sb.files.yaml.loadConfig()
-        #job = config.jobs[0]
-        #command = sb.docker.commandBuilder.build(config, job, args)
+        config = sb.files.yaml.loadConfig()
+        job = config.jobs[0]
+        command = sb.docker.commandBuilder.build(config, job, args)
 
-        #status = sb.docker.docker.run(config, job, command)
-        #mock_system.assert_called_once_with("docker run -i test -c './build.sh -e local 0.1'")
-        #self.assertEqual(status, 1)
+        expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v $PWD/output/:/app/output/ -v $PWD/temp/:/app/temp/ test /bin/bash -c './build.sh 0.1 --env local'"
+        status = sb.docker.docker.run(config, job, command)
+        mock_system.assert_called_once_with(expected)
+        self.assertEqual(status, 1)
 
 if __name__ == '__main__':
     unittest.main()
