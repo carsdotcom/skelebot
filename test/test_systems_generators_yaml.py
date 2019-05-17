@@ -52,7 +52,7 @@ class TestYaml(TestCase):
     @mock.patch('os.getcwd')
     def test_loadConfig_with_yaml(self, mock_getcwd):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
 
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
@@ -60,7 +60,7 @@ class TestYaml(TestCase):
     def test_loadConfig_without_yaml(self, mock_getcwd):
         mock_getcwd.return_value = "{path}/test".format(path=self.path)
 
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
 
         self.assertEqual(config.name, None)
         self.assertEqual(config.description, None)
@@ -87,10 +87,10 @@ class TestYaml(TestCase):
     @mock.patch('os.getcwd')
     def test_saveConfig(self, mock_getcwd):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
 
-        sb.files.yaml.saveConfig(config)
-        config = sb.files.yaml.loadConfig()
+        sb.systems.generators.yaml.saveConfig(config)
+        config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
 
 

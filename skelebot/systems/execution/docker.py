@@ -1,6 +1,6 @@
 from ...objects.config import Config
-from ...files.dockerfile import buildDockerfile
-from ...files.dockerignore import buildDockerignore
+from ...systems.generators import dockerfile
+from ...systems.generators import dockerignore
 
 import os
 
@@ -8,8 +8,8 @@ BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c '{command}'"
 
 def build(config):
-    buildDockerfile(config)
-    buildDockerignore(config)
+    dockerfile.buildDockerfile(config)
+    dockerignore.buildDockerignore(config)
 
     status = os.system(BUILD_CMD.format(image=config.getImageName()))
     if (config.ephemeral == True):
@@ -19,11 +19,6 @@ def build(config):
     return status
 
 def run(config, job, command):
-    # [TODO] Kerberos Component - Construct the kerberos volume mappings and init command if required
-    #krbInit = ""
-    #if (config.kerberos != None):
-        #krbInit = "/./krb/init.sh {user} &&".format(user=config.kerberos.hdfsUser)
-
     params = "-{mode}".format(mode=job.mode)
     
     # Construct the port mappings

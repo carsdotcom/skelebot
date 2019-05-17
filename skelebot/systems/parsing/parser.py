@@ -1,5 +1,5 @@
-from ..common import DESCRIPTION
-from ..common import VERSION
+from ...common import DESCRIPTION
+from ...common import VERSION
 import argparse
 import sys
 

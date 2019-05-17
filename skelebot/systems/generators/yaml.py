@@ -1,8 +1,8 @@
-from ..objects.config import Config
-from ..objects.job import Job
-from ..objects.component import Activation
-from ..components.componentFactory import buildComponent, buildComponents
-from ..components.plugin import Plugin
+from ...objects.config import Config
+from ...objects.job import Job
+from ...objects.component import Activation
+from ...components.componentFactory import buildComponent, buildComponents
+from ...components.plugin import Plugin
 
 import yaml
 import os

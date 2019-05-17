@@ -17,7 +17,7 @@ class TestREADME(TestCase):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/README.md".format(folder=folderPath)
         mock_getcwd.return_value = folderPath
-        self.config = sb.files.yaml.loadConfig()
+        self.config = sb.systems.generators.yaml.loadConfig()
 
         expected= """# test
 ![Version](https://img.shields.io/badge/Version-6.6.6-brightgreen.svg)
@@ -31,7 +31,7 @@ test cases
 Project Maintainer: Mega Man (megaman@cars.com)"""
 
 
-        sb.files.readme.buildREADME(self.config)
+        sb.systems.generators.readme.buildREADME(self.config)
 
         data = None
         with open(filePath, "r") as file:

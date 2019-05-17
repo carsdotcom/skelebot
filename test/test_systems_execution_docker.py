@@ -23,7 +23,7 @@ class TestDocker(TestCase):
         mock_getcwd.return_value = folderPath
         mock_system.return_value = 1
 
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
         config.ephemeral = True
 
         status = sb.systems.execution.docker.build(config)
@@ -42,7 +42,7 @@ class TestDocker(TestCase):
         mock_getcwd.return_value = folderPath
         mock_system.return_value = 1
 
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
 
         status = sb.systems.execution.docker.build(config)
         mock_system.assert_called_once_with("docker build -t test .")
@@ -57,7 +57,7 @@ class TestDocker(TestCase):
         mock_getcwd.return_value = folderPath
         mock_system.return_value = 1
 
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
         job = config.jobs[0]
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 

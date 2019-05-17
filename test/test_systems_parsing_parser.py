@@ -8,14 +8,14 @@ class TestParser(TestCase):
 
     def test_parseArgs(self):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", skelebotVersion="0.2.0")
-        args = sb.parser.parser.parseArgs(config, "test")
+        args = sb.systems.parsing.parser.parseArgs(config, "test")
 
         argKeys = list(vars(args).keys())
         self.assertEqual(argKeys, ["job"])
 
     def test_getDescription(self):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", skelebotVersion="0.2.0")
-        description = sb.parser.parser.getDescription(config, "test")
+        description = sb.systems.parsing.parser.getDescription(config, "test")
 
         expectedDescription = """
 \033[1mTest Project\033[0m

@@ -20,7 +20,7 @@ class TestCommandBuilder(TestCase):
 
         mock_getcwd.return_value = folderPath
 
-        config = sb.files.yaml.loadConfig()
+        config = sb.systems.generators.yaml.loadConfig()
         job = config.jobs[0]
 
         expected = "./build.sh 0.1 --env local"

@@ -1,7 +1,7 @@
-from ..objects.config import Config
-from ..components import componentFactory
-from ..files import dockerfile, dockerignore, readme, yaml
-from ..common import VERSION, LANGUAGE_DEPENDENCIES
+from ...objects.config import Config
+from ...components import componentFactory
+from ...systems.generators import dockerfile, dockerignore, readme, yaml
+from ...common import VERSION, LANGUAGE_DEPENDENCIES
 from .prompt import promptUser
 
 import sys

@@ -1,5 +1,3 @@
-import .docker
-import .commandBuilder
 import os
 
 def executeJob(config, args):
