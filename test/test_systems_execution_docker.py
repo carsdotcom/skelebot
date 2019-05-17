@@ -62,7 +62,7 @@ class TestDocker(TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v $PWD/output/:/app/output/ -v $PWD/temp/:/app/temp/ test /bin/bash -c './build.sh 0.1 --env local'"
-        status = sb.systems.execution.docker.run(config, job, command)
+        status = sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
         self.assertEqual(status, 1)
 

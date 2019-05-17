@@ -19,9 +19,12 @@ class Component(SkeleYaml):
     # Parsing System Hooks
     def addParsers(self, subparsers): return subparsers
 
-    # Execution System Hooks
+    # Generator System Hooks
     def appendDockerignore(self): return ""
     def appendDockerfile(self): return ""
+
+    # Execution System Hooks
+    def execute(self): return None
     def prependCommand(self, job, native): return None
     def appendCommand(self, job, native): return None
-    def addDockerRunParams(self, job): return None
+    def addDockerRunParams(self): return None

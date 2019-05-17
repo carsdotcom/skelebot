@@ -18,24 +18,24 @@ def build(config):
 
     return status
 
-def run(config, job, command):
-    params = "-{mode}".format(mode=job.mode)
+def run(config, command, mode, ports, mappings, taskName):
+    params = "-{mode}".format(mode=mode)
     
     # Construct the port mappings
-    if (config.ports):
-        for port in config.params:
+    if (ports):
+        for port in ports:
             params += " -p {port}".format(port=port)
 
     # Construct the volume mappings
-    if (job.mappings):
-        for vmap in job.mappings:
+    if (mappings):
+        for vmap in mappings:
             params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
 
     # Construct the additional parameters from the components
     for component in config.components:
-        addParams = component.addDockerRunParams(job)
+        addParams = component.addDockerRunParams()
         if (addParams is not None):
             params += " {params}".format(params=addParams)
 
     # Assuming the image was built without errors, run the container with the given args, params, and config
-    return os.system(RUN_CMD.format(image=config.getImageName(), jobName=job.name, command=command, params=params, mode=job.mode))
+    return os.system(RUN_CMD.format(image=config.getImageName(), jobName=taskName, command=command, params=params, mode=mode))

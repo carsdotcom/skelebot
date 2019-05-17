@@ -1,7 +1,6 @@
 from .systems.parsing import parser
 from .systems.generators import yaml
-from .systems.scaffolding import scaffolder
-from .systems.execution import docker, commandBuilder
+from .systems.execution import executor, docker, commandBuilder
 import sys
 
 # [TODO] Move this to the env System
@@ -25,5 +24,4 @@ def main():
     env = getEnvironment()
     config = yaml.loadConfig(env)
     args = parser.parseArgs(config, env)
-
-    scaffolder.scaffold()
+    executor.execute(config, args)
