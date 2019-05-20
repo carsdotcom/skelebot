@@ -25,7 +25,7 @@ class Component(SkeleYaml):
     def appendDockerfile(self): return ""
 
     # Execution System Hooks
-    def execute(self): return None
+    def execute(self, config, args): return None
     def prependCommand(self, job, native): return None
     def appendCommand(self, job, native): return None
     def addDockerRunParams(self): return None

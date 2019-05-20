@@ -44,7 +44,7 @@ class TestYaml(TestCase):
                 self.assertEqual(component.port, 1127)
                 self.assertEqual(component.folder, "notebooks/")
 
-        expectedComponents = ["Plugin", "Jupyter"]
+        expectedComponents = ["Plugin", "Jupyter", "Bump"]
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 

@@ -21,7 +21,7 @@ class Jupyter(Component):
         return subparsers
 
     # Build the docker image and then run the container with the Jupyter command, port mapped, and folder volume mapped
-    def execute(self, config):
+    def execute(self, config, args):
 
         status = docker.build(config)
         if (status == 0):

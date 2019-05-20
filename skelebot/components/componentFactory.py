@@ -2,11 +2,13 @@ from ..objects.component import Activation
 from .plugin import Plugin
 from .jupyter import Jupyter
 from .kerberos import Kerberos
+from .bump import Bump
 
 COMPONENTS = {
     Plugin.__name__.lower(): Plugin,
     Jupyter.__name__.lower(): Jupyter,
-    Kerberos.__name__.lower(): Kerberos
+    Kerberos.__name__.lower(): Kerberos,
+    Bump.__name__.lower(): Bump
 }
 
 def buildComponents(activations=[], ignores=[]):

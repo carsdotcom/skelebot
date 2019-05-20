@@ -40,4 +40,4 @@ def executeJob(config, args, job):
 def executeComponent(config, args):
     for component in config.components:
         if (args.job in component.commands):
-            component.execute(config)
+            component.execute(config, args)
