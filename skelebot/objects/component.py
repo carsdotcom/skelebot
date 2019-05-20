@@ -9,6 +9,7 @@ class Activation(Enum):
 
 class Component(SkeleYaml):
     activation = Activation.CONFIG
+    commands = []
 
     @classmethod
     def load(cls, config): return cls(**config)

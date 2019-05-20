@@ -5,26 +5,36 @@ import os
 def execute(config, sbParser):
     args = sbParser.parseArgs()
 
-    # Execute the job or start scaffolding (print help if no command provided)
     if (args.job == None):
         sbParser.showHelp()
     elif (args.job == "scaffold"):
         scaffold(args.existing)
     else:
-        # Check to see if the job command matches a job name
-        job = None
-        for configJob in config.jobs:
-            if args.job == configJob.name:
-                job = configJob
+        job = getJob(config, args)
 
         if (job is not None):
-            # Execute the Job
-            command = commandBuilder.build(config, job, args, args.native)
-            if (args.native):
-                # Execute the job natively
-                os.system(command)
-            else:
-                # Execute the job in Docker
-                if (args.skip_build == False):
-                    docker.build(config)
-                docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+            executeJob(config, args, job)
+        else:
+            executeComponent(config, args)
+
+def getJob(config, args):
+    job = None
+    for configJob in config.jobs:
+        if args.job == configJob.name:
+            job = configJob
+
+    return job
+
+def executeJob(config, args, job):
+        command = commandBuilder.build(config, job, args, args.native)
+        if (args.native):
+            os.system(command)
+        else:
+            if (args.skip_build == False):
+                docker.build(config)
+            docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+
+def executeComponent(config, args):
+    for component in config.components:
+        if (args.job in component.commands):
+            component.execute(config)

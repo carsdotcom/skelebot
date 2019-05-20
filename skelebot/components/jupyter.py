@@ -1,8 +1,10 @@
 from ..objects.component import *
+from ..systems.execution import docker
 
 # This component provides the ability to spin up Jupyter in Docker for any project
 class Jupyter(Component):
     activation = Activation.PROJECT
+    commands = ["jupyter"]
 
     port = None
     folder = None
@@ -27,4 +29,4 @@ class Jupyter(Component):
             command = "jupyter notebook --ip=0.0.0.0 --port=8888{root} --notebook-dir={folder}".format(root=root, folder=self.folder)
             ports = ["{port}:8888".format(port=self.port)]
 
-            return docker.run(config, command, "i", ports, "$PWD:/app", "jupyter")
+            return docker.run(config, command, "i", ports, ".", "jupyter")
