@@ -20,6 +20,32 @@ class SkeleParser:
         self.parser = argparse.ArgumentParser(description=self.desc, formatter_class=argparse.RawTextHelpFormatter)
         subparsers = self.parser.add_subparsers(dest="job")
 
+        # [TODO] Find a better place for these
+        self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")
+        self.parser.add_argument("-s", "--skip-build", action='store_true', help="Skip the build process and attempt to use previous docker build")
+        self.parser.add_argument("-n", "--native", action='store_true', help="Run natively instead of through Docker")
+
+        # Add jobs from config to the subparser
+        if (config.jobs != None):
+            for job in config.jobs:
+                subparser = subparsers.add_parser(job.name, help=job.help + " (" + job.source + ")")
+
+                # Add args to the job if they are present in the config
+                if (job.args != None):
+                    for arg in job.args:
+                        if (arg.choices != None):
+                            subparser.add_argument(arg.name, choices=arg.choices)
+                        else:
+                            subparser.add_argument(arg.name)
+
+                # Add params to the job if they are present in the config
+                if (job.params != None):
+                    for param in job.params:
+                        if (param.choices != None):
+                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices)
+                        else:
+                            subparser.add_argument("-" + param.alt, "--" + param.name)
+
         # Add the parsers from the active components in the config
         for component in self.config.components:
             subparsers = component.addParsers(subparsers)

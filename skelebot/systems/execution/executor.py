@@ -1,4 +1,7 @@
 from ..scaffolding.scaffolder import scaffold
+from .commandBuilder import build as buildCommand
+from .docker import build as buildDocker
+from .docker import run as runDocker
 import argparse
 import os
 
@@ -26,13 +29,13 @@ def getJob(config, args):
     return job
 
 def executeJob(config, args, job):
-        command = commandBuilder.build(config, job, args, args.native)
+        command = buildCommand(config, job, args, args.native)
         if (args.native):
             os.system(command)
         else:
             if (args.skip_build == False):
-                docker.build(config)
-            docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+                buildDocker(config)
+            runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
 
 def executeComponent(config, args):
     for component in config.components:

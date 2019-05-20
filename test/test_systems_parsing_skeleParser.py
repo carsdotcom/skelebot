@@ -12,7 +12,7 @@ class TestParser(TestCase):
         args = sbParser.parseArgs()
 
         argKeys = list(vars(args).keys())
-        self.assertEqual(argKeys, ["job"])
+        self.assertEqual(argKeys, ["job", "env", "skip_build", "native"])
 
     def test_description(self):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", skelebotVersion="0.2.0")
