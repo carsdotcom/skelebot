@@ -1,11 +1,13 @@
 from ..scaffolding.scaffolder import scaffold
+import argparse
 import os
 
-def executeJob(config, args):
+def execute(config, sbParser):
+    args = sbParser.parseArgs()
+
     # Execute the job or start scaffolding (print help if no command provided)
-    # [TODO] Switch Statements, ever heard of them?
     if (args.job == None):
-        parser.print_help()
+        sbParser.showHelp()
     elif (args.job == "scaffold"):
         scaffold(args.existing)
     else:
