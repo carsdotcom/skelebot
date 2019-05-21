@@ -4,13 +4,15 @@ from .jupyter import Jupyter
 from .kerberos import Kerberos
 from .bump import Bump
 from .prime import Prime
+from .dexec import Dexec
 
 COMPONENTS = {
     Plugin.__name__.lower(): Plugin,
     Jupyter.__name__.lower(): Jupyter,
     Kerberos.__name__.lower(): Kerberos,
     Bump.__name__.lower(): Bump,
-    Prime.__name__.lower(): Prime
+    Prime.__name__.lower(): Prime,
+    Dexec.__name__.lower(): Dexec
 }
 
 def buildComponents(activations=[], ignores=[]):

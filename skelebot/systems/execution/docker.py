@@ -20,7 +20,7 @@ def build(config):
 
 def run(config, command, mode, ports, mappings, taskName):
     params = "-{mode}".format(mode=mode)
-    
+
     # Construct the port mappings
     if (ports):
         for port in ports:

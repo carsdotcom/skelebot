@@ -16,6 +16,4 @@ class Prime(Component):
     # Generate the Dockerfile and dockerignore and build the docker image
     def execute(self, config, args):
 
-        dockerfile.buildDockerfile(config)
-        dockerignore.buildDockerignore(config)
         return docker.build(config)
