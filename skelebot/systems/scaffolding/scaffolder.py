@@ -29,7 +29,10 @@ def scaffold(existing=False):
     for component in componentFactory.buildComponents():
         component = component.scaffold()
         if (component is not None):
-            components.append(component)
+            if (isinstance(component, list)):
+                components += component
+            else:
+                components.append(component)
 
     # Build the config object based on the user inputs
     config = Config(name, description, "0.1.0", VERSION, maintainer, contact, language,
