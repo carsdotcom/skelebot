@@ -42,6 +42,10 @@ components:
   jupyter: 
     port: 1127
     folder: .
-  #kerberos:
-    #krbConf: krb/krb5.conf
-    #keytab: krb/sshookman.keytab
+  artifactory:
+    artifacts:
+    - name: model
+      file: models/model.RData
+    path: pricing
+    repo: cars-ml-core
+    url: https://repository.cars.com/artifactory

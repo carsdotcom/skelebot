@@ -6,7 +6,7 @@ class SkeleYaml():
         for key in dct.keys():
             if (dct[key] is None) or (dct[key] == []):
                 removeList.append(key)
-            elif (isinstance(dct[key], SkeleYaml)): 
+            elif (isinstance(dct[key], SkeleYaml)):
                 dct[key] = dct[key].toDict()
             elif (isinstance(dct[key], list)):
                 dctList = []

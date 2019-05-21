@@ -5,6 +5,7 @@ from .kerberos import Kerberos
 from .bump import Bump
 from .prime import Prime
 from .dexec import Dexec
+from .artifactory import Artifactory
 
 COMPONENTS = {
     Plugin.__name__.lower(): Plugin,
@@ -12,7 +13,8 @@ COMPONENTS = {
     Kerberos.__name__.lower(): Kerberos,
     Bump.__name__.lower(): Bump,
     Prime.__name__.lower(): Prime,
-    Dexec.__name__.lower(): Dexec
+    Dexec.__name__.lower(): Dexec,
+    Artifactory.__name__.lower(): Artifactory
 }
 
 def buildComponents(activations=[], ignores=[]):
