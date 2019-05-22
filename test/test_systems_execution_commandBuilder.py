@@ -13,11 +13,13 @@ class TestCommandBuilder(TestCase):
         self.path = os.getcwd()
 
 
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_build_ephemeral(self, mock_getcwd):
+    def test_build_ephemeral(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         args = Namespace(version='0.1')
 
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
 
         config = sb.systems.generators.yaml.loadConfig()

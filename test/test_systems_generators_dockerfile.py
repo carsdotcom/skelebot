@@ -12,10 +12,12 @@ class TestDockerfile(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_Python(self, mock_getcwd):
+    def test_buildDockerfile_Python(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
         self.config = sb.systems.generators.yaml.loadConfig()
 
@@ -40,11 +42,13 @@ CMD ["/bin/bash", "-c", "'./build.sh'"]\n"""
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
 
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_R(self, mock_getcwd):
+    def test_buildDockerfile_R(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
         self.config = sb.systems.generators.yaml.loadConfig()
         self.config.language = "R"

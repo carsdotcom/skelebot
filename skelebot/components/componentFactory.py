@@ -7,23 +7,41 @@ from .prime import Prime
 from .dexec import Dexec
 from .artifactory import Artifactory
 
-COMPONENTS = {
-    Plugin.__name__.lower(): Plugin,
-    Jupyter.__name__.lower(): Jupyter,
-    Kerberos.__name__.lower(): Kerberos,
-    Bump.__name__.lower(): Bump,
-    Prime.__name__.lower(): Prime,
-    Dexec.__name__.lower(): Dexec,
-    Artifactory.__name__.lower(): Artifactory
-}
+import os
+import sys
+import importlib
 
-def buildComponents(activations=[], ignores=[]):
-    components = []
-    for component in list(COMPONENTS.values()):
-        if (component.activation in activations) and (component.__name__ not in ignores):
-            components.append(component())
+class ComponentFactory():
 
-    return components
+    COMPONENTS = None
 
-def buildComponent(name, data=None):
-    return COMPONENTS[name].load(data) if (name in COMPONENTS) else None
+    def __init__(self):
+        self.COMPONENTS = {
+            Plugin.__name__.lower(): Plugin,
+            Jupyter.__name__.lower(): Jupyter,
+            Kerberos.__name__.lower(): Kerberos,
+            Bump.__name__.lower(): Bump,
+            Prime.__name__.lower(): Prime,
+            Dexec.__name__.lower(): Dexec,
+            Artifactory.__name__.lower(): Artifactory
+        }
+
+        # Add the plugin components to the master list
+        pluginsFolder = os.path.expanduser("~/.skelebot/plugins/")
+        sys.path.append(pluginsFolder)
+        for pluginName in os.listdir(pluginsFolder):
+            if (pluginName[0] != "_"):
+                module = importlib.import_module("{name}.{name}".format(name=pluginName))
+                plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
+                self.COMPONENTS[pluginName.lower()] = plugin
+
+    def buildComponents(self, activations=[], ignores=[]):
+        components = []
+        for component in list(self.COMPONENTS.values()):
+            if (component.activation in activations) and (component.__name__ not in ignores):
+                components.append(component())
+
+        return components
+
+    def buildComponent(self, name, data=None):
+        return self.COMPONENTS[name].load(data) if (name in self.COMPONENTS) else None

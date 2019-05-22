@@ -12,10 +12,12 @@ class TestREADME(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_buildREADME(self, mock_getcwd):
+    def test_buildREADME(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/README.md".format(folder=folderPath)
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
         self.config = sb.systems.generators.yaml.loadConfig()
 

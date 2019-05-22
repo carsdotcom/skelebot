@@ -1,5 +1,5 @@
 from ...objects.config import Config
-from ...components import componentFactory
+from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
 from ...common import VERSION, LANGUAGE_DEPENDENCIES
 from .prompt import promptUser
@@ -26,6 +26,7 @@ def scaffold(existing=False):
 
     # Iterate over components for additional prompts and add any non-None components that are scaffolded
     components = []
+    componentFactory = ComponentFactory()
     for component in componentFactory.buildComponents():
         component = component.scaffold()
         if (component is not None):

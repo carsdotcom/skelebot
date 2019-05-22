@@ -1,7 +1,7 @@
 from ...objects.config import Config
 from ...objects.job import Job
 from ...objects.component import Activation
-from ...components.componentFactory import buildComponent, buildComponents
+from ...components.componentFactory import ComponentFactory
 from ...components.plugin import Plugin
 
 import yaml
@@ -76,18 +76,19 @@ def override(orig, over):
 def loadComponents(yamlData):
 
     components = []
+    componentFactory = ComponentFactory()
     if (yamlData is None):
-        components = buildComponents([Activation.EMPTY, Activation.ALWAYS])
+        components = componentFactory.buildComponents([Activation.EMPTY, Activation.ALWAYS])
     else:
         compNames = []
         if (COMPONENTS_ATTRIBUTE in yamlData):
             yamlConfig = yamlData[COMPONENTS_ATTRIBUTE]
             for compName in yamlConfig:
-                component = buildComponent(compName, yamlConfig[compName])
+                component = componentFactory.buildComponent(compName, yamlConfig[compName])
                 if (component is not None):
                     components.append(component)
                     compNames.append(component.__class__.__name__)
 
-        components.extend(buildComponents([Activation.PROJECT, Activation.ALWAYS], ignores=compNames))
+        components.extend(componentFactory.buildComponents([Activation.PROJECT, Activation.ALWAYS], ignores=compNames))
 
     return components

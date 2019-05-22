@@ -44,20 +44,24 @@ class TestYaml(TestCase):
                 self.assertEqual(component.port, 1127)
                 self.assertEqual(component.folder, "notebooks/")
 
-        expectedComponents = ["Plugin", "Jupyter", "Bump", "Prime", "Dexec", "Artifactory"]
+        expectedComponents = ["Plugin", "Jupyter", "Bump", "Prime", "Dexec", "Artifactory", "AddNumbers"]
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
     # Test to ensure that the config loads from skelebot.yaml properly when it is present
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_loadConfig_with_yaml(self, mock_getcwd):
+    def test_loadConfig_with_yaml(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
 
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_loadConfig_without_yaml(self, mock_getcwd):
+    def test_loadConfig_without_yaml(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test".format(path=self.path)
 
         config = sb.systems.generators.yaml.loadConfig()
@@ -79,13 +83,15 @@ class TestYaml(TestCase):
             components.append(component.__class__.__name__)
             self.assertEqual((component.activation == Activation.ALWAYS) or (component.activation == Activation.EMPTY), True)
 
-        expectedComponents = ["Plugin"]
+        expectedComponents = ["Plugin", "AddNumbers"]
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
     # Test to ensure that the yaml generation works properly with a complete config object (ends up testing the loading process as well)
+    @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_saveConfig(self, mock_getcwd):
+    def test_saveConfig(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig()
 
