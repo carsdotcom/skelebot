@@ -1,7 +1,9 @@
+import copy
+
 class SkeleYaml():
 
     def toDict(self):
-        dct = vars(self)
+        dct = copy.deepcopy(vars(self))
         removeList = []
         for key in dct.keys():
             if (dct[key] is None) or (dct[key] == []):

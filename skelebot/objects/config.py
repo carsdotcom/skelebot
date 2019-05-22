@@ -44,7 +44,7 @@ class Config(SkeleYaml):
             if (componentDct != {}):
                 dctComp[component.__class__.__name__.lower()] = componentDct
 
-        dct = super(Config, self).toDict()
+        dct = super().toDict()
         dct["components"] = dctComp
         return dct
 
