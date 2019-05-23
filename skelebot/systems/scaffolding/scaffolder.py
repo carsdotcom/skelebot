@@ -6,7 +6,6 @@ from .prompt import promptUser
 
 import sys
 import os
-import stat
 
 def scaffold(existing=False):
     # Create the .skelebot home directory and plugins directory if not already present
@@ -44,7 +43,7 @@ def scaffold(existing=False):
     print("Setting up the", name, "Skelebot project in the current directory")
     print("(", os.getcwd(), ")")
     if (promptUser("Confirm Skelebot Setup", boolean=True) == False):
-        sys.exit(0)
+        raise Exception("Aborting Scaffolding Process")
 
     print("--:-" * 5, "-:--" * 5)
     if (existing == False):

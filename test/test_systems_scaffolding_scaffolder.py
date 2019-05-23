@@ -1,0 +1,100 @@
+from unittest import TestCase
+from unittest import mock
+
+import skelebot as sb
+
+class TestExecutor(TestCase):
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    def test_execute_scaffold_abort(self, mock_prompt, mock_cFactory, mock_getcwd, mock_exists, mock_expanduser):
+        mock_expanduser.return_value = "test/files"
+        mock_exists.return_value = False
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", False]
+
+        try:
+            sb.systems.scaffolding.scaffolder.scaffold(False)
+            self.fail("Exception Expected")
+        except Exception as exc:
+            self.assertEqual(str(exc), "Aborting Scaffolding Process")
+
+            mock_prompt.assert_any_call("Enter a PROJECT NAME")
+            mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+            mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+            mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+            mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R"])
+            mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+            mock_expanduser.assert_called_once_with("~/.skelebot")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    def test_execute_scaffold_existing_init(self, mock_prompt, mock_yaml, mock_cFactory, mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
+        mock_expanduser.return_value = "test/files"
+        mock_exists.return_value = False
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
+
+        sb.systems.scaffolding.scaffolder.scaffold(True)
+
+        mock_prompt.assert_any_call("Enter a PROJECT NAME")
+        mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+        mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+        mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R"])
+        mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+        mock_makedirs.assert_any_call("test/files", exist_ok=True)
+        mock_makedirs.assert_any_call("test/files/plugins", exist_ok=True)
+
+        mock_yaml.saveConfig.assert_called_once()
+
+        mock_expanduser.assert_called_once_with("~/.skelebot")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    def test_execute_scaffold(self, mock_prompt, mock_yaml, mock_readme, mock_dignore, mock_dockerfile, mock_cFactory, mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
+        mock_expanduser.return_value = "test/files"
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
+
+        sb.systems.scaffolding.scaffolder.scaffold()
+
+        mock_prompt.assert_any_call("Enter a PROJECT NAME")
+        mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+        mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+        mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R"])
+        mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+        mock_makedirs.assert_any_call("config/", exist_ok=True)
+        mock_makedirs.assert_any_call("data/", exist_ok=True)
+        mock_makedirs.assert_any_call("models/", exist_ok=True)
+        mock_makedirs.assert_any_call("notebooks/", exist_ok=True)
+        mock_makedirs.assert_any_call("output/", exist_ok=True)
+        mock_makedirs.assert_any_call("queries/", exist_ok=True)
+        mock_makedirs.assert_any_call("src/jobs/", exist_ok=True)
+
+        mock_dockerfile.buildDockerfile.assert_called_once()
+        mock_dignore.buildDockerignore.assert_called_once()
+        mock_readme.buildREADME.assert_called_once()
+        mock_yaml.saveConfig.assert_called_once()
+
+        mock_expanduser.assert_called_once_with("~/.skelebot")
+
+if __name__ == '__main__':
+    unittest.main()
