@@ -58,6 +58,7 @@ class TestBump(TestCase):
 
         config.version = ogVersion
         sb.systems.generators.yaml.saveConfig(config)
+
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
     def test_execute_patch(self, mock_getcwd, mock_expanduser):

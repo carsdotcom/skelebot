@@ -1,6 +1,8 @@
 from ..objects.component import *
 from ..objects.skeleYaml import SkeleYaml
-from artifactory import ArtifactoryPath
+
+import artifactory
+import os
 
 ERROR_ALREADY_PUSHED = """This artifact version has already been pushed.
 Please bump the version before pushing (skelebot bump) or force push (-f)."""
@@ -22,7 +24,7 @@ class Artifactory(Component):
     url = None
     repo = None
     path = None
-    
+
     # Load the yaml dict structure into the Artifactory class object and child object list
     @classmethod
     def load(cls, config):
@@ -91,13 +93,12 @@ class Artifactory(Component):
     def pushArtifact(self, artifactFile, user, token, file, url, force):
 
         # Error and exit if artifact already exists and we are not forcing an override
-        if (force == False) and ArtifactoryPath(url).exists():
-            print(ERROR_ALREADY_PUSHED)
-            sys.exit(1)
+        if (force == False) and artifactory.ArtifactoryPath(url).exists():
+            raise Exception(ERROR_ALREADY_PUSHED)
 
         # Rename artifact, deploy the renamed artifact, and then rename it back to original name
         print("Deploying {file} to {url}".format(file=file, url=url))
-        path = ArtifactoryPath(url, auth=(user, token))
+        path = artifactory.ArtifactoryPath(url, auth=(user, token))
         os.rename(artifactFile, file)
         try:
             path.deploy_file(file)
@@ -109,11 +110,13 @@ class Artifactory(Component):
     def pullArtifact(self, user, token, file, url):
 
         # Pull the artifact with the given url and save it to the file path
-        if (ArtifactoryPath(url).exists()):
+        if (artifactory.ArtifactoryPath(url).exists()):
             print("Pulling {file} from {url}".format(file=file, url=url))
-            path = ArtifactoryPath(url, auth=(user, token))
+            path = artifactory.ArtifactoryPath(url, auth=(user, token))
             with path.open() as fd:
                 with open(file, "wb") as out:
-                        out.write(fd.read())
+                    content = fd.read()
+                    print(content)
+                    out.write(fd.read())
         else:
             print("Artifact Not Found: {url}".format(url=url))
