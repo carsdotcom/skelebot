@@ -6,12 +6,9 @@ import argparse
 import os
 
 class TestArtifactory(TestCase):
-    path = ""
     artifcatory = None
 
-    # Get the path to the current working directory before we mock the function to do so
     def setUp(self):
-        self.path = os.getcwd()
         artifact = sb.components.artifactory.Artifact("test", "test.pkl")
         self.artifactory = sb.components.artifactory.Artifactory([artifact], "artifactory.test.com", "ml", "test")
 
@@ -34,6 +31,7 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
 
         try:
             self.artifactory.execute(config, args)
+            self.fail("Exception Not Thrown")
         except Exception as exc:
             self.assertEqual(str(exc), expectedException)
 
