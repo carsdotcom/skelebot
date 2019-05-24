@@ -14,8 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **setup.py** | No longer reads the yaml (as that require pyyaml), instead is hardcoded and reads only from VERSION
 - **version** | Everything now reads from the VERSION file to get the version, skelebot code checks it's own package version
 - **skelebot.yaml** | Updated to reflect the new 0.2.0 structure and removes the old one
-- **docs** | [TODO] Updated to reflect any and all changes from 0.1.2 to 0.2.1
-- **Example Project** | [TODO] Updated with more functionality and tested against v0.2.1
+- **docs** | Updated to reflect any and all changes from 0.1.2 to 0.2.1
+- **Example Project** | Updated with more functionality and tested against v0.2.1
 
 ### Removed
 - **requirement.txt** | Not needed

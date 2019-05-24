@@ -5,7 +5,6 @@ MAINTAINER Sean Shookman <sshookman@cars.com>
 WORKDIR /app
 RUN ["pip", "install", "pyyaml"]
 RUN ["pip", "install", "artifactory"]
-RUN ["pip", "install", "argparse"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 COPY . /app
