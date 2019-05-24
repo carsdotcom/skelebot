@@ -6,6 +6,7 @@ from ...components.plugin import Plugin
 
 import yaml
 import os
+import copy
 
 COMPONENTS_ATTRIBUTE = "components"
 FILE_PATH = "{path}/skelebot.yaml"
@@ -47,7 +48,8 @@ def saveConfig(config):
 # Reads the skelebot.yaml file (and env override if present) from the current path and loads it into a dict if present
 def readYaml(env=None):
     yamlData = None
-    cfgFile = FILE_PATH.format(path=os.getcwd())
+    cwd = os.getcwd()
+    cfgFile = FILE_PATH.format(path=cwd)
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
             yamlData = yaml.load(stream)
@@ -55,8 +57,8 @@ def readYaml(env=None):
                 envFile = ENV_FILE_PATH.format(path=cwd, env=env)
                 if os.path.isfile(envFile):
                     with open(envFile, 'r') as stream:
-                        override = yaml.load(stream)
-                        yamlData = override(yamlData, override)
+                        overrideYaml = yaml.load(stream)
+                        yamlData = override(yamlData, overrideYaml)
 
     return yamlData
 
