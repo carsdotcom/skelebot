@@ -1,7 +1,7 @@
 name: iris-example
 description: Example Skelebot Project
-version: 0.1.0
-skelebotVersion: 0.1.0
+version: {VERSION}
+skelebotVersion: {VERSION}
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 language: Python
@@ -34,7 +34,6 @@ jobs:
   - models/
   args:
   - name: algorithm
-    help: The algorithm to use when building the model
     choices:
     - glm
     - rf
@@ -42,7 +41,6 @@ jobs:
   params:
   - name: name
     alt: n
-    help: The name for the model that will be saved in the models folder (do not include extension)
     default: model
 - name: score
   source: src/score.py
@@ -53,22 +51,20 @@ jobs:
   params:
   - name: name
     alt: n
-    help: The name for the model that will be used for scoring the data
     default: model
   - name: output
     alt: o
-    help: The name of the output file for the results that will be saved into the ouput folder (do not include extension)
     default: scored
 
-artifacts: 
-- name: model
-  file: models/model.pkl
-  deploy: 
-    type: Artifactory
+components:
+  jupyter: 
+    port: 8888
+    folder: .
+  artifactory:
+    artifacts: 
+    - name: model
+      file: models/model.pkl
     url: http://my-artifactory-url.com
     repo: iris-example
     path: models
 
-jupyter: 
-  port: 8888
-  folder: .

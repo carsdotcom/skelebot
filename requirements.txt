@@ -1,5 +1,0 @@
-pyyaml
-artifactory
-argparse
-coverage
-pytest

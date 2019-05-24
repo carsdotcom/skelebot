@@ -25,6 +25,9 @@ def loadConfig(env=None):
             if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE):
                 if (attr == "jobs"):
                     values[attr] = Job.loadList(yamlData[attr])
+                elif (yamlData[attr] == '{VERSION}'):
+                    with open('VERSION', 'r') as version:
+                        values[attr] = version.read().replace("\n", "")
                 else:
                     values[attr] = yamlData[attr] if (attr in yamlData) else None
 
