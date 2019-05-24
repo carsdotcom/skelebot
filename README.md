@@ -58,3 +58,8 @@ To get started using Skelebot you can follow the documentation found [here](http
 ## Contributing
 
 Anyone is welcome to make contributions to the project. If you would like to make a contribution, please read our [Contributor Guide](CONTRIBUTING.md).
+
+## Versioning
+
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Please refer to the [Changelog](CHANGELOG.md) for information regarding the differences between versions of the project.

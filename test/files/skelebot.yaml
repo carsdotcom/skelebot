@@ -1,0 +1,55 @@
+components:
+  artifactory:
+    artifacts:
+    - file: model.RData
+      name: model
+    path: skelebot
+    repo: ml
+    url: artifactory.cars.com
+  jupyter:
+    folder: notebooks/
+    port: 1127
+contact: megaman@cars.com
+dependencies:
+- pyyaml
+- artifactory
+- argparse
+- coverage
+- pytest
+description: test cases
+ephemeral: false
+ignores:
+- '**/*.zip'
+- '**/*.RData'
+- '**/*.pkl'
+- '**/*.csv'
+- '**/*.model'
+- '**/*.pyc'
+jobs:
+- args:
+  - name: version
+  help: Build
+  ignores:
+  - data/bigFile.pkl
+  - data/evenBiggerFile.pkl
+  mappings:
+  - data/
+  - output/
+  - temp/
+  mode: i
+  name: build
+  params:
+  - alt: e
+    choices:
+    - local
+    - dev
+    - prod
+    default: local
+    name: env
+  source: build.sh
+language: Python
+maintainer: Mega Man
+name: test
+primaryJob: build
+skelebotVersion: 0.1.0
+version: 6.6.6
