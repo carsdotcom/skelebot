@@ -1,4 +1,4 @@
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 DESCRIPTION = """
 \033[1m{project}\033[0m
 {desc}
