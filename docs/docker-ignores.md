@@ -8,27 +8,11 @@ When a docker build is run, any file contained within the root folder of the pro
 
 ```
 ...
-ignore:
+ignores:
 - .RData
 - .pkl
 - .csv
 - .model
-...
-```
-
-Skelebot also supports ignore lists at the job level. This allows for different jobs to include or exclude different files or folders
-from the Docker context, thereby speeding up the build/run process.
-
-```
-...
-jobs:
-- name: test
-  source: src/jobs/test.R
-  help: Run the test cases
-  ...
-  ignore:
-  - training-data/
-  - scoring-data/
 ...
 ```
 

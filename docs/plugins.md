@@ -16,50 +16,97 @@ Installing new plugins is very simple, all that is needed is a zip file of plugi
 Once installed the plugin can be used immediately. Some plugins required config in the skelebot.yaml to be present in order to work, as demonstrated in the example below, so be sure to consult any documentation for the plugin to find out how to properly make use of it. Since scaffolding only applies to new Skelebot projects, the details in the config file may need to be entered manually for existing projects.
 
 ### Structure
-A Skelebot plugin is nothing more than a folder with two python files in it that was been zipped into a single file. Expanded, it would look something like this:
 
+[TODO] Folder Structure
+
+A plugin is nothing more than a component that is loaded dynamically by Skelebot at runtime. To create a plugin simply create a Class that extends the Component object and ensure it is placed ina script that is named the same (albeit with the first letter lower-case).
+
+Example:
 ```
- testPlugin
- ├── command.py
- └── scaffold.py
- ```
+from skelebot.objects.component import Compenent, Activation 
+from skelebot.systems.execution import docker
 
- The name of the parent folder (more accurately: the name of the zip file) will become the name of the plugin.
+# This component provides the ability to spin up Jupyter in Docker for any project
+class Jupyter(Component):
+    activation = Activation.PROJECT
+    commands = ["jupyter"]
 
- The two files within the folder must be named command.py and scaffold.py in order for Skelebot to understand them.
+    port = None
+    folder = None
 
-### Scaffolding
-Each Skelebot plugin can optionally extend the scaffolding command to add their own user prompts for config that will be persisted to the skelebot.yaml file. In order to persist the values obtained from the scaffolding extension, the function inside the scaffold.py script must return a dictionary of the configuration details.
+    # Allows for intelligent defaults in the constructor so projects without config can still use the component
+    def __init__(self, port=8888, folder="."):
+        self.port = port
+        self.folder = folder
 
-Below is a simple example where the user is prompted for a GitHub url which is then returned from the function inside a dictionary.
+    # Parser for the command that spins up Jupyter inside the Docker Container based on the given port and folder
+    def addParsers(self, subparsers):
+        helpMessage = "Spin up Jupyter in a Docker Container (port = {port}, folder = {folder})".format(port=self.port, folder=self.folder)
+        parser = subparsers.add_parser("jupyter", help=helpMessage)
+        return subparsers
 
+    # Build the docker image and then run the container with the Jupyter command, port mapped, and folder volume mapped
+    def execute(self, config, args):
+
+        status = docker.build(config)
+        if (status == 0):
+            root = " --allow-root" if config.language == "R" else ""
+            command = "jupyter notebook --ip=0.0.0.0 --port=8888{root} --notebook-dir={folder}".format(root=root, folder=self.folder)
+            ports = ["{port}:8888".format(port=self.port)]
+
+            return docker.run(config, command, "i", ports, ".", "jupyter")
 ```
-def scaffold():
-   url = input("Please enter the project's GitHub URL: ")
-   return {"github": url}
+
+## Activation
+
+The 'activation' field specifies at which point the plugin Component will be available for use. There are four possible options for this field.
+
+- **EMPTY** | Only available when run outside of a Skelebot project (no skelebot.yaml file present)
+- **CONFIG** | Only available when the Skelebot project has the specified component attributes present in the config
+- **PROJECT** | Available when run inside any Skelebot project
+- **ALWAYS** | Always available no matter what
+
+If the field is not specifed, it will default to the 'CONFIG' activation level.
+
+## Attributes
+
+Any attributes you need can be added to the plugin Class as long as you specify them in the '__init__' function as well. These attributes will be configurable via the corresponding section of the skelebot.yaml components feild.
+
+The name of the section under components will be the Camel Case version of the plugin's name.
+
+Example:
+```
+components:
+  jupyter:
+    port: 1127
+    folder: .
 ```
 
-Once installed the scaffolding process would allow the user to activate this plugin by name, which would then kick off this scaffold function and prompt for a GitHub url. This data is then placed into the skelebot.yaml file during the scaffolding process so that it can be used during the execution of the plugin's command.
+### Hooks
 
-### Command
-Each Skelebot plugin needs to specify a command. This is the bare minimum for a Skelebot plugin.
 
-In order to specify a command for the plugin you must create a command.py file in the plugin folder with a single function defined within. The function must be named `command` and accept only two parameters `config` and `pluginConfig`. The first parameter, config, is the object that holds the config from the entire skelebot.yaml file. The second parameter, pluginConfig, holds only the config for the current plugin in order to make it more convenient to access the information that is relevant to the plugin itself.
+There are numerous places that a plugin can hook into the Skelebot process to augment the tool with new features.
 
-Below is a simple example where the command simply prints the name of the project GitHub url that was prompted and provided through the scaffolding process as a result of the scaffold.py script above. The command returns `True` to indicate that the it executed successfully.
+## Scaffolder
 
-```
-def command(config, pluginConfig):
-    print(pluginConfig["github"])
-    return True
-```
+## Argument Parsers
+addParsers(self, subparsers)
 
-This command would then be executed using the plugin name.
+## Generators
+appendDockerignore(self)
+appendDockerfile(self)
 
-```
-> skelebot testPlugin
-http://www.github.com/mystuff/myrepo
-```
+## Exection
+execute(self, config, args)
+prependCommand(self, job, native)
+appendCommand(Self, job, native)
+addDockerRunParams(self)
+
+### Functions
+
+## Generators
+
+## Exection
 
 ---
 

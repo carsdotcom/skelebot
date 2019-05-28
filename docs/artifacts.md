@@ -4,20 +4,20 @@
 
 # Artifacts
 
-Skelebot currently only supports deploying artifacts to Artifactory. This can be setup during the scaffolding process or can be manually created by editing the skelebot.yaml file and adding the following section at the root of the config.
+Skelebot currently only supports deploying artifacts to Artifactory. This can be setup during the scaffolding process or can be manually created by editing the skelebot.yaml file and adding the following 'artifactory' section to the components section of the config.
 
 ```
-artifacts:
-- name: artifact-name
-  file: path/to/artifact.ext
-  deploy:
-    type: Artifactory
+components:
+  artifactory:
     url: http://my-host:5000/artifactory
     repo: my-repo
     path: path/to/artifact/folder
+    artifacts:
+      name: artifact-name
+      file: path/to/artifact.ext
 ```
 
-The 'artifacts' field accepts a list of artifacts along with their corresponding deploy details. As of now, only Artifactory is a supported type of deployment.
+The 'artifacts' field accepts a list of artifacts names and path to the actual artifact object file. The 'url', 'repo', and 'path' fields specify where the artifact will end up when it is pushed (or from where it will be pulled).
 
 ### Pushing
 
@@ -45,4 +45,4 @@ display when executing the commands, or they can be passed as parameters in the 
 
 ---
 
-<center><< <a href="copy-commands.html">Copy Commands</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>
+<center><< <a href="versioning.html">Versioning</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>

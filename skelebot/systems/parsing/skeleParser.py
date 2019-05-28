@@ -23,7 +23,7 @@ class SkeleParser:
         if (config.name is None):
             # Provide Scaffolding Parser for Non-Skelebot Projects
             scaffoldParser = subparsers.add_parser("scaffold", help="Scaffold a new or existing project with Skelebot")
-            scaffoldParser.add_argument("existing", action='store_true', help="Scaffold an existing project without creating new folder")
+            scaffoldParser.add_argument("-e", "--existing", action='store_true', help="Scaffold an existing project without creating new folder")
         else:
             # Provide Parameters for Skelebot Projects
             self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")

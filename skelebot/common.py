@@ -12,6 +12,7 @@ Skelebot Version (installed): {version}
 -----------------------------------"""
 EXTENSION_COMMAND = {"py":"python ", "R":"Rscript ", "sh":"./"}
 IMAGE_VERSION = {
+    "0.2.2": 0.1,
     "0.2.1": 0.1,
     "0.2.0": 0.1,
     "0.1.2": 0.1,

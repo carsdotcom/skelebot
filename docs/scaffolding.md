@@ -33,16 +33,6 @@ Enter a PROJECT DESCRIPTION: A Machine Learning Project
 Enter a MAINTAINER NAME: Firstname Lastname
 Enter a CONTACT EMAIL: flastname@gmail.com
 Enter a LANGUAGE [Python, R]: Python
-Would you like to add an ARTIFACTORY DEPLOYMENT (Y/n): y
-Enter the ARTIFACT NAME: my-model
-Enter the ARTIFACT FILE: ./models/my-model.pkl
-Enter the ARTIFACTORY URL: https://my-artifactory.com
-Enter the ARTIFACTORY REPO: my-ml-project
-Enter the ARTIFACTORY PATH: models
-Enable Kerberos for Hadoop (Y/n): y
-Enter HDFS USERNAME: flastname
-Enter KEYTAB FILE LOCATION: /home/flastname/flastname.keytab
-Enter KERBEROS CONFIG FILE LOCATION: ./krb/krb5.conf
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
 Setting up the my-ml-project Skelebot project in the current directory
 ( /Users/seanshookman/Code/git.cars.com/cml/skelebot/temp )

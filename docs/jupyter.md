@@ -17,9 +17,10 @@ Both of these values are optional. By default the port will be set to 8888, and 
 
 ```
 ...
-jupyter:
-  port: 1127
-  folder: my-notebooks/r-notebooks
+components:
+  jupyter:
+    port: 1127
+    folder: my-notebooks/r-notebooks
 ...
 ```
 
