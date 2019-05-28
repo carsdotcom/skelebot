@@ -23,7 +23,7 @@ A plugin is nothing more than a component that is loaded dynamically by Skelebot
 
 Example:
 ```
-from skelebot.objects.component import Compenent, Activation 
+from skelebot.objects.component import Compenent, Activation
 from skelebot.systems.execution import docker
 
 # This component provides the ability to spin up Jupyter in Docker for any project
@@ -84,13 +84,26 @@ components:
 
 ### Hooks
 
-
 There are numerous places that a plugin can hook into the Skelebot process to augment the tool with new features.
 
 ## Scaffolder
 
+The scaffolder provides a scaffold function that can be implemented in the plugin's Component class in order to add it's own prompts and data into the Skelebot scaffolding process.
+
+The purpose of the scaffold function for a component is to prompt the user for values and assign them to the corresponding attribute in the Component class. These attributes will be automatically recorded int he skelebot.yaml file that is generated.
+
+```
+@function: scaffold(self)
+@return: None
+```
+
 ## Argument Parsers
-addParsers(self, subparsers)
+
+```
+@function: addParsers(self, subparsers)
+@param subparsers: The 'job' subparser from the Skelebot ArgParser where you can add your own subparsers and arguments
+@return: subparsers
+```
 
 ## Generators
 appendDockerignore(self)
@@ -104,9 +117,15 @@ addDockerRunParams(self)
 
 ### Functions
 
+There are also several functions that you can call directly that may be very useful to your plugin.
+
 ## Generators
+Build Dockerfile - skelebot.systems.generators.dockerfile.buildDockerfile(config)
+Build Dockeringore - skelebot.systems.generators.dockerfile.buildDockerignore(config)
 
 ## Exection
+Docker Build - skelebot.systems.execution.docker.build(config)
+Docker Run - skelebot.systems.execution.docker.run(config, command, mode, ports, mappings, taskName)
 
 ---
 
