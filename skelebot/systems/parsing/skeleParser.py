@@ -10,7 +10,7 @@ class SkeleParser:
     config = None
     env = None
     desc = None
-    
+
     def __init__(self, config=None, env=None):
         self.config = config
         self.env = env
@@ -20,9 +20,15 @@ class SkeleParser:
         self.parser = argparse.ArgumentParser(description=self.desc, formatter_class=argparse.RawTextHelpFormatter)
         subparsers = self.parser.add_subparsers(dest="job")
 
-        self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")
-        self.parser.add_argument("-s", "--skip-build", action='store_true', help="Skip the build process and attempt to use previous docker build")
-        self.parser.add_argument("-n", "--native", action='store_true', help="Run natively instead of through Docker")
+        if (config.name is None):
+            # Provide Scaffolding Parser for Non-Skelebot Projects
+            scaffoldParser = subparsers.add_parser("scaffold", help="Scaffold a new or existing project with Skelebot")
+            scaffoldParser.add_argument("existing", action='store_true', help="Scaffold an existing project without creating new folder")
+        else:
+            # Provide Parameters for Skelebot Projects
+            self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")
+            self.parser.add_argument("-s", "--skip-build", action='store_true', help="Skip the build process and attempt to use previous docker build")
+            self.parser.add_argument("-n", "--native", action='store_true', help="Run natively instead of through Docker")
 
         # Add jobs from config to the subparser
         if (config.jobs != None):
