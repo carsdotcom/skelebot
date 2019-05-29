@@ -67,12 +67,6 @@ def override(orig, over):
     merged = copy.deepcopy(orig)
     for k, v2 in over.items():
         if k in merged:
-            v1 = merged[k]
-            if isinstance(v1, dict) and isinstance(v2, collections.Mapping):
-                merged[k] = {**v1, **v2}
-            else:
-                merged[k] = copy.deepcopy(v2)
-        else:
             merged[k] = copy.deepcopy(v2)
     return merged
 

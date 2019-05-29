@@ -1,2 +1,3 @@
-jupyter:
-  port: 8080
+components:
+  jupyter: 
+    port: 8080
