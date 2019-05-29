@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **skelebot.yaml** | Updated to reflect the new 0.2.0 structure and removes the old one
 - **docs** | Updated to reflect any and all changes from 0.1.2 to 0.2.1
 - **Example Project** | Updated with more functionality and tested against v0.2.1
+- **Job Param Defaults** | Bug fixed where default param values were missing
+- **Env Support** | Bug fixed in yaml loading of env override config
 
 ### Removed
 - **requirement.txt** | Not needed
