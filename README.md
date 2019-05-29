@@ -3,10 +3,7 @@
   <img src="https://www.cars.com/react-shop-webapp/static/cars-logo.c3ccfb95f1c14e7c071e1d3d8c44d28c.png"><br><br>
 </div>
 -->
-![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Farchitecture-doc-update%2FVERSION)
-<!--
-Switch to MAster Branch URL before Merge
-![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)-->
+![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
 [![CircleCI token](https://img.shields.io/circleci/token/cb75132d9ffe340a42dd5deea2f0fff43eb61042/project/github/carsdotcom/skelebot/master.svg?style=plastic)](https://circleci.com/gh/carsdotcom/skelebot)
 
 # Skelebot <!--TODO: Replace this with LOGO/MASCOT -->
