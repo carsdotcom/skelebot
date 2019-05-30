@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.2] - IN PROGRESS
+## [0.2.3] - [IN PROGRESS]
+### Changed
+- **Scaffolder** | No longer sets up the skelebot home and plugins folders if they are missing
+- **Plugin Component** | Sets up the skelebot home and plugins folders if they are missing
+- **Component Factory** | Don't attempt to load plugins if folder is missing (bugfix)
+- **Scaffolding Test** | Removes checks for folder generation logic
+- **Plugin Test** | Adds checks and mocks for folder generation logic
+
+## [0.2.2] - 2019-05-30
 ### Added
 - **VERSION** | The single source of truth for the project version
 
