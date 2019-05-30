@@ -124,9 +124,9 @@ This function needs to return the altered subparsers object in order to be prope
 appendDockerignore(self) # return string (additional .dockerignore contents)
 ```
 
-#### Append Dockerfile
-
 The process of generating the `.dockerignore` file for the project can be augmented using the `appendDockerignore` function. This function takes no parameters, and simply appends the string that is returned from the function to the end of the `.dockerignore` file.
+
+#### Append Dockerfile
 
 ```
 appendDockerfile(self) # return string (additional Dockerfile contents)
