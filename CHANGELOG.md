@@ -5,7 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - IN PROGRESS
+## [0.2.2] - IN PROGRESS
+### Added
+- **VERSION** | The single source of truth for the project version
+
+### Changed
+- **README** | Replaced the example output section with one that is up-to-date
+- **setup.py** | No longer reads the yaml (as that require pyyaml), instead is hardcoded and reads only from VERSION
+- **version** | Everything now reads from the VERSION file to get the version, skelebot code checks it's own package version
+- **skelebot.yaml** | Updated to reflect the new 0.2.0 structure and removes the old one
+- **docs** | Updated to reflect any and all changes from 0.1.2 to 0.2.1
+- **Example Project** | Updated with more functionality and tested against v0.2.1
+- **Job Param Defaults** | Bug fixed where default param values were missing
+- **Env Support** | Bug fixed in yaml loading of env override config
+
+### Removed
+- **requirement.txt** | Not needed
+
+## [0.2.1] - 2019-05-28
+### Changed
+- **Parser** | Includes scaffolding parser for non-skelebot projects
+
+## [0.2.0] - 2019-05-24
 ### Added
 - **CHANGELOG** | The document you are reading right now.
 - **Test Cases** | For the new architecture
@@ -14,7 +35,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **README** | Adds versioning section for calling out SemVer and referencing the CHANGELOG.md
 - **YAML** | The skelebot.yaml configuration file has a new structure based on the new component architecture
 - **Architecture** | Restructuring the entire codebase without altering functionality (every python file has been refactored)
-  - **Plugins** | Now a component
+  - **Components** | Provide functionality on top of Skelebot base functionality
+    - **Artifactory** | Push and pull artifacts to/from Artifactory
+    - **Bump** | Bump the version number inthe skelebot.yaml file
+    - **Dexec** | Docker execute to gain bash access to the container
+    - **Jupyter** | Spin up Jupyter notebooks for the project
+    - **Kerberos** | Allow for Kerberos authentication to HDFS
+    - **Plugins** | Allow for plugins to be installed from zip files
+    - **Prime** | Prime the project by building the Docker Image
+  - **Systems** | Provide hooks for components and plugins to inject logic into the Skelebot system
+    - **Execution** | The actual running of tasks whether it's native or in Docker
+    - **Generators** | File generators and interpreters
+    - **Parsing** | Argument parsing for any and all skelebot commands
+    - **Scaffolding** | The entire scaffolding process for new and existing projects
 
 ### Removed
 - **Old Test Cases** | From the old architecture (lack-of-architecture)

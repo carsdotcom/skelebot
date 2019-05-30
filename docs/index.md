@@ -2,7 +2,7 @@ Machine learning projects are too often just a loose collection of unorganized s
 
 ---
 
-### About
+### Purpose
 
 Skelebot is a command-line tool for managing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
 
@@ -10,7 +10,9 @@ By allowing jobs to be executed in Docker, it removes the need for the developer
 
 Skelebot also saves developer time by integrating with HDFS through Kerberos automatically. By building on top of a library of pre-built Docker images tailored specifically for Skelebot’s purposes, the process of building the Docker image for a project is greatly reduced. Skelebot also encourages a specific folder structure through it’s scaffolding process thereby introducing consistency across projects and developers. By providing a uniform interface on which to discover the project's jobs it greatly helps to reduce the barrier to entry for newcomers to the project.
 
-There are a lot of things that you can do with Skelebot:
+---
+
+### Features
 
  - Get a new or existing ML project up and running in seconds with Skelebot **scaffolding**
  - **Prime** the project to regenerate dependent files and prepare a deployable Docker Image
@@ -24,8 +26,9 @@ There are a lot of things that you can do with Skelebot:
  - Spin up **Jupyter Notebooks** inside of Docker with all of your code, packages, and data ready to go
  - Create your own Skelebot **Plugin** and add even more functionality
 
+---
 
-### Documentation
+### Getting Started
 - [Installing](installing.md)
 - [Help Info](help-info.md)
 - [Scaffolding](scaffolding.md)
@@ -35,7 +38,6 @@ There are a lot of things that you can do with Skelebot:
 - [Docker Ignores](docker-ignores.md)
 - [Environments](environments.md)
 - [Versioning](versioning.md)
-- [Copy Commands](copy-commands.md)
 - [Artifacts](artifacts.md)
 - [HDFS Kerberos](hdfs-kerberos.md)
 - [Jupyter](jupyter.md)

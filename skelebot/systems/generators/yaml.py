@@ -6,6 +6,7 @@ from ...components.plugin import Plugin
 
 import yaml
 import os
+import copy
 
 COMPONENTS_ATTRIBUTE = "components"
 FILE_PATH = "{path}/skelebot.yaml"
@@ -25,6 +26,9 @@ def loadConfig(env=None):
             if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE):
                 if (attr == "jobs"):
                     values[attr] = Job.loadList(yamlData[attr])
+                elif (yamlData[attr] == '{VERSION}'):
+                    with open('VERSION', 'r') as version:
+                        values[attr] = version.read().replace("\n", "")
                 else:
                     values[attr] = yamlData[attr] if (attr in yamlData) else None
 
@@ -44,7 +48,8 @@ def saveConfig(config):
 # Reads the skelebot.yaml file (and env override if present) from the current path and loads it into a dict if present
 def readYaml(env=None):
     yamlData = None
-    cfgFile = FILE_PATH.format(path=os.getcwd())
+    cwd = os.getcwd()
+    cfgFile = FILE_PATH.format(path=cwd)
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
             yamlData = yaml.load(stream)
@@ -52,8 +57,8 @@ def readYaml(env=None):
                 envFile = ENV_FILE_PATH.format(path=cwd, env=env)
                 if os.path.isfile(envFile):
                     with open(envFile, 'r') as stream:
-                        override = yaml.load(stream)
-                        yamlData = override(yamlData, override)
+                        overrideYaml = yaml.load(stream)
+                        yamlData = override(yamlData, overrideYaml)
 
     return yamlData
 
@@ -62,12 +67,6 @@ def override(orig, over):
     merged = copy.deepcopy(orig)
     for k, v2 in over.items():
         if k in merged:
-            v1 = merged[k]
-            if isinstance(v1, dict) and isinstance(v2, collections.Mapping):
-                merged[k] = {**v1, **v2}
-            else:
-                merged[k] = copy.deepcopy(v2)
-        else:
             merged[k] = copy.deepcopy(v2)
     return merged
 

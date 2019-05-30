@@ -23,7 +23,7 @@ class SkeleParser:
         if (config.name is None):
             # Provide Scaffolding Parser for Non-Skelebot Projects
             scaffoldParser = subparsers.add_parser("scaffold", help="Scaffold a new or existing project with Skelebot")
-            scaffoldParser.add_argument("existing", action='store_true', help="Scaffold an existing project without creating new folder")
+            scaffoldParser.add_argument("-e", "--existing", action='store_true', help="Scaffold an existing project without creating new folder")
         else:
             # Provide Parameters for Skelebot Projects
             self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")
@@ -47,9 +47,9 @@ class SkeleParser:
                 if (job.params != None):
                     for param in job.params:
                         if (param.choices != None):
-                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices)
+                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default)
                         else:
-                            subparser.add_argument("-" + param.alt, "--" + param.name)
+                            subparser.add_argument("-" + param.alt, "--" + param.name, default=param.default)
 
         # Add the parsers from the active components in the config
         for component in self.config.components:

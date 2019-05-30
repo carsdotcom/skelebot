@@ -1,7 +1,7 @@
 name: skelebot
 description: ML Build Tool
-version: 0.2.1
-skelebotVersion: 0.2.1
+version: '{VERSION}'
+skelebotVersion: '{VERSION}'
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 language: Python
@@ -10,7 +10,6 @@ primaryJob: test
 dependencies:
 - pyyaml
 - artifactory
-- argparse
 - coverage
 - pytest
 ignores: 
@@ -42,10 +41,3 @@ components:
   jupyter: 
     port: 1127
     folder: .
-  artifactory:
-    artifacts:
-    - name: model
-      file: models/model.RData
-    path: pricing
-    repo: cars-ml-core
-    url: https://repository.cars.com/artifactory

@@ -1,74 +1,62 @@
-name: iris-example
-description: Example Skelebot Project
-version: 0.1.0
-skelebotVersion: 0.1.0
-maintainer: Sean Shookman
+components:
+  artifactory:
+    artifacts:
+    - file: models/model.pkl
+      name: model
+    path: models
+    repo: iris-example
+    url: http://my-artifactory-url.com
+  jupyter:
+    folder: .
+    port: 8888
 contact: sshookman@cars.com
-language: Python
-ephemeral: False
-
-dependencies: 
+dependencies:
 - numpy
 - pandas
 - scipy
 - scikit-learn
-
-ignore: 
-- '**/*.RData'
-- '**/*.csv'
-- '**/*.model'
-- '**/*.pyc'
-
-jobs: 
-- name: loadData
-  source: src/loadData.py
-  mode: i
-  help: Load the Iris Dataset and save it into the data folder for the train job to access
-  mapped:
+description: Example Skelebot Project
+ephemeral: false
+jobs:
+- help: Load the Iris Dataset and save it into the data folder for the train job to
+    access
+  mappings:
   - data/
-- name: train
-  source: src/train.py
   mode: i
-  help: Use the data loaded in the loadData job to train the iris model
-  mapped:
-  - models/
-  args:
-  - name: algorithm
-    help: The algorithm to use when building the model
-    choices:
+  name: loadData
+  source: src/loadData.py
+- args:
+  - choices:
     - glm
     - rf
     - xgb
-  params:
-  - name: name
-    alt: n
-    help: The name for the model that will be saved in the models folder (do not include extension)
-    default: model
-- name: score
-  source: src/score.py
+    name: algorithm
+  help: Use the data loaded in the loadData job to train the iris model
+  mappings:
+  - models/
   mode: i
-  help: Use the model that was built in the train job to score new data against the iris model
-  mapped:
-  - scored/
+  name: train
   params:
-  - name: name
-    alt: n
-    help: The name for the model that will be used for scoring the data
+  - alt: n
     default: model
-  - name: output
-    alt: o
-    help: The name of the output file for the results that will be saved into the ouput folder (do not include extension)
+    name: name
+  source: src/train.py
+- help: Use the model that was built in the train job to score new data against the
+    iris model
+  mappings:
+  - scored/
+  mode: i
+  name: score
+  params:
+  - alt: n
+    default: model
+    name: name
+  - alt: o
     default: scored
-
-artifacts: 
-- name: model
-  file: models/model.pkl
-  deploy: 
-    type: Artifactory
-    url: http://my-artifactory-url.com
-    repo: iris-example
-    path: models
-
-jupyter: 
-  port: 8888
-  folder: .
+    name: output
+  source: src/score.py
+language: Python
+maintainer: Sean Shookman
+name: iris-example
+skelebotVersion: 0.2.2
+version: 1.0.1

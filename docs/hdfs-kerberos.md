@@ -10,10 +10,11 @@ The scaffolding prompts will request all the needed information for authenticati
 
 ```
 ...
-kerberos:
-  hdfsUser: my_hadoop_username
-  keytab: path/to/user.keytab
-  krbConf: path/to/krb.conf
+components:
+  kerberos:
+    hdfsUser: my_hadoop_username
+    keytab: path/to/user.keytab
+    krbConf: path/to/krb.conf
 ...
 ```
 
