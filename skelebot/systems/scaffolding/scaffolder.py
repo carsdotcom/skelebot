@@ -8,12 +8,6 @@ import sys
 import os
 
 def scaffold(existing=False):
-    # Create the .skelebot home directory and plugins directory if not already present
-    skelebotHome = os.path.expanduser("~/.skelebot")
-    if (os.path.exists(skelebotHome) == False):
-        os.makedirs(skelebotHome, exist_ok=True)
-        os.makedirs(skelebotHome + "/plugins", exist_ok=True)
-
     # Prompt for basic project information
     print("Scaffolding Skelebot Project")
     print("--:-" * 5, "-:--" * 5)

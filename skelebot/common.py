@@ -1,4 +1,5 @@
 import pkg_resources
+import os
 
 VERSION = pkg_resources.get_distribution("skelebot").version
 DESCRIPTION = """
@@ -10,6 +11,9 @@ Environment: {env}
 Skelebot Version (project): {sbVersion}
 Skelebot Version (installed): {version}
 -----------------------------------"""
+SKELEBOT_HOME = "~/.skelebot"
+PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
+
 EXTENSION_COMMAND = {"py":"python ", "R":"Rscript ", "sh":"./"}
 IMAGE_VERSION = {
     "0.2.2": 0.1,

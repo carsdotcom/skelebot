@@ -1,4 +1,5 @@
 from ..objects.component import Activation
+from ..common import SKELEBOT_HOME, PLUGINS_HOME
 from .plugin import Plugin
 from .jupyter import Jupyter
 from .kerberos import Kerberos
@@ -27,13 +28,14 @@ class ComponentFactory():
         }
 
         # Add the plugin components to the master list
-        pluginsFolder = os.path.expanduser("~/.skelebot/plugins/")
-        sys.path.append(pluginsFolder)
-        for pluginName in os.listdir(pluginsFolder):
-            if (pluginName[0] != "_"):
-                module = importlib.import_module("{name}.{name}".format(name=pluginName))
-                plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
-                self.COMPONENTS[pluginName.lower()] = plugin
+        pluginsHome = os.path.expanduser(PLUGINS_HOME)
+        if (os.path.exists(pluginsHome)):
+            sys.path.append(pluginsHome)
+            for pluginName in os.listdir(pluginsHome):
+                if (pluginName[0] != "_"):
+                    module = importlib.import_module("{name}.{name}".format(name=pluginName))
+                    plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
+                    self.COMPONENTS[pluginName.lower()] = plugin
 
     def buildComponents(self, activations=[], ignores=[]):
         components = []
