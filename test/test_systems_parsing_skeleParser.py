@@ -35,7 +35,7 @@ A test project
 Version: 0.1.0
 Environment: test
 Skelebot Version (project): 0.2.0
-Skelebot Version (installed): 0.2.2
+Skelebot Version (installed): 0.2.3
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)
