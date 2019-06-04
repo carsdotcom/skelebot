@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.3] - [IN PROGRESS]
+## [0.2.4] - [IN PROGRESS]
+### Changed
+- **Parser** | Updated conditional check on choices to handle empty list instead of None, updated parse_args to support unit tests
+- **Parser Test** | Updated the test cases here to actually evaluate the args being parsed and ensure that having and not having choices works
+
+## [0.2.3] - 2019-05-30
 ### Changed
 - **Scaffolder** | No longer sets up the skelebot home and plugins folders if they are missing
 - **Plugin Component** | Sets up the skelebot home and plugins folders if they are missing

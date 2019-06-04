@@ -38,26 +38,26 @@ class SkeleParser:
                 # Add args to the job if they are present in the config
                 if (job.args != None):
                     for arg in job.args:
-                        if (arg.choices != None):
-                            subparser.add_argument(arg.name, choices=arg.choices)
-                        else:
+                        if not arg.choices:
                             subparser.add_argument(arg.name)
+                        else:
+                            subparser.add_argument(arg.name, choices=arg.choices)
 
                 # Add params to the job if they are present in the config
                 if (job.params != None):
                     for param in job.params:
-                        if (param.choices != None):
-                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default)
-                        else:
+                        if not param.choices:
                             subparser.add_argument("-" + param.alt, "--" + param.name, default=param.default)
+                        else:
+                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default)
 
         # Add the parsers from the active components in the config
         for component in self.config.components:
             subparsers = component.addParsers(subparsers)
 
     # Construct the Argument Parser based on the config file and parse the args that were passed in
-    def parseArgs(self):
-        return self.parser.parse_args()
+    def parseArgs(self, args=sys.argv[1:]):
+        return self.parser.parse_args(args)
 
     # Display the help message from the internal parser object
     def showHelp(self):
