@@ -51,5 +51,4 @@ language: Python
 maintainer: Mega Man
 name: test
 primaryJob: build
-skelebotVersion: 0.1.0
 version: 6.6.6
