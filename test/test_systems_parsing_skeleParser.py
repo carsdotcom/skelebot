@@ -12,7 +12,7 @@ class TestParser(TestCase):
         param1 = sb.objects.param.Param(name="days", alt="d", default=10)
         param2 = sb.objects.param.Param(name="env", alt="e", default="local", choices=["local", "prod"])
         job = sb.objects.job.Job(name="test", mode="d", source="test.py", help="TEST", args=[arg1, arg2], params=[param1, param2])
-        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", skelebotVersion="0.2.0", jobs=[job])
+        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", jobs=[job])
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
         args = sbParser.parseArgs(["test", "2019", "never", "-d", "20", "--env", "prod"])
 
@@ -33,7 +33,7 @@ class TestParser(TestCase):
         self.assertEqual(args.existing, False)
 
     def test_description(self):
-        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", skelebotVersion="0.2.0")
+        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0")
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
         description = sbParser.desc
 
@@ -43,8 +43,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version (project): 0.2.0
-Skelebot Version (installed): 0.2.4
+Skelebot Version: 0.2.5
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)

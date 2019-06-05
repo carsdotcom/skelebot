@@ -1,6 +1,5 @@
 from ...objects.config import Config
 from ...objects.job import Job
-from ...common import EXTENSION_COMMAND
 
 import os
 

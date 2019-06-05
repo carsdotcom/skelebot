@@ -6,7 +6,6 @@ class Config(SkeleYaml):
     name = None
     description = None
     version = None
-    skelebotVersion = None
     maintainer = None
     contact = None
     language = None
@@ -19,12 +18,11 @@ class Config(SkeleYaml):
     components = None
 
     # Initialize the object with required values and set the components list to an empty list to start
-    def __init__(self, name=None, description=None, version=None, skelebotVersion=None, maintainer=None, contact=None,
+    def __init__(self, name=None, description=None, version=None, maintainer=None, contact=None,
                  language=None, primaryJob=None, ephemeral=None, dependencies=[], ignores=[], jobs=[], ports=[], components=[]):
         self.name = name
         self.description = description
         self.version = version
-        self.skelebotVersion = skelebotVersion
         self.maintainer = maintainer
         self.contact = contact
         self.language = language
@@ -55,9 +53,8 @@ class Config(SkeleYaml):
             if (component.__class__.__name__.lower() == "kerberos"):
                 isKerberosEnabled = True
         imageVariant = "krb" if (isKerberosEnabled) else "base"
-        version = IMAGE_VERSION[self.skelebotVersion]
         image = LANGUAGE_IMAGE[self.language][imageVariant]
-        return image.format(version=version)
+        return image.format(version=IMAGE_VERSION)
 
     def getImageName(self):
         return self.name.lower().replace(" ", "-")

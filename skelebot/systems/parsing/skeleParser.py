@@ -70,7 +70,6 @@ class SkeleParser:
             name = " ".join([word.capitalize() for word in self.config.name.split("-")])
             description = self.config.description
             version = self.config.version
-            sbVersion = self.config.skelebotVersion
-            description = DESCRIPTION.format(sbVersion=sbVersion, version=VERSION, project=name, desc=description, pVersion=version, env=self.env)
+            description = DESCRIPTION.format(version=VERSION, project=name, desc=description, pVersion=version, env=self.env)
 
         return description

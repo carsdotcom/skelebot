@@ -37,7 +37,7 @@ class TestExecutor(TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_run.assert_called_once_with(config, "python test.py", "i", [], [], "test")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -51,7 +51,7 @@ class TestExecutor(TestCase):
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
         mock_build.assert_called_once_with(config)
-        mock_run.assert_called_once_with(config, "python test.py", "i", [], [], "test")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
     @mock.patch('os.system')
     @mock.patch('skelebot.systems.parsing.skeleParser')
@@ -63,7 +63,7 @@ class TestExecutor(TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_system.assert_called_once_with("python test.py")
+        mock_system.assert_called_once_with("python -u test.py")
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_component(self, mock_skeleParser):

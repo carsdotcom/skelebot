@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.4] - [IN PROGRESS]
 ### Changed
+- **Docker** | Python execution in Docker passes the -u param to display output to console
+- **Image Versions** | Now only a single hardcoded image version, not a dictionary
+
+### Removed
+- **SkelebotVersion** | Removed the skelebotVersion from the config object (skelebot.yaml) as it is unused now
+
+## [0.2.4] - 2019-06-04
+### Changed
 - **Parser** | Updated conditional check on choices to handle empty list instead of None, updated parse_args to support unit tests
 - **Parser Test** | Updated the test cases here to actually evaluate the args being parsed and ensure that having and not having choices works
 
