@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.6] - [IN PROGRESS]
 ### Changed
-- **Scaffolder** | Fixed the bug in the existing flag so now scaffolding generates folders the way it should
+- **Scaffolder** | Fixed the bug where the wrong values were getting placed into the Config class
 
 ## [0.2.5] - 2019-06-05
 ### Changed
