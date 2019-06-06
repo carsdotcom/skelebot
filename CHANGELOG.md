@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.4] - [IN PROGRESS]
+## [0.2.6] - [IN PROGRESS]
+### Changed
+- **Scaffolder** | Fixed the bug in the existing flag so now scaffolding generates folders the way it should
+
+## [0.2.5] - 2019-06-05
 ### Changed
 - **Docker** | Python execution in Docker passes the -u param to display output to console
 - **Image Versions** | Now only a single hardcoded image version, not a dictionary
