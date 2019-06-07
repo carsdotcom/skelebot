@@ -29,7 +29,13 @@ def run(config, command, mode, ports, mappings, taskName):
     # Construct the volume mappings
     if (mappings):
         for vmap in mappings:
-            params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
+            if ("~" in vmap):
+                vmap = vmap.replace("~", os.path.expanduser("~"))
+
+            if (":" in vmap):
+                params += vmap
+            else:
+                params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
 
     # Construct the additional parameters from the components
     for component in config.components:
