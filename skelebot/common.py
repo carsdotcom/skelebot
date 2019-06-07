@@ -15,14 +15,8 @@ PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
 
 IMAGE_VERSION = 0.1
 LANGUAGE_IMAGE = {
-    "Python": {
-        "base": "skelebot/python-base:{version}",
-        "krb": "skelebot/python-krb:{version}"
-    },
-    "R":{
-        "base": "skelebot/r-devtools:{version}",
-        "krb": "skelebot/r-krb:{version}"
-    }
+    "Python": "skelebot/python-krb:{version}",
+    "R": "skelebot/r-krb:{version}"
 }
 
 LANGUAGE_DEPENDENCIES = {

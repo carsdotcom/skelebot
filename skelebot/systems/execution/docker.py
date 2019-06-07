@@ -33,7 +33,7 @@ def run(config, command, mode, ports, mappings, taskName):
                 vmap = vmap.replace("~", os.path.expanduser("~"))
 
             if (":" in vmap):
-                params += vmap
+                params += " -v {vmap}".format(vmap=vmap)
             else:
                 params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
 
