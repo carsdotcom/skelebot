@@ -48,13 +48,7 @@ class Config(SkeleYaml):
 
     # Returns the proper base image based on the values for language, kerberos, and version in the project config
     def getBaseImage(self):
-        isKerberosEnabled = False
-        for component in self.components:
-            if (component.__class__.__name__.lower() == "kerberos"):
-                isKerberosEnabled = True
-        imageVariant = "krb" if (isKerberosEnabled) else "base"
-        image = LANGUAGE_IMAGE[self.language][imageVariant]
-        return image.format(version=IMAGE_VERSION)
+        return LANGUAGE_IMAGE[self.language].format(version=IMAGE_VERSION)
 
     def getImageName(self):
         return self.name.lower().replace(" ", "-")

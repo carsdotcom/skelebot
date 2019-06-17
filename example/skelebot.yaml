@@ -33,7 +33,7 @@ jobs:
     name: algorithm
   help: Use the data loaded in the loadData job to train the iris model
   mappings:
-  - models/
+  - /Users/seanshookman/Code/open-source/skelebot/example/models/:/app/models/
   mode: i
   name: train
   params:
@@ -44,7 +44,7 @@ jobs:
 - help: Use the model that was built in the train job to score new data against the
     iris model
   mappings:
-  - scored/
+  - ~/Code/open-source/skelebot/example/scored/:/app/scored/
   mode: i
   name: score
   params:

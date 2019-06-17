@@ -15,6 +15,10 @@ jobs:
   source: src/jobs/example.sh
   mode: i
   help: EXAMPLE JOB
+  mappings: 
+  - data/
+  - ~/myname.keytab:~/root/keytabs
+  - models/:app/model-output/
   args:
   - name: date
   params:
@@ -29,14 +33,14 @@ jobs:
 ```
 
 A job must contain two things in order to work. It must have a name, so you can call it from the command line, and it must have a source file
-to execute. Python projects must utilize the '.py' extension while R projects must utilize the '.R' extension. Bash scripts are supported for both Python and R projects. Jobs can contain several additional fields:
+to execute. Python projects must utilize the '.py' extension while R projects must utilize the '.R' extension, but Bash scripts '.sh' are supported for both Python and R projects. Jobs can contain several additional fields:
 
  - **name** - The name that is used to execute the job from the command line
  - **source** - The path to the script (R, Python, or Bash) that will be executed
  - **mode** - The mode in which to execute the docker image [i: interactive(default), d: detached]
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
- - **mapped** - A list of folders in the project space to volume map into the image at runtime in the same location
- - **ignore** - A list of files, folders, or regex patterns to ignore from the Docker build context
+ - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]
+ - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
  - **args** - List of arguments for the job that are passed to the underlying script in the order specified
    - **name** - The name of the argument
    - **choices** - A list of avaialable options for the argument
