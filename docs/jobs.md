@@ -35,8 +35,8 @@ to execute. Python projects must utilize the '.py' extension while R projects mu
  - **source** - The path to the script (R, Python, or Bash) that will be executed
  - **mode** - The mode in which to execute the docker image [i: interactive(default), d: detached]
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
- - **mapped** - A list of folders in the project space to volume map into the image at runtime in the same location
- - **ignore** - A list of files, folders, or regex patterns to ignore from the Docker build context
+ - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]
+ - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
  - **args** - List of arguments for the job that are passed to the underlying script in the order specified
    - **name** - The name of the argument
    - **choices** - A list of avaialable options for the argument
