@@ -59,15 +59,17 @@ class TestDocker(TestCase):
         folderPath = "{path}/test/files".format(path=self.path)
         args = Namespace(version='0.1')
 
-        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        homePath = "{path}/test/plugins".format(path=self.path)
+        mock_expanduser.return_value = homePath
         mock_getcwd.return_value = folderPath
         mock_system.return_value = 1
 
         config = sb.systems.generators.yaml.loadConfig()
         job = config.jobs[0]
+        job.mappings = ["data/", "/test/output/:/app/output/", "~/temp/:/app/temp/"]
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
-        expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v $PWD/output/:/app/output/ -v $PWD/temp/:/app/temp/ test /bin/bash -c './build.sh 0.1 --env local'"
+        expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v /test/output/:/app/output/ -v {homePath}/temp/:/app/temp/ test /bin/bash -c './build.sh 0.1 --env local'".format(homePath=homePath)
         status = sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
         self.assertEqual(status, 1)
