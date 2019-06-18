@@ -31,6 +31,7 @@ jobs:
     - rf
     - xgb
     name: algorithm
+    help: the algorithm to use for modeling (only glm currently supported)
   help: Use the data loaded in the loadData job to train the iris model
   mappings:
   - /Users/seanshookman/Code/open-source/skelebot/example/models/:/app/models/
@@ -40,6 +41,7 @@ jobs:
   - alt: n
     default: model
     name: name
+    help: the name of the model object to be saved to the disk
   source: src/train.py
 - help: Use the model that was built in the train job to score new data against the
     iris model
@@ -51,12 +53,13 @@ jobs:
   - alt: n
     default: model
     name: name
+    help: the name of the model object on the disk
   - alt: o
     default: scored
     name: output
+    help: the name of the output file to be written
   source: src/score.py
 language: Python
 maintainer: Sean Shookman
 name: iris-example
-skelebotVersion: 0.2.2
 version: 1.0.1

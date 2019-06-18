@@ -39,19 +39,19 @@ class SkeleParser:
                 if (job.args != None):
                     for arg in job.args:
                         if not arg.choices:
-                            subparser.add_argument(arg.name)
+                            subparser.add_argument(arg.name, help=arg.help)
                         else:
-                            subparser.add_argument(arg.name, choices=arg.choices)
+                            subparser.add_argument(arg.name, choices=arg.choices, help=arg.help)
 
                 # Add params to the job if they are present in the config
                 if (job.params != None):
                     for param in job.params:
                         if param.choices:
-                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default)
+                            subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default, help=param.help)
                         elif param.isBoolean:
-                            subparser.add_argument("-" + param.alt, "--" + param.name, action='store_true', default=param.default)
+                            subparser.add_argument("-" + param.alt, "--" + param.name, action='store_true', default=param.default, help=param.help)
                         else:
-                            subparser.add_argument("-" + param.alt, "--" + param.name, default=param.default)
+                            subparser.add_argument("-" + param.alt, "--" + param.name, default=param.default, help=param.help)
 
         # Add the parsers from the active components in the config
         for component in self.config.components:
