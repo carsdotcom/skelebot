@@ -21,10 +21,12 @@ jobs:
   - models/:app/model-output/
   args:
   - name: date
+    help: the date on which to pull data for the job
   params:
   - name: env
     alt: e
     default: local
+    help: the environment from which the job will pull data
     choices:
     - local
     - dev
@@ -41,16 +43,17 @@ to execute. Python projects must utilize the '.py' extension while R projects mu
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
  - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]
  - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
- - **args** - List of arguments for the job that are passed to the underlying script in the order specified
+ - **args** - List of required arguments for the job that are passed to the underlying script in the order specified
    - **name** - The name of the argument
-   - **default** - A default value for the argument if none is provided
    - **choices** - A list of avaialable options for the argument
+   - **help** - A message displayed in the help output to describe what the argument does
  - **params** - List of parameters for the job. Parameters are optional and provided using their name (ex: --param 123)
    - **name** - The name of the parameter
    - **alt** - Shorthand name for the parameter, generally a single letter (ex: -p 123)
    - **default** - A default value for the parameter if none is provided
    - **choices** - A list of avaialable options for the parameter
    - **isBoolean** - If this is set to True, the param will be treated as boolean and only requires the name or alt value to be set
+   - **help** - A message displayed in the help output to describe what the parameter does
 
 Executing a job is as simple as passing the job name to the Skelebot command.
 
