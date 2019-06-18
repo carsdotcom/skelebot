@@ -45,6 +45,7 @@ to execute. Python projects must utilize the '.py' extension while R projects mu
  - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
  - **args** - List of required arguments for the job that are passed to the underlying script in the order specified
    - **name** - The name of the argument
+   - **default** - A default value for the argument if none is provided
    - **choices** - A list of avaialable options for the argument
    - **help** - A message displayed in the help output to describe what the argument does
  - **params** - List of parameters for the job. Parameters are optional and provided using their name (ex: --param 123)
