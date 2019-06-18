@@ -32,10 +32,7 @@ jobs:
   params: 
   - name: coverage
     alt: c
-    default: n
-    choices: 
-    - y
-    - n
+    isBoolean: True
 components:
   jupyter: 
     port: 1127

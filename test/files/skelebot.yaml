@@ -27,7 +27,8 @@ ignores:
 - '**/*.pyc'
 jobs:
 - args:
-  - name: version
+  - isBoolean: false
+    name: version
   help: Build
   ignores:
   - data/bigFile.pkl
@@ -45,6 +46,7 @@ jobs:
     - dev
     - prod
     default: local
+    isBoolean: false
     name: env
   source: build.sh
 language: Python

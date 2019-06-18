@@ -5,12 +5,14 @@ class Param(SkeleYaml):
     alt = None
     default = None
     choices = None
+    isBoolean = None
 
-    def __init__(self, name=None, alt=None, default=None, choices=[]):
+    def __init__(self, name=None, alt=None, default=None, choices=[], isBoolean=False):
         self.name = name
         self.alt = alt
         self.default = default
         self.choices = choices
+        self.isBoolean = isBoolean
 
     @classmethod
     def load(cls, config):
