@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.7] - [IN PROGRESS]
+## [0.2.8] - [IN PROGRESS]
+### Changed
+- **Job Params** | Now support a new value (isBoolean) that defaults to false, but when set to true allows params to be boolean flags
+
+## [0.2.7] - 2019-06-17
 ### Changed
 - **Docker Run** | Updated the docker run process to handle more volume mapping formats (absolute and home based paths)
 - **Docker Images** | No longer using base images, instead always using the krb images to keep things simple

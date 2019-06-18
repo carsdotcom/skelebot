@@ -17,15 +17,17 @@ class TestCommandBuilder(TestCase):
     @mock.patch('os.getcwd')
     def test_build_ephemeral(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
-        args = Namespace(version='0.1')
+        args = Namespace(version='0.1', test=True)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
 
         config = sb.systems.generators.yaml.loadConfig()
         job = config.jobs[0]
+        param = sb.objects.param.Param("test", "t", isBoolean=True)
+        job.params.append(param)
 
-        expected = "./build.sh 0.1 --env local"
+        expected = "./build.sh 0.1 --env local --test "
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 

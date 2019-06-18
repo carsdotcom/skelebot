@@ -30,6 +30,7 @@ def buildArgs(jobArgs, args, template):
     if (jobArgs != None):
         for arg in jobArgs:
             value = args[arg.name] if (arg.name in args) else arg.default
+            value = "" if (arg.isBoolean) else value
             if (value != None):
                 argString += template.format(name=arg.name, value=value)
 
