@@ -25,6 +25,7 @@ jobs:
   help: Build, Tag, and Publish the Docker Base Images
   args: 
   - name: version
+    help: the version of the base images that are being published to Docker Hub
 - name: test
   source: test.sh
   mode: i
@@ -33,6 +34,7 @@ jobs:
   - name: coverage
     alt: c
     isBoolean: True
+    help: Allow for the coverage report to be displayed
 components:
   jupyter: 
     port: 1127
