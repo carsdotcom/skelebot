@@ -13,10 +13,19 @@ Skelebot Version: {version}
 SKELEBOT_HOME = "~/.skelebot"
 PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
 
-IMAGE_VERSION = 0.1
 LANGUAGE_IMAGE = {
-    "Python": "skelebot/python-krb:{version}",
-    "R": "skelebot/r-krb:{version}"
+    "NA": {
+        "base": "ubuntu:18.04",
+        "krb": "ubuntu:18.04"
+    },
+    "Python": {
+        "base": "skelebot/python-base",
+        "krb": "skelebot/python-krb"
+    },
+    "R": {
+        "base": "skelebot/r-base",
+        "krb": "skelebot/r-krb"
+    }
 }
 
 LANGUAGE_DEPENDENCIES = {

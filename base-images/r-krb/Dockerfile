@@ -1,4 +1,4 @@
-FROM skelebot/r-devtools
+FROM skelebot/r-base
 MAINTAINER Sean Shookman <sshookman@cars.com>
 
 RUN apt-get update && \
@@ -16,6 +16,7 @@ RUN R CMD javareconf
 RUN ["Rscript", "-e", "install.packages('RJDBC',repo='https://cloud.r-project.org');library(RJDBC)"]
 RUN ["Rscript", "-e", "install.packages('implyr',repo='https://cloud.r-project.org');library(implyr)"]
 RUN ["Rscript", "-e", "install.packages('data.table',repo='https://cloud.r-project.org');library(data.table)"]
+
 RUN curl http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.13.3.tar.gz -o /etc/hadoop.tar.gz
 RUN tar -xvzf /etc/hadoop.tar.gz
 
