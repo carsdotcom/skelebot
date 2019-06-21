@@ -245,4 +245,4 @@ The `taskName` allows you to specify the name of the task to append to the conat
 
 ---
 
-<center><< <a href="jupyter.html">Jupyter</a>  |  <a href="index.html">Home</a> >></center>
+<center><< <a href="jupyter.html">Jupyter</a>  |  <a href="base-images.html">Base Images</a> >></center>

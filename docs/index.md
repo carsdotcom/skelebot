@@ -42,3 +42,4 @@ Skelebot also saves developer time by integrating with HDFS through Kerberos aut
 - [HDFS Kerberos](hdfs-kerberos.md)
 - [Jupyter](jupyter.md)
 - [Plugins](plugins.md)
+- [Base Images](base-images.md)

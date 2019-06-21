@@ -22,10 +22,7 @@ jobs:
 - name: publish
   source: publish.sh
   mode: i
-  help: Build, Tag, and Publish the Docker Base Images
-  args: 
-  - name: version
-    help: the version of the base images that are being published to Docker Hub
+  help: Build and Publish the Docker Base Images
 - name: test
   source: test.sh
   mode: i
