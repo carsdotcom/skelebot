@@ -64,15 +64,8 @@ class TestDocker(TestCase):
 
         config = sb.systems.generators.yaml.loadConfig()
 
-        try:
+        with self.assertRaisesRegex(Exception, "Docker Build Failed"):
             sb.systems.execution.docker.build(config)
-        except Exception as exception:
-            message = None
-            if hasattr(exception, 'message'):
-                message = exception.message
-            else:
-                message = str(exception)
-            self.assertEqual(message, "Docker Build Failed")
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.system')
