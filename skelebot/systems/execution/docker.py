@@ -16,6 +16,9 @@ def build(config):
         os.remove("Dockerfile")
         os.remove(".dockerignore")
 
+    if (status > 0):
+        raise Exception("Docker Build Failed")
+
     return status
 
 def run(config, command, mode, ports, mappings, taskName):
