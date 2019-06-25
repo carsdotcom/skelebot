@@ -25,8 +25,10 @@ class Jupyter(Component):
 
         docker.build(config)
 
-        root = " --allow-root" if config.language == "R" else ""
-        command = "jupyter notebook --ip=0.0.0.0 --port=8888{root} --notebook-dir={folder}".format(root=root, folder=self.folder)
+        command = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir={folder}".format(folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
+
+        print("Notebook Starting on localhost:{port}".format(port=self.port))
+        print("Copy the token below to authenticate with Jupyter")
 
         return docker.run(config, command, "i", ports, ".", "jupyter")
