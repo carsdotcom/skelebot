@@ -3,7 +3,12 @@ Documenting All Notable Changes to the Skelebot Project
 
 ---
 
+## v0.2.14
+#### Changed
+- **Exec** | The exec command now accepts a flag (-m --map) to allow volume maps of the working directory onto the container's /app folder so changes in exec can be persisted
+
 ## v0.2.13
+#### Released: 2019-06-28
 #### Changed
 - **r-base** | Updates the r-base image to add an install for gfortran compiler that some packages require
 - **CHANGELOG** | Updating the structure of the doc a bit
