@@ -1,5 +1,6 @@
 from ...objects.config import Config
 from ...objects.job import Job
+from ...objects.param import Param
 from ...objects.component import Activation
 from ...components.componentFactory import ComponentFactory
 from ...components.plugin import Plugin
@@ -26,6 +27,8 @@ def loadConfig(env=None):
             if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE):
                 if (attr == "jobs"):
                     values[attr] = Job.loadList(yamlData[attr])
+                elif (attr == "params"):
+                    values[attr] = Param.loadList(yamlData[attr])
                 elif (yamlData[attr] == '{VERSION}'):
                     with open('VERSION', 'r') as version:
                         values[attr] = version.read().replace("\n", "")

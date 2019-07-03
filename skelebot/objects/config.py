@@ -17,10 +17,11 @@ class Config(SkeleYaml):
     jobs = None
     ports = None
     components = None
+    params = None
 
     # Initialize the object with required values and set the components list to an empty list to start
     def __init__(self, name=None, description=None, version=None, maintainer=None, contact=None, language=None, baseImage=None,
-                 primaryJob=None, ephemeral=None, dependencies=[], ignores=[], jobs=[], ports=[], components=[]):
+                 primaryJob=None, ephemeral=None, dependencies=[], ignores=[], jobs=[], ports=[], components=[], params=[]):
         self.name = name
         self.description = description
         self.version = version
@@ -35,6 +36,7 @@ class Config(SkeleYaml):
         self.jobs = jobs
         self.ports = ports
         self.components = components
+        self.params = params
 
     # Adds extra logic to handle the components coversion to dict since the YAML and Object structures don't exactly match
     def toDict(self):

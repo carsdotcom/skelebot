@@ -52,5 +52,15 @@ jobs:
 language: Python
 maintainer: Mega Man
 name: test
+params:
+- alt: l
+  choices:
+  - debug
+  - info
+  - warn
+  - error
+  default: info
+  isBoolean: false
+  name: log
 primaryJob: build
 version: 6.6.6

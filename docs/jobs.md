@@ -66,8 +66,31 @@ If a job is executed in Docker (default) then any output generated will be gener
 > skelebot example 2018-01-01 --env dev
 ```
 
+**Global Job Parameters**
+Often times you may have the same parameter that applies to every job in the project, such as setting the log level. For this situation Skelebot offers the ability to specify global parameters that apply to every job.
+
+These parameters are defined exactly the same way that job parameters are defined, but they are specifed at the root level of the config instead of inside the config of a single job. When a parameter is specified in the root level params list, it will be applied to each job that is defined in the config.
+
+```
+...
+jobs:
+- ...
+params:
+- name: log-level
+  alt: l
+  default: info
+  help: The level at which logs should be output from the jobs
+  choices:
+  - debug
+  - info
+  - warn
+  - error
+  - critical
+...
+```
+
 **Skelebot Parameters**
-Skelebot has some optional parameters that allow you to control how the jobs are run.
+Skelebot has some optional parameters that allow you to control how the jobs are run. These parameters apply to everything in Skelebot, not just the jobs. As such, they are specified in the command line after the skelebot command and before the job argument.
 
  - **--env (-e)** - Specify the runtime environment configurations (skelebot-{env}.yaml) that will overwrite the default yaml
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
