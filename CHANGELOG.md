@@ -3,9 +3,18 @@ Documenting All Notable Changes to the Skelebot Project
 
 ---
 
+## v0.2.15
+#### Added
+- **Global Params** | Adds global params list to root of config to allow parameters defined once applied to each job
+
+---
+
 ## v0.2.14
+#### Released: 2019-06-28
 #### Changed
 - **Exec** | The exec command now accepts a flag (-m --map) to allow volume maps of the working directory onto the container's /app folder so changes in exec can be persisted
+
+---
 
 ## v0.2.13
 #### Released: 2019-06-28

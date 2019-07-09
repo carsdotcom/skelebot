@@ -11,10 +11,11 @@ class TestParser(TestCase):
         arg2 = sb.objects.param.Param(name="end", choices=["now", "never"])
         param1 = sb.objects.param.Param(name="days", alt="d", default=10)
         param2 = sb.objects.param.Param(name="env", alt="e", default="local", choices=["local", "prod"])
+        topParam = sb.objects.param.Param(name="log", alt="l", default="info", choices=["debug", "info", "warn", "error"])
         job = sb.objects.job.Job(name="test", mode="d", source="test.py", help="TEST", args=[arg1, arg2], params=[param1, param2])
-        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", jobs=[job])
+        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", jobs=[job], params=[topParam])
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
-        args = sbParser.parseArgs(["test", "2019", "never", "-d", "20", "--env", "prod"])
+        args = sbParser.parseArgs(["test", "2019", "never", "-d", "20", "--env", "prod", "-l", "debug"])
 
         argKeys = list(vars(args).keys())
         self.assertEqual(args.job, "test")
@@ -22,6 +23,7 @@ class TestParser(TestCase):
         self.assertEqual(args.end, "never")
         self.assertEqual(args.days, "20")
         self.assertEqual(args.env, "prod")
+        self.assertEqual(args.log, "debug")
 
     def test_parseArgs_non_skelebot_scaffold(self):
         config = sb.objects.config.Config()
@@ -43,7 +45,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 0.2.14
+Skelebot Version: 0.2.15
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)
