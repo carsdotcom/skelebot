@@ -9,9 +9,12 @@ from sklearn.linear_model import LinearRegression
 parser = argparse.ArgumentParser(description="train", formatter_class=RawTextHelpFormatter)
 parser.add_argument("algorithm")
 parser.add_argument("-n", "--name")
+parser.add_argument("-t", "--things", nargs="*")
 args = parser.parse_args()
 
 filename = "./models/{name}.pkl".format(name=args.name)
+
+print(args.things)
 
 print("Loading Iris Data")
 df = pd.read_pickle("./data/iris-data.pkl")
