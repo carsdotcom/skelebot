@@ -45,7 +45,6 @@ to execute. Python projects must utilize the '.py' extension while R projects mu
  - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
  - **args** - List of required arguments for the job that are passed to the underlying script in the order specified
    - **name** - The name of the argument
-   - **default** - A default value for the argument if none is provided
    - **choices** - A list of avaialable options for the argument
    - **help** - A message displayed in the help output to describe what the argument does
  - **params** - List of parameters for the job. Parameters are optional and provided using their name (ex: --param 123)
@@ -53,7 +52,7 @@ to execute. Python projects must utilize the '.py' extension while R projects mu
    - **alt** - Shorthand name for the parameter, generally a single letter (ex: -p 123)
    - **default** - A default value for the parameter if none is provided
    - **choices** - A list of avaialable options for the parameter
-   - **isBoolean** - If this is set to True, the param will be treated as boolean and only requires the name or alt value to be set
+   - **accepts** - Allow for the parameter to accept 'boolean' for simple flags and 'list' for lists of values
    - **help** - A message displayed in the help output to describe what the parameter does
 
 Executing a job is as simple as passing the job name to the Skelebot command.

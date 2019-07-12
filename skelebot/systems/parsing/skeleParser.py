@@ -71,12 +71,18 @@ class SkeleParser:
     def addParams(self, params, subparser):
         if (params != None):
             for param in params:
+                flags = ["--{}".format(param.name)]
+                if (param.alt is not None):
+                    flags.append("-{}".format(param.alt))
+
                 if param.choices:
-                    subparser.add_argument("-" + param.alt, "--" + param.name, choices=param.choices, default=param.default, help=param.help)
-                elif param.isBoolean:
-                    subparser.add_argument("-" + param.alt, "--" + param.name, action='store_true', default=param.default, help=param.help)
+                    subparser.add_argument(*flags, choices=param.choices, default=param.default, help=param.help)
+                elif param.accepts == "boolean":
+                    subparser.add_argument(*flags, action='store_true', default=param.default, help=param.help)
+                elif param.accepts == "list":
+                    subparser.add_argument(*flags, nargs='*', default=param.default, help=param.help)
                 else:
-                    subparser.add_argument("-" + param.alt, "--" + param.name, default=param.default, help=param.help)
+                    subparser.add_argument(*flags, default=param.default, help=param.help)
         return subparser
 
     # Construct the description text for the '--help' output

@@ -11,8 +11,8 @@ def build(config, job, args, native=False):
     post = ""
 
     # Build the params list from the args and params of the job with the supplied values (or defaults)
-    params = buildArgs(job.args, args, " {value}")
-    params += buildArgs(job.params, args, " --{name} {value}")
+    params = buildArgs(job.args, args)
+    params += buildParams(job.params, args)
 
     # Construct the pre-run and post-run commands from the components
     for component in config.components:
@@ -25,13 +25,23 @@ def build(config, job, args, native=False):
 
     return COMMAND.format(extCommand=EXT_COMMAND[ext], file=job.source, args=arguments, params=params, pre=pre, post=post)
 
-def buildArgs(jobArgs, args, template):
+def buildArgs(argParams, args):
     argString = ""
-    if (jobArgs != None):
-        for arg in jobArgs:
-            value = args[arg.name] if (arg.name in args) else arg.default
-            value = "" if (arg.isBoolean) else value
+    if (argParams != None):
+        for arg in argParams:
+            value = args.get(arg.name)
             if (value != None):
-                argString += template.format(name=arg.name, value=value)
+                argString += " {}".format(value)
 
     return argString
+
+def buildParams(jobParams, args):
+    paramString = ""
+    if (jobParams != None):
+        for param in jobParams:
+            value = args.get(param.name, param.default)
+            value = "" if ("boolean" == param.accepts) else value
+            if (value != None):
+                paramString += " --{name} {value}".format(name=param.name, value=value)
+
+    return paramString

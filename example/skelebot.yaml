@@ -38,6 +38,10 @@ jobs:
   mode: i
   name: train
   params:
+  - name: things
+    alt: t
+    accepts: list
+    help: Just something to test out a list of things
   - alt: n
     default: model
     name: name

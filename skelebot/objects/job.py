@@ -1,5 +1,6 @@
 from .skeleYaml import SkeleYaml
 from .param import Param
+from .arg import Arg
 
 class Job(SkeleYaml):
     name = None
@@ -27,7 +28,7 @@ class Job(SkeleYaml):
         for attr in config.keys():
             if (attr in list(vars(Job).keys())):
                 if (attr == "args"):
-                    values[attr] = Param.loadList(config[attr])
+                    values[attr] = Arg.loadList(config[attr])
                 elif (attr == "params"):
                     values[attr] = Param.loadList(config[attr])
                 else:
