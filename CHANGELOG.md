@@ -3,7 +3,20 @@ Documenting All Notable Changes to the Skelebot Project
 
 ---
 
+## v0.2.16
+#### Added
+- **accepts** | Adds 'accept' field on params to specify lists or boolean params
+
+#### Changed
+- **Params** | The Param object has been split and a new object (Arg) is now used for job arguments
+
+#### Removed
+- **isBoolean** | Removes the 'isBoolean' field on params in favor of the 'accepts' field
+
+---
+
 ## v0.2.15
+#### Released: 2019-07-09
 #### Added
 - **Global Params** | Adds global params list to root of config to allow parameters defined once applied to each job
 

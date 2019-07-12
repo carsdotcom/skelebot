@@ -5,7 +5,7 @@ class Arg(SkeleYaml):
     choices = None
     help = None
 
-    def __init__(self, name, choices=[], help=None):
+    def __init__(self, name, choices=None, help=None):
         self.name = name
         self.choices = choices
         self.help = help

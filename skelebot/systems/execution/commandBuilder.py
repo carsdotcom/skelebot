@@ -29,7 +29,7 @@ def buildArgs(argParams, args):
     argString = ""
     if (argParams != None):
         for arg in argParams:
-            value = args[arg.name] if (arg.name in args) else None
+            value = args.get(arg.name)
             if (value != None):
                 argString += " {}".format(value)
 
@@ -39,7 +39,7 @@ def buildParams(jobParams, args):
     paramString = ""
     if (jobParams != None):
         for param in jobParams:
-            value = args[param.name] if (param.name in args) else param.default
+            value = args.get(param.name, param.default)
             value = "" if ("boolean" == param.accepts) else value
             if (value != None):
                 paramString += " --{name} {value}".format(name=param.name, value=value)
