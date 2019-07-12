@@ -24,7 +24,7 @@ class TestCommandBuilder(TestCase):
 
         config = sb.systems.generators.yaml.loadConfig()
         job = config.jobs[0]
-        param = sb.objects.param.Param("test", "t", isBoolean=True)
+        param = sb.objects.param.Param("test", "t", accepts="boolean")
         job.params.append(param)
 
         expected = "./build.sh 0.1 --env local --test "

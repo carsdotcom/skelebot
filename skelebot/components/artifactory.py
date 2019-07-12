@@ -120,3 +120,8 @@ class Artifactory(Component):
                     out.write(fd.read())
         else:
             print("Artifact Not Found: {url}".format(url=url))
+
+
+
+# accessible: A place that can be occupied by the player (the player must always be in an accessible entity)
+#### description - A text description of the appearance of the area

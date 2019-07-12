@@ -8,7 +8,7 @@ class Param(SkeleYaml):
     choices = None
     help = None
 
-    def __init__(self, name=None, alt=None, accepts=None, default=None, choices=[], help=None):
+    def __init__(self, name, alt=None, accepts=None, default=None, choices=[], help=None):
         self.name = name
         self.alt = alt
         self.accepts = accepts

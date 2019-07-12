@@ -30,7 +30,7 @@ jobs:
   params: 
   - name: coverage
     alt: c
-    isBoolean: True
+    accepts: boolean
     help: Allow for the coverage report to be displayed
 components:
   jupyter: 
