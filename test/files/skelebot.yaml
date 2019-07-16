@@ -17,7 +17,6 @@ dependencies:
 - coverage
 - pytest
 description: test cases
-ephemeral: false
 ignores:
 - '**/*.zip'
 - '**/*.RData'

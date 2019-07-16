@@ -11,17 +11,20 @@ class TestYaml(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    def validateYaml(self, config):
+    def validateYaml(self, config, isTestEnv=False):
         self.assertEqual(config.name, "test")
         self.assertEqual(config.description, "test cases")
-        self.assertEqual(config.version, "6.6.6")
+        self.assertEqual(config.version, "6.6.6-alpha" if isTestEnv else "6.6.6")
         self.assertEqual(config.maintainer, "Mega Man")
         self.assertEqual(config.contact, "megaman@cars.com")
         self.assertEqual(config.language, "Python")
         self.assertEqual(config.primaryJob, "build")
-        self.assertEqual(config.ephemeral, False)
+        self.assertEqual(config.ephemeral, True if isTestEnv else None)
         self.assertEqual(config.dependencies, ["pyyaml", "artifactory", "argparse", "coverage", "pytest"])
-        self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
+        if isTestEnv:
+            self.assertEqual(config.ignores, ['data/', 'libs/'])
+        else:
+            self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
         self.assertEqual(config.jobs[0].name, "build")
         self.assertEqual(config.jobs[0].source, "build.sh")
         self.assertEqual(config.jobs[0].mode, "i")
@@ -40,10 +43,12 @@ class TestYaml(TestCase):
             self.assertNotEqual(component.activation, Activation.EMPTY)
 
             if (componentClass == "Jupyter"):
-                self.assertEqual(component.port, 1127)
+                self.assertEqual(component.port, 1128 if isTestEnv else 1127)
                 self.assertEqual(component.folder, "notebooks/")
 
-        expectedComponents = ["Plugin", "Jupyter", "Bump", "Prime", "Dexec", "Artifactory", "AddNumbers"]
+        expectedComponents = ["Plugin", "Jupyter", "Bump", "Prime", "Dexec", "AddNumbers"]
+        if not isTestEnv:
+            expectedComponents.append("Artifactory")
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
@@ -55,6 +60,15 @@ class TestYaml(TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
+
+    # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_env(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        config = sb.systems.generators.yaml.loadConfig("test")
+        self.validateYaml(config, True)
 
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
     @mock.patch('os.path.expanduser')
