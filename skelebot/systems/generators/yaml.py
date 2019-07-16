@@ -69,8 +69,7 @@ def readYaml(env=None):
 def override(orig, over):
     merged = copy.deepcopy(orig)
     for k, v2 in over.items():
-        if k in merged:
-            merged[k] = copy.deepcopy(v2)
+        merged[k] = copy.deepcopy(v2)
     return merged
 
 # Parses the components section of skelebot.yaml config to generate the complete list of components

@@ -1,9 +1,16 @@
 # Skelebot - Changelog
-Documenting All Notable Changes to the Skelebot Project
+Documenting All Changes to the Skelebot Project
+
+---
+
+## v0.2.17
+#### Changed
+- **Env Configs** | Fixes bug to allow env config to add properties that are not present in the default (parent) config
 
 ---
 
 ## v0.2.16
+#### Released: 2019-07-12
 #### Added
 - **accepts** | Adds 'accept' field on params to specify lists or boolean params
 
