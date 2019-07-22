@@ -51,7 +51,7 @@ def buildDockerfile(config):
     for job in config.jobs:
         if config.primaryJob == job.name:
             ext = job.source.split(".")[1]
-            docker += "CMD [\"/bin/bash\", \"-c\", \"'{command}'\"]\n".format(command=EXT_COMMAND[ext] + job.source)
+            docker += "CMD [\"/bin/bash\", \"-c\", \"/app/'{command}'\"]\n".format(command=EXT_COMMAND[ext] + job.source)
 
     dockerfile = open(FILE_PATH.format(path=os.getcwd()), "w")
     dockerfile.write(docker)
