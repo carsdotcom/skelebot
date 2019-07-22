@@ -27,7 +27,7 @@ FROM ubuntu:18.04
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
 COPY . /app
-CMD ["/bin/bash", "-c", "'.//app/build.sh'"]\n"""
+CMD /bin/bash -c './/app/build.sh'\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
@@ -66,7 +66,7 @@ COPY libs/proj libs/proj
 RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
 RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
 COPY . /app
-CMD ["/bin/bash", "-c", "'.//app/build.sh'"]\n"""
+CMD /bin/bash -c './/app/build.sh'\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
@@ -107,7 +107,7 @@ COPY libs/proj libs/proj
 RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
 RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
 COPY . /app
-CMD ["/bin/bash", "-c", "'.//app/build.sh'"]\n"""
+CMD /bin/bash -c './/app/build.sh'\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
@@ -140,7 +140,7 @@ RUN ["pip", "install", "argparse"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 COPY . /app
-CMD ["/bin/bash", "-c", "'.//app/build.sh'"]\n"""
+CMD /bin/bash -c './/app/build.sh'\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
