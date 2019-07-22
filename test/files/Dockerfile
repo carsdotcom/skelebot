@@ -4,4 +4,4 @@ FROM ubuntu:18.04
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
 COPY . /app
-CMD ["/bin/bash", "-c", "/app/'./build.sh'"]
+CMD ["/bin/bash", "-c", "'.//app/build.sh'"]
