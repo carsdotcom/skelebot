@@ -1,7 +1,7 @@
 from ..objects.component import *
 from ..objects.skeleYaml import SkeleYaml
 
-from shutil import copyfile
+import shutil
 import artifactory
 import os
 
@@ -100,7 +100,7 @@ class Artifactory(Component):
         # Rename artifact, deploy the renamed artifact, and then rename it back to original name
         print("Deploying {file} to {url}".format(file=file, url=url))
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
-        copyfile(artifactFile, file)
+        shutil.copyfile(artifactFile, file)
         try:
             path.deploy_file(file)
         except:

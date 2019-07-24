@@ -4,6 +4,7 @@ from unittest import mock
 import skelebot as sb
 import argparse
 import os
+import shutil
 
 class TestArtifactory(TestCase):
     artifcatory = None
@@ -36,16 +37,18 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
             self.assertEqual(str(exc), expectedException)
 
 
-    @mock.patch('os.rename')
+    @mock.patch('shutil.copyfile')
+    @mock.patch('os.remove')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_push(self, mock_artifactory, mock_rename):
+    def test_execute_push(self, mock_artifactory, mock_remove, mock_copy):
         config = sb.objects.config.Config(version="1.0.0")
         args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
 
         self.artifactory.execute(config, args)
 
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=(None, None))
-        mock_rename.assert_called_with("test_v1.0.0.pkl", "test.pkl")
+        mock_copy.assert_called_with("test.pkl", "test_v1.0.0.pkl")
+        mock_remove.assert_called_with("test_v1.0.0.pkl")
 
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')

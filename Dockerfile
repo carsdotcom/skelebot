@@ -8,4 +8,4 @@ RUN ["pip", "install", "artifactory"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 COPY . /app
-CMD ["/bin/bash", "-c", "'./test.sh'"]
+CMD /bin/bash -c './/app/test.sh'
