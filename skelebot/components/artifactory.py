@@ -1,6 +1,7 @@
 from ..objects.component import *
 from ..objects.skeleYaml import SkeleYaml
 
+import shutil
 import artifactory
 import os
 
@@ -79,14 +80,14 @@ class Artifactory(Component):
                 selectedArtifact = artifact
 
         # Generate the local artifact file and the final Artifactory url path
-        ext = artifact.file.split(".")[1]
+        ext = selectedArtifact.file.split(".")[1]
         version = config.version if (args.job == "push") else args.version
-        file = "{filename}_v{version}.{ext}".format(filename=artifact.name, version=version, ext=ext)
+        file = "{filename}_v{version}.{ext}".format(filename=selectedArtifact.name, version=version, ext=ext)
         url = "{url}/{repo}/{path}/{file}".format(url=self.url, repo=self.repo, path=self.path, file=file)
 
         # Push the artifact with the config version, or pull with the arg version
         if (args.job == "push"):
-            self.pushArtifact(artifact.file, user, token, file, url, args.force)
+            self.pushArtifact(selectedArtifact.file, user, token, file, url, args.force)
         elif (args.job == "pull"):
             self.pullArtifact(user, token, file, url)
 
@@ -99,13 +100,13 @@ class Artifactory(Component):
         # Rename artifact, deploy the renamed artifact, and then rename it back to original name
         print("Deploying {file} to {url}".format(file=file, url=url))
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
-        os.rename(artifactFile, file)
+        shutil.copyfile(artifactFile, file)
         try:
             path.deploy_file(file)
         except:
             raise
         finally:
-            os.rename(file, artifactFile)
+            os.remove(file)
 
     def pullArtifact(self, user, token, file, url):
 

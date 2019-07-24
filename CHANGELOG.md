@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v0.2.18
+#### Changed
+- **Primary Jobs** | Fixes bug to allow primary jobs to execute as exepcted without specifying a command in the docker run process
+
+---
+
 ## v0.2.17
+#### Released: 2019-07-16
 #### Changed
 - **Env Configs** | Fixes bug to allow env config to add properties that are not present in the default (parent) config
 
