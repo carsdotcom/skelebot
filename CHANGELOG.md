@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v0.2.19
+#### Changed
+- **Top-Level Params** | Fixes a bug where only the default would work for top-level parameters
+
+---
+
 ## v0.2.18
+#### Released: 2019-07-24
 #### Changed
 - **Primary Jobs** | Fixes bug to allow primary jobs to execute as exepcted without specifying a command in the docker run process
 
