@@ -13,6 +13,7 @@ def build(config, job, args, native=False):
     # Build the params list from the args and params of the job with the supplied values (or defaults)
     params = buildArgs(job.args, args)
     params += buildParams(job.params, args)
+    params += buildParams(config.params, args)
 
     # Construct the pre-run and post-run commands from the components
     for component in config.components:
