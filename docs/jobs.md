@@ -95,6 +95,16 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
  - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
 
+
+**Chaining Jobs**
+Jobs can be chained together (executed one after another) by simply adding them to the command separated by a '+' character. This allows for multiple jobs to be executed in a single command.
+
+```
+> skelebot query + wrangle --all + train --output-folder results/
+```
+
+The example above would first execute the 'query' job, followed by the 'wrangle' job with the 'all' flag set to TRUE, and finally the train job with the 'output_folder' set to 'results/'.
+
 ---
 
 <center><< <a href="dependencies.html">Dependencies</a>  |  <a href="priming.html">Priming</a> >></center>

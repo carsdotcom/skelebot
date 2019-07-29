@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v0.2.21
+#### Added
+- **Job Chaining** | Adds ability to chain jobs together using the '+' character to separate the commands
+
+---
+
 ## v0.2.20
+#### Released: 2019-07-29
 #### Changed
 - **Exec Component** | Fixes a minor bug where the image name was being duplicated in the container name
 
