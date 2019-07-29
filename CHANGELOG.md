@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v0.2.20
+#### Changed
+- **Exec Component** | Fixes a minor bug where the image name was being duplicated in the container name
+
+---
+
+
 ## v0.2.19
+#### Released: 2019-07-25
 #### Changed
 - **Top-Level Params** | Fixes a bug where only the default would work for top-level parameters
 
