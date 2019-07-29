@@ -22,4 +22,4 @@ class Dexec(Component):
             mappings.append(".")
 
         docker.build(config)
-        docker.run(config, "/bin/bash", "it", [], mappings, "{}-exec".format(config.getImageName()))
+        docker.run(config, "/bin/bash", "it", [], mappings, "exec")
