@@ -77,5 +77,17 @@ class TestExecutor(TestCase):
 
         mock_component.execute.assert_called_once_with(config, args)
 
+    @mock.patch('skelebot.systems.execution.executor.runDocker')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_chain(self, mock_skeleParser, mock_run):
+        job = sb.objects.job.Job(name="test", source="test.py")
+        config = sb.objects.config.Config(jobs=[job])
+        args = argparse.Namespace(job="test", native=False, skip_build=True)
+        mock_skeleParser.parseArgs.return_value = args
+
+        sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])
+
+        mock_run.assert_called_with(config, "python -u test.py", "i", [], [], "test")
+
 if __name__ == '__main__':
     unittest.main()
