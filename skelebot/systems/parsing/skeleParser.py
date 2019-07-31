@@ -78,7 +78,7 @@ class SkeleParser:
                 if param.choices:
                     subparser.add_argument(*flags, choices=param.choices, default=param.default, help=param.help)
                 elif param.accepts == "boolean":
-                    subparser.add_argument(*flags, action='store_true', default=param.default, help=param.help)
+                    subparser.add_argument(*flags, action='store_true', help=param.help)
                 elif param.accepts == "list":
                     subparser.add_argument(*flags, nargs='*', default=param.default, help=param.help)
                 else:
