@@ -88,7 +88,7 @@ params:
 ```
 
 **Primary Job**
-By default the Docker Image that is built by Skelebot will not run a command, but instead requires skelebot to provide it with a script, arguments, and parameters to run when a job is executed. For this purposed of building images that can be distributed, Skelebot offers a way to specify a job as the project's Primary Job.
+By default the Docker Image that is built by Skelebot will not run a command, but instead requires skelebot to provide it with a script, arguments, and parameters to run when a job is executed. For the purpose of building images that can be distributed, Skelebot offers a way to specify a job as the project's Primary Job.
 
 ```
 primaryJob: example
