@@ -5,6 +5,7 @@
 -->
 ![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
 [![CircleCI token](https://img.shields.io/circleci/token/cb75132d9ffe340a42dd5deea2f0fff43eb61042/project/github/carsdotcom/skelebot/master.svg?style=plastic)](https://circleci.com/gh/carsdotcom/skelebot)
+[![codecov](https://codecov.io/gh/carsdotcom/skelebot/branch/master/graph/badge.svg)](https://codecov.io/gh/carsdotcom/skelebot)
 
 # Skelebot <!--TODO: Replace this with LOGO/MASCOT -->
 
