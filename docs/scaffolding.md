@@ -48,7 +48,7 @@ Scaffolding will always create the skelebot.yaml file, which is what defines the
 
 If scaffolding is run without the `--existing` flag, it will also create several folders for storing data, models, notebooks,  queries, output, and code.
 
-The structure produced is merely a suggestion and does not need to be adhered to in order for Skelebot to function properly. The only thing Skelebot actually needs is the skelebot.yaml file and the VERSION file, although the VERSION file. Once you have these file in your project, you can execute the help command, `skelebot --help` and get started using it right away.
+The structure produced is merely a suggestion and does not need to be adhered to in order for Skelebot to function properly. The only thing Skelebot actually needs is the skelebot.yaml file and the VERSION file. Once you have these files in your project, you can execute the help command, `skelebot --help` and get started using it right away.
 
 ---
 

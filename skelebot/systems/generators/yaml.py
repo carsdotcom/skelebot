@@ -36,14 +36,14 @@ def loadConfig(env=None):
     else:
         values = {}
         values[VERSION_ATTRIBUTE] = loadVersion()
-        for attr in yamlData.keys():
-            if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE) and (attr != VERSION_ATTRIBUTE):
+        for attr, value in yamlData.items():
+            if (attr in vars(Config)) and (attr != COMPONENTS_ATTRIBUTE) and (attr != VERSION_ATTRIBUTE):
                 if (attr == "jobs"):
-                    values[attr] = Job.loadList(yamlData[attr])
+                    values[attr] = Job.loadList(value)
                 elif (attr == "params"):
-                    values[attr] = Param.loadList(yamlData[attr])
+                    values[attr] = Param.loadList(value)
                 else:
-                    values[attr] = yamlData[attr] if (attr in yamlData) else None
+                    values[attr] = value
 
         config = Config(**values)
 
