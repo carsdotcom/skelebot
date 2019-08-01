@@ -34,7 +34,7 @@ Systems are also defined by the hooks that they provide for components to inject
 into their normal process. These hooks act as a well-defined, well-regulated, gateway for components to
 augment the core functionality of Skelebot.
 
-A new feature should be only be incorporated as a System (or into an existing System) if it is
+A new feature should only be incorporated as a System (or into an existing System) if it is
 a foundational part of what makes Skelebot function.
 
 ### Component Features
