@@ -52,6 +52,14 @@ optional arguments:
   -n, --native          Run natively instead of through Docker
 ```
 
+## Install
+
+Install Skelebot with Pip:
+
+```
+pip install skelebot
+```
+
 ## Getting Started
 
 To get started using Skelebot you can follow the documentation found [here](https://carsdotcom.github.io/skelebot/).

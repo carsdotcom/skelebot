@@ -3,7 +3,26 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.0.0
+#### Released: 2019-08-01
+#### Added
+- **PyPi Package** | Adds the package to PyPi so it can be installed via pip
+
+#### Changed
+- **Documenation** | Docs updated to reflect the new install process via pip
+
+---
+
+## v0.3.1
+#### Released: 2019-08-01
+#### Added
+- **CodeCov** | Adds config in CircleCI to upload coverage report to CodeCov
+- **README Badge** | Adds CodeCov README badge
+
+---
+
 ## v0.3.0
+#### Released: 2019-08-01
 #### Changed
 - **Yaml Generator** | Now saves and loads the VERSION file separately - a VERSION file is now needed for proper skelebot versioning
 - **Bump Component** | Now only saves to the VERSION file and does not update the config yaml
@@ -11,7 +30,8 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v0.2.21
+## v0.2.22
+#### Released: 2019-08-01
 #### Changed
 - **SkeleParser** | Removes the default value for boolean params in jobs as it is not needed
 - **CommandBuilder** | Updated to only pass boolean params to scripts if the value is present and True
@@ -19,6 +39,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.21
+#### Released: 2019-07-30
 #### Added
 - **Job Chaining** | Adds ability to chain jobs together using the '+' character to separate the commands
 
