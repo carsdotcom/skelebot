@@ -1,5 +1,4 @@
 ephemeral: true
-version: 6.6.6-alpha
 ignores:
 - 'data/'
 - 'libs/'

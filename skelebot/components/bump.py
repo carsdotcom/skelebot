@@ -21,7 +21,7 @@ class Bump(Component):
         mmp[0] = str(int(mmp[0]) + 1) if (args.version == "major") else mmp[0]
         mmp[1] = str(int(mmp[1]) + 1) if (args.version == "minor") else (mmp[1] if (args.version == "patch") else "0")
         mmp[2] = str(int(mmp[2]) + 1) if (args.version == "patch") else "0"
-        config.version = ".".join(mmp)
-        yaml.saveConfig(config)
+        version = ".".join(mmp)
+        yaml.saveVersion(version)
 
-        print("Bumped " + args.version + " version. v" + oldVersion + " -> v" + config.version)
+        print("Bumped " + args.version + " version. v" + oldVersion + " -> v" + version)

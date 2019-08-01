@@ -9,14 +9,14 @@ Scaffolding is a mechanism in Skelebot that allows for new projects to be create
 This task is only available when inside a folder that does not already contain a skelebot.yaml file (i.e. not already a Skelebot project). Inside a folder that contains the skelebot.yaml, this task will not be presented and executing the command will result in an error.
 
 ### New Projects
-To scaffold a new project, navigate to an empty folder, execute 'skelebot scaffold', and follow the prompts.
+To scaffold a new project, navigate to an empty folder, execute `skelebot scaffold`, and follow the prompts.
 
 ```
 > skelebot scaffold
 ```
 
 ### Existing Projects
-To add Skelebot support to an existing project you can run the scaffolding command with the 'existing' param (--existing, -e). This will walk you through the same prompts but will only create the skelebot.yaml file instead of the full project structure.
+To add Skelebot support to an existing project you can run the scaffolding command with the `existing` param `(--existing, -e)`. This will walk you through the same prompts but will only create the necessary skelebot files instead of the full project structure.
 
 ```
 > skelebot scaffold -e
@@ -46,9 +46,9 @@ Your skelebot is ready to go!
 ### Results
 Scaffolding will always create the skelebot.yaml file, which is what defines the projects as a Skelebot project.
 
-If scaffolding is run without the '--existing' flag, it will also create several folders for storing data, models, notebooks,  queries, output, and code. It will also generate placeholder yaml files for five different environments as well as an example bash job that can be executed through Skelebot.
+If scaffolding is run without the `--existing` flag, it will also create several folders for storing data, models, notebooks,  queries, output, and code.
 
-The structure produced is merely a suggestion and does not need to be adhered to in order for Skelebot to function properly. The only thing Skelebot actually needs is the skelebot.yaml file. Once you have this file in your project, you can execute the help command, 'skelebot --help' and get started using it right away.
+The structure produced is merely a suggestion and does not need to be adhered to in order for Skelebot to function properly. The only thing Skelebot actually needs is the skelebot.yaml file and the VERSION file, although the VERSION file. Once you have these file in your project, you can execute the help command, `skelebot --help` and get started using it right away.
 
 ---
 

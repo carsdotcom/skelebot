@@ -14,13 +14,45 @@ this document to understand Process Guidelines, and the general Scope of the pro
 ## Project Scope
 
 The purpose of this project is to create a generic build tool for machine learning projects. The
-concept is to bring all of the various project management tasks that are done for ml projects
+concept is to bring all of the various project management tasks that are done for machine learning projects
 under one roof: Skelebot.
 
-A key concept of this project is simplicity. In order to make things easier for the end-user of
-Skelebot, this project should at a minimum only require the skelebot.yaml file in the root of
-their project code. Since the purpose is to bring project tasks into a single location, the
-skelebot.yaml file should be that location. All project configuration should exist in this file.
+A key concept of this project is simplicity. Since the purpose is to bring project tasks into a
+single location, the skelebot.yaml file should be that location. All project configuration should
+exist in this file.
+
+When considering new features for skelebot, the trick is to figure out where it belongs. Features
+can be incorporated into Skelebot in 3 different ways.
+
+### System Features
+
+System features make up the core functionality of Skelebot. Other features of Skelebot (components)
+are built on top of them. A good example would be the Execution System which handles all execution
+of commands, both Docker and native.
+
+Systems are also defined by the hooks that they provide for components to inject data or functionality
+into their normal process. These hooks act as a well-defined, well-regulated, gateway for components to
+augment the core functionality of Skelebot.
+
+A new feature should be only be incorporated as a System (or into an existing System) if it is
+a foundational part of what makes Skelebot function.
+
+### Component Features
+
+Components simply hook into the existing Skelebot Systems to add new functionality on top of
+the existing structure. Components are self-contained, specific, purpose focused features that add
+a distinct new ability into Skelebot's arsenal.
+
+These features will be a part of every Skelebot installation, so it is important that only generally
+applicable features be included as components. Anything that has such a specific purpose as to be
+practically unused in the majority of projects, should not be a component in Skelebot.
+
+### Plugin Features
+
+Finally, anything that does not fit into Skelebot as a System or as a Component should be
+a Plugin. A Plugin is just a Component that stands on it's own and can be optionally
+installed into any Skelebot application. Plugins hook into Skelebot's Systems in the exact same way
+as Components.
 
 ## Guidelines for Contributing
 
@@ -62,7 +94,7 @@ is updated accordingly.
 
 ### Open a Pull Request
 
-Once you have made your changes in your forked repository branch (and all tests are passing) you
+Once you have made your changes in your forked repository (and all tests are passing) you
 can open a Pull Request to get your code reviewed by the maintainers. Iterate your changes as the
 project maintainers comment on your code. Once the maintainers have agreed that the code is ready,
-it will be merged into the master branch of this repository.
+it will be merged into the master branch of this repository and become a part of Skelebot. Yay!

@@ -14,7 +14,7 @@ class TestYaml(TestCase):
     def validateYaml(self, config, isTestEnv=False):
         self.assertEqual(config.name, "test")
         self.assertEqual(config.description, "test cases")
-        self.assertEqual(config.version, "6.6.6-alpha" if isTestEnv else "6.6.6")
+        self.assertEqual(config.version, "6.6.6")
         self.assertEqual(config.maintainer, "Mega Man")
         self.assertEqual(config.contact, "megaman@cars.com")
         self.assertEqual(config.language, "Python")
