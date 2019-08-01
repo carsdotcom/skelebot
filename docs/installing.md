@@ -32,7 +32,7 @@ If you do not have proper access on the machine you are using, Skelebot can be i
 
 # Executing
 
-Once it is install, you will be able to use Skelebot from anywhere on the system with the `skelebot` command.
+Once it is installed, you will be able to use Skelebot from anywhere on the system with the `skelebot` command.
 
 ```
 > skelebot
