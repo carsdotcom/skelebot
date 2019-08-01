@@ -59,4 +59,3 @@ params:
   default: info
   name: log
 primaryJob: build
-version: 6.6.6

@@ -18,7 +18,9 @@ By default R dependencies are installed using install.packages from CRAN.
 
 By default Python dependencies are installed using pip install.
 
-Versions for packages, both in R and Python, can be specified by appending '={version}' to the end of the dependency name.
+Versions for packages in R can be specified by appending `={version}` to the end of the dependency name.
+
+Versions for packages in Python can be specified by appending `=={version}` to the end of the dependency name.
 
 R also supports dependencies to be installed from the local file system as well as from GitHub using the following structure.
 
@@ -29,7 +31,7 @@ dependencies:
 - github:myGitHub/fakeRepo:fakeRepo
 ```
 
-NOTE: When installing via 'file:' or 'github:' the ability to specify a version is not available.
+NOTE: When installing via `file:` or `github:` the ability to specify a version is not available.
 
 ---
 

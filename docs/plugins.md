@@ -65,14 +65,14 @@ class Jupyter(Component):
 
 #### Activation
 
-The 'activation' field of a Component specifies at which point the plugin Component will be available for use. There are four possible options for this field.
+The `activation` field of a Component specifies at which point the plugin Component will be available for use. There are four possible options for this field.
 
 - **EMPTY** | Only available when run outside of a Skelebot project (no skelebot.yaml file present)
 - **CONFIG** | Only available when the Skelebot project has the specified component attributes present in the config
 - **PROJECT** | Available when run inside any Skelebot project
 - **ALWAYS** | Always available no matter what
 
-If the field is not specifed, it will default to the 'CONFIG' activation level.
+If the field is not specifed, it will default to the `CONFIG` activation level.
 
 #### Attributes
 
@@ -98,7 +98,7 @@ There are numerous places that a plugin can hook into the Skelebot systems to au
 scaffold(self) # return None
 ```
 
-The scaffolder provides a scaffold function that can be implemented in the plugin's Component class in order to add it's own prompts and data into the Skelebot scaffolding process.
+The scaffolder provides a scaffold function that can be implemented in the plugin's Component class in order to add its own prompts and data into the Skelebot scaffolding process.
 
 The purpose of the scaffold function for a component is to prompt the user for values and assign them to the corresponding attribute in the Component class. These attributes will be automatically recorded int he skelebot.yaml file that is generated.
 

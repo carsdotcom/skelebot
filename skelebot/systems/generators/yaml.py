@@ -10,8 +10,20 @@ import os
 import copy
 
 COMPONENTS_ATTRIBUTE = "components"
+VERSION_ATTRIBUTE = "version"
 FILE_PATH = "{path}/skelebot.yaml"
+VERSION_PATH = "{path}/VERSION"
 ENV_FILE_PATH = "{path}/skelebot-{env}.yaml"
+
+def loadVersion():
+    version = "0.0.0"
+    with open(VERSION_PATH.format(path=os.getcwd()), 'r') as file:
+        version = file.read().replace("\n", "")
+    return version
+
+def saveVersion(version):
+    with open(VERSION_PATH.format(path=os.getcwd()), 'w') as file:
+        file.write(version)
 
 # Attempts to load the skelebot.yaml file into a Config object along with all of the activated componenets
 def loadConfig(env=None):
@@ -23,17 +35,15 @@ def loadConfig(env=None):
         config = Config()
     else:
         values = {}
-        for attr in yamlData.keys():
-            if (attr in list(vars(Config).keys())) and (attr != COMPONENTS_ATTRIBUTE):
+        values[VERSION_ATTRIBUTE] = loadVersion()
+        for attr, value in yamlData.items():
+            if (attr in vars(Config)) and (attr != COMPONENTS_ATTRIBUTE) and (attr != VERSION_ATTRIBUTE):
                 if (attr == "jobs"):
-                    values[attr] = Job.loadList(yamlData[attr])
+                    values[attr] = Job.loadList(value)
                 elif (attr == "params"):
-                    values[attr] = Param.loadList(yamlData[attr])
-                elif (yamlData[attr] == '{VERSION}'):
-                    with open('VERSION', 'r') as version:
-                        values[attr] = version.read().replace("\n", "")
+                    values[attr] = Param.loadList(value)
                 else:
-                    values[attr] = yamlData[attr] if (attr in yamlData) else None
+                    values[attr] = value
 
         config = Config(**values)
 
@@ -43,10 +53,12 @@ def loadConfig(env=None):
 
 # Given a Config object, this function will generate the skelebot.yaml file with the values in the object
 def saveConfig(config):
+    saveVersion(config.version)
+    config.version = None
     yml = yaml.dump(config.toDict(), default_flow_style=False)
-    skelebotYaml = open(FILE_PATH.format(path=os.getcwd()), "w")
-    skelebotYaml.write(yml)
-    skelebotYaml.close()
+
+    with open(FILE_PATH.format(path=os.getcwd()), "w") as file:
+        file.write(yml)
 
 # Reads the skelebot.yaml file (and env override if present) from the current path and loads it into a dict if present
 def readYaml(env=None):
