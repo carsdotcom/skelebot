@@ -41,8 +41,10 @@ def buildParams(jobParams, args):
     if (jobParams != None):
         for param in jobParams:
             value = args.get(param.name, param.default)
-            value = "" if ("boolean" == param.accepts) else value
-            if (value != None):
+            if (param.accepts == "boolean"):
+                if (value == True):
+                    paramString += " --{name}".format(name=param.name)
+            elif (value != None):
                 paramString += " --{name} {value}".format(name=param.name, value=value)
 
     return paramString

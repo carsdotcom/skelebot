@@ -4,6 +4,13 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.21
+#### Changed
+- **SkeleParser** | Removes the default value for boolean params in jobs as it is not needed
+- **CommandBuilder** | Updated to only pass boolean params to scripts if the value is present and True
+
+---
+
+## v0.2.21
 #### Added
 - **Job Chaining** | Adds ability to chain jobs together using the '+' character to separate the commands
 
