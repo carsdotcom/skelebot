@@ -8,7 +8,7 @@ By default Skelebot will select and use a base image based on the language you h
 
 ### Without Language
 
-If no language is specified, the image will default to ubuntu:18.04 and some features may not work. Dependencies will also not work when a language is not specified.
+If no language is specified, the image will default to ubuntu:18.04 and certain features, such as dependency management, may not work.
 
 ### Custom Base Image
 

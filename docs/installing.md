@@ -11,10 +11,16 @@ to the root of the project and execute the install.sh script.
 > ./install.sh
 ```
 
-Once this is complete, you will be able to use Skelebot from anywhere on the system with the 'skelebot' command.
+If you do not have proper access on the machine you are using, Skelebot can be installed locally with the following command.
 
 ```
-> skelebot -h
+> python setup.py clean --all install --user
+```
+
+Once this is complete, you will be able to use Skelebot from anywhere on the system with the `skelebot` command.
+
+```
+> skelebot
 ```
 
 ---

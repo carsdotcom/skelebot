@@ -28,17 +28,15 @@ class TestBump(TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
 
         config = sb.systems.generators.yaml.loadConfig()
-        ogVersion = config.version
         args = argparse.Namespace(version='major')
 
         bump = sb.components.bump.Bump()
         bump.execute(config, args)
 
-        bumpConfig = sb.systems.generators.yaml.loadConfig()
-        self.assertEqual(config.version, "7.0.0")
+        bumpVersion = sb.systems.generators.yaml.loadVersion()
+        sb.systems.generators.yaml.saveVersion("6.6.6")
 
-        config.version = ogVersion
-        sb.systems.generators.yaml.saveConfig(config)
+        self.assertEqual(bumpVersion, "7.0.0")
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -47,17 +45,16 @@ class TestBump(TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
 
         config = sb.systems.generators.yaml.loadConfig()
-        ogVersion = config.version
         args = argparse.Namespace(version='minor')
 
         bump = sb.components.bump.Bump()
         bump.execute(config, args)
 
-        bumpConfig = sb.systems.generators.yaml.loadConfig()
-        self.assertEqual(config.version, "6.7.0")
+        bumpVersion = sb.systems.generators.yaml.loadVersion()
+        sb.systems.generators.yaml.saveVersion("6.6.6")
 
-        config.version = ogVersion
-        sb.systems.generators.yaml.saveConfig(config)
+        self.assertEqual(bumpVersion, "6.7.0")
+
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -66,17 +63,15 @@ class TestBump(TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
 
         config = sb.systems.generators.yaml.loadConfig()
-        ogVersion = config.version
         args = argparse.Namespace(version='patch')
 
         bump = sb.components.bump.Bump()
         bump.execute(config, args)
 
-        bumpConfig = sb.systems.generators.yaml.loadConfig()
-        self.assertEqual(config.version, "6.6.7")
+        bumpVersion = sb.systems.generators.yaml.loadVersion()
+        sb.systems.generators.yaml.saveVersion("6.6.6")
 
-        config.version = ogVersion
-        sb.systems.generators.yaml.saveConfig(config)
+        self.assertEqual(bumpVersion, "6.6.7")
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,7 +6,7 @@
 
 If your project needs to connect to HDFS with Kerberos authentication, Skelebot can handle this very easily.
 
-The scaffolding prompts will request all the needed information for authenticating with kerberos and installing necessary libraries (R and Python). Just make sure you enter (Y/y) when prompted for Kerberos for Hadoop. If you need to add the configuration manually, you can follow this template inside the skelebot.yaml file.
+You will need to add the configuration manually to set it up. You can follow this template when adding the configurations inside the skelebot.yaml file.
 
 ```
 ...

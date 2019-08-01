@@ -66,4 +66,3 @@ jobs:
 language: Python
 maintainer: Sean Shookman
 name: iris-example
-version: 1.0.1

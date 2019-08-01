@@ -3,6 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v0.3.0
+#### Changed
+- **Yaml Generator** | Now saves and loads the VERSION file separately - a VERSION file is now needed for proper skelebot versioning
+- **Bump Component** | Now only saves to the VERSION file and does not update the config yaml
+- **Docs** | Updated to reflect the new change in the way versions are handled in Skelebot
+
+---
+
 ## v0.2.21
 #### Changed
 - **SkeleParser** | Removes the default value for boolean params in jobs as it is not needed
