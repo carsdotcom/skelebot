@@ -1,5 +1,9 @@
-from ..objects.component import Activation
-from ..common import SKELEBOT_HOME, PLUGINS_HOME
+"""Component Factory"""
+
+import os
+import sys
+import importlib
+from ..common import PLUGINS_HOME
 from .plugin import Plugin
 from .jupyter import Jupyter
 from .kerberos import Kerberos
@@ -8,15 +12,19 @@ from .prime import Prime
 from .dexec import Dexec
 from .artifactory import Artifactory
 
-import os
-import sys
-import importlib
-
 class ComponentFactory():
+    """
+    Component Factory Class
+
+    Maintains and builds all of the components in Skelebot including plugin components installed
+    in the Skelebot Home folder
+    """
 
     COMPONENTS = None
 
     def __init__(self):
+        """Initializes the default list of components in Skelebot"""
+
         self.COMPONENTS = {
             Plugin.__name__.lower(): Plugin,
             Jupyter.__name__.lower(): Jupyter,
@@ -37,7 +45,11 @@ class ComponentFactory():
                     plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
                     self.COMPONENTS[pluginName.lower()] = plugin
 
-    def buildComponents(self, activations=[], ignores=[]):
+    def buildComponents(self, activations=None, ignores=None):
+        """Constructs a list of components based on which are active and which should be ignored"""
+
+        activations = activations if activations is not None else []
+        ignores = ignores if ignores is not None else []
         components = []
         for component in list(self.COMPONENTS.values()):
             if (component.activation in activations) and (component.__name__ not in ignores):
@@ -46,4 +58,6 @@ class ComponentFactory():
         return components
 
     def buildComponent(self, name, data=None):
+        """Builds a single component object based on it's name with the data provided"""
+
         return self.COMPONENTS[name].load(data) if (name in self.COMPONENTS) else None

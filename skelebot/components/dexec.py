@@ -1,21 +1,40 @@
-from ..objects.component import *
-from ..systems.execution import docker
-from ..systems.generators import dockerfile, dockerignore
+"""Docker Exec Component"""
 
-# This component provides a way to spin up the container and exec into it for debugging or testing
+from ..objects.component import Activation, Component
+from ..systems.execution import docker
+
 class Dexec(Component):
+    """
+    Docker Exec Class
+
+    Provides a command to access the project container via bash prompt with the option volume map
+    the contents of the project into the container so that they can be modified as root
+    """
+
     activation = Activation.PROJECT
     commands = ["exec"]
 
-    # Parser for the command that exec into the docker container
     def addParsers(self, subparsers):
+        """
+        SkeleParser Hook
+
+        Adds a parser for the exec command that allows for bash access to the project container
+        along with full project volume mapping support via an optional parameter flag
+        """
+
         helpMessage = "Exec into the running Docker container"
+        argHelp = "Volume map the working directory onto the container"
         parser = subparsers.add_parser("exec", help=helpMessage)
-        parser.add_argument("-m", "--map", action="store_true", help="Volume map the working directory onto the container")
+        parser.add_argument("-m", "--map", action="store_true", help=argHelp)
         return subparsers
 
-    # Generate the Dockerfile and dockerignore and build the docker image and exec into the container
     def execute(self, config, args):
+        """
+        Execution Hook
+
+        Executes when the exec command is provided and runs the container with the /bin/bash
+        command in order to provide access to the user
+        """
 
         mappings = []
         if (args.map):
