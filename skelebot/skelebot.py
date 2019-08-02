@@ -8,7 +8,6 @@ def main():
 
     # Parse the env manually in order to read the correct yaml configuration
     args = sys.argv
-    print(args)
     env = None
     for index in range(len(args)-1):
         if (args[index] == "-e") or (args[index] == "--env"):
