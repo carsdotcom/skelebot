@@ -87,5 +87,44 @@ class TestExecutor(TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
 
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
+    def test_scaffold_prompt(self, mock_input):
+        mock_input.return_value = "hi"
+
+        msg = sb.systems.scaffolding.prompt.promptUser("Enter A Message")
+
+        mock_input.assert_called_with("Enter A Message: ")
+        self.assertEqual(msg, "hi")
+
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
+    def test_scaffold_prompt_options(self, mock_input):
+        mock_input.return_value = "rf"
+
+        msg = sb.systems.scaffolding.prompt.promptUser("Select an Algorithm", options=["glm", "rf", "lgbm"])
+
+        mock_input.assert_called_with("Select an Algorithm [glm, rf, lgbm]: ")
+        self.assertEqual(msg, "rf")
+
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
+    def test_scaffold_prompt_boolean(self, mock_input):
+        mock_input.return_value = "Y"
+
+        msg = sb.systems.scaffolding.prompt.promptUser("Would you like CHEESE with that?", boolean=True)
+
+        mock_input.assert_called_with("Would you like CHEESE with that? [Y/N]: ")
+        self.assertTrue(msg)
+
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
+    def test_scaffold_prompt_boolean_false(self, mock_input):
+        mock_input.return_value = "n"
+
+        msg = sb.systems.scaffolding.prompt.promptUser("Would you like CHEESE with that?", boolean=True)
+
+        mock_input.assert_called_with("Would you like CHEESE with that? [Y/N]: ")
+        self.assertFalse(msg)
+
+if __name__ == '__main__':
+    unittest.main()
+
 if __name__ == '__main__':
     unittest.main()
