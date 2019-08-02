@@ -74,7 +74,7 @@ class Config(SkeleYaml):
         if self.baseImage:
             image = self.baseImage
         else:
-            language = self.language if self.language != None else "NA"
+            language = self.language if self.language is not None else "NA"
             image = LANGUAGE_IMAGE[language]
 
             variant = "base"
