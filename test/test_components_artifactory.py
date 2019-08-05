@@ -46,7 +46,7 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
 
         self.artifactory.execute(config, args)
 
-        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=(None, None))
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=('sean', 'abc123'))
         mock_copy.assert_called_with("test.pkl", "test_v1.0.0.pkl")
         mock_remove.assert_called_with("test_v1.0.0.pkl")
 
@@ -58,7 +58,7 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
 
         self.artifactory.execute(config, args)
 
-        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=(None, None))
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=('sean', 'abc123'))
         mock_open.assert_called_with("test_v0.1.0.pkl", "wb")
 
 if __name__ == '__main__':
