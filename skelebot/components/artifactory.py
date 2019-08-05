@@ -65,12 +65,12 @@ class Artifactory(Component):
     # Generate the Dockerfile and dockerignore and build the docker image
     def execute(self, config, args):
         # Get User and Token if not provided in args
-        user = None
-        token = None
-        if (args.user == None):
+        user = args.user
+        token = args.token
+        if (user == None):
             user = input("Please provide a valid Artifactory user: ")
 
-        if (args.token == None):
+        if (token == None):
             token = input("Please provide a valid Artifactory token: ")
 
         # Obtain the artifact that matches the provided name
@@ -116,8 +116,6 @@ class Artifactory(Component):
             path = artifactory.ArtifactoryPath(url, auth=(user, token))
             with path.open() as fd:
                 with open(file, "wb") as out:
-                    content = fd.read()
-                    print(content)
                     out.write(fd.read())
         else:
             print("Artifact Not Found: {url}".format(url=url))
