@@ -67,12 +67,12 @@ def readYaml(env=None):
     cfgFile = FILE_PATH.format(path=cwd)
     if os.path.isfile(cfgFile):
         with open(cfgFile, 'r') as stream:
-            yamlData = yaml.load(stream)
+            yamlData = yaml.load(stream, Loader=yaml.FullLoader)
             if (env is not None):
                 envFile = ENV_FILE_PATH.format(path=cwd, env=env)
                 if os.path.isfile(envFile):
                     with open(envFile, 'r') as stream:
-                        overrideYaml = yaml.load(stream)
+                        overrideYaml = yaml.load(stream, Loader=yaml.FullLoader)
                         yamlData = override(yamlData, overrideYaml)
 
     return yamlData
