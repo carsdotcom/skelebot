@@ -10,7 +10,8 @@ class TestExecutor(TestCase):
     @mock.patch('os.getcwd')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    def test_execute_scaffold_abort(self, mock_prompt, mock_cFactory, mock_getcwd, mock_exists, mock_expanduser):
+    def test_execute_scaffold_abort(self, mock_prompt, mock_cFactory, mock_getcwd, mock_exists,
+                                    mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_exists.return_value = False
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", False]
@@ -32,10 +33,12 @@ class TestExecutor(TestCase):
     @mock.patch('os.path.exists')
     @mock.patch('os.getcwd')
     @mock.patch('os.makedirs')
-    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    #@mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    def test_execute_scaffold_existing_init(self, mock_prompt, mock_yaml, mock_cFactory, mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
+    def test_execute_scaffold_existing_init(self, mock_prompt, mock_yaml, #mock_cFactory,
+                                            mock_makedirs, mock_getcwd, mock_exists,
+                                            mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_exists.return_value = False
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]

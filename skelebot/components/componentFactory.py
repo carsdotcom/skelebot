@@ -3,6 +3,7 @@
 import os
 import sys
 import importlib
+from ..objects.component import Activation
 from ..common import PLUGINS_HOME
 from .plugin import Plugin
 from .jupyter import Jupyter
@@ -48,7 +49,7 @@ class ComponentFactory():
     def buildComponents(self, activations=None, ignores=None):
         """Constructs a list of components based on which are active and which should be ignored"""
 
-        activations = activations if activations is not None else []
+        activations = activations if activations is not None else [Activation.ALWAYS]
         ignores = ignores if ignores is not None else []
         components = []
         for component in list(self.COMPONENTS.values()):

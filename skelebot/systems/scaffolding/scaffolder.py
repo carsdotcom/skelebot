@@ -17,7 +17,7 @@ def scaffold(existing=False):
     contact = promptUser("Enter a CONTACT EMAIL")
     language = promptUser("Enter a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
 
-    # Iterate over components for additional prompts and add any non-None components that are scaffolded
+    # Iterate over components for additional prompts and add any components that are scaffolded
     components = []
     componentFactory = ComponentFactory()
     for component in componentFactory.buildComponents():
