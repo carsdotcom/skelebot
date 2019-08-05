@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.0.1
+#### Changed
+- **Artifactory Component** | Fixes bug where the `--user` and `--token` params were not being read in properly
+
+---
+
 ## v1.0.0
 #### Released: 2019-08-01
 #### Added
