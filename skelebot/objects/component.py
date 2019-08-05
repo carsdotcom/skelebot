@@ -15,10 +15,10 @@ class Activation(Enum):
     ALWAYS  | Always available
     """
 
-    EMPTY = 1 # Available only when executing Skelebot outside of a project
-    CONFIG = 2 # Available only when the component config is inside the skelebot.yaml
-    PROJECT = 3 # Available when skelebot is run from inside any project, regardless of config
-    ALWAYS = 4 # Always available
+    EMPTY = 1
+    CONFIG = 2
+    PROJECT = 3
+    ALWAYS = 4
 
 class Component(SkeleYaml):
     """

@@ -3,9 +3,11 @@
   <img src="https://www.cars.com/react-shop-webapp/static/cars-logo.c3ccfb95f1c14e7c071e1d3d8c44d28c.png"><br><br>
 </div>
 -->
-![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
-[![CircleCI token](https://img.shields.io/circleci/token/cb75132d9ffe340a42dd5deea2f0fff43eb61042/project/github/carsdotcom/skelebot/master.svg?style=plastic)](https://circleci.com/gh/carsdotcom/skelebot)
+[![CircleCI token](https://circleci.com/gh/carsdotcom/skelebot/tree/master.svg?style=svg)](https://circleci.com/gh/carsdotcom/skelebot)
 [![codecov](https://codecov.io/gh/carsdotcom/skelebot/branch/master/graph/badge.svg)](https://codecov.io/gh/carsdotcom/skelebot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+![Version](https://img.shields.io/badge/dynamic/xml.svg?style=svg&color=purple&label=Dev%20Version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
+![PyPI](https://img.shields.io/pypi/v/skelebot?color=purple&label=PyPi%20Release)
 
 # Skelebot <!--TODO: Replace this with LOGO/MASCOT -->
 

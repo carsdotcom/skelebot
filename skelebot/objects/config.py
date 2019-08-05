@@ -3,7 +3,6 @@
 from .skeleYaml import SkeleYaml
 from ..common import LANGUAGE_IMAGE
 
-# The base object for the configurations for a Skelebot project
 class Config(SkeleYaml):
     """
     Root Config Class for Skelebot YAML File

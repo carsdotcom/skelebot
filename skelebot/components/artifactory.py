@@ -37,7 +37,6 @@ def pullArtifact(user, token, file, url):
         with path.open() as fd:
             with open(file, "wb") as out:
                 content = fd.read()
-                print(content)
                 out.write(fd.read())
     else:
         print("Artifact Not Found: {url}".format(url=url))
