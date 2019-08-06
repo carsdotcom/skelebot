@@ -1,10 +1,67 @@
+"""SkeleParser"""
+
+import sys
+import argparse
 from ...common import DESCRIPTION
 from ...common import VERSION
-import argparse
-import sys
 
-# SkeleParser is a wrapper around the parsing object that allows it to possbily be replaced in the future with custom logic
+SCF_ARG = "scaffold"
+SCF_HELP = "Scaffold a new or existing project with Skelebot"
+SCF_EX = "--existing"
+SCF_EX_ALT = "-e"
+SCF_EX_HELP = "Scaffold an existing project without creating new folder"
+
+ENV_ARG = "--env"
+ENV_ALT = "-e"
+ENV_HELP = "Specify the runtime environment configurations"
+
+SB_ARG = "--skip-build"
+SB_ALT = "-s"
+SB_HELP = "Skip the build process and attempt to use previous docker build"
+
+NT_ARG = "--native"
+NT_ALT = "-n"
+NT_HELP = "Run natively instead of through Docker"
+
+def addArgs(args, subparser):
+    """Add args to the given subparser"""
+
+    if (args is not None):
+        for arg in args:
+            if not arg.choices:
+                subparser.add_argument(arg.name, help=arg.help)
+            else:
+                subparser.add_argument(arg.name, choices=arg.choices, help=arg.help)
+    return subparser
+
+def addParams(params, subparser):
+    """Add params to the given subparser"""
+
+    if (params is not None):
+        for param in params:
+            flags = ["--{}".format(param.name)]
+            if (param.alt is not None):
+                flags.append("-{}".format(param.alt))
+
+            if param.choices:
+                subparser.add_argument(*flags, choices=param.choices, default=param.default,
+                                       help=param.help)
+            elif param.accepts == "boolean":
+                subparser.add_argument(*flags, action='store_true', help=param.help)
+            elif param.accepts == "list":
+                subparser.add_argument(*flags, nargs='*', default=param.default,
+                                       help=param.help)
+            else:
+                subparser.add_argument(*flags, default=param.default, help=param.help)
+    return subparser
+
 class SkeleParser:
+    """
+    SkeleParser Class
+
+    A wrapper around the argparse that constructs the interface to Skelebot based on the user's
+    skelebot.yaml configuration file
+    """
 
     parser = None
     config = None
@@ -13,6 +70,8 @@ class SkeleParser:
 
     # Initialize the parser with the given config and environment
     def __init__(self, config=None, env=None):
+        """Initialize the argparse Parser based on the Config data if it is present"""
+
         self.config = config
         self.env = env
         self.desc = self.buildDescription()
@@ -20,78 +79,53 @@ class SkeleParser:
         # ---Standard Parser Setup---
 
         # Construct the root argument parser from which all sub-parsers will be built
-        self.parser = argparse.ArgumentParser(description=self.desc, formatter_class=argparse.RawTextHelpFormatter)
+        formatter = argparse.RawTextHelpFormatter
+        self.parser = argparse.ArgumentParser(description=self.desc, formatter_class=formatter)
         subparsers = self.parser.add_subparsers(dest="job")
 
         if (config.name is None):
-            # Add SCAFFOLD parser
-            scaffoldParser = subparsers.add_parser("scaffold", help="Scaffold a new or existing project with Skelebot")
-            scaffoldParser.add_argument("-e", "--existing", action='store_true', help="Scaffold an existing project without creating new folder")
+            # Add SCF parser
+            scaffoldParser = subparsers.add_parser(SCF_ARG, help=SCF_HELP)
+            scaffoldParser.add_argument(SCF_EX_ALT, SCF_EX, action='store_true', help=SCF_EX_HELP)
         else:
             # Add STANDARD PARAMS
-            self.parser.add_argument("-e", "--env", help="Specify the runtime environment configurations")
-            self.parser.add_argument("-s", "--skip-build", action='store_true', help="Skip the build process and attempt to use previous docker build")
-            self.parser.add_argument("-n", "--native", action='store_true', help="Run natively instead of through Docker")
+            self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
+            self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true')
+            self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true')
 
         # ---Config Based Parser Setup---
 
         # Add JOBS
-        if (config.jobs != None):
+        if (config.jobs is not None):
             for job in config.jobs:
-                subparser = subparsers.add_parser(job.name, help=job.help + " (" + job.source + ")")
+                subparser = subparsers.add_parser(job.name, help=job.help + " ("+job.source+")")
 
                 # Add ARGS and PARAMS
-                subparser = self.addArgs(job.args, subparser)
-                subparser = self.addParams(job.params, subparser)
-                subparser = self.addParams(config.params, subparser)
+                subparser = addArgs(job.args, subparser)
+                subparser = addParams(job.params, subparser)
+                subparser = addParams(config.params, subparser)
 
         # Add COMPONENT parsers
         for component in self.config.components:
             subparsers = component.addParsers(subparsers)
 
-    # Parse the args from the parser built by the config
-    def parseArgs(self, args=sys.argv[1:]):
-        return self.parser.parse_args(args)
+    def parseArgs(self, args=None):
+        """Parse the args from the parser built by the config"""
+        return self.parser.parse_args(args if args is not None else sys.argv[1:])
 
-    # Display the help message from the internal parser object
     def showHelp(self):
+        """Display the help message from the internal parser object"""
         return self.parser.print_help()
 
-    # Add args to the given subparser
-    def addArgs(self, args, subparser):
-        if (args != None):
-            for arg in args:
-                if not arg.choices:
-                    subparser.add_argument(arg.name, help=arg.help)
-                else:
-                    subparser.add_argument(arg.name, choices=arg.choices, help=arg.help)
-        return subparser
-
-    # Add params to the given subparser
-    def addParams(self, params, subparser):
-        if (params != None):
-            for param in params:
-                flags = ["--{}".format(param.name)]
-                if (param.alt is not None):
-                    flags.append("-{}".format(param.alt))
-
-                if param.choices:
-                    subparser.add_argument(*flags, choices=param.choices, default=param.default, help=param.help)
-                elif param.accepts == "boolean":
-                    subparser.add_argument(*flags, action='store_true', help=param.help)
-                elif param.accepts == "list":
-                    subparser.add_argument(*flags, nargs='*', default=param.default, help=param.help)
-                else:
-                    subparser.add_argument(*flags, default=param.default, help=param.help)
-        return subparser
-
-    # Construct the description text for the '--help' output
     def buildDescription(self):
+        """Construct the description text for the '--help' output"""
+
         description = "Skelebot Version: {version}".format(version=VERSION)
-        if (self.config.name != None):
+        if (self.config.name is not None):
             name = " ".join([word.capitalize() for word in self.config.name.split("-")])
             description = self.config.description
             version = self.config.version
-            description = DESCRIPTION.format(version=VERSION, project=name, desc=description, pVersion=version, env=self.env)
+            description = DESCRIPTION.format(version=VERSION, project=name, desc=description,
+                                             pVersion=version, env=self.env)
 
         return description

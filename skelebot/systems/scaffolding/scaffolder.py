@@ -1,13 +1,15 @@
+"""Scaffolder System"""
+
+import os
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
-from ...common import VERSION, LANGUAGE_DEPENDENCIES
+from ...common import LANGUAGE_DEPENDENCIES
 from .prompt import promptUser
 
-import sys
-import os
-
 def scaffold(existing=False):
+    """Scaffold a new or existing project into a Skelebot project"""
+
     # Prompt for basic project information
     print("Scaffolding Skelebot Project")
     print("--:-" * 5, "-:--" * 5)
@@ -17,7 +19,7 @@ def scaffold(existing=False):
     contact = promptUser("Enter a CONTACT EMAIL")
     language = promptUser("Enter a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
 
-    # Iterate over components for additional prompts and add any non-None components that are scaffolded
+    # Iterate over components for additional prompts and add any components that are scaffolded
     components = []
     componentFactory = ComponentFactory()
     for component in componentFactory.buildComponents():
@@ -37,11 +39,11 @@ def scaffold(existing=False):
     print("--:-" * 5, "-:--" * 5)
     print("Setting up the", name, "Skelebot project in the current directory")
     print("(", os.getcwd(), ")")
-    if (promptUser("Confirm Skelebot Setup", boolean=True) == False):
+    if (not promptUser("Confirm Skelebot Setup", boolean=True)):
         raise Exception("Aborting Scaffolding Process")
 
     print("--:-" * 5, "-:--" * 5)
-    if (existing == False):
+    if (not existing):
         # Setting up the folder structure for the project
         print("Wiring up the skele-bones...")
         os.makedirs("config/", exist_ok=True)

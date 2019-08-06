@@ -3,9 +3,12 @@
   <img src="https://www.cars.com/react-shop-webapp/static/cars-logo.c3ccfb95f1c14e7c071e1d3d8c44d28c.png"><br><br>
 </div>
 -->
-![Version](https://img.shields.io/badge/dynamic/xml.svg?style=plastic&color=green&label=version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
-[![CircleCI token](https://img.shields.io/circleci/token/cb75132d9ffe340a42dd5deea2f0fff43eb61042/project/github/carsdotcom/skelebot/master.svg?style=plastic)](https://circleci.com/gh/carsdotcom/skelebot)
+[![CircleCI token](https://circleci.com/gh/carsdotcom/skelebot/tree/master.svg?style=svg)](https://circleci.com/gh/carsdotcom/skelebot)
 [![codecov](https://codecov.io/gh/carsdotcom/skelebot/branch/master/graph/badge.svg)](https://codecov.io/gh/carsdotcom/skelebot)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7211eb35681489c9f76066d9a137e46)](https://www.codacy.com/app/sshookman/skelebot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=carsdotcom/skelebot&amp;utm_campaign=Badge_Grade)
+[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+![Version](https://img.shields.io/badge/dynamic/xml.svg?style=svg&color=purple&label=Dev%20Version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
+![PyPI](https://img.shields.io/pypi/v/skelebot?color=purple&label=PyPi%20Release)
 
 # Skelebot <!--TODO: Replace this with LOGO/MASCOT -->
 
@@ -20,26 +23,25 @@ Skelebot is a command-line tool for managing machine learning projects and execu
 ```
 [/code/my-iris-model] > skelebot -h
 usage: skelebot [-h] [-e ENV] [-s] [-n]
-                {loadData,train,score,jupyter,push,pull,plugin,bump,prime,exec}
+                {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec}
                 ...
 
 Iris Example
 Example Skelebot Project
 -----------------------------------
-Version: 0.2.1
+Version: 1.1.0
 Environment: None
-Skelebot Version (project): 0.2.1
-Skelebot Version (installed): 0.2.0
+Skelebot Version: 1.0.2
 -----------------------------------
 
 positional arguments:
-  {loadData,train,score,jupyter,push,pull,plugin,bump,prime,exec}
+  {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec}
     loadData            Load the Iris Dataset and save it into the data folder for the train job to access (src/loadData.py)
     train               Use the data loaded in the loadData job to train the iris model (src/train.py)
     score               Use the model that was built in the train job to score new data against the iris model (src/score.py)
-    jupyter             Spin up Jupyter in a Docker Container (port = 8888, folder = .)
     push                Push an artifact to artifactory
     pull                Pull an artifact from artifactory
+    jupyter             Spin up Jupyter in a Docker Container (port=8888, folder=.)
     plugin              Install a plugin for skelebot from a local zip file
     bump                Bump the skelebot.yaml project version
     prime               Generate Dockerfile and .dockerignore and build the docker image

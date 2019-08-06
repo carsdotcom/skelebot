@@ -1,7 +1,14 @@
-from ..objects.component import *
+"""Kerberos Component"""
 
-# This component provides the ability authentice with Kerberos HDFS based on user config
+from ..objects.component import Activation, Component
+
 class Kerberos(Component):
+    """
+    Kerberos Class
+
+    Provides the ability authentice with Kerberos HDFS based on user config
+    """
+
     activation = Activation.CONFIG
 
     krbConf = None
@@ -9,18 +16,32 @@ class Kerberos(Component):
     hdfsUser = None
 
     def __init__(self, krbConf=None, keytab=None, hdfsUser=None):
+        """Initialize the kerberos auth details when constructing the component object"""
+
         self.krbConf = krbConf
         self.keytab = keytab
         self.hdfsUser = hdfsUser
 
-    # Appends copy commands to the Dockerfile in order to add the needed Kerberos files to the correct location based on config
     def appendDockerfile(self):
+        """
+        Dockerfile Hook
+
+        Appends copy commands to the Dockerfile in order to add the needed Kerberos files to the
+        correct location based on the config
+        """
+
         dockerfile = ""
         if (self.krbConf is not None) and (self.keytab is not None):
             dockerfile += "COPY {krb} /etc/krb5.conf\n".format(krb=self.krbConf)
             dockerfile += "COPY {keytab} /krb/auth.keytab\n".format(keytab=self.keytab)
         return dockerfile
 
-    # If run inside of docker, execute the init.sh script with the username in order to initialize krb auth
     def prependCommand(self, job, native):
-        return "/./krb/init.sh {user}".format(user=self.hdfsUser) if native == False else None
+        """
+        CommandBuilder Hook
+
+        If run inside of docker, execute the init.sh script with the username in order to
+        initialize krb auth so that the user can access HDFS inside the container
+        """
+
+        return "/./krb/init.sh {user}".format(user=self.hdfsUser) if native is False else None

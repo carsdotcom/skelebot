@@ -1,27 +1,53 @@
-from ..objects.component import *
+"""Bump Component"""
+
+from ..objects.component import Activation, Component
 from ..systems.generators import yaml
 
-# This component provides the ability to bump the version number in the skelebot.yaml file
+MAJOR = "major"
+MINOR = "minor"
+PATCH = "patch"
+
 class Bump(Component):
+    """
+    Bump Class
+
+    Provides the ability to bump the major, minor, or patch version of a project based on Semantic
+    Versioning standards with the 'bump' command
+    """
     activation = Activation.PROJECT
     commands = ["bump"]
 
-    # Parser for the command that bumps the semantic version in the skelebot.yaml
     def addParsers(self, subparsers):
+        """
+        SkeleParser Hook
+
+        Adds a parser for the bump command that takes in a single argument called version to define
+        whether it should bump the major, minor, or patch version of the project
+        """
+
         helpMessage = "Bump the skelebot.yaml project version"
+        argHelp = "Select the version number that should be bumped"
+
         parser = subparsers.add_parser("bump", help=helpMessage)
-        parser.add_argument("version", help="Select the version number that should be bumped", choices=["major", "minor", "patch"])
+        parser.add_argument("version", help=argHelp, choices=[MAJOR, MINOR, PATCH])
+
         return subparsers
 
-    # Read the current version and bump it based on the version provided (major, minor, or patch) and persist the yaml
     def execute(self, config, args):
+        """
+        Execution Hook
+
+        Executes when the bump command is provided and bumps either the major, minor, or patch
+        version of the project depending on which was provided in the command
+        """
 
         oldVersion = config.version
+        version = args.version
         mmp = oldVersion.split(".")
-        mmp[0] = str(int(mmp[0]) + 1) if (args.version == "major") else mmp[0]
-        mmp[1] = str(int(mmp[1]) + 1) if (args.version == "minor") else (mmp[1] if (args.version == "patch") else "0")
-        mmp[2] = str(int(mmp[2]) + 1) if (args.version == "patch") else "0"
+        mmp[0] = str(int(mmp[0])+1) if version == MAJOR else mmp[0]
+        mmp[1] = str(int(mmp[1])+1) if version == MINOR else (mmp[1] if version == PATCH else "0")
+        mmp[2] = str(int(mmp[2])+1) if version == PATCH else "0"
         version = ".".join(mmp)
         yaml.saveVersion(version)
 
-        print("Bumped " + args.version + " version. v" + oldVersion + " -> v" + version)
+        print("Bumped " + version + " version. v" + oldVersion + " -> v" + version)

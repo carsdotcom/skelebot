@@ -1,8 +1,6 @@
 from unittest import TestCase
-from unittest import mock
 
 import skelebot as sb
-import os
 
 class TestParser(TestCase):
 
@@ -19,7 +17,6 @@ class TestParser(TestCase):
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
         args = sbParser.parseArgs(["test", "2019", "never", "-d", "20", "--env", "prod", "-l", "debug", "--method", "tune"])
 
-        argKeys = list(vars(args).keys())
         self.assertEqual(args.job, "test")
         self.assertEqual(args.start, "2019")
         self.assertEqual(args.end, "never")
@@ -34,7 +31,6 @@ class TestParser(TestCase):
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
         args = sbParser.parseArgs(["scaffold"])
 
-        argKeys = list(vars(args).keys())
         self.assertEqual(args.job, "scaffold")
         self.assertEqual(args.existing, False)
 
@@ -49,7 +45,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.0.1
+Skelebot Version: 1.0.2
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)

@@ -1,17 +1,20 @@
+"""Execution System"""
+
+import os
+import sys
 from ..scaffolding.scaffolder import scaffold
 from .commandBuilder import build as buildCommand
 from .docker import build as buildDocker
 from .docker import run as runDocker
-import argparse
-import sys
-import os
 
-def execute(config, sbParser, args=sys.argv[1:]):
+def execute(config, sbParser, args=None):
+    """Execute the command(s) that was sent into Skelebot based on the project Config"""
+
+    args = args if args is not None else sys.argv[1:]
     for command in getCommands(args):
-        print("=o=o= EXECUTING COMMAND: {} =o=o=".format(" ".join(command).upper()))
         args = sbParser.parseArgs(command)
 
-        if (args.job == None):
+        if (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):
             scaffold(args.existing)
@@ -24,6 +27,8 @@ def execute(config, sbParser, args=sys.argv[1:]):
                 executeComponent(config, args)
 
 def getCommands(args):
+    """Split (if needed) and obtain the list of commands that were sent into Skelebot"""
+
     commands = []
     command = []
     for arg in args:
@@ -37,6 +42,8 @@ def getCommands(args):
     return commands
 
 def getJob(config, args):
+    """Identify the job in the Config that matches the command that was sent to Skelebot"""
+
     job = None
     for configJob in config.jobs:
         if args.job == configJob.name:
@@ -45,15 +52,19 @@ def getJob(config, args):
     return job
 
 def executeJob(config, args, job):
-        command = buildCommand(config, job, args, args.native)
-        if (args.native):
-            os.system(command)
-        else:
-            if (args.skip_build == False):
-                buildDocker(config)
-            runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
+    """Execute a Config job either natively or through Docker by building a command from it"""
+
+    command = buildCommand(config, job, args, args.native)
+    if (args.native):
+        os.system(command)
+    else:
+        if (not args.skip_build):
+            buildDocker(config)
+        runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
 
 def executeComponent(config, args):
+    """Execute a Component of Skelebot"""
+
     for component in config.components:
         if (args.job in component.commands):
             component.execute(config, args)

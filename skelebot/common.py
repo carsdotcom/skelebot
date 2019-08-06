@@ -1,5 +1,6 @@
+"""Common Global Variables"""
+
 import pkg_resources
-import os
 
 VERSION = pkg_resources.get_distribution("skelebot").version
 DESCRIPTION = """
@@ -33,4 +34,4 @@ LANGUAGE_DEPENDENCIES = {
     "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]
 }
 
-EXT_COMMAND= {"py":"python -u ", "R":"Rscript ", "sh":"./"}
+EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"./"}

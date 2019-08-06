@@ -14,13 +14,13 @@ setup(
     zip_safe=False,
     setup_requires=["pytest-runner"],
     tests_require=[
-        "pyyaml",
+        "PyYAML",
         "artifactory",
         "coverage",
         "pytest"
     ],
     install_requires=[
-        "pyyaml==5.1.2",
+        "PyYAML==5.1.2",
         "artifactory==0.1.17",
         "requests==2.22.0",
         "coverage",

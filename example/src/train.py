@@ -1,6 +1,5 @@
 import pickle
 import argparse
-import numpy as np
 import pandas as pd
 from argparse import RawTextHelpFormatter
 from sklearn.linear_model import LinearRegression

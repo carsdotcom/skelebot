@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.0.2
+#### Changed
+- **Lint** | Went through the ENTIRE codebase and made non-breaking refactors and additions for linting purposes
+- **README** | Adds badge for Codacy, License, and PyPi Release version
+
+---
+
 ## v1.0.1
+#### Released: 2019-08-05
 #### Changed
 - **Artifactory Component** | Fixes bug where the `--user` and `--token` params were not being read in properly
 

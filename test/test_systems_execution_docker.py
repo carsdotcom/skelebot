@@ -18,8 +18,6 @@ class TestDocker(TestCase):
     @mock.patch('os.getcwd')
     def test_build_ephemeral(self, mock_getcwd, mock_system, mock_remove, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
-        dockerignorePath = "{folder}/.dockerignore".format(folder=folderPath)
-        dockerfilePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
@@ -38,8 +36,6 @@ class TestDocker(TestCase):
     @mock.patch('os.getcwd')
     def test_build_non_ephemeral(self, mock_getcwd, mock_system, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
-        dockerignorePath = "{folder}/.dockerignore".format(folder=folderPath)
-        dockerfilePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
@@ -55,8 +51,6 @@ class TestDocker(TestCase):
     @mock.patch('os.getcwd')
     def test_build_error(self, mock_getcwd, mock_system, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
-        dockerignorePath = "{folder}/.dockerignore".format(folder=folderPath)
-        dockerfilePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
