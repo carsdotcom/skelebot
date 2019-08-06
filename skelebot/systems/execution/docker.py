@@ -27,7 +27,7 @@ def build(config):
     return status
 
 def run(config, command, mode, ports, mappings, task):
-    """Run the Dockeer Container from the Image with the provided command"""
+    """Run the Docker Container from the Image with the provided command"""
 
     params = "-{mode}".format(mode=mode)
 
