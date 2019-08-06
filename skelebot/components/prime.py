@@ -2,7 +2,6 @@
 
 from ..objects.component import Activation, Component
 from ..systems.execution import docker
-from ..systems.generators import dockerfile, dockerignore
 
 class Prime(Component):
     """
@@ -24,7 +23,7 @@ class Prime(Component):
         """
 
         helpMessage = "Generate Dockerfile and .dockerignore and build the docker image"
-        parser = subparsers.add_parser("prime", help=helpMessage)
+        subparsers.add_parser("prime", help=helpMessage)
         return subparsers
 
     def execute(self, config, args):

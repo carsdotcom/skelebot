@@ -1,27 +1,34 @@
-from ...objects.config import Config
-from ...systems.generators import dockerfile
-from ...systems.generators import dockerignore
+"""Docker Execution"""
 
 import os
+from ...systems.generators import dockerfile
+from ...systems.generators import dockerignore
 
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c '{command}'"
 
 def build(config):
+    """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
+
+    # Build Dockerfile, .dockerignore, and Docker Image
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
-
     status = os.system(BUILD_CMD.format(image=config.getImageName()))
-    if (config.ephemeral == True):
+
+    # Remove Files if ephemeral is set to True in Config
+    if (config.ephemeral):
         os.remove("Dockerfile")
         os.remove(".dockerignore")
 
+    # Raise an error if the build process failed
     if (status > 0):
         raise Exception("Docker Build Failed")
 
     return status
 
-def run(config, command, mode, ports, mappings, taskName):
+def run(config, command, mode, ports, mappings, task):
+    """Run the Dockeer Container from the Image with the provided command"""
+
     params = "-{mode}".format(mode=mode)
 
     # Construct the port mappings
@@ -46,5 +53,7 @@ def run(config, command, mode, ports, mappings, taskName):
         if (addParams is not None):
             params += " {params}".format(params=addParams)
 
-    # Assuming the image was built without errors, run the container with the given args, params, and config
-    return os.system(RUN_CMD.format(image=config.getImageName(), jobName=taskName, command=command, params=params, mode=mode))
+    # Assuming the image was built without errors, run the container with the given command
+    image = config.getImageName()
+    runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
+    return os.system(runCMD)

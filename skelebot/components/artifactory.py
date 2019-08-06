@@ -36,7 +36,6 @@ def pullArtifact(user, token, file, url):
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
         with path.open() as fd:
             with open(file, "wb") as out:
-                content = fd.read()
                 out.write(fd.read())
     else:
         print("Artifact Not Found: {url}".format(url=url))
@@ -129,10 +128,10 @@ class Artifactory(Component):
         # Get User and Token if not provided in args
         user = args.user
         token = args.token
-        if (user == None):
+        if (user is None):
             user = input("Please provide a valid Artifactory user: ")
 
-        if (token == None):
+        if (token is None):
             token = input("Please provide a valid Artifactory token: ")
 
         # Obtain the artifact that matches the provided name
