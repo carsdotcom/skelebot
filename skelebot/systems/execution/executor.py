@@ -12,7 +12,6 @@ def execute(config, sbParser, args=None):
 
     args = args if args is not None else sys.argv[1:]
     for command in getCommands(args):
-        print("=o=o= EXECUTING COMMAND: {} =o=o=".format(" ".join(command).upper()))
         args = sbParser.parseArgs(command)
 
         if (args.job is None):

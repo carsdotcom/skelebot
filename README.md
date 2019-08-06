@@ -23,26 +23,25 @@ Skelebot is a command-line tool for managing machine learning projects and execu
 ```
 [/code/my-iris-model] > skelebot -h
 usage: skelebot [-h] [-e ENV] [-s] [-n]
-                {loadData,train,score,jupyter,push,pull,plugin,bump,prime,exec}
+                {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec}
                 ...
 
 Iris Example
 Example Skelebot Project
 -----------------------------------
-Version: 0.2.1
+Version: 1.1.0
 Environment: None
-Skelebot Version (project): 0.2.1
-Skelebot Version (installed): 0.2.0
+Skelebot Version: 1.0.2
 -----------------------------------
 
 positional arguments:
-  {loadData,train,score,jupyter,push,pull,plugin,bump,prime,exec}
+  {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec}
     loadData            Load the Iris Dataset and save it into the data folder for the train job to access (src/loadData.py)
     train               Use the data loaded in the loadData job to train the iris model (src/train.py)
     score               Use the model that was built in the train job to score new data against the iris model (src/score.py)
-    jupyter             Spin up Jupyter in a Docker Container (port = 8888, folder = .)
     push                Push an artifact to artifactory
     pull                Pull an artifact from artifactory
+    jupyter             Spin up Jupyter in a Docker Container (port=8888, folder=.)
     plugin              Install a plugin for skelebot from a local zip file
     bump                Bump the skelebot.yaml project version
     prime               Generate Dockerfile and .dockerignore and build the docker image
