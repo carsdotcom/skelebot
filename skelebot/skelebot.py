@@ -1,4 +1,4 @@
-"""Skelebot Main"""
+"""Skelebot - Machine Learning Project Management Tool"""
 
 import sys
 from .systems.parsing import skeleParser
