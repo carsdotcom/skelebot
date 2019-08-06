@@ -127,12 +127,12 @@ class Artifactory(Component):
         """
 
         # Get User and Token if not provided in args
-        user = None
-        token = None
-        if (args.user is None):
+        user = args.user
+        token = args.token
+        if (user == None):
             user = input("Please provide a valid Artifactory user: ")
 
-        if (args.token is None):
+        if (token == None):
             token = input("Please provide a valid Artifactory token: ")
 
         # Obtain the artifact that matches the provided name

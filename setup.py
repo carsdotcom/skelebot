@@ -20,8 +20,9 @@ setup(
         "pytest"
     ],
     install_requires=[
-        "pyyaml",
-        "artifactory",
+        "pyyaml==5.1.2",
+        "artifactory==0.1.17",
+        "requests==2.22.0",
         "coverage",
         "pytest"
     ],
