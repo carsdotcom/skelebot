@@ -59,7 +59,7 @@ class Artifactory(Component):
     """
     Artifactory Component Class
 
-    Provides the ability to ush and pull artifacts that are defined in the skelebot config
+    Provides the ability to push and pull artifacts that are defined in the skelebot config
     file to and from Artifactory based on the project version number
     """
 
