@@ -1,6 +1,5 @@
 import pickle
 import argparse
-import pandas as pd
 from argparse import RawTextHelpFormatter
 
 parser = argparse.ArgumentParser(description="train", formatter_class=RawTextHelpFormatter)

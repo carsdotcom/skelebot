@@ -1,8 +1,6 @@
 from unittest import TestCase
-from unittest import mock
 
 import skelebot as sb
-import os
 
 class TestKerberos(TestCase):
 

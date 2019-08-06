@@ -6,7 +6,7 @@ class AddNumbers(Component):
     commands = ["addNumbers"]
 
     def addParsers(self, subparsers):
-       parser = subparsers.add_parser("addNumbers", help="adds the numbers 1 and 2 to get 3!")
+       subparsers.add_parser("addNumbers", help="adds the numbers 1 and 2 to get 3!")
        return subparsers
 
     def execute(self):

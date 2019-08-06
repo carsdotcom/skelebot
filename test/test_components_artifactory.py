@@ -3,8 +3,6 @@ from unittest import mock
 
 import skelebot as sb
 import argparse
-import os
-import shutil
 
 class TestArtifactory(TestCase):
     artifcatory = None

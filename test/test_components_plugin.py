@@ -3,7 +3,6 @@ from unittest import mock
 
 import skelebot as sb
 import argparse
-import os
 
 class TestPlugin(TestCase):
 
