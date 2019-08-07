@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.0.3
+#### Changed
+- **Bash Exec** | Bash scripts are now executed using `bash {script}` instead of `./{script}` for better stability
+
+---
+
 ## v1.0.2
+#### Merged: 2019-08-06
 #### Changed
 - **Lint** | Went through the ENTIRE codebase and made non-breaking refactors and additions for linting purposes
 - **README** | Adds badge for Codacy, License, and PyPi Release version
@@ -11,6 +18,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.0.1
+#### Merged: 2019-08-05
 #### Released: 2019-08-05
 #### Changed
 - **Artifactory Component** | Fixes bug where the `--user` and `--token` params were not being read in properly
@@ -18,6 +26,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.0.0
+#### Merged: 2019-08-01
 #### Released: 2019-08-01
 #### Added
 - **PyPi Package** | Adds the package to PyPi so it can be installed via pip
@@ -28,7 +37,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.3.1
-#### Released: 2019-08-01
+#### Merged: 2019-08-01
 #### Added
 - **CodeCov** | Adds config in CircleCI to upload coverage report to CodeCov
 - **README Badge** | Adds CodeCov README badge
@@ -36,7 +45,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.3.0
-#### Released: 2019-08-01
+#### Merged: 2019-08-01
 #### Changed
 - **Yaml Generator** | Now saves and loads the VERSION file separately - a VERSION file is now needed for proper skelebot versioning
 - **Bump Component** | Now only saves to the VERSION file and does not update the config yaml
@@ -45,7 +54,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.22
-#### Released: 2019-08-01
+#### Merged: 2019-08-01
 #### Changed
 - **SkeleParser** | Removes the default value for boolean params in jobs as it is not needed
 - **CommandBuilder** | Updated to only pass boolean params to scripts if the value is present and True
@@ -53,14 +62,14 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.21
-#### Released: 2019-07-30
+#### Merged: 2019-07-30
 #### Added
 - **Job Chaining** | Adds ability to chain jobs together using the '+' character to separate the commands
 
 ---
 
 ## v0.2.20
-#### Released: 2019-07-29
+#### Merged: 2019-07-29
 #### Changed
 - **Exec Component** | Fixes a minor bug where the image name was being duplicated in the container name
 
@@ -68,28 +77,28 @@ Documenting All Changes to the Skelebot Project
 
 
 ## v0.2.19
-#### Released: 2019-07-25
+#### Merged: 2019-07-25
 #### Changed
 - **Top-Level Params** | Fixes a bug where only the default would work for top-level parameters
 
 ---
 
 ## v0.2.18
-#### Released: 2019-07-24
+#### Merged: 2019-07-24
 #### Changed
 - **Primary Jobs** | Fixes bug to allow primary jobs to execute as exepcted without specifying a command in the docker run process
 
 ---
 
 ## v0.2.17
-#### Released: 2019-07-16
+#### Merged: 2019-07-16
 #### Changed
 - **Env Configs** | Fixes bug to allow env config to add properties that are not present in the default (parent) config
 
 ---
 
 ## v0.2.16
-#### Released: 2019-07-12
+#### Merged: 2019-07-12
 #### Added
 - **accepts** | Adds 'accept' field on params to specify lists or boolean params
 
@@ -102,21 +111,21 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.15
-#### Released: 2019-07-09
+#### Merged: 2019-07-09
 #### Added
 - **Global Params** | Adds global params list to root of config to allow parameters defined once applied to each job
 
 ---
 
 ## v0.2.14
-#### Released: 2019-06-28
+#### Merged: 2019-06-28
 #### Changed
 - **Exec** | The exec command now accepts a flag (-m --map) to allow volume maps of the working directory onto the container's /app folder so changes in exec can be persisted
 
 ---
 
 ## v0.2.13
-#### Released: 2019-06-28
+#### Merged: 2019-06-28
 #### Changed
 - **r-base** | Updates the r-base image to add an install for gfortran compiler that some packages require
 - **CHANGELOG** | Updating the structure of the doc a bit
@@ -124,21 +133,21 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.12
-#### Released: 2019-06-25
+#### Merged: 2019-06-25
 #### Changed
 - **Jupyter** | Updates base image for python and updates jupyter component to fix some bugs that prevented it from being used
 
 ---
 
 ## v0.2.11
-#### Released: 2019-06-24
+#### Merged: 2019-06-24
 #### Changed
 - **Docker Build** | Instead of retruning the status code, it now throws an exception if an error occurs (exiting if not handled)
 
 ---
 
 ## v0.2.10
-#### Released: 2019-06-21
+#### Merged: 2019-06-21
 #### Changed
 - **Base Images** | Allows for both base and krb images, custom images, and default (no language) images
 
@@ -148,21 +157,21 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.9
-#### Released: 2019-06-18
+#### Merged: 2019-06-18
 #### Added
 - **Job Help Messages** | Adds support for help messages on the arguments and parameters for Skelebot jobs
 
 ---
 
 ## v0.2.8
-#### Released: 2019-06-18
+#### Merged: 2019-06-18
 #### Changed
 - **Job Params** | Now support a new value (isBoolean) that defaults to false, but when set to true allows params to be boolean flags
 
 ---
 
 ## v0.2.7
-#### Released: 2019-06-17
+#### Merged: 2019-06-17
 #### Changed
 - **Docker Run** | Updated the docker run process to handle more volume mapping formats (absolute and home based paths)
 - **Docker Images** | No longer using base images, instead always using the krb images to keep things simple
@@ -170,14 +179,14 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.6
-#### Released: 2019-06-06
+#### Merged: 2019-06-06
 #### Changed
 - **Scaffolder** | Fixed the bug where the wrong values were getting placed into the Config class
 
 ---
 
 ## v0.2.5
-#### Released: 2019-06-05
+#### Merged: 2019-06-05
 #### Changed
 - **Docker** | Python execution in Docker passes the -u param to display output to console
 - **Image Versions** | Now only a single hardcoded image version, not a dictionary
@@ -188,7 +197,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.4
-#### Released: 2019-06-04
+#### Merged: 2019-06-04
 #### Changed
 - **Parser** | Updated conditional check on choices to handle empty list instead of None, updated parse_args to support unit tests
 - **Parser Test** | Updated the test cases here to actually evaluate the args being parsed and ensure that having and not having choices works
@@ -196,7 +205,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.3
-#### Released: 2019-05-30
+#### Merged: 2019-05-30
 #### Changed
 - **Scaffolder** | No longer sets up the skelebot home and plugins folders if they are missing
 - **Plugin Component** | Sets up the skelebot home and plugins folders if they are missing
@@ -207,7 +216,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.2
-#### Released: 2019-05-30
+#### Merged: 2019-05-30
 #### Added
 - **VERSION** | The single source of truth for the project version
 
@@ -227,14 +236,14 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.2.1
-#### Released: 2019-05-28
+#### Merged: 2019-05-28
 #### Changed
 - **Parser** | Includes scaffolding parser for non-skelebot projects
 
 ---
 
 ## v0.2.0
-#### Released: 2019-05-24
+#### Merged: 2019-05-24
 #### Added
 - **CHANGELOG** | The document you are reading right now.
 - **Test Cases** | For the new architecture
@@ -263,7 +272,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.1.2
-#### Released: 2019-04-30
+#### Merged: 2019-04-30
 #### Added
 - **CODE_OF_CONDUCT.md** | Contributing Code of Conduct
 
@@ -274,7 +283,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.1.1
-#### Released: 2019-04-30
+#### Merged: 2019-04-30
 #### Changed
 - **CONTRIBUTING.md** | Including links to GitHub pages docs
 - **Feature request template** | Indicates what is optional and required
@@ -282,7 +291,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v0.1.0
-#### Released: 2019-04-15
+#### Merged: 2019-04-15
 #### Added
 - **Everything!** | Initial Commit of the Project
 

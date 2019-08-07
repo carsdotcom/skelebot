@@ -26,7 +26,7 @@ class TestCommandBuilder(TestCase):
         param = sb.objects.param.Param("test", "t", accepts="boolean")
         job.params.append(param)
 
-        expected = "./build.sh 0.1 --env local --test --log info"
+        expected = "bash build.sh 0.1 --env local --test --log info"
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
@@ -44,7 +44,7 @@ class TestCommandBuilder(TestCase):
         param = sb.objects.param.Param("test", "t", accepts="boolean")
         job.params.append(param)
 
-        expected = "./build.sh 1.1 --env local --log info"
+        expected = "bash build.sh 1.1 --env local --log info"
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
