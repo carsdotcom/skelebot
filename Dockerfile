@@ -11,4 +11,4 @@ RUN ["pip", "install", "requests==2.22.0"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 COPY . /app
-CMD /bin/bash -c './/app/test.sh'
+CMD /bin/bash -c 'bash /app/test.sh'
