@@ -1,7 +1,11 @@
 """Root Config Class for Skelebot YAML File"""
 
+from .job import Job
+from .param import Param
 from .skeleYaml import SkeleYaml
+from .component import Activation
 from ..common import LANGUAGE_IMAGE
+from ..components.componentFactory import ComponentFactory
 
 class Config(SkeleYaml):
     """
@@ -88,3 +92,55 @@ class Config(SkeleYaml):
     def getImageName(self):
         """Construct and return the name for the docker image based on the project name"""
         return self.name.lower().replace(" ", "-")
+
+    def loadComponents(self, config):
+        """
+        Parses the components section of skelebot.yaml config to generate the complete list of
+        components for the project based on the active component list and each components'
+        Activation attribute
+        """
+
+        componentFactory = ComponentFactory()
+        if (config is None):
+            # Build the default components for a non-skelebot project
+            defaultActivations = [Activation.EMPTY, Activation.ALWAYS]
+            self.components = componentFactory.buildComponents(defaultActivations)
+        else:
+            # Build the components that are defined in the config yaml data
+            compNames = []
+            components = []
+            if ("components" in config):
+                configComps = config["components"]
+                for compName in configComps:
+                    component = componentFactory.buildComponent(compName, configComps[compName])
+                    if (component is not None):
+                        components.append(component)
+                        compNames.append(component.__class__.__name__)
+
+            # Build the additonal components that are active without configuration data
+            activations = [Activation.PROJECT, Activation.ALWAYS]
+            components.extend(componentFactory.buildComponents(activations, ignores=compNames))
+            self.components = components
+
+    @classmethod
+    def load(cls, config):
+        """Load the config Dict from the yaml file into the Config object"""
+
+        cfg = cls()
+        if config is not None:
+
+            values = {}
+            for attr, value in config.items():
+                if (attr in vars(Config)) and (attr != "components") and (attr != "version"):
+                    if (attr == "jobs"):
+                        values[attr] = Job.loadList(value)
+                    elif (attr == "params"):
+                        values[attr] = Param.loadList(value)
+                    else:
+                        values[attr] = value
+
+            cfg = cls(**values)
+
+        cfg.loadComponents(config)
+
+        return cfg
