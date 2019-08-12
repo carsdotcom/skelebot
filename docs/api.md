@@ -28,7 +28,7 @@ and leverage important parts of the Skelebot System.
 This document specifies the API contract for v1 of Skelebot.
 
 There are packages and classes outside of this API that are technically accessible via Skelebot,
-but since they are not included in this speciciation, they are not part of the v1 contract for
+but since they are not included in this specification, they are not part of the v1 contract for
 Skelebot. As such it is not advised to use any function or Class that is not specified in this
 document because it may be subject to change throughout iterations of v1.
 
