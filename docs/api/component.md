@@ -39,7 +39,7 @@ from skelebot.objects.component import Activation
 
 The Activation Enum is used to set the level at which a component or plugin becomes active and
 available for use within the Skelebot System. By default a component will only be active at the
-CONFIG level, meaning it will only be active when their is specific configuration data for said
+CONFIG level, meaning it will only be active when the specific configuration data for said
 component in the skelebot.yaml file.
 
 <h3 align='left'>Constants</h3>
