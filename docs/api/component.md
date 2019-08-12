@@ -133,7 +133,7 @@ Dockerfile generation process by returning a formatted string of the instruction
 | PARAMETER  | TYPE               | DESCRIPTION                                                            |
 |------------|--------------------|------------------------------------------------------------------------|
 | config     | Config             | The Config object of the current project's skelebot.yaml configuration |
-| args       | argparse.Namespace | The args namepsace that was parsed from the SkeleParser                |
+| args       | argparse.Namespace | The args namespace that was parsed from the SkeleParser                |
 
 ```
 The `execute` method is executed when the command passed to Skelebot matches one of the values in
