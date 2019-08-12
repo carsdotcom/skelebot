@@ -10,6 +10,11 @@ class SkeleYaml():
     generation purposes
     """
 
+    @classmethod
+    def load(cls, config):
+        """Defines the default manner of loading a Component object from a config dict"""
+        return cls(**config)
+
     def toDict(self):
         """Convert the object attributes into a Dict structure that is ready for YAML generation"""
 
