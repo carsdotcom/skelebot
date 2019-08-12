@@ -63,7 +63,7 @@ int (0 = success) or throw an exception in the case of a failure.
 | task       | name   | A string name for the task that is being executed to be appended to the image name to form a container name |
 
 ```
-The run function will execute a Docker run command for the project's image, asuming one has already
+The run function will execute a Docker run command for the project's image, assuming one has already
 been built. This function accepts numerous parameters to customize the manner in which the
 container will be run, and returns the status code from the command itself.
 ```
