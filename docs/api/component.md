@@ -39,8 +39,8 @@ from skelebot.objects.component import Activation
 
 The Activation Enum is used to set the level at which a component or plugin becomes active and
 available for use within the Skelebot System. By default a component will only be active at the
-CONFIG level, meaning it will only be active when their is specific configuration data for said
-component in the skelebot.yaml file.
+CONFIG level, meaning it will only be active when the specific configuration data for said
+component is in the skelebot.yaml file.
 
 <h3 align='left'>Constants</h3>
 
@@ -133,7 +133,7 @@ Dockerfile generation process by returning a formatted string of the instruction
 | PARAMETER  | TYPE               | DESCRIPTION                                                            |
 |------------|--------------------|------------------------------------------------------------------------|
 | config     | Config             | The Config object of the current project's skelebot.yaml configuration |
-| args       | argparse.Namespace | The args namepsace that was parsed from the SkeleParser                |
+| args       | argparse.Namespace | The args namespace that was parsed from the SkeleParser                |
 
 ```
 The `execute` method is executed when the command passed to Skelebot matches one of the values in
