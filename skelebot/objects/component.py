@@ -31,11 +31,6 @@ class Component(SkeleYaml):
     activation = Activation.CONFIG
     commands = []
 
-    @classmethod
-    def load(cls, config):
-        """Defines the default manner of loading a Component object from a config dict"""
-        return cls(**config)
-
     # Scaffolding System Hooks
     def scaffold(self):
         """Defines the default for adding scaffolding functionality to a component"""
