@@ -1,5 +1,6 @@
 """Root Config Class for Skelebot YAML File"""
 
+from schema import Schema, And, Optional
 from .job import Job
 from .param import Param
 from .skeleYaml import SkeleYaml
@@ -14,6 +15,23 @@ class Config(SkeleYaml):
     Built on top of the SkeleYaml parent Object in order to enherit and extend the functionality
     of yaml file generation and parsing
     """
+
+    schema = Schema({
+        'name': And(str, error='\'name\' must be a String'),
+        Optional('description'): And(str, error='\'description\' must be a String'),
+        Optional('maintainer'): And(str, error='\'maintainer\' must be a String'),
+        Optional('contact'): And(str, error='\'contact\' must be a String'),
+        'language': And(str, error='\'language\' must be a String'),
+        Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
+        Optional('primaryJob'): And(str, error='\'primaryJob\' must be a String'),
+        Optional('ephemeral'): And(bool, error='\'ephemeral\' must be a Boolean'),
+        Optional('dependencies'): And(list, error='\'dependencies\' must be a List'),
+        Optional('ignores'): And(list, error='\'ignores\' must be a List'),
+        Optional('jobs'): And(list, error='\'jobs\' must be a List'),
+        Optional('ports'): And(list, error='\'ports\' must be a List'),
+        Optional('components'): And(dict, error='\'components\' must be a Dictionary'),
+        Optional('params'): And(list, error='\'params\' must be a List')
+    }, ignore_extra_keys=True)
 
     name = None
     description = None
@@ -129,6 +147,7 @@ class Config(SkeleYaml):
         cfg = cls()
         if config is not None:
 
+            cls.validate(config)
             values = {}
             for attr, value in config.items():
                 if (attr in vars(Config)) and (attr != "components") and (attr != "version"):

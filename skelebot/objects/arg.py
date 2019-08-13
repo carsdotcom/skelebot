@@ -1,5 +1,6 @@
 """Job Argument Class"""
 
+from schema import Schema, And, Optional
 from .skeleYaml import SkeleYaml
 
 class Arg(SkeleYaml):
@@ -8,6 +9,12 @@ class Arg(SkeleYaml):
 
     Defines a single, required, positional argument for a job in the skelebot config
     """
+
+    schema = Schema({
+        'name': And(str, error='Arg \'name\' must be a String'),
+        Optional('choices'): And(list, error='Arg \'choices\' must be a List'),
+        Optional('help'): And(str, error='Arg \'help\' must be a String')
+    }, ignore_extra_keys=True)
 
     name = None
     choices = None
@@ -19,19 +26,3 @@ class Arg(SkeleYaml):
         self.name = name
         self.choices = choices
         self.help = help
-
-    @classmethod
-    def load(cls, config):
-        """Load the class object from the provided config"""
-
-        return cls(**config)
-
-    @classmethod
-    def loadList(cls, configs):
-        """Load a list of Arg objects from a config list"""
-
-        args = []
-        for config in configs:
-            args.append(cls.load(config))
-
-        return args

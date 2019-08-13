@@ -14,8 +14,10 @@ setup(
     zip_safe=False,
     setup_requires=["pytest-runner"],
     tests_require=[
-        "PyYAML",
-        "artifactory",
+        "PyYAML==5.1.2",
+        "artifactory==0.1.17",
+        "requests==2.22.0",
+        "schema==0.7.0",
         "coverage",
         "pytest"
     ],
@@ -23,6 +25,7 @@ setup(
         "PyYAML==5.1.2",
         "artifactory==0.1.17",
         "requests==2.22.0",
+        "schema==0.7.0",
         "coverage",
         "pytest"
     ],

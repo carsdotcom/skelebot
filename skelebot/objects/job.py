@@ -1,5 +1,6 @@
 """Job Class"""
 
+from schema import Schema, And, Optional
 from .skeleYaml import SkeleYaml
 from .param import Param
 from .arg import Arg
@@ -10,6 +11,17 @@ class Job(SkeleYaml):
 
     Config class that defines a job in a Skelebot project via the config yaml file
     """
+
+    schema = Schema({
+        'name': And(str, error='Job \'name\' must be a String'),
+        'source': And(str, error='Job \'source\' must be a String'),
+        Optional('mode'): And(str, error='Job \'mode\' must be a String'),
+        'help': And(str, error='Job \'help\' must be a String'),
+        Optional('args'): And(list, error='Job \'args\' must be a List'),
+        Optional('params'): And(list, error='Job \'params\' must be a List'),
+        Optional('ignores'): And(list, error='Job \'ignores\' must be a List'),
+        Optional('mappings'): And(list, error='Job \'mappings\' must be a List')
+    }, ignore_extra_keys=True)
 
     name = None
     source = None
@@ -41,6 +53,8 @@ class Job(SkeleYaml):
         to be instantiated
         """
 
+        cls.validate(config)
+
         values = {}
         for attr in config.keys():
             if attr in list(vars(Job).keys()):
@@ -52,13 +66,3 @@ class Job(SkeleYaml):
                     values[attr] = config[attr]
 
         return cls(**values)
-
-    @classmethod
-    def loadList(cls, config):
-        """Iterates over a list of Dicts that represent job objects and loads them into a list"""
-
-        jobs = []
-        for element in config:
-            jobs.append(cls.load(element))
-
-        return jobs
