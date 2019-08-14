@@ -1,11 +1,25 @@
+import copy
 from unittest import TestCase
 from unittest import mock
+from schema import SchemaError
 
 import skelebot as sb
 import argparse
 
 class TestArtifactory(TestCase):
     artifcatory = None
+
+    artifactoryDict = {
+        "url": "test",
+        "repo": "test",
+        "path": "path",
+        "artifacts": [1, 2]
+    }
+
+    artifactDict = {
+        "name": "test",
+        "file": "test"
+    }
 
     def setUp(self):
         artifact = sb.components.artifactory.Artifact("test", "test.pkl")
@@ -78,6 +92,63 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
 
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=("abc", "abc"))
         mock_open.assert_called_with("test_v0.1.0.pkl", "wb")
+
+    def test_validate_valid(self):
+        try:
+            sb.components.artifactory.Artifactory.validate(self.artifactoryDict)
+        except:
+            self.fail("Validation Raised Exception Unexpectedly")
+
+        try:
+            sb.components.artifactory.Artifact.validate(self.artifactDict)
+        except:
+            self.fail("Validation Raised Exception Unexpectedly")
+
+    def test_validate_mising(self):
+        artifactoryDict = copy.deepcopy(self.artifactoryDict)
+        del artifactoryDict['url']
+        del artifactoryDict['repo']
+        del artifactoryDict['path']
+
+        try:
+            sb.components.artifactory.Artifactory.validate(artifactoryDict)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Missing keys: 'path', 'repo', 'url'")
+
+        artifactDict = copy.deepcopy(self.artifactDict)
+        del artifactDict['name']
+        del artifactDict['file']
+
+        try:
+            sb.components.artifactory.Artifact.validate(artifactDict)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Missing keys: 'file', 'name'")
+
+    def validate_error_artifactory(self, attr, reset, expected):
+        artifactoryDict = copy.deepcopy(self.artifactoryDict)
+        artifactoryDict[attr] = reset
+
+        try:
+            sb.components.artifactory.Artifactory.validate(artifactoryDict)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Artifactory '{attr}' must be a {expected}".format(attr=attr, expected=expected))
+
+    def validate_error_artifact(self, attr, reset, expected):
+        artifactDict = copy.deepcopy(self.artifactDict)
+        artifactDict[attr] = reset
+
+        try:
+            sb.components.artifactory.Artifact.validate(artifactDict)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Artifact '{attr}' must be a {expected}".format(attr=attr, expected=expected))
+
+    def test_invalid(self):
+        self.validate_error_artifactory('url', 123, 'String')
+        self.validate_error_artifactory('repo', 123, 'String')
+        self.validate_error_artifactory('path', 123, 'String')
+        self.validate_error_artifactory('artifacts', 123, 'List')
+        self.validate_error_artifact('name', 123, 'String')
+        self.validate_error_artifact('file', 123, 'String')
 
 if __name__ == '__main__':
     unittest.main()

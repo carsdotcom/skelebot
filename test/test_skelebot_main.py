@@ -1,5 +1,6 @@
 from unittest import TestCase
 from unittest import mock
+from schema import SchemaError
 
 import skelebot as sb
 
@@ -33,3 +34,14 @@ class TestSkelebotMain(TestCase):
         mock_yaml.assert_called_once_with("dev")
         mock_parser.assert_called_once_with("config", "dev")
         mock_executor.assert_called_once_with("config", "parser")
+
+    @mock.patch('builtins.print')
+    @mock.patch('sys.exit')
+    @mock.patch('skelebot.systems.generators.yaml.loadConfig')
+    def test_skelebot_exception_handling(self, mock_yaml, exit_mock, print_mock):
+        mock_yaml.side_effect = SchemaError("Validation Failed")
+
+        sb.main()
+
+        print_mock.assert_called_once_with("\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | Validation Failed")
+        exit_mock.assert_called_once_with(1)

@@ -3,6 +3,7 @@
 import os
 import shutil
 import artifactory
+from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..objects.skeleYaml import SkeleYaml
 
@@ -48,6 +49,11 @@ class Artifact(SkeleYaml):
     artifact files and artifact names
     """
 
+    schema = Schema({
+        'name': And(str, error='Artifact \'name\' must be a String'),
+        'file': And(str, error='Artifact \'file\' must be a String'),
+    }, ignore_extra_keys=True)
+
     name = None
     file = None
 
@@ -66,6 +72,13 @@ class Artifactory(Component):
     activation = Activation.CONFIG
     commands = ["push", "pull"]
 
+    schema = Schema({
+        Optional('artifacts'): And(list, error='Artifactory \'artifacts\' must be a List'),
+        'url': And(str, error='Artifactory \'url\' must be a String'),
+        'repo': And(str, error='Artifactory \'repo\' must be a String'),
+        'path': And(str, error='Artifactory \'path\' must be a String'),
+    }, ignore_extra_keys=True)
+
     artifacts = None
     url = None
     repo = None
@@ -75,11 +88,14 @@ class Artifactory(Component):
     def load(cls, config):
         """Instantiate the Artifact Class Object based on a config dict"""
 
+        cls.validate(config)
+
         artifactDicts = config["artifacts"]
         artifacts = []
         for artifact in artifactDicts:
-            newArtifact = Artifact(artifact["name"], artifact["file"])
+            newArtifact = Artifact.load(artifact)
             artifacts.append(newArtifact)
+
         return cls(artifacts, config["url"], config["repo"], config["path"])
 
     def __init__(self, artifacts=None, url=None, repo=None, path=None):
