@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.1.0
+#### Added
+- **SkeleYaml | Validate** | Adds schema based validation for SkeleYaml objects and exception handling output
+
+---
+
 ## v1.0.3
+#### Merged: 2019-08-07
 #### Changed
 - **Bash Exec** | Bash scripts are now executed using `bash {script}` instead of `./{script}` for better stability
 
