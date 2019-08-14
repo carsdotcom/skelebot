@@ -1,6 +1,6 @@
 """Kerberos Component"""
 
-from schema import Schema, And, Optional
+from schema import Schema, And
 from ..objects.component import Activation, Component
 
 class Kerberos(Component):

@@ -45,6 +45,12 @@ from the skelebot.yaml by default.
 The ability to override the toDict method provides more flexibility for Plugin developers to
 augment their Components with further customization.
 
+<h3 align='left'>Attributes</h3>
+
+| NAME   | TYPE                                         | DESCRIPTION                                                                                                      |
+|--------|----------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| schema | [Schema](https://github.com/keleshev/schema) | The Schema definition for the object's attributes such that the Dict data can be validated prior to being loaded |
+
 <h3 align='left'>load(cls, config)</h3>
 
 > return cls()
@@ -63,6 +69,35 @@ to be loaded automatically. Unless there are objects within your SkeleYaml objec
 logic that is needed at load time, this method can be left to it's default implementation.
 
 If this method is overridden, it must return the instantiated class object (`cls()`).
+```
+
+<h3 align='left'>loadList(cls, config)</h3>
+
+> return cls()
+
+| PARAMETER | TYPE | DESCRIPTION                                                                                        |
+|-----------|------|----------------------------------------------------------------------------------------------------|
+| config    | List | A List of Dictionary representations of the skelebot.yaml data to be loaded into a list of objects |
+
+```
+The loadList is a convenience method that simply invokes the load method of the class in a loop
+for each element in the config provided and returns a list of instantiated class objects.
+```
+
+<h3 align='left'>validate(cls, config)</h3>
+
+> return cls()
+
+| PARAMETER | TYPE | DESCRIPTION                                                                              |
+|-----------|------|------------------------------------------------------------------------------------------|
+| config    | Dict | The Dictionary representation of the skelebot.yaml data to be validated prior to loading |
+
+```
+The validate method utilizes the skeleYaml's schema attribute to perform validation on the provided
+Dictionary config data prior to the data being loaded into the object.
+
+This is called from the default implementation of the load method, and should always be invoked
+prior to loading a SkeleYaml object.
 ```
 
 <h3 align='left'>toDict(self)</h3>
