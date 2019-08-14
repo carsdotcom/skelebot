@@ -1,5 +1,6 @@
 """Kerberos Component"""
 
+from schema import Schema, And
 from ..objects.component import Activation, Component
 
 class Kerberos(Component):
@@ -10,6 +11,12 @@ class Kerberos(Component):
     """
 
     activation = Activation.CONFIG
+
+    schema = Schema({
+        'krbConf': And(str, error='Kerberos \'krbConf\' must be a String'),
+        'keytab': And(str, error='Kerberos \'keytab\' must be a String'),
+        'hdfsUser': And(str, error='Kerberos \'hdfsUser\' must be a String')
+    }, ignore_extra_keys=True)
 
     krbConf = None
     keytab = None

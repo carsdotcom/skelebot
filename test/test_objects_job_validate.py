@@ -1,0 +1,59 @@
+import copy
+from unittest import TestCase
+from unittest import mock
+from schema import SchemaError
+
+import skelebot as sb
+
+class TestJobValidate(TestCase):
+
+    job = {
+        'name': 'test',
+        'source': 'test',
+        'mode': 'test',
+        'help': 'test',
+        'args': [1, 2],
+        'params': [1, 2],
+        'ignores': [1, 2],
+        'mappings': [1, 2]
+    }
+
+    def validate_error(self, attr, reset, expected):
+        job = copy.deepcopy(self.job)
+        job[attr] = reset
+
+        try:
+            sb.objects.job.Job.validate(job)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Job '{attr}' must be a {expected}".format(attr=attr, expected=expected))
+
+    def test_valid(self):
+
+        try:
+            sb.objects.job.Job.validate(self.job)
+        except:
+            self.fail("Validation Raised Exception Unexpectedly")
+
+    def test_invalid_mising(self):
+        job = copy.deepcopy(self.job)
+        del job['name']
+        del job['source']
+        del job['help']
+
+        try:
+            sb.objects.job.Job.validate(job)
+        except SchemaError as error:
+            self.assertEqual(error.code, "Missing keys: 'help', 'name', 'source'")
+
+    def test_invalid(self):
+        self.validate_error('name', 123, 'String')
+        self.validate_error('source', 123, 'String')
+        self.validate_error('mode', 123, 'String')
+        self.validate_error('help', 123, 'String')
+        self.validate_error('args', 123, 'List')
+        self.validate_error('params', 123, 'List')
+        self.validate_error('ignores', 123, 'List')
+        self.validate_error('mappings', 123, 'List')
+
+if __name__ == '__main__':
+    unittest.main()

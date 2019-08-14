@@ -1,5 +1,6 @@
 """Jupyter Component"""
 
+from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..systems.execution import docker
 
@@ -16,6 +17,11 @@ class Jupyter(Component):
 
     activation = Activation.PROJECT
     commands = ["jupyter"]
+
+    schema = Schema({
+        Optional('port'): And(int, error='Jupyter \'port\' must be an Integer'),
+        Optional('folder'): And(str, error='Jupyter \'folder\' must be a String'),
+    }, ignore_extra_keys=True)
 
     port = None
     folder = None
