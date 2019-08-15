@@ -47,6 +47,7 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
             self.fail("Exception Not Thrown")
         except Exception as exc:
             self.assertEqual(str(exc), expectedException)
+            mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=('sean', 'abc123'))
 
     @mock.patch('shutil.copyfile')
     @mock.patch('os.remove')
@@ -92,6 +93,20 @@ Please bump the version before pushing (skelebot bump) or force push (-f)."""
 
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=("abc", "abc"))
         mock_open.assert_called_with("test_v0.1.0.pkl", "wb")
+
+    @mock.patch('skelebot.components.artifactory.input')
+    @mock.patch('artifactory.ArtifactoryPath')
+    def test_execute_pull_not_found(self, mock_artifactory, mock_input):
+        mock_input.return_value = "abc"
+        path = mock_artifactory.return_value
+        path.exists.return_value = False
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None)
+
+        self.artifactory.execute(config, args)
+
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=("abc", "abc"))
 
     def test_validate_valid(self):
         try:

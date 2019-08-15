@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.1.1
+#### Changed
+- **Artifcatory Component** | Fixes a major bug where auth was not being utilized in path checking
+
+---
+
 ## v1.1.0
+#### Merged: 2019-08-14
 #### Added
 - **SkeleYaml | Validate** | Adds schema based validation for SkeleYaml objects and exception handling output
 
