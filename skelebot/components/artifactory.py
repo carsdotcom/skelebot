@@ -3,6 +3,7 @@
 import os
 import shutil
 import artifactory
+from requests.exceptions import MissingSchema
 from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..objects.skeleYaml import SkeleYaml
@@ -14,8 +15,11 @@ def pushArtifact(artifactFile, user, token, file, url, force):
     """Pushes the given file to the url with the provided user/token auth"""
 
     # Error and exit if artifact already exists and we are not forcing an override
-    if (not force) and (artifactory.ArtifactoryPath(url).exists()):
-        raise Exception(ERROR_ALREADY_PUSHED)
+    try:
+        if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
+            raise Exception(ERROR_ALREADY_PUSHED)
+    except MissingSchema:
+        pass
 
     # Rename artifact, deploy the renamed artifact, and then rename it back to original name
     print("Deploying {file} to {url}".format(file=file, url=url))
@@ -23,16 +27,15 @@ def pushArtifact(artifactFile, user, token, file, url, force):
     shutil.copyfile(artifactFile, file)
     try:
         path.deploy_file(file)
+        os.remove(file)
     except:
         os.remove(file)
         raise
-    finally:
-        os.remove(file)
 
 def pullArtifact(user, token, file, url):
     """Pulls the given file from the url with the provided user/token auth"""
 
-    if (artifactory.ArtifactoryPath(url).exists()):
+    if (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
         print("Pulling {file} from {url}".format(file=file, url=url))
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
         with path.open() as fd:
@@ -140,6 +143,15 @@ class Artifactory(Component):
         rename the artifact and push it to Artifactory or pull down the given artifact version
         from Artifactory
         """
+
+        artifactory.global_config = {
+            self.url: {
+                'username': None,
+                'verify': True,
+                'cert': None,
+                'password': None
+            }
+        }
 
         # Get User and Token if not provided in args
         user = args.user
