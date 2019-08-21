@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.1.2
+#### Changed
+- **Docker Run** | Updated the docker run process to operate properly on Windows machines
+
+---
+
 ## v1.1.1
+#### Merged: 2019-08-15
+#### Released: 2019-08-19
 #### Changed
 - **Artifcatory Component** | Fixes a major bug where auth was not being utilized in path checking
 
