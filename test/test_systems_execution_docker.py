@@ -78,7 +78,7 @@ class TestDocker(TestCase):
         job.mappings = ["data/", "/test/output/:/app/output/", "~/temp/:/app/temp/"]
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
-        expected = "docker run --name test-build --rm -i -v $PWD/data/:/app/data/ -v /test/output/:/app/output/ -v {homePath}/temp/:/app/temp/ test /bin/bash -c 'bash build.sh 0.1 --env local --log info'".format(homePath=homePath)
+        expected = "docker run --name test-build --rm -i -v /Users/seanshookman/Code/open-source/skelebot/test/files/data/:/app/data/ -v /test/output/:/app/output/ -v /Users/seanshookman/Code/open-source/skelebot/test/plugins/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(homePath=homePath)
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
 

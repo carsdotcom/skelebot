@@ -5,7 +5,7 @@ from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
 BUILD_CMD = "docker build -t {image} ."
-RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c '{command}'"
+RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
 
 def build(config):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
@@ -45,7 +45,7 @@ def run(config, command, mode, ports, mappings, task):
             if (":" in vmap):
                 params += " -v {vmap}".format(vmap=vmap)
             else:
-                params += " -v $PWD/{vmap}:/app/{vmap}".format(vmap=vmap)
+                params += " -v {pwd}/{vmap}:/app/{vmap}".format(pwd=os.getcwd(), vmap=vmap)
 
     # Construct the additional parameters from the components
     for component in config.components:
