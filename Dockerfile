@@ -12,4 +12,4 @@ RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 RUN ["pip", "install", "schema==0.7.0"]
 COPY . /app
-CMD /bin/bash -c 'bash /app/test.sh'
+CMD /bin/bash -c "bash test.sh"

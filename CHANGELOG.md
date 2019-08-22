@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.2.0
+#### Added
+- **Primary Job** | Added the ability for primary job to accept component hooks and use default params
+
+---
+
 ## v1.1.2
+#### Merged: 2019-08-21
 #### Changed
 - **Docker Run** | Updated the docker run process to operate properly on Windows machines
 
