@@ -8,7 +8,7 @@ def build(config, job, args, native=False):
     """Build the command that will either be executed via Docker, or on the native system"""
 
     ext = job.source.split(".")[1]
-    args = vars(args)
+    args = {} if args is None else vars(args)
     arguments = ""
     pre = ""
     post = ""
