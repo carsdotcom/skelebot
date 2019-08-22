@@ -2,6 +2,7 @@
 
 import os
 from ...common import EXT_COMMAND
+from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
 
@@ -55,9 +56,8 @@ def buildDockerfile(config):
     # Set the CMD to execute the primary job by default (if there is one)
     for job in config.jobs:
         if config.primaryJob == job.name:
-            ext = job.source.split(".")[1]
-            docker += "CMD /bin/bash -c '{command}/app/{job}'\n"
-            docker = docker.format(command=EXT_COMMAND[ext], job=job.source)
+            docker += "CMD /bin/bash -c \"{command}\"\n"
+            docker = docker.format(command=commandBuilder.build(config, job, None))
 
     dockerfile = open(FILE_PATH.format(path=os.getcwd()), "w")
     dockerfile.write(docker)
