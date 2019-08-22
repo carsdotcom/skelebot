@@ -1,7 +1,6 @@
 """Dockerfile Generator"""
 
 import os
-from ...common import EXT_COMMAND
 from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
