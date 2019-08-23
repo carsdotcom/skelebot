@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.2.1
+#### Added
+- **Tests** | Added more test cases to cover important edge cases that were missed
+
+---
+
 ## v1.2.0
+#### Merged: 2019-08-22
 #### Added
 - **Primary Job** | Added the ability for primary job to accept component hooks and use default params
 

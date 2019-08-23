@@ -3,7 +3,7 @@ from unittest import mock
 
 import skelebot as sb
 
-class TestExecutor(TestCase):
+class TestScaffolder(TestCase):
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.path.exists')
