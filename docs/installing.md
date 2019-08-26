@@ -21,7 +21,7 @@ to the root of the project and execute the install.sh script.
 
 
 ```
-> ./install.sh
+> ./jobs/install.sh
 ```
 
 If you do not have proper access on the machine you are using, Skelebot can be installed locally with the following command.
