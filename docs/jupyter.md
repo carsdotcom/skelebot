@@ -8,7 +8,7 @@ Skelebot provides a standard task to spin up Jupyer Notebooks inside Docker that
 project.
 
 ```
-> skelebot notebooks
+> skelebot jupyter
 ```
 
 There are two configuration values that facilitate this task: port and folder. These specify the port number on which the Docker container will map the running notebooks as well as the root folder that will be used in Jupyter.
