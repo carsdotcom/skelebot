@@ -59,5 +59,5 @@ def run(config, command, mode, ports, mappings, task):
     runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
     return os.system(runCMD)
 
-def save(config, filename="."):
+def save(config, filename="image.img"):
     return os.system(SAVE_CMD.format(image=config.getImageName(), filename=filename))
