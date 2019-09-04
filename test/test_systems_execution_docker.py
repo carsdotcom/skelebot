@@ -74,11 +74,12 @@ class TestDocker(TestCase):
         mock_system.return_value = 0
 
         config = sb.systems.generators.yaml.loadConfig()
+        config.ports = ["1127:1127"]
         job = config.jobs[0]
         job.mappings = ["data/", "/test/output/:/app/output/", "~/temp/:/app/temp/"]
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
-        expected = "docker run --name test-build --rm -i -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
+        expected = "docker run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
 

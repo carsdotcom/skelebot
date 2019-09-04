@@ -3,7 +3,7 @@ description: ML Build Tool
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 language: Python
-ephemeral: False
+ephemeral: True
 primaryJob: test
 dependencies:
 - pyyaml==5.1.2
@@ -21,11 +21,11 @@ ignores:
 - '**/*.pyc'
 jobs:
 - name: publish
-  source: publish.sh
+  source: jobs/publish.sh
   mode: i
   help: Build and Publish the Docker Base Images
 - name: test
-  source: test.sh
+  source: jobs/test.sh
   mode: i
   help: Run the test cases for the project with coverage
   params:

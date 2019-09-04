@@ -115,7 +115,7 @@ class SkeleParser:
 
     def showHelp(self):
         """Display the help message from the internal parser object"""
-        return self.parser.print_help()
+        self.parser.print_help()
 
     def buildDescription(self):
         """Construct the description text for the '--help' output"""
