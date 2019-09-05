@@ -23,7 +23,8 @@ class Prime(Component):
         """
 
         helpMessage = "Generate Dockerfile and .dockerignore and build the docker image"
-        subparsers.add_parser("prime", help=helpMessage)
+        primeParser = subparsers.add_parser("prime", help=helpMessage)
+        primeParser.add_argument("-o", "--output", help="Output file name for the image file")
         return subparsers
 
     def execute(self, config, args):
@@ -34,4 +35,9 @@ class Prime(Component):
         built so as to be ready for deployment
         """
 
-        return docker.build(config)
+        status = docker.build(config)
+        if (status == 0) & (args.output is not None):
+            status = docker.save(config, args.output)
+
+        if (status > 0):
+            raise Exception("Priming Failed")

@@ -83,5 +83,12 @@ class TestDocker(TestCase):
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
 
+    @mock.patch('os.system')
+    def test_save(self, mock_system):
+        mock_system.return_value = 0
+
+        sb.systems.execution.docker.save(sb.objects.config.Config(name="Test Project"), "test.img")
+        mock_system.assert_called_once_with("docker save -o test.img test-project")
+
 if __name__ == '__main__':
     unittest.main()

@@ -6,6 +6,7 @@ from ...systems.generators import dockerignore
 
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
+SAVE_CMD = "docker save -o {filename} {image}"
 
 def build(config):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
@@ -57,3 +58,6 @@ def run(config, command, mode, ports, mappings, task):
     image = config.getImageName()
     runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
     return os.system(runCMD)
+
+def save(config, filename="image.img"):
+    return os.system(SAVE_CMD.format(image=config.getImageName(), filename=filename))

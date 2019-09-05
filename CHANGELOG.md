@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.3.0
+#### Added
+- **Prime Output** | Add a param to prime component to allow for saving the Docker image as a file
+
+---
+
 ## v1.2.1
+#### Merged: 2019-09-04
 #### Added
 - **Tests** | Added more test cases to cover important edge cases that were missed
 
