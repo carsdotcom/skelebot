@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.3.1
+#### Added
+- **Python Base Lib** | Adds a library into the python base image that is needed for certain python packages
+
+---
+
 ## v1.3.0
+#### Merged: 2019-09-05
+#### Released: 2019-09-05
 #### Added
 - **Prime Output** | Add a param to prime component to allow for saving the Docker image as a file
 
@@ -11,6 +19,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.2.1
 #### Merged: 2019-09-04
+#### Released: 2019-09-05
 #### Added
 - **Tests** | Added more test cases to cover important edge cases that were missed
 
