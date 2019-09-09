@@ -73,7 +73,7 @@ class TestYaml(TestCase):
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_loadConfig_with_env_note_found(self, mock_getcwd, mock_expanduser):
+    def test_loadConfig_with_env_not_found(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         try:
