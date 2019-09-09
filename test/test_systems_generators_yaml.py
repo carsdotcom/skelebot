@@ -78,7 +78,7 @@ class TestYaml(TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         try:
             sb.systems.generators.yaml.loadConfig("tests")
-            self.fail("Expection Expected")
+            self.fail("Exception Expected")
         except RuntimeError as error:
             self.assertEqual(str(error), "Environment Not Found")
 
