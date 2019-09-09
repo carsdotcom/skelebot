@@ -43,7 +43,7 @@ class TestJobValidate(TestCase):
 
         try:
             sb.objects.job.Job.validate(job)
-            self.fail("Expection Expected")
+            self.fail("Exception Expected")
         except SchemaError as error:
             self.assertEqual(error.code, "Missing keys: 'help', 'name', 'source'")
 
