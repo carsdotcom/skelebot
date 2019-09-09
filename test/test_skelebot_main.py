@@ -38,10 +38,21 @@ class TestSkelebotMain(TestCase):
     @mock.patch('builtins.print')
     @mock.patch('sys.exit')
     @mock.patch('skelebot.systems.generators.yaml.loadConfig')
-    def test_skelebot_exception_handling(self, mock_yaml, exit_mock, print_mock):
+    def test_skelebot_schema_error(self, mock_yaml, exit_mock, print_mock):
         mock_yaml.side_effect = SchemaError("Validation Failed")
 
         sb.main()
 
         print_mock.assert_called_once_with("\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | Validation Failed")
+        exit_mock.assert_called_once_with(1)
+
+    @mock.patch('builtins.print')
+    @mock.patch('sys.exit')
+    @mock.patch('skelebot.systems.generators.yaml.loadConfig')
+    def test_skelebot_runtime_error(self, mock_yaml, exit_mock, print_mock):
+        mock_yaml.side_effect = RuntimeError("Environment Not Found")
+
+        sb.main()
+
+        print_mock.assert_called_once_with("\u001b[0m\u001b[31mERROR\u001b[0m | Environment Not Found")
         exit_mock.assert_called_once_with(1)
