@@ -60,6 +60,8 @@ def readYaml(env=None):
                     with open(envFile, 'r') as stream:
                         overrideYaml = yaml.load(stream, Loader=yaml.FullLoader)
                         yamlData = override(yamlData, overrideYaml)
+                else:
+                    raise RuntimeError("Environment Not Found")
 
     return yamlData
 

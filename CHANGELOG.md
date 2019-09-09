@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.3.2
+#### Added
+- **Environment Errors** | Returns an error message when attempting to use an env that does not exist
+
+---
+
 ## v1.3.1
+#### Merged: 2019-09-06
 #### Added
 - **Python Base Lib** | Adds a library into the python base image that is needed for certain python packages
 

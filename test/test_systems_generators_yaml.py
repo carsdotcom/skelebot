@@ -70,6 +70,18 @@ class TestYaml(TestCase):
         config = sb.systems.generators.yaml.loadConfig("test")
         self.validateYaml(config, True)
 
+    # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_env_not_found(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        try:
+            sb.systems.generators.yaml.loadConfig("tests")
+            self.fail("Exception Expected")
+        except RuntimeError as error:
+            self.assertEqual(str(error), "Environment Not Found")
+
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
