@@ -9,6 +9,10 @@ docker push skelebot/r-base:latest
 docker build -t skelebot/r-krb base-images/r-krb/
 docker push skelebot/r-krb:latest
 
+# Build and Publish r-aws
+docker build -t skelebot/r-aws base-images/r-aws/
+docker push skelebot/r-aws:latest
+
 # Build and Publish python-base
 docker build -t skelebot/python-base base-images/python-base/
 docker push skelebot/python-base:latest
