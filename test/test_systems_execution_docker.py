@@ -12,6 +12,20 @@ class TestDocker(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
+    @mock.patch('os.system')
+    def test_login(self, mock_system):
+        mock_system.return_value = 0
+
+        sb.systems.execution.docker.login()
+        mock_system.assert_called_once_with("docker login ")
+
+    @mock.patch('os.system')
+    def test_login_host(self, mock_system):
+        mock_system.return_value = 0
+
+        sb.systems.execution.docker.login("docker.io")
+        mock_system.assert_called_once_with("docker login docker.io")
+
     @mock.patch('os.path.expanduser')
     @mock.patch('os.remove')
     @mock.patch('os.system')

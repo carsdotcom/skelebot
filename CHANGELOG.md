@@ -3,7 +3,23 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.4.0
+#### Added
+- **Registry Component** | Adds a new component to store registry info for publishing images
+- **Docker Login** | Adds docker login function to login to a given registry host
+- **Docker Push** | Adds docker push function to tag and push images to the specified registry
+
+---
+
+## v1.3.3
+#### Merged: 2019-09-12
+#### Added
+- **AWS Base Image** | Adds a base image with R and AWS CLI that is not used by default in Skelebot yet
+
+---
+
 ## v1.3.2
+#### Merged: 2019-09-09
 #### Added
 - **Environment Errors** | Returns an error message when attempting to use an env that does not exist
 

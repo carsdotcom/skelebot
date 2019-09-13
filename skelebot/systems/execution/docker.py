@@ -4,9 +4,24 @@ import os
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
+LOGIN_CMD = "docker login {}"
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
 SAVE_CMD = "docker save -o {filename} {image}"
+TAG_CMD = "docker tag {src} {image}:{version}"
+PUSH_CMD = "docker push {image}:{version}"
+
+def login(host=None):
+    """Login to the given Docker Host"""
+
+    host = host if host is not None else ""
+    loginCMD = LOGIN_CMD.format(host)
+
+    print(loginCMD)
+    status = os.system(loginCMD)
+
+    if (status != 0):
+        raise Exception("Docker Login Failed")
 
 def build(config):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
@@ -60,4 +75,26 @@ def run(config, command, mode, ports, mappings, task):
     return os.system(runCMD)
 
 def save(config, filename="image.img"):
+    """Save the Image File to the disk"""
+
     return os.system(SAVE_CMD.format(image=config.getImageName(), filename=filename))
+
+def push(config, host=None, port=None, user=None):
+    """Tag with version and latest and push the project Image to the provided Docker Image Host"""
+
+    imageName = config.getImageName()
+    port = ":{port}".format(port=port) if port is not None else ""
+    host = "{host}{port}/".format(host=host, port=port) if host is not None else ""
+    user = "{user}/".format(user=user) if user is not None else ""
+    image = "{host}{user}{name}".format(host=host, port=port, user=user, name=imageName)
+
+    status = os.system(TAG_CMD.format(src=imageName, image=image, version=config.version))
+    if (status == 0):
+        status = os.system(TAG_CMD.format(src=imageName, image=image, version="latest"))
+    if (status == 0):
+        status = os.system(PUSH_CMD.format(image=image, version=config.version))
+    if (status == 0):
+        status = os.system(PUSH_CMD.format(image=image, version="latest"))
+
+    if (status != 0):
+        raise Exception("Docker Push Failed")
