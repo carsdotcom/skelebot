@@ -26,6 +26,52 @@ class TestDocker(TestCase):
         sb.systems.execution.docker.login("docker.io")
         mock_system.assert_called_once_with("docker login docker.io")
 
+    @mock.patch('os.system')
+    def test_login_error(self, mock_system):
+        mock_system.return_value = 1
+
+        with self.assertRaisesRegex(Exception, "Docker Login Failed"):
+            sb.systems.execution.docker.login()
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
+    def test_push(self, mock_getcwd, mock_system, mock_expanduser):
+        host = "docker.io"
+        port = 8888
+        user = "skelebot"
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        sb.systems.execution.docker.push(config, host, port, user)
+
+        mock_system.assert_any_call("docker tag test docker.io:8888/skelebot/test:6.6.6")
+        mock_system.assert_any_call("docker tag test docker.io:8888/skelebot/test:latest")
+        mock_system.assert_any_call("docker push docker.io:8888/skelebot/test:6.6.6")
+        mock_system.assert_any_call("docker push docker.io:8888/skelebot/test:latest")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
+    def test_push_error(self, mock_getcwd, mock_system, mock_expanduser):
+        host = "docker.io"
+        port = 8888
+        user = "skelebot"
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 1
+
+        config = sb.systems.generators.yaml.loadConfig()
+
+        with self.assertRaisesRegex(Exception, "Docker Push Failed"):
+            sb.systems.execution.docker.push(config, host, port, user)
+
     @mock.patch('os.path.expanduser')
     @mock.patch('os.remove')
     @mock.patch('os.system')
