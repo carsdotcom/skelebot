@@ -18,16 +18,16 @@ setup(
         "artifactory==0.1.17",
         "requests==2.22.0",
         "schema==0.7.0",
-        "coverage",
-        "pytest"
+        "coverage==4.5.4",
+        "pytest==5.1.3"
     ],
     install_requires=[
         "PyYAML==5.1.2",
         "artifactory==0.1.17",
         "requests==2.22.0",
         "schema==0.7.0",
-        "coverage",
-        "pytest"
+        "coverage==4.5.4",
+        "pytest==5.1.3"
     ],
     entry_points={
         'console_scripts': [
