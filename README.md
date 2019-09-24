@@ -29,7 +29,7 @@ Example Skelebot Project
 -----------------------------------
 Version: 1.1.0
 Environment: None
-Skelebot Version: 1.0.2
+Skelebot Version: 1.3.4
 -----------------------------------
 
 positional arguments:
