@@ -30,10 +30,16 @@ def main():
 def get_env():
     """Parse the env manually in order to read the correct yaml configuration"""
 
-    args = sys.argv
     env = None
-    for index in range(len(args)-1):
-        if (args[index] == "-e") or (args[index] == "--env"):
-            env = args[index+1]
+    prevArg = None
+    for arg in sys.argv:
+        if ((prevArg == "-e") or (prevArg == "--env")):
+            env = arg
+            break
+        if (prevArg != None):
+            if ((arg.startswith("-") == False) and (prevArg.startswith("-") == False)):
+                break
+
+        prevArg = arg
 
     return env
