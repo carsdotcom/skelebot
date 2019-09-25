@@ -1,16 +1,19 @@
 """Common Global Variables"""
 
+import colorama
 import pkg_resources
 
 VERSION = pkg_resources.get_distribution("skelebot").version
 DESCRIPTION = """
-\033[1m{project}\033[0m
-{desc}
+{bold}{{project}}{reset}
+{{desc}}
 -----------------------------------
-Version: {pVersion}
-Environment: {env}
-Skelebot Version: {version}
------------------------------------"""
+Version: {{pVersion}}
+Environment: {{env}}
+Skelebot Version: {{version}}
+-----------------------------------""".format(
+    bold=colorama.Style.BRIGHT, reset=colorama.Style.RESET_ALL
+)
 SKELEBOT_HOME = "~/.skelebot"
 PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
 

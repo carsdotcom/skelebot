@@ -1,13 +1,21 @@
 """Skelebot - Machine Learning Project Management Tool"""
 
 import sys
-from schema import SchemaError
-from .systems.parsing import skeleParser
-from .systems.generators import yaml
-from .systems.execution import executor
 
-SCHEMA_ERROR = "\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | {}"
-ERROR = "\u001b[0m\u001b[31mERROR\u001b[0m | {}"
+import colorama
+from schema import SchemaError
+
+from .systems.execution import executor
+from .systems.generators import yaml
+from .systems.parsing import skeleParser
+
+SCHEMA_ERROR = "{reset}{red}ERROR{reset} | skelebot.yaml | {{}}".format(
+    reset=colorama.Style.RESET_ALL, red=colorama.Fore.RED
+)
+ERROR = "{reset}{red}ERROR{reset} | {{}}".format(
+    reset=colorama.Style.RESET_ALL, red=colorama.Fore.RED
+)
+
 
 def main():
     """
@@ -22,9 +30,6 @@ def main():
         executor.execute(config, parser)
     except SchemaError as error:
         print(SCHEMA_ERROR.format(error))
-        sys.exit(1)
-    except RuntimeError as error:
-        print(ERROR.format(error))
         sys.exit(1)
 
 def get_env():
