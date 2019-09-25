@@ -27,7 +27,8 @@ setup(
         "requests==2.22.0",
         "schema==0.7.0",
         "coverage",
-        "pytest"
+        "pytest",
+        "colorama"
     ],
     entry_points={
         'console_scripts': [
