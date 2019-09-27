@@ -61,7 +61,7 @@ pip install skelebot
 
 ## Getting Started
 
-To get started using Skelebot you can follow the documentation found [here](https://carsdotcom.github.io/skelebot/).
+To get started using Skelebot you can follow the [Documentation](https://carsdotcom.github.io/skelebot/).
 
 ## Contributing
 
