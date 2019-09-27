@@ -1,7 +1,8 @@
 
-<center><img src="logo.gif"></center>
-
-<center><h1>Machine Learning Project Development Tool</h1></center>
+<div style="background-color:#00AEB2">
+    <p align="center"><img src="logo.gif"></p>
+    <h1 align="center">Machine Learning Project Development Tool</h1>
+</div>
 
 ---
 
