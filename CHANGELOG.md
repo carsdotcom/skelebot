@@ -3,6 +3,21 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.3.4
+#### Changed
+- **Logo** | Updated the logo with Skelly's new prompt-style robot eye and removed the transparency
+- **README** | Updated Logo in README and Centered the Title and Subtitle, and updates description
+- **Docs** | Updated GitHub Pages with better description (project development instead of project management)
+
+---
+
+## v1.3.3
+#### Merged: 2019-09-12
+#### Added
+- **AWS Base Image** | Adds a base image with R and AWS CLI that is not used by default in Skelebot yet
+
+---
+
 ## v1.3.2
 #### Added
 - **Environment Errors** | Returns an error message when attempting to use an env that does not exist
