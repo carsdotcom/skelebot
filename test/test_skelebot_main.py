@@ -2,6 +2,8 @@ from unittest import TestCase
 from unittest import mock
 from schema import SchemaError
 
+from colorama import Fore, Style
+
 import skelebot as sb
 
 class TestSkelebotMain(TestCase):
@@ -58,7 +60,7 @@ class TestSkelebotMain(TestCase):
 
         sb.main()
 
-        print_mock.assert_called_once_with("\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | Validation Failed")
+        print_mock.assert_called_once_with(Fore.RED + "ERROR" + Style.RESET_ALL + " | skelebot.yaml | Validation Failed")
         exit_mock.assert_called_once_with(1)
 
     @mock.patch('builtins.print')
@@ -69,5 +71,5 @@ class TestSkelebotMain(TestCase):
 
         sb.main()
 
-        print_mock.assert_called_once_with("\u001b[0m\u001b[31mERROR\u001b[0m | Environment Not Found")
+        print_mock.assert_called_once_with(Fore.RED + "ERROR" + Style.RESET_ALL + " | Environment Not Found")
         exit_mock.assert_called_once_with(1)
