@@ -2,9 +2,10 @@
 
 import pkg_resources
 
+from colorama import Style
+
 VERSION = pkg_resources.get_distribution("skelebot").version
-DESCRIPTION = """
-\033[1m{project}\033[0m
+DESCRIPTION = Style.BRIGHT + "{project}" + Style.RESET_ALL + """
 {desc}
 -----------------------------------
 Version: {pVersion}
