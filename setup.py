@@ -18,6 +18,7 @@ setup(
         "artifactory==0.1.17",
         "requests==2.22.0",
         "schema==0.7.0",
+        "colorama==0.4.1",
         "coverage",
         "pytest"
     ],
@@ -26,6 +27,7 @@ setup(
         "artifactory==0.1.17",
         "requests==2.22.0",
         "schema==0.7.0",
+        "colorama==0.4.1",
         "coverage",
         "pytest"
     ],
