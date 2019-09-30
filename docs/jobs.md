@@ -37,7 +37,7 @@ jobs:
 A job must contain three things in order to work. It must have a name, so you can call it from the command line, a source file to execute, and a help message for users to understand it. Python projects must utilize the `.py` extension while R projects must utilize the `.R` extension, but Bash scripts `.sh` are supported for both Python and R projects. Jobs can contain several additional fields:
 
  - **name** - The name that is used to execute the job from the command line
- - **source** - The path to the script (R, Python, or Bash) that will be executed
+ - **source** - Command to be executed(ex: echo 'Hello') or the path to the script (R, Python, or Bash) that will be executed
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
  - **mode** - The mode in which to execute the docker image [i: interactive(default), d: detached]
  - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]

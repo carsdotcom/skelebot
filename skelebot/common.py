@@ -34,4 +34,4 @@ LANGUAGE_DEPENDENCIES = {
     "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]
 }
 
-EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash "}
+EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}

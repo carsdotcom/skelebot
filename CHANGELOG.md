@@ -2,6 +2,9 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+## v1.4.4
+#### Changed
+- **Jobs** | Updated the jobs to execute the commands given in source as it is, along with support for execution of scripts
 
 ## v1.3.4
 #### Changed
