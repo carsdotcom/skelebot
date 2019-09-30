@@ -4,7 +4,7 @@ Machine learning projects are too often just a loose collection of unorganized s
 
 ### Purpose
 
-Skelebot is a command-line tool for managing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
+Skelebot is a command-line tool for developing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
 
 By allowing jobs to be executed in Docker, it removes the need for the developer to install specific R and Python packages on their own machine, and even removes the need to have R installed at all. Configured jobs in Skelebot also come with the added benefit of built-in help documentation in order to assist others in understanding what jobs your project has, and what those jobs do.
 
