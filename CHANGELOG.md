@@ -10,6 +10,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.5.0
+#### Merged: 2019-10-01
 #### Added
 - **Registry Component** | Adds a new component to store registry info for publishing images
 - **Docker Login** | Adds docker login function to login to a given registry host
