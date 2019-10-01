@@ -50,7 +50,7 @@ class Registry(Component):
         Execution Hook
 
         Executes when the publish command is provided and prompts for username and password before
-        pushing building the project's Docker Image and pushing it to the defined registry.
+        building the project's Docker Image and pushing it to the defined registry.
         """
 
         docker.login(self.host)
