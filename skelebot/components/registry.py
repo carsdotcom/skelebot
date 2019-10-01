@@ -1,6 +1,5 @@
 """Registry Component"""
 
-import getpass
 from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..systems.execution import docker
