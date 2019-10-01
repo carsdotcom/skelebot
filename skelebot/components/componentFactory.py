@@ -12,6 +12,7 @@ from .bump import Bump
 from .prime import Prime
 from .dexec import Dexec
 from .artifactory import Artifactory
+from .registry import Registry
 
 class ComponentFactory():
     """
@@ -33,7 +34,9 @@ class ComponentFactory():
             Bump.__name__.lower(): Bump,
             Prime.__name__.lower(): Prime,
             Dexec.__name__.lower(): Dexec,
-            Artifactory.__name__.lower(): Artifactory
+            Artifactory.__name__.lower(): Artifactory,
+            Registry.__name__.lower(): Registry
+
         }
 
         # Add the plugin components to the master list

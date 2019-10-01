@@ -38,6 +38,7 @@ Skelebot also saves developer time by integrating with HDFS through Kerberos aut
 - [Docker Ignores](docker-ignores.md)
 - [Environments](environments.md)
 - [Versioning](versioning.md)
+- [Publishing](publishing.md)
 - [Artifacts](artifacts.md)
 - [HDFS Kerberos](hdfs-kerberos.md)
 - [Jupyter](jupyter.md)

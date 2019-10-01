@@ -2,11 +2,24 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+
+## v1.5.0
+#### Added
+- **Registry Component** | Adds a new component to store registry info for publishing images
+- **Docker Login** | Adds docker login function to login to a given registry host
+- **Docker Push** | Adds docker push function to tag and push images to the specified registry
+
+---
+
 ## v1.4.0
+#### Merged: 2019-10-01
 #### Changed
 - **Jobs** | Updated the jobs to execute the commands given in source as it is, along with support for execution of scripts
 
+---
+
 ## v1.3.4
+#### Merged: 2019-09-27
 #### Changed
 - **Logo** | Updated the logo with Skelly's new prompt-style robot eye and removed the transparency
 - **README** | Updated Logo in README and Centered the Title and Subtitle, and updates description
@@ -22,6 +35,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.3.2
+#### Merged: 2019-09-09
 #### Added
 - **Environment Errors** | Returns an error message when attempting to use an env that does not exist
 

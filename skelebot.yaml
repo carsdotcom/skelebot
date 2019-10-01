@@ -20,7 +20,7 @@ ignores:
 - '**/*.model'
 - '**/*.pyc'
 jobs:
-- name: publish
+- name: publish-base
   source: jobs/publish.sh
   mode: i
   help: Build and Publish the Docker Base Images
@@ -37,3 +37,5 @@ components:
   jupyter:
     port: 1127
     folder: .
+  registry:
+    user: skelebot
