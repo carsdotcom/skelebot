@@ -2,15 +2,19 @@
 Documenting All Changes to the Skelebot Project
 
 ---
-## v1.4.0
-#### Changed
-- **Jobs** | Updated the jobs to execute the commands given in source as it is, along with support for execution of scripts
 
-## v1.4.0
+## v1.5.0
 #### Added
 - **Registry Component** | Adds a new component to store registry info for publishing images
 - **Docker Login** | Adds docker login function to login to a given registry host
 - **Docker Push** | Adds docker push function to tag and push images to the specified registry
+
+---
+
+## v1.4.0
+#### Merged: 2019-10-01
+#### Changed
+- **Jobs** | Updated the jobs to execute the commands given in source as it is, along with support for execution of scripts
 
 ---
 

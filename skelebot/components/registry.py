@@ -33,7 +33,6 @@ class Registry(Component):
         self.port = port
         self.user = user
 
-
     def addParsers(self, subparsers):
         """
         SkeleParser Hook
