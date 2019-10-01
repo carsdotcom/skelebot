@@ -1,13 +1,16 @@
 """Skelebot - Machine Learning Project Development Tool"""
 
 import sys
+from colorama import Fore, Style
 from schema import SchemaError
 from .systems.parsing import skeleParser
 from .systems.generators import yaml
 from .systems.execution import executor
 
-SCHEMA_ERROR = "\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | {}"
-ERROR = "\u001b[0m\u001b[31mERROR\u001b[0m | {}"
+
+ERROR_HEADER = Fore.RED + "ERROR" + Style.RESET_ALL
+ERROR = ERROR_HEADER + " | {}"
+SCHEMA_ERROR = ERROR_HEADER + " | skelebot.yaml | {}"
 
 def main():
     """

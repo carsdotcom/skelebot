@@ -12,6 +12,7 @@ dependencies:
 - coverage
 - pytest
 - schema==0.7.0
+- colorama==0.4.1
 ignores:
 - '**/*.zip'
 - '**/*.RData'

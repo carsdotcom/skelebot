@@ -3,6 +3,13 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.5.2
+#### Added
+- **Common** | Use colorama for cross-platform colored output
+- **Skelebot Main** | Use colorama for cross-platform highlighted output
+
+---
+
 ## v1.5.1
 #### Changed
 - **Skelebot Main** | Fixes bug where the parsing of the skelebot --env param could conflict with params on jobs
