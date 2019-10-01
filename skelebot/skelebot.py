@@ -1,4 +1,4 @@
-"""Skelebot - Machine Learning Project Management Tool"""
+"""Skelebot - Machine Learning Project Development Tool"""
 
 import sys
 from schema import SchemaError

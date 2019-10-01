@@ -7,7 +7,12 @@ COMMAND = "{pre}{extCommand}{file}{params}{post}"
 def build(config, job, args, native=False):
     """Build the command that will either be executed via Docker, or on the native system"""
 
-    ext = job.source.split(".")[1]
+    ext_list = job.source.split()[0].split(".")
+    if len(ext_list) == 1:
+        ext = "None"
+    else:
+        ext = ext_list[-1]
+
     args = {} if args is None else vars(args)
     arguments = ""
     pre = ""
@@ -16,7 +21,9 @@ def build(config, job, args, native=False):
     # Build the params list from the args and params of the job with the supplied values
     params = buildArgs(job.args, args)
     params += buildParams(job.params, args)
-    params += buildParams(config.params, args)
+    # Global parameters are ignored, if the direct command is specified in the job source
+    if not ext == "None":
+        params += buildParams(config.params, args)
 
     # Construct the pre-run and post-run commands from the components
     for component in config.components:

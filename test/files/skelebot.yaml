@@ -46,6 +46,10 @@ jobs:
     default: local
     name: env
   source: build.sh
+- help: Direct command test
+  mode: i
+  name: test-direct-command
+  source: echo Hello
 language: Python
 maintainer: Mega Man
 name: test

@@ -1,3 +1,4 @@
+import unittest
 from unittest import TestCase
 from unittest import mock
 from argparse import Namespace
@@ -46,6 +47,20 @@ class TestCommandBuilder(TestCase):
 
         expected = "bash build.sh 1.1 --env local --log info"
         command = sb.systems.execution.commandBuilder.build(config, job, args)
+        self.assertEqual(command, expected)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_direct_command(self, mock_getcwd, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        config = sb.systems.generators.yaml.loadConfig()
+        job = config.jobs[1]
+
+        expected = "echo Hello"
+        command = sb.systems.execution.commandBuilder.build(config, job, None)
         self.assertEqual(command, expected)
 
 if __name__ == '__main__':
