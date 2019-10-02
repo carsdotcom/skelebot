@@ -9,10 +9,9 @@ dependencies:
 - pyyaml==5.1.2
 - artifactory==0.1.17
 - requests==2.22.0
-- coverage==4.5.4
-- pytest==5.1.3
+- coverage
+- pytest
 - schema==0.7.0
-- colorama==0.4.1
 ignores:
 - '**/*.zip'
 - '**/*.RData'
@@ -21,7 +20,7 @@ ignores:
 - '**/*.model'
 - '**/*.pyc'
 jobs:
-- name: publish-base
+- name: publish
   source: jobs/publish.sh
   mode: i
   help: Build and Publish the Docker Base Images
@@ -34,9 +33,13 @@ jobs:
     alt: c
     accepts: boolean
     help: Allow for the coverage report to be displayed
+  - name: env
+    alt: e
+    help: ENV
+    choices:
+    - one
+    - two
 components:
   jupyter:
     port: 1127
     folder: .
-  registry:
-    user: skelebot

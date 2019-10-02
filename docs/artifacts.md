@@ -45,4 +45,4 @@ display when executing the commands, or they can be passed as parameters in the 
 
 ---
 
-<center><< <a href="versioning.html">Versioning</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>
+<center><< <a href="publishing.html">Publishing</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>
