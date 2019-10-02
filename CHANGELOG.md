@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.6.2
+#### Changed
+- **CI/CD** | Upload skelebot releases to PyPI via GitHub Action.
+
+---
+
 ## v1.6.1
+#### Merged: 2019-10-02
 #### Changed
 - **README** | Properly centering the project title logo image with GitHub specific markdown html
 
