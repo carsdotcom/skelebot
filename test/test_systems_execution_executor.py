@@ -1,12 +1,11 @@
-from unittest import TestCase
-from unittest import mock
+import argparse
+import unittest
 
 import skelebot as sb
-import argparse
 
-class TestExecutor(TestCase):
+class TestExecutor(unittest.TestCase):
 
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):
         config = sb.objects.config.Config()
         args = argparse.Namespace(job=None)
@@ -16,8 +15,8 @@ class TestExecutor(TestCase):
 
         mock_skeleParser.showHelp.assert_called_once()
 
-    @mock.patch('skelebot.systems.execution.executor.scaffold')
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.execution.executor.scaffold')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_scaffold(self, mock_skeleParser, mock_scaffold):
         config = sb.objects.config.Config()
         args = argparse.Namespace(job="scaffold", existing=False)
@@ -27,8 +26,8 @@ class TestExecutor(TestCase):
 
         mock_scaffold.assert_called_once_with(False)
 
-    @mock.patch('skelebot.systems.execution.executor.runDocker')
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.execution.executor.runDocker')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_job_skip(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
@@ -39,9 +38,9 @@ class TestExecutor(TestCase):
 
         mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
-    @mock.patch('skelebot.systems.execution.executor.buildDocker')
-    @mock.patch('skelebot.systems.execution.executor.runDocker')
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.execution.executor.buildDocker')
+    @unittest.mock.patch('skelebot.systems.execution.executor.runDocker')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_job(self, mock_skeleParser, mock_run, mock_build):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
@@ -53,8 +52,8 @@ class TestExecutor(TestCase):
         mock_build.assert_called_once_with(config)
         mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
-    @mock.patch('os.system')
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('os.system')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_job_native(self, mock_skeleParser, mock_system):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
@@ -65,9 +64,9 @@ class TestExecutor(TestCase):
 
         mock_system.assert_called_once_with("python -u test.py")
 
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_component(self, mock_skeleParser):
-        mock_component = mock.MagicMock()
+        mock_component = unittest.mock.MagicMock()
         mock_component.commands = ["test"]
         config = sb.objects.config.Config(components=[mock_component])
         args = argparse.Namespace(job="test")
@@ -77,8 +76,8 @@ class TestExecutor(TestCase):
 
         mock_component.execute.assert_called_once_with(config, args)
 
-    @mock.patch('skelebot.systems.execution.executor.runDocker')
-    @mock.patch('skelebot.systems.parsing.skeleParser')
+    @unittest.mock.patch('skelebot.systems.execution.executor.runDocker')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_chain(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])

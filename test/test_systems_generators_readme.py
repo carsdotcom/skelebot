@@ -1,10 +1,9 @@
-from unittest import TestCase
-from unittest import mock
-
-import skelebot as sb
+import unittest
 import os
 
-class TestREADME(TestCase):
+import skelebot as sb
+
+class TestREADME(unittest.TestCase):
     path = ""
     config = None
 
@@ -12,8 +11,8 @@ class TestREADME(TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.getcwd')
     def test_buildREADME(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/README.md".format(folder=folderPath)
@@ -21,7 +20,7 @@ class TestREADME(TestCase):
         mock_getcwd.return_value = folderPath
         self.config = sb.systems.generators.yaml.loadConfig()
 
-        expected= """# test
+        expected = """# test
 ![Version](https://img.shields.io/badge/Version-6.6.6-brightgreen.svg)
 ![Documentation](https://img.shields.io/badge/Documentation-UNLINKED-red.svg)
 

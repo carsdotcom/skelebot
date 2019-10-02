@@ -1,10 +1,9 @@
-from unittest import TestCase
-from unittest import mock
-
-import skelebot as sb
+import unittest
 import os
 
-class TestDockerfile(TestCase):
+import skelebot as sb
+
+class TestDockerfile(unittest.TestCase):
     path = ""
 
     # Get the path to the current working directory before we mock the function to do so
@@ -12,8 +11,8 @@ class TestDockerfile(TestCase):
         self.path = os.getcwd()
         self.maxDiff = None
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.getcwd')
     def test_buildDockerfile_no_language(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
@@ -40,8 +39,8 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.getcwd')
     def test_buildDockerfile_base(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
@@ -82,8 +81,8 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         print(data)
         self.assertEqual(data, expectedDockerfile)
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.getcwd')
     def test_buildDockerfile_krb(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
@@ -127,8 +126,8 @@ CMD /bin/bash -c \"/./krb/init.sh user && bash build.sh --env local --log info\"
         print(data)
         self.assertEqual(data, expectedDockerfile)
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.getcwd')
     def test_buildDockerfile_custom(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)

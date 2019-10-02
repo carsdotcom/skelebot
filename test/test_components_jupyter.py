@@ -1,12 +1,12 @@
+import argparse
 import copy
-from unittest import TestCase
-from unittest import mock
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
-import argparse
 
-class TestJupyter(TestCase):
+class TestJupyter(unittest.TestCase):
 
     jupyter = {
         "port": 123,
@@ -22,7 +22,7 @@ class TestJupyter(TestCase):
 
         self.assertNotEqual(subparsers.choices["jupyter"], None)
 
-    @mock.patch('skelebot.components.jupyter.docker')
+    @unittest.mock.patch('skelebot.components.jupyter.docker')
     def test_execute_R(self, mock_docker):
         mock_docker.build.return_value = 0
         config = sb.objects.config.Config(language="R")
@@ -36,7 +36,7 @@ class TestJupyter(TestCase):
         mock_docker.build.assert_called_with(config)
         mock_docker.run.assert_called_with(config, expectedCommand, "i", ["1127:8888"], ".", "jupyter")
 
-    @mock.patch('skelebot.components.jupyter.docker')
+    @unittest.mock.patch('skelebot.components.jupyter.docker')
     def test_execute_Python(self, mock_docker):
         mock_docker.build.return_value = 0
         config = sb.objects.config.Config(language="Python")

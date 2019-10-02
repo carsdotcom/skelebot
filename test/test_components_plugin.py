@@ -1,10 +1,9 @@
-from unittest import TestCase
-from unittest import mock
+import argparse
+import unittest
 
 import skelebot as sb
-import argparse
 
-class TestPlugin(TestCase):
+class TestPlugin(unittest.TestCase):
 
     def test_addParsers(self):
         plugin = sb.components.plugin.Plugin()
@@ -15,15 +14,15 @@ class TestPlugin(TestCase):
 
         self.assertNotEqual(subparsers.choices["plugin"], None)
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.path.exists')
-    @mock.patch('os.makedirs')
-    @mock.patch('skelebot.components.plugin.zipfile')
+    @unittest.mock.patch('os.path.expanduser')
+    @unittest.mock.patch('os.path.exists')
+    @unittest.mock.patch('os.makedirs')
+    @unittest.mock.patch('skelebot.components.plugin.zipfile')
     def test_execute(self, mock_zipfile, mock_makedirs, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/dummy"
         mock_exists.return_value = False
 
-        mock_zip = mock.MagicMock()
+        mock_zip = unittest.mock.MagicMock()
         mock_zipfile.ZipFile.return_value = mock_zip
         config = sb.objects.config.Config()
         args = argparse.Namespace(plugin="test.zip")

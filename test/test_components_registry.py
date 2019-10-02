@@ -1,12 +1,12 @@
+import argparse
 import copy
-from unittest import TestCase
-from unittest import mock
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
-import argparse
 
-class TestRegistry(TestCase):
+class TestRegistry(unittest.TestCase):
 
     registry = {
         "host": "docker.io",
@@ -23,7 +23,7 @@ class TestRegistry(TestCase):
 
         self.assertNotEqual(subparsers.choices["publish"], None)
 
-    @mock.patch('skelebot.components.registry.docker')
+    @unittest.mock.patch('skelebot.components.registry.docker')
     def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
 

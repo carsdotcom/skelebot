@@ -1,11 +1,10 @@
-from unittest import TestCase
-from unittest import mock
+import unittest
 
 from colorama import Style
 
 import skelebot as sb
 
-class TestParser(TestCase):
+class TestParser(unittest.TestCase):
 
     def test_parseArgs(self):
         arg1 = sb.objects.arg.Arg(name="start")
@@ -54,7 +53,7 @@ Skelebot Version: 1.5.3
 
         self.assertEqual(description, expectedDescription)
 
-    @mock.patch('skelebot.systems.parsing.skeleParser.argparse.ArgumentParser.print_help')
+    @unittest.mock.patch('skelebot.systems.parsing.skeleParser.argparse.ArgumentParser.print_help')
     def test_help(self, mock_printHelp):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0")
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")

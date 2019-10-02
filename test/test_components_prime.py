@@ -1,10 +1,9 @@
-from unittest import TestCase
-from unittest import mock
+import argparse
+import unittest
 
 import skelebot as sb
-import argparse
 
-class TestPrime(TestCase):
+class TestPrime(unittest.TestCase):
 
     def test_addParsers(self):
         parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
@@ -14,7 +13,7 @@ class TestPrime(TestCase):
 
         self.assertNotEqual(subparsers.choices["prime"], None)
 
-    @mock.patch('skelebot.components.prime.docker')
+    @unittest.mock.patch('skelebot.components.prime.docker')
     def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 0
@@ -27,7 +26,7 @@ class TestPrime(TestCase):
 
         mock_docker.build.assert_called_with(config)
 
-    @mock.patch('skelebot.components.prime.docker')
+    @unittest.mock.patch('skelebot.components.prime.docker')
     def test_execute_output(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 0
@@ -41,7 +40,7 @@ class TestPrime(TestCase):
         mock_docker.build.assert_called_with(config)
         mock_docker.save.assert_called_with(config, "my-image.img")
 
-    @mock.patch('skelebot.components.prime.docker')
+    @unittest.mock.patch('skelebot.components.prime.docker')
     def test_execute_exception(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 1
