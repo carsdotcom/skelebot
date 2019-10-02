@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.5.3
+#### Changed
+- **Dependency Versions** | Explicitly setting versions for coverage and pytest dependencies
+
+---
+
 ## v1.5.2
+#### Merged: 2019-10-01
 #### Added
 - **Common** | Use colorama for cross-platform colored output
 - **Skelebot Main** | Use colorama for cross-platform highlighted output
@@ -11,6 +18,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.5.1
+#### Merged: 2019-10-01
 #### Changed
 - **Skelebot Main** | Fixes bug where the parsing of the skelebot --env param could conflict with params on jobs
 
