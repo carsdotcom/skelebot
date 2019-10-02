@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.6.0
+#### Added
+- **Global commands** | Adds optional docker RUN commands property to root config that are executed after dependencies are installed
+
+---
+
 ## v1.5.3
+#### Merged: 2019-10-02
 #### Changed
 - **Dependency Versions** | Explicitly setting versions for coverage and pytest dependencies
 
