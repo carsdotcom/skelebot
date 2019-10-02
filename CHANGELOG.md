@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.6.3
+#### Changed
+- **CI/CD** | Update PyPI workflow to trigger on prereleases only.
+
+---
+
 ## v1.6.2
+#### Merged: 2019-10-02
+#### Released: 2019-10-02
 #### Changed
 - **CI/CD** | Upload skelebot releases to PyPI via GitHub Action.
 
