@@ -3,7 +3,7 @@ name: Upload to PyPI
 # Trigger the workflow on every release
 on:
   release:
-    types: [created]
+    types: [prereleased]
 
 jobs:
   deploy:
