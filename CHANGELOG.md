@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.5.4
+#### Changed
+- **README** | Properly centering the project title logo image with GitHub specific markdown html
+
+---
+
 ## v1.5.3
+#### Merged: 2019-10-02
+#### Released: 2019-10-02
 #### Changed
 - **Dependency Versions** | Explicitly setting versions for coverage and pytest dependencies
 
