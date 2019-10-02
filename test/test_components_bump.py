@@ -1,6 +1,7 @@
 import argparse
 import os
 import unittest
+from unittest import mock
 
 import skelebot as sb
 
@@ -20,8 +21,8 @@ class TestBump(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["bump"], None)
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_execute_major(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
@@ -37,8 +38,8 @@ class TestBump(unittest.TestCase):
 
         self.assertEqual(bumpVersion, "7.0.0")
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_execute_minor(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
@@ -55,8 +56,8 @@ class TestBump(unittest.TestCase):
         self.assertEqual(bumpVersion, "6.7.0")
 
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_execute_patch(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)

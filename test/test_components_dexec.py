@@ -1,5 +1,6 @@
 import argparse
 import unittest
+from unittest import mock
 
 import skelebot as sb
 
@@ -13,7 +14,7 @@ class TestDexec(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["exec"], None)
 
-    @unittest.mock.patch('skelebot.components.dexec.docker')
+    @mock.patch('skelebot.components.dexec.docker')
     def test_execute_nomap(self, mock_docker):
         config = sb.objects.config.Config(name="test-dexec")
         args = argparse.Namespace(map=False)
@@ -24,7 +25,7 @@ class TestDexec(unittest.TestCase):
         mock_docker.build.assert_called_with(config)
         mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], [], "exec")
 
-    @unittest.mock.patch('skelebot.components.dexec.docker')
+    @mock.patch('skelebot.components.dexec.docker')
     def test_execute_map(self, mock_docker):
         config = sb.objects.config.Config(name="test-dexec")
         args = argparse.Namespace(map=True)

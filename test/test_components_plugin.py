@@ -1,5 +1,6 @@
 import argparse
 import unittest
+from unittest import mock
 
 import skelebot as sb
 
@@ -14,10 +15,10 @@ class TestPlugin(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["plugin"], None)
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.path.exists')
-    @unittest.mock.patch('os.makedirs')
-    @unittest.mock.patch('skelebot.components.plugin.zipfile')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.components.plugin.zipfile')
     def test_execute(self, mock_zipfile, mock_makedirs, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/dummy"
         mock_exists.return_value = False

@@ -1,14 +1,15 @@
 import unittest
+from unittest import mock
 
 import skelebot as sb
 
 class TestScaffolder(unittest.TestCase):
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.path.exists')
-    @unittest.mock.patch('os.getcwd')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
     def test_execute_scaffold_abort(self, mock_prompt, mock_cFactory, mock_getcwd, mock_exists,
                                     mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
@@ -28,13 +29,13 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.path.exists')
-    @unittest.mock.patch('os.getcwd')
-    @unittest.mock.patch('os.makedirs')
-    #@unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    #@mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
     def test_execute_scaffold_existing_init(self, mock_prompt, mock_yaml, #mock_cFactory,
                                             mock_makedirs, mock_getcwd, mock_exists,
                                             mock_expanduser):
@@ -53,16 +54,16 @@ class TestScaffolder(unittest.TestCase):
 
         mock_yaml.saveConfig.assert_called_once()
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.path.exists')
-    @unittest.mock.patch('os.getcwd')
-    @unittest.mock.patch('os.makedirs')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
-    @unittest.mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
     def test_execute_scaffold(self, mock_prompt, mock_yaml, mock_readme, mock_dignore, mock_dockerfile, mock_cFactory, mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
@@ -89,7 +90,7 @@ class TestScaffolder(unittest.TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
 
-    @unittest.mock.patch('skelebot.systems.scaffolding.prompt.input')
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
     def test_scaffold_prompt(self, mock_input):
         mock_input.return_value = "hi"
 
@@ -98,7 +99,7 @@ class TestScaffolder(unittest.TestCase):
         mock_input.assert_called_with("Enter A Message: ")
         self.assertEqual(msg, "hi")
 
-    @unittest.mock.patch('skelebot.systems.scaffolding.prompt.input')
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
     def test_scaffold_prompt_options(self, mock_input):
         mock_input.return_value = "rf"
 
@@ -107,7 +108,7 @@ class TestScaffolder(unittest.TestCase):
         mock_input.assert_called_with("Select an Algorithm [glm, rf, lgbm]: ")
         self.assertEqual(msg, "rf")
 
-    @unittest.mock.patch('skelebot.systems.scaffolding.prompt.input')
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
     def test_scaffold_prompt_boolean(self, mock_input):
         mock_input.return_value = "Y"
 
@@ -116,7 +117,7 @@ class TestScaffolder(unittest.TestCase):
         mock_input.assert_called_with("Would you like CHEESE with that? [Y/N]: ")
         self.assertTrue(msg)
 
-    @unittest.mock.patch('skelebot.systems.scaffolding.prompt.input')
+    @mock.patch('skelebot.systems.scaffolding.prompt.input')
     def test_scaffold_prompt_boolean_false(self, mock_input):
         mock_input.return_value = "n"
 

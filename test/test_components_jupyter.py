@@ -1,6 +1,7 @@
 import argparse
 import copy
 import unittest
+from unittest import mock
 
 from schema import SchemaError
 
@@ -22,7 +23,7 @@ class TestJupyter(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["jupyter"], None)
 
-    @unittest.mock.patch('skelebot.components.jupyter.docker')
+    @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_R(self, mock_docker):
         mock_docker.build.return_value = 0
         config = sb.objects.config.Config(language="R")
@@ -36,7 +37,7 @@ class TestJupyter(unittest.TestCase):
         mock_docker.build.assert_called_with(config)
         mock_docker.run.assert_called_with(config, expectedCommand, "i", ["1127:8888"], ".", "jupyter")
 
-    @unittest.mock.patch('skelebot.components.jupyter.docker')
+    @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_Python(self, mock_docker):
         mock_docker.build.return_value = 0
         config = sb.objects.config.Config(language="Python")

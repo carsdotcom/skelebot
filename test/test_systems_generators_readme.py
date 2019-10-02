@@ -1,5 +1,6 @@
-import unittest
 import os
+import unittest
+from unittest import mock
 
 import skelebot as sb
 
@@ -11,8 +12,8 @@ class TestREADME(unittest.TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_buildREADME(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/README.md".format(folder=folderPath)

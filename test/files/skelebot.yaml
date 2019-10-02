@@ -1,6 +1,6 @@
 commands:
-  - rm -rf build/
-  - rm -rf dist/
+- rm -rf build/
+- rm -rf dist/
 components:
   artifactory:
     artifacts:

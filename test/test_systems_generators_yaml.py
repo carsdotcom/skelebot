@@ -1,5 +1,6 @@
 import os
 import unittest
+from unittest import mock
 
 from skelebot.objects.component import Activation
 
@@ -55,8 +56,8 @@ class TestYaml(unittest.TestCase):
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
     # Test to ensure that the config loads from skelebot.yaml properly when it is present
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_loadConfig_with_yaml(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
@@ -64,8 +65,8 @@ class TestYaml(unittest.TestCase):
         self.validateYaml(config)
 
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_loadConfig_with_env(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
@@ -73,8 +74,8 @@ class TestYaml(unittest.TestCase):
         self.validateYaml(config, True)
 
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_loadConfig_with_env_not_found(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
@@ -85,8 +86,8 @@ class TestYaml(unittest.TestCase):
             self.assertEqual(str(error), "Environment Not Found")
 
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_loadConfig_without_yaml(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test".format(path=self.path)
@@ -115,8 +116,8 @@ class TestYaml(unittest.TestCase):
         self.assertTrue(all(elem in expectedComponents for elem in components))
 
     # Test to ensure that the yaml generation works properly with a complete config object (ends up testing the loading process as well)
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_saveConfig(self, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)

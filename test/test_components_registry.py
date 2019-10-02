@@ -1,6 +1,7 @@
 import argparse
 import copy
 import unittest
+from unittest import mock
 
 from schema import SchemaError
 
@@ -23,7 +24,7 @@ class TestRegistry(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["publish"], None)
 
-    @unittest.mock.patch('skelebot.components.registry.docker')
+    @mock.patch('skelebot.components.registry.docker')
     def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
 

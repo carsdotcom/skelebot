@@ -1,5 +1,6 @@
-import unittest
 import os
+import unittest
+from unittest import mock
 from argparse import Namespace
 
 import skelebot as sb
@@ -11,8 +12,8 @@ class TestCommandBuilder(unittest.TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_build(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         args = Namespace(version='0.1', test=True)
@@ -29,8 +30,8 @@ class TestCommandBuilder(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_build_no_boolean(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         args = Namespace(version='1.1')
@@ -47,8 +48,8 @@ class TestCommandBuilder(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
-    @unittest.mock.patch('os.path.expanduser')
-    @unittest.mock.patch('os.getcwd')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_direct_command(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)

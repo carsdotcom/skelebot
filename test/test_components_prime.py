@@ -1,5 +1,6 @@
 import argparse
 import unittest
+from unittest import mock
 
 import skelebot as sb
 
@@ -13,7 +14,7 @@ class TestPrime(unittest.TestCase):
 
         self.assertNotEqual(subparsers.choices["prime"], None)
 
-    @unittest.mock.patch('skelebot.components.prime.docker')
+    @mock.patch('skelebot.components.prime.docker')
     def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 0
@@ -26,7 +27,7 @@ class TestPrime(unittest.TestCase):
 
         mock_docker.build.assert_called_with(config)
 
-    @unittest.mock.patch('skelebot.components.prime.docker')
+    @mock.patch('skelebot.components.prime.docker')
     def test_execute_output(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 0
@@ -40,7 +41,7 @@ class TestPrime(unittest.TestCase):
         mock_docker.build.assert_called_with(config)
         mock_docker.save.assert_called_with(config, "my-image.img")
 
-    @unittest.mock.patch('skelebot.components.prime.docker')
+    @mock.patch('skelebot.components.prime.docker')
     def test_execute_exception(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 1

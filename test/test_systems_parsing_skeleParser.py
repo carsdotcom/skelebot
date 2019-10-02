@@ -1,4 +1,5 @@
 import unittest
+from unittest import mock
 
 from colorama import Style
 
@@ -53,7 +54,7 @@ Skelebot Version: 1.6.0
 
         self.assertEqual(description, expectedDescription)
 
-    @unittest.mock.patch('skelebot.systems.parsing.skeleParser.argparse.ArgumentParser.print_help')
+    @mock.patch('skelebot.systems.parsing.skeleParser.argparse.ArgumentParser.print_help')
     def test_help(self, mock_printHelp):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0")
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
