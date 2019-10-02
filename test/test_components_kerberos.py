@@ -1,10 +1,11 @@
 import copy
-from unittest import TestCase
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
 
-class TestKerberos(TestCase):
+class TestKerberos(unittest.TestCase):
 
     kerberos = {
         "krbConf": "test",

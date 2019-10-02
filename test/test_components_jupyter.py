@@ -1,12 +1,13 @@
+import argparse
 import copy
-from unittest import TestCase
+import unittest
 from unittest import mock
+
 from schema import SchemaError
 
 import skelebot as sb
-import argparse
 
-class TestJupyter(TestCase):
+class TestJupyter(unittest.TestCase):
 
     jupyter = {
         "port": 123,

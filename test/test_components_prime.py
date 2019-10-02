@@ -1,10 +1,10 @@
-from unittest import TestCase
+import argparse
+import unittest
 from unittest import mock
 
 import skelebot as sb
-import argparse
 
-class TestPrime(TestCase):
+class TestPrime(unittest.TestCase):
 
     def test_addParsers(self):
         parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)

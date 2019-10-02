@@ -1,11 +1,11 @@
-from unittest import TestCase
+import unittest
 from unittest import mock
 
 from colorama import Style
 
 import skelebot as sb
 
-class TestParser(TestCase):
+class TestParser(unittest.TestCase):
 
     def test_parseArgs(self):
         arg1 = sb.objects.arg.Arg(name="start")
@@ -49,7 +49,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.5.4
+Skelebot Version: 1.6.1
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)

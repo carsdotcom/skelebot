@@ -3,9 +3,16 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.5.4
+## v1.6.1
 #### Changed
 - **README** | Properly centering the project title logo image with GitHub specific markdown html
+
+---
+
+## v1.6.0
+#### Merged: 2019-10-02
+#### Added
+- **Global commands** | Adds optional docker RUN commands property to root config that are executed after dependencies are installed
 
 ---
 

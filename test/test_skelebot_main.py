@@ -1,12 +1,12 @@
-from unittest import TestCase
+import unittest
 from unittest import mock
-from schema import SchemaError
 
+from schema import SchemaError
 from colorama import Fore, Style
 
 import skelebot as sb
 
-class TestSkelebotMain(TestCase):
+class TestSkelebotMain(unittest.TestCase):
 
     @mock.patch('skelebot.systems.execution.executor.execute')
     @mock.patch('skelebot.systems.generators.yaml.loadConfig')

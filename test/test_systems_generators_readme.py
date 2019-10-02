@@ -1,10 +1,10 @@
-from unittest import TestCase
+import os
+import unittest
 from unittest import mock
 
 import skelebot as sb
-import os
 
-class TestREADME(TestCase):
+class TestREADME(unittest.TestCase):
     path = ""
     config = None
 
@@ -21,7 +21,7 @@ class TestREADME(TestCase):
         mock_getcwd.return_value = folderPath
         self.config = sb.systems.generators.yaml.loadConfig()
 
-        expected= """# test
+        expected = """# test
 ![Version](https://img.shields.io/badge/Version-6.6.6-brightgreen.svg)
 ![Documentation](https://img.shields.io/badge/Documentation-UNLINKED-red.svg)
 
