@@ -10,6 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/dynamic/xml.svg?style=svg&color=purple&label=Dev%20Version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
 ![PyPI](https://img.shields.io/pypi/v/skelebot?color=purple&label=PyPi%20Release)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/skelebot?color=purple&label=PyPi%20Installs)
 
 ---
 
