@@ -26,6 +26,7 @@ class TestYaml(unittest.TestCase):
             self.assertEqual(config.ignores, ['data/', 'libs/'])
         else:
             self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
+        self.assertEqual(config.commands, ["rm -rf build/", "rm -rf dist/"])
         self.assertEqual(config.jobs[0].name, "build")
         self.assertEqual(config.jobs[0].source, "build.sh")
         self.assertEqual(config.jobs[0].mode, "i")
@@ -102,6 +103,7 @@ class TestYaml(unittest.TestCase):
         self.assertEqual(config.ephemeral, None)
         self.assertEqual(config.dependencies, [])
         self.assertEqual(config.ignores, [])
+        self.assertEqual(config.commands, [])
         self.assertEqual(config.jobs, [])
         components = []
         for component in config.components:

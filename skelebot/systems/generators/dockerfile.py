@@ -44,6 +44,10 @@ def buildDockerfile(config):
             else:
                 docker += R_INSTALL.format(dep=dep)
 
+    # Run any custom global commands
+    for command in config.commands:
+        docker += "RUN {command}\n".format(command=command)
+
     # Copy the project into the /app folder of the Docker Image
     # Ignores anything in the .dockerignore file of the project
     docker += "COPY . /app\n"

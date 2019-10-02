@@ -66,6 +66,7 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('ports', 123, 'List')
         self.validate_error('components', 123, 'Dictionary')
         self.validate_error('params', 123, 'List')
+        self.validate_error('commands', 123, 'List')
 
 if __name__ == '__main__':
     unittest.main()
