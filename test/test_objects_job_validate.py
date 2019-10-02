@@ -1,11 +1,11 @@
 import copy
-from unittest import TestCase
-from unittest import mock
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
 
-class TestJobValidate(TestCase):
+class TestJobValidate(unittest.TestCase):
 
     job = {
         'name': 'test',

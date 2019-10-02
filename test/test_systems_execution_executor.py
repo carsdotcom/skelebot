@@ -1,10 +1,10 @@
-from unittest import TestCase
+import argparse
+import unittest
 from unittest import mock
 
 import skelebot as sb
-import argparse
 
-class TestExecutor(TestCase):
+class TestExecutor(unittest.TestCase):
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):

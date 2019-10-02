@@ -1,10 +1,10 @@
-from unittest import TestCase
+import argparse
+import unittest
 from unittest import mock
 
 import skelebot as sb
-import argparse
 
-class TestPlugin(TestCase):
+class TestPlugin(unittest.TestCase):
 
     def test_addParsers(self):
         plugin = sb.components.plugin.Plugin()

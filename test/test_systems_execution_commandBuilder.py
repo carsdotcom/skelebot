@@ -1,12 +1,11 @@
+import os
 import unittest
-from unittest import TestCase
 from unittest import mock
 from argparse import Namespace
 
 import skelebot as sb
-import os
 
-class TestCommandBuilder(TestCase):
+class TestCommandBuilder(unittest.TestCase):
     path = ""
 
     # Get the path to the current working directory before we mock the function to do so

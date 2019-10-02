@@ -5,5 +5,7 @@
 FROM ubuntu:18.04
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
+RUN rm -rf build/
+RUN rm -rf dist/
 COPY . /app
 CMD /bin/bash -c "bash build.sh --env local --log info"
