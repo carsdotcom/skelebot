@@ -30,7 +30,7 @@ class TestSkelebotMain(unittest.TestCase):
         mock_yaml.return_value = "config"
         mock_executor.return_value = 0
 
-        with unittest.mock.patch("sys.argv", ["main", "-e", "dev"]):
+        with mock.patch("sys.argv", ["main", "-e", "dev"]):
             sb.main()
 
         mock_yaml.assert_called_once_with("dev")
@@ -45,7 +45,7 @@ class TestSkelebotMain(unittest.TestCase):
         mock_yaml.return_value = "config"
         mock_executor.return_value = 0
 
-        with unittest.mock.patch("sys.argv", ["main", "train", "-e", "dev"]):
+        with mock.patch("sys.argv", ["main", "train", "-e", "dev"]):
             sb.main()
 
         mock_yaml.assert_called_once_with(None)

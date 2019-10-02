@@ -67,7 +67,7 @@ class TestExecutor(unittest.TestCase):
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_component(self, mock_skeleParser):
-        mock_component = unittest.mock.MagicMock()
+        mock_component = mock.MagicMock()
         mock_component.commands = ["test"]
         config = sb.objects.config.Config(components=[mock_component])
         args = argparse.Namespace(job="test")

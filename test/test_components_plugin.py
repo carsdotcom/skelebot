@@ -23,7 +23,7 @@ class TestPlugin(unittest.TestCase):
         mock_expanduser.return_value = "test/dummy"
         mock_exists.return_value = False
 
-        mock_zip = unittest.mock.MagicMock()
+        mock_zip = mock.MagicMock()
         mock_zipfile.ZipFile.return_value = mock_zip
         config = sb.objects.config.Config()
         args = argparse.Namespace(plugin="test.zip")
