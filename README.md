@@ -1,7 +1,6 @@
 
-<center><img src="logo.gif"></center>
-
-<center><h1>Machine Learning Project Development Tool</h1></center>
+<p align="center"><img src="logo.gif"></p>
+<h1 align="center">Machine Learning Project Development Tool</h1>
 
 ---
 
@@ -62,7 +61,7 @@ pip install skelebot
 
 ## Getting Started
 
-To get started using Skelebot you can follow the documentation found [here](https://carsdotcom.github.io/skelebot/).
+To get started using Skelebot you can follow the [Documentation](https://carsdotcom.github.io/skelebot/).
 
 ## Contributing
 
