@@ -19,7 +19,8 @@ setup(
         "requests==2.22.0",
         "schema==0.7.0",
         "coverage==4.5.4",
-        "pytest==5.1.3"
+        "pytest==5.1.3",
+        "colorama==0.4.1"
     ],
     install_requires=[
         "PyYAML==5.1.2",
@@ -27,7 +28,8 @@ setup(
         "requests==2.22.0",
         "schema==0.7.0",
         "coverage==4.5.4",
-        "pytest==5.1.3"
+        "pytest==5.1.3",
+        "colorama==0.4.1"
     ],
     entry_points={
         'console_scripts': [
