@@ -14,6 +14,33 @@
 
 ---
 
+## Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/SanthoshBala18">
+        <img src="https://avatars1.githubusercontent.com/u/24211143?s=460&v=4", width="100px"a><br />
+        <sub><b>Santhosh Bala</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/sgaist">
+        <img src="https://avatars0.githubusercontent.com/u/898010?s=460&v=4", width="100px"a><br />
+        <sub><b>Samuel Gaist</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/jagmoreira">
+        <img src="https://avatars0.githubusercontent.com/u/13685125?s=460&v=4", width="100px"a><br />
+        <sub><b>Joao Moreira</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## About
 
 Skelebot is a command-line tool for developing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
