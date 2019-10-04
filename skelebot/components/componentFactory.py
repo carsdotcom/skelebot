@@ -36,7 +36,6 @@ class ComponentFactory():
             Dexec.__name__.lower(): Dexec,
             Artifactory.__name__.lower(): Artifactory,
             Registry.__name__.lower(): Registry
-
         }
 
         # Add the plugin components to the master list

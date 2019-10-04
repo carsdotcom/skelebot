@@ -40,3 +40,8 @@ components:
     folder: .
   registry:
     user: skelebot
+  contributors:
+    repoOwner: carsdotcom
+    repoName: skelebot
+    files:
+    - README.md
