@@ -17,8 +17,11 @@
 
 Skelebot is a command-line tool for developing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
 
-```
+```shell
 [/code/my-iris-model] > skelebot -h
+```
+
+```
 usage: skelebot [-h] [-e ENV] [-s] [-n]
                 {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec}
                 ...
