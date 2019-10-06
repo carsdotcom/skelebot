@@ -1,7 +1,6 @@
 
-<img src="logo.gif">
-
-### Machine Learning Project Management Tool
+<p align="center"><img src="logo.gif"></p>
+<h1 align="center">Machine Learning Project Development Tool</h1>
 
 ---
 
@@ -16,7 +15,7 @@
 
 ## About
 
-Skelebot is a command-line tool for managing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
+Skelebot is a command-line tool for developing machine learning projects and executing them in Docker. The purpose of Skelebot is to simply make the life of a Data Scientist easier by doing a lot of the legwork for mundane tasks automatically through a unified, consistent interface.
 
 ```
 [/code/my-iris-model] > skelebot -h
@@ -29,7 +28,7 @@ Example Skelebot Project
 -----------------------------------
 Version: 1.1.0
 Environment: None
-Skelebot Version: 1.0.2
+Skelebot Version: 1.5.2
 -----------------------------------
 
 positional arguments:
@@ -62,7 +61,7 @@ pip install skelebot
 
 ## Getting Started
 
-To get started using Skelebot you can follow the documentation found [here](https://carsdotcom.github.io/skelebot/).
+To get started using Skelebot you can follow the [Documentation](https://carsdotcom.github.io/skelebot/).
 
 ## Contributing
 

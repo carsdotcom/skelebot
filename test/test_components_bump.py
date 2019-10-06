@@ -1,11 +1,11 @@
-from unittest import TestCase
+import argparse
+import os
+import unittest
 from unittest import mock
 
 import skelebot as sb
-import argparse
-import os
 
-class TestBump(TestCase):
+class TestBump(unittest.TestCase):
     path = ""
 
     # Get the path to the current working directory before we mock the function to do so

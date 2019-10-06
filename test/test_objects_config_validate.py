@@ -1,11 +1,11 @@
 import copy
-from unittest import TestCase
-from unittest import mock
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
 
-class TestConfigValidate(TestCase):
+class TestConfigValidate(unittest.TestCase):
 
     config = {
         'name': 'test',
@@ -21,7 +21,8 @@ class TestConfigValidate(TestCase):
         'jobs': [1, 2],
         'ports': [1, 2],
         'components': {},
-        'params': [1, 2]
+        'params': [1, 2],
+        'commands': [],
     }
 
     def validate_error(self, attr, reset, expected):
@@ -65,6 +66,7 @@ class TestConfigValidate(TestCase):
         self.validate_error('ports', 123, 'List')
         self.validate_error('components', 123, 'Dictionary')
         self.validate_error('params', 123, 'List')
+        self.validate_error('commands', 123, 'List')
 
 if __name__ == '__main__':
     unittest.main()

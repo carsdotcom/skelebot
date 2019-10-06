@@ -1,11 +1,11 @@
 import copy
-from unittest import TestCase
-from unittest import mock
+import unittest
+
 from schema import SchemaError
 
 import skelebot as sb
 
-class TestJobValidate(TestCase):
+class TestJobValidate(unittest.TestCase):
 
     job = {
         'name': 'test',
@@ -24,6 +24,7 @@ class TestJobValidate(TestCase):
 
         try:
             sb.objects.job.Job.validate(job)
+            self.fail("Exception Expected")
         except SchemaError as error:
             self.assertEqual(error.code, "Job '{attr}' must be a {expected}".format(attr=attr, expected=expected))
 
@@ -42,6 +43,7 @@ class TestJobValidate(TestCase):
 
         try:
             sb.objects.job.Job.validate(job)
+            self.fail("Exception Expected")
         except SchemaError as error:
             self.assertEqual(error.code, "Missing keys: 'help', 'name', 'source'")
 

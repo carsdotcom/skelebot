@@ -1,12 +1,16 @@
-"""Skelebot - Machine Learning Project Management Tool"""
+"""Skelebot - Machine Learning Project Development Tool"""
 
 import sys
+from colorama import Fore, Style
 from schema import SchemaError
 from .systems.parsing import skeleParser
 from .systems.generators import yaml
 from .systems.execution import executor
 
-SCHEMA_ERROR = "\u001b[0m\u001b[31mERROR\u001b[0m | skelebot.yaml | {}"
+
+ERROR_HEADER = Fore.RED + "ERROR" + Style.RESET_ALL
+ERROR = ERROR_HEADER + " | {}"
+SCHEMA_ERROR = ERROR_HEADER + " | skelebot.yaml | {}"
 
 def main():
     """
@@ -22,14 +26,23 @@ def main():
     except SchemaError as error:
         print(SCHEMA_ERROR.format(error))
         sys.exit(1)
+    except RuntimeError as error:
+        print(ERROR.format(error))
+        sys.exit(1)
 
 def get_env():
     """Parse the env manually in order to read the correct yaml configuration"""
 
-    args = sys.argv
     env = None
-    for index in range(len(args)-1):
-        if (args[index] == "-e") or (args[index] == "--env"):
-            env = args[index+1]
+    prevArg = None
+    for arg in sys.argv:
+        if ((prevArg == "-e") or (prevArg == "--env")):
+            env = arg
+            break
+        if (prevArg != None):
+            if ((arg.startswith("-") == False) and (prevArg.startswith("-") == False)):
+                break
+
+        prevArg = arg
 
     return env

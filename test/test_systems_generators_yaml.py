@@ -1,10 +1,12 @@
-from unittest import TestCase
-from unittest import mock
-from skelebot.objects.component import Activation
-import skelebot as sb
 import os
+import unittest
+from unittest import mock
 
-class TestYaml(TestCase):
+from skelebot.objects.component import Activation
+
+import skelebot as sb
+
+class TestYaml(unittest.TestCase):
     path = ""
 
     # Get the path to the current working directory before we mock the function to do so
@@ -25,6 +27,7 @@ class TestYaml(TestCase):
             self.assertEqual(config.ignores, ['data/', 'libs/'])
         else:
             self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
+        self.assertEqual(config.commands, ["rm -rf build/", "rm -rf dist/"])
         self.assertEqual(config.jobs[0].name, "build")
         self.assertEqual(config.jobs[0].source, "build.sh")
         self.assertEqual(config.jobs[0].mode, "i")
@@ -46,7 +49,7 @@ class TestYaml(TestCase):
                 self.assertEqual(component.port, 1128 if isTestEnv else 1127)
                 self.assertEqual(component.folder, "notebooks/")
 
-        expectedComponents = ["Plugin", "Jupyter", "Bump", "Prime", "Dexec", "AddNumbers"]
+        expectedComponents = ["Registry", "Plugin", "Jupyter", "Bump", "Prime", "Dexec", "AddNumbers"]
         if not isTestEnv:
             expectedComponents.append("Artifactory")
         self.assertTrue(all(elem in components for elem in expectedComponents))
@@ -70,6 +73,18 @@ class TestYaml(TestCase):
         config = sb.systems.generators.yaml.loadConfig("test")
         self.validateYaml(config, True)
 
+    # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_env_not_found(self, mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        try:
+            sb.systems.generators.yaml.loadConfig("tests")
+            self.fail("Exception Expected")
+        except RuntimeError as error:
+            self.assertEqual(str(error), "Environment Not Found")
+
     # Test to ensure that the config loads the default values when no skelebot.yaml is present
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -89,6 +104,7 @@ class TestYaml(TestCase):
         self.assertEqual(config.ephemeral, None)
         self.assertEqual(config.dependencies, [])
         self.assertEqual(config.ignores, [])
+        self.assertEqual(config.commands, [])
         self.assertEqual(config.jobs, [])
         components = []
         for component in config.components:

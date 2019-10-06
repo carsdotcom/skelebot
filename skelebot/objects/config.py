@@ -30,7 +30,8 @@ class Config(SkeleYaml):
         Optional('jobs'): And(list, error='\'jobs\' must be a List'),
         Optional('ports'): And(list, error='\'ports\' must be a List'),
         Optional('components'): And(dict, error='\'components\' must be a Dictionary'),
-        Optional('params'): And(list, error='\'params\' must be a List')
+        Optional('params'): And(list, error='\'params\' must be a List'),
+        Optional('commands'): And(list, error='\'commands\' must be a List')
     }, ignore_extra_keys=True)
 
     name = None
@@ -48,10 +49,11 @@ class Config(SkeleYaml):
     ports = None
     components = None
     params = None
+    commands = None
 
     def __init__(self, name=None, description=None, version=None, maintainer=None, contact=None,
                  language=None, baseImage=None, primaryJob=None, ephemeral=None, dependencies=None,
-                 ignores=None, jobs=None, ports=None, components=None, params=None):
+                 ignores=None, jobs=None, ports=None, components=None, params=None, commands=None):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -69,6 +71,7 @@ class Config(SkeleYaml):
         self.ports = ports if ports is not None else []
         self.components = components if components is not None else []
         self.params = params if params is not None else []
+        self.commands = commands if commands is not None else []
 
     def toDict(self):
         """

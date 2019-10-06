@@ -1,9 +1,9 @@
-from unittest import TestCase
+import unittest
 from unittest import mock
 
 import skelebot as sb
 
-class TestScaffolder(TestCase):
+class TestScaffolder(unittest.TestCase):
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.path.exists')
@@ -125,9 +125,6 @@ class TestScaffolder(TestCase):
 
         mock_input.assert_called_with("Would you like CHEESE with that? [Y/N]: ")
         self.assertFalse(msg)
-
-if __name__ == '__main__':
-    unittest.main()
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,9 +1,11 @@
-from unittest import TestCase
+import unittest
 from unittest import mock
+
+from colorama import Style
 
 import skelebot as sb
 
-class TestParser(TestCase):
+class TestParser(unittest.TestCase):
 
     def test_parseArgs(self):
         arg1 = sb.objects.arg.Arg(name="start")
@@ -42,13 +44,12 @@ class TestParser(TestCase):
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
         description = sbParser.desc
 
-        expectedDescription = """
-\033[1mTest Project\033[0m
+        expectedDescription = Style.BRIGHT + "Test Project" + Style.RESET_ALL + """
 A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.3.0
+Skelebot Version: 1.6.4
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)

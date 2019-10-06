@@ -3,7 +3,112 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.6.4
+#### Changed
+- **Dependency management** | Added requirements.txt as single source of truth for dependencies.
+
+---
+
+## v1.6.3
+#### Changed
+- **CI/CD** | Update PyPI workflow to trigger on prereleases only.
+
+---
+
+## v1.6.2
+#### Merged: 2019-10-02
+#### Released: 2019-10-02
+#### Changed
+- **CI/CD** | Upload skelebot releases to PyPI via GitHub Action.
+
+---
+
+## v1.6.1
+#### Merged: 2019-10-02
+#### Changed
+- **README** | Properly centering the project title logo image with GitHub specific markdown html
+
+---
+
+## v1.6.0
+#### Merged: 2019-10-02
+#### Added
+- **Global commands** | Adds optional docker RUN commands property to root config that are executed after dependencies are installed
+
+---
+
+## v1.5.3
+#### Merged: 2019-10-02
+#### Released: 2019-10-02
+#### Changed
+- **Dependency Versions** | Explicitly setting versions for coverage and pytest dependencies
+
+---
+
+## v1.5.2
+#### Merged: 2019-10-01
+#### Added
+- **Common** | Use colorama for cross-platform colored output
+- **Skelebot Main** | Use colorama for cross-platform highlighted output
+
+---
+
+## v1.5.1
+#### Merged: 2019-10-01
+#### Changed
+- **Skelebot Main** | Fixes bug where the parsing of the skelebot --env param could conflict with params on jobs
+
+---
+
+## v1.5.0
+#### Merged: 2019-10-01
+#### Added
+- **Registry Component** | Adds a new component to store registry info for publishing images
+- **Docker Login** | Adds docker login function to login to a given registry host
+- **Docker Push** | Adds docker push function to tag and push images to the specified registry
+
+---
+
+## v1.4.0
+#### Merged: 2019-10-01
+#### Changed
+- **Jobs** | Updated the jobs to execute the commands given in source as it is, along with support for execution of scripts
+
+---
+
+## v1.3.4
+#### Merged: 2019-09-27
+#### Changed
+- **Logo** | Updated the logo with Skelly's new prompt-style robot eye and removed the transparency
+- **README** | Updated Logo in README and Centered the Title and Subtitle, and updates description
+- **Docs** | Updated GitHub Pages with better description (project development instead of project management)
+
+---
+
+## v1.3.3
+#### Merged: 2019-09-12
+#### Added
+- **AWS Base Image** | Adds a base image with R and AWS CLI that is not used by default in Skelebot yet
+
+---
+
+## v1.3.2
+#### Merged: 2019-09-09
+#### Added
+- **Environment Errors** | Returns an error message when attempting to use an env that does not exist
+
+---
+
+## v1.3.1
+#### Merged: 2019-09-06
+#### Added
+- **Python Base Lib** | Adds a library into the python base image that is needed for certain python packages
+
+---
+
 ## v1.3.0
+#### Merged: 2019-09-05
+#### Released: 2019-09-05
 #### Added
 - **Prime Output** | Add a param to prime component to allow for saving the Docker image as a file
 
@@ -11,6 +116,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.2.1
 #### Merged: 2019-09-04
+#### Released: 2019-09-05
 #### Added
 - **Tests** | Added more test cases to cover important edge cases that were missed
 
