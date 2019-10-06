@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.6.4
+#### Changed
+- **Dependency management** | Added requirements.txt as single source of truth for dependencies.
+
+---
+
 ## v1.6.3
 #### Changed
 - **CI/CD** | Update PyPI workflow to trigger on prereleases only.
