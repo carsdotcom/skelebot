@@ -26,12 +26,18 @@ LANGUAGE_IMAGE = {
     "R": {
         "base": "skelebot/r-base",
         "krb": "skelebot/r-krb"
+    },
+    "R+Python": {
+        "base": "skelebot/r-base",
+        "krb": "skelebot/r-krb"
+        
     }
 }
 
 LANGUAGE_DEPENDENCIES = {
     "Python":["numpy", "pandas", "scipy", "scikit-learn"],
-    "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]
+    "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"],
+    "R+Python":["numpy", "pandas", "scipy", "scikit-learn","data.table", "here", "stringr", "readr", "testthat", "yaml"]
 }
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash "}
