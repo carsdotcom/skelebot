@@ -14,22 +14,27 @@
 <table>
   <tr>
     <td align="center" width="150px">
-      <a href="https://api.github.com/users/sshookman">
+      <a href="https://github.com/sshookman">
         <img src="https://avatars0.githubusercontent.com/u/926448?v=4", width="100px"a><br />
         <sub><b>Sean Shookman</b></sub>
       </a>
     </td>    <td align="center" width="150px">
-      <a href="https://api.github.com/users/jagmoreira">
+      <a href="https://github.com/jagmoreira">
         <img src="https://avatars2.githubusercontent.com/u/13685125?v=4", width="100px"a><br />
         <sub><b>Joao Moreira</b></sub>
       </a>
     </td>    <td align="center" width="150px">
-      <a href="https://api.github.com/users/sgaist">
+      <a href="https://github.com/kislam01">
+        <img src="https://avatars0.githubusercontent.com/u/16831765?v=4", width="100px"a><br />
+        <sub><b>Kazi Tanzim Islam</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/sgaist">
         <img src="https://avatars0.githubusercontent.com/u/898010?v=4", width="100px"a><br />
         <sub><b>Samuel Gaist</b></sub>
       </a>
     </td>    <td align="center" width="150px">
-      <a href="https://api.github.com/users/SanthoshBala18">
+      <a href="https://github.com/SanthoshBala18">
         <img src="https://avatars3.githubusercontent.com/u/24211143?v=4", width="100px"a><br />
         <sub><b>SanthoshBala18</b></sub>
       </a>
