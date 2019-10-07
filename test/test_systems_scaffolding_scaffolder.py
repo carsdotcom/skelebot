@@ -74,7 +74,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R"])
+        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R","R+Python",])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_makedirs.assert_any_call("config/", exist_ok=True)
