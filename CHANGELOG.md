@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.1
+#### Changed
+- **Tests** | Increase test coverage to 99%.
+
+---
+
 ## v1.7.0
+#### Merged: 2019-10-09
 #### Changed
 - **Docker build** | Append env to image name if present.
 
