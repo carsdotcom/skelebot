@@ -116,7 +116,10 @@ class Config(SkeleYaml):
 
     def getImageName(self):
         """Construct and return the name for the docker image based on the project name"""
-        return self.name.lower().replace(" ", "-")
+        image_name = self.name.lower().replace(" ", "-")
+        if self.env:
+            image_name += "-{env}".format(env=self.env)
+        return image_name
 
     def loadComponents(self, config):
         """
