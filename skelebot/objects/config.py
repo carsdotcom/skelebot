@@ -18,6 +18,7 @@ class Config(SkeleYaml):
 
     schema = Schema({
         'name': And(str, error='\'name\' must be a String'),
+        Optional('env'): And(str, error='\'env\' must be a String'),
         Optional('description'): And(str, error='\'description\' must be a String'),
         Optional('maintainer'): And(str, error='\'maintainer\' must be a String'),
         Optional('contact'): And(str, error='\'contact\' must be a String'),
@@ -35,6 +36,7 @@ class Config(SkeleYaml):
     }, ignore_extra_keys=True)
 
     name = None
+    env = None
     description = None
     version = None
     maintainer = None
@@ -51,12 +53,14 @@ class Config(SkeleYaml):
     params = None
     commands = None
 
-    def __init__(self, name=None, description=None, version=None, maintainer=None, contact=None,
-                 language=None, baseImage=None, primaryJob=None, ephemeral=None, dependencies=None,
-                 ignores=None, jobs=None, ports=None, components=None, params=None, commands=None):
+    def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
+                 contact=None, language=None, baseImage=None, primaryJob=None, ephemeral=None,
+                 dependencies=None, ignores=None, jobs=None, ports=None, components=None, params=None,
+                 commands=None):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
+        self.env = env
         self.description = description
         self.version = version
         self.maintainer = maintainer
@@ -112,7 +116,10 @@ class Config(SkeleYaml):
 
     def getImageName(self):
         """Construct and return the name for the docker image based on the project name"""
-        return self.name.lower().replace(" ", "-")
+        image_name = self.name.lower().replace(" ", "-")
+        if self.env:
+            image_name += "-{env}".format(env=self.env)
+        return image_name
 
     def loadComponents(self, config):
         """

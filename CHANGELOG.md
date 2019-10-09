@@ -3,13 +3,21 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.0
+#### Changed
+- **Docker build** | Append env to image name if present.
+
+---
+
 ## v1.6.4
+#### Merged: 2019-10-05
 #### Changed
 - **Dependency management** | Added requirements.txt as single source of truth for dependencies.
 
 ---
 
 ## v1.6.3
+#### Merged: 2019-10-02
 #### Changed
 - **CI/CD** | Update PyPI workflow to trigger on prereleases only.
 

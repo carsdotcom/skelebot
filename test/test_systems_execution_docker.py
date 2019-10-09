@@ -109,6 +109,22 @@ class TestDocker(unittest.TestCase):
     @mock.patch('os.path.expanduser')
     @mock.patch('os.system')
     @mock.patch('os.getcwd')
+    def test_build_with_env(self, mock_getcwd, mock_system, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.env = 'test'
+
+        sb.systems.execution.docker.build(config)
+        mock_system.assert_called_once_with("docker build -t test-test .")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
     def test_build_error(self, mock_getcwd, mock_system, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
 
