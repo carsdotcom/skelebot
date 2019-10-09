@@ -116,7 +116,8 @@ class TestDocker(unittest.TestCase):
         mock_getcwd.return_value = folderPath
         mock_system.return_value = 0
 
-        config = sb.systems.generators.yaml.loadConfig('test')
+        config = sb.systems.generators.yaml.loadConfig()
+        config.env = 'test'
 
         sb.systems.execution.docker.build(config)
         mock_system.assert_called_once_with("docker build -t test-test .")
