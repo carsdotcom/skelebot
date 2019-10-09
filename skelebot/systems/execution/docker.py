@@ -29,7 +29,10 @@ def build(config):
     # Build Dockerfile, .dockerignore, and Docker Image
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
-    status = os.system(BUILD_CMD.format(image=config.getImageName()))
+    image = config.getImageName()
+    if config.env:
+        image += "-{env}".format(env=config.env)
+    status = os.system(BUILD_CMD.format(image=image))
 
     # Remove Files if ephemeral is set to True in Config
     if (config.ephemeral):

@@ -95,6 +95,7 @@ class TestYaml(unittest.TestCase):
         config = sb.systems.generators.yaml.loadConfig()
 
         self.assertEqual(config.name, None)
+        self.assertEqual(config.env, None)
         self.assertEqual(config.description, None)
         self.assertEqual(config.version, None)
         self.assertEqual(config.maintainer, None)
