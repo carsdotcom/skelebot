@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.2
+#### Changed
+- **README** | Update the README to add contributors via new skelebot plugin
+
+---
+
 ## v1.7.1
+#### Merged: 2019-10-09
 #### Changed
 - **Tests** | Increase test coverage to 99%.
 
