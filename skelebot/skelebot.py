@@ -35,7 +35,7 @@ def get_env():
 
     env = None
     prevArg = None
-    baseArgs = [None, "-s", "--skip-build", "-n", "--native"]
+    baseArgs = {None, "-s", "--skip-build", "-n", "--native"}
     for arg in sys.argv:
         if (prevArg == "-e") or (prevArg == "--env"):
             env = arg
