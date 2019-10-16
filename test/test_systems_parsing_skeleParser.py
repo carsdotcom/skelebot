@@ -49,7 +49,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.6.1
+Skelebot Version: 1.7.1
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)
@@ -61,6 +61,13 @@ Skelebot Version: 1.6.1
         actualHelp = sbParser.showHelp()
 
         mock_printHelp.expect_called_once_with()
+
+    def test_parse_component_args(self):
+        config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0", components=[sb.components.plugin.Plugin()])
+        sbParser = sb.systems.parsing.skeleParser.SkeleParser(config)
+        args = sbParser.parseArgs(["plugin", "pg.zip"])
+
+        self.assertEqual(args.plugin, "pg.zip")
 
 if __name__ == '__main__':
     unittest.main()

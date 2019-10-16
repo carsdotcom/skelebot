@@ -3,7 +3,43 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.1
+#### Changed
+- **Tests** | Increase test coverage to 99%.
+
+---
+
+## v1.7.0
+#### Merged: 2019-10-09
+#### Changed
+- **Docker build** | Append env to image name if present.
+
+---
+
+## v1.6.4
+#### Merged: 2019-10-05
+#### Changed
+- **Dependency management** | Added requirements.txt as single source of truth for dependencies.
+
+---
+
+## v1.6.3
+#### Merged: 2019-10-02
+#### Changed
+- **CI/CD** | Update PyPI workflow to trigger on prereleases only.
+
+---
+
+## v1.6.2
+#### Merged: 2019-10-02
+#### Released: 2019-10-02
+#### Changed
+- **CI/CD** | Upload skelebot releases to PyPI via GitHub Action.
+
+---
+
 ## v1.6.1
+#### Merged: 2019-10-02
 #### Changed
 - **README** | Properly centering the project title logo image with GitHub specific markdown html
 

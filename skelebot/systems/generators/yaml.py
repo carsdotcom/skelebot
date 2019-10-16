@@ -16,6 +16,7 @@ def loadConfig(env=None):
     """
 
     config = Config.load(readYaml(env))
+    config.env = env
     config.version = loadVersion()
     return config
 

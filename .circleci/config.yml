@@ -13,7 +13,7 @@ jobs:
             pipenv install
       - run:
           name: install dependencies
-          command: pipenv run pip install pyyaml artifactory coverage pytest
+          command: pipenv run pip install -r ./requirements.txt
       - run:
           name: run tests
           command: pipenv run coverage run --source=skelebot setup.py test && pipenv run coverage xml -o codecov.xml

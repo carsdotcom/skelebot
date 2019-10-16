@@ -5,6 +5,16 @@ from argparse import Namespace
 
 import skelebot as sb
 
+# Test plugin that says 'Hi' at the end of every command
+class LimitMemory(sb.objects.component.Component):
+    activation = sb.objects.component.Activation.CONFIG
+
+    def __init__(self, memory):
+        self.memory = memory
+
+    def addDockerRunParams(self):
+        return "--memory {memory}GB".format(memory=self.memory)
+
 class TestDocker(unittest.TestCase):
     path = ""
 
@@ -109,6 +119,22 @@ class TestDocker(unittest.TestCase):
     @mock.patch('os.path.expanduser')
     @mock.patch('os.system')
     @mock.patch('os.getcwd')
+    def test_build_with_env(self, mock_getcwd, mock_system, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.env = 'test'
+
+        sb.systems.execution.docker.build(config)
+        mock_system.assert_called_once_with("docker build -t test-test .")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
     def test_build_error(self, mock_getcwd, mock_system, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
 
@@ -140,6 +166,28 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+        mock_system.assert_called_once_with(expected)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
+    def test_run_docker_params(self, mock_getcwd, mock_system, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        memory = 256
+        args = Namespace(version='0.1')
+
+        homePath = "{path}/test/plugins".format(path=self.path)
+        mock_expanduser.return_value = homePath
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.components.append(LimitMemory(memory))
+        job = sb.objects.job.Job(name='some_command', help='Dummy', source='echo some_command')
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
+
+        expected = "docker run --name test-some_command --rm -i --memory {memory}GB test /bin/bash -c \"echo some_command\"".format(memory=memory)
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
 
