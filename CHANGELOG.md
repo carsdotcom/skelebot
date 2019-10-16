@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.3
+#### Changed
+- **CI/CD** | Changed PyPI GitHub Action to use token instead of password
+
+---
+
 ## v1.7.2
+#### Merged: 2019-10-16
 #### Changed
 - **Main Get Env** | Fixed bug in the get_env() function in skelebot.py to handle base skelebot args/parameters
 
