@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.4
+#### Changed
+- **Install Python Dependencies** | Install python dependencies from git and files
+
+---
+
 ## v1.7.3
+#### Merged: 2019-10-17
 #### Changed
 - **CI/CD** | Changed PyPI GitHub Action to use token instead of password
 
