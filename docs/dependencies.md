@@ -25,7 +25,8 @@ Versions for packages in Python can be specified by appending `={version}` or `=
 R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
 
 ```
-R dependencies:
+language: R 
+dependencies:
 - {type}:{source}:{name}
 - file:libs/myPackage.tgz:mypack
 - github:myGitHub/fakeRepo:fakeRepo
