@@ -49,7 +49,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.7.2
+Skelebot Version: 1.7.3
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)
