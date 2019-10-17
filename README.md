@@ -41,7 +41,7 @@
     </td>    <td align="center" width="150px">
       <a href="https://github.com/sherry0531">
         <img src="https://avatars0.githubusercontent.com/u/7463903?v=4", width="100px"a><br />
-        <sub><b>sherry0531</b></sub>
+        <sub><b>Sherry Wang</b></sub>
       </a>
     </td>
   </tr>
