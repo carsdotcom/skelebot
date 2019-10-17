@@ -32,7 +32,8 @@ R dependencies:
 ```
 
 ```
-Python dependencies:
+language: Python
+dependencies:
 - {type}:{source}
 - file:libs/myPackage.tgz
 - github:myGitHub/fakeRepo
