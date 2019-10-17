@@ -35,14 +35,14 @@ def get_env():
 
     env = None
     prevArg = None
+    baseArgs = {None, "-s", "--skip-build", "-n", "--native"}
     for arg in sys.argv:
-        if ((prevArg == "-e") or (prevArg == "--env")):
+        if (prevArg == "-e") or (prevArg == "--env"):
             env = arg
             break
-        if (prevArg != None):
-            if ((arg.startswith("-") == False) and (prevArg.startswith("-") == False)):
-                break
-
-        prevArg = arg
+        elif (prevArg not in baseArgs) and (prevArg.endswith("skelebot") == False):
+            break
+        else:
+            prevArg = arg
 
     return env
