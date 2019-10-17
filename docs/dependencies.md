@@ -20,15 +20,22 @@ By default Python dependencies are installed using pip install.
 
 Versions for packages in R can be specified by appending `={version}` to the end of the dependency name.
 
-Versions for packages in Python can be specified by appending `=={version}` to the end of the dependency name.
+Versions for packages in Python can be specified by appending `={version}` or `=={version}` to the end of the dependency name.
 
-R also supports dependencies to be installed from the local file system as well as from GitHub using the following structure.
+R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
 
 ```
-dependencies:
+R dependencies:
 - {type}:{source}:{name}
 - file:libs/myPackage.tgz:mypack
 - github:myGitHub/fakeRepo:fakeRepo
+```
+
+```
+Python dependencies:
+- {type}:{source}
+- file:libs/myPackage.tgz
+- github:myGitHub/fakeRepo
 ```
 
 NOTE: When installing via `file:` or `github:` the ability to specify a version is not available.
