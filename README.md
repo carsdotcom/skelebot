@@ -38,6 +38,11 @@
         <img src="https://avatars3.githubusercontent.com/u/24211143?v=4", width="100px"a><br />
         <sub><b>SanthoshBala18</b></sub>
       </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/sherry0531">
+        <img src="https://avatars0.githubusercontent.com/u/7463903?v=4", width="100px"a><br />
+        <sub><b>sherry0531</b></sub>
+      </a>
     </td>
   </tr>
 </table>
