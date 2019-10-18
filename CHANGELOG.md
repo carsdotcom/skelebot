@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.5
+#### Changed
+- **README** | Update the README to add contributors via new skelebot plugin
+- **Contributors Plugin** | Adds config to the skelebot.yaml for the contributors plugin
+
+---
+
 ## v1.7.4
+#### Merged: 2019-10-17
 #### Changed
 - **Install Python Dependencies** | Install python dependencies from git and files
 
