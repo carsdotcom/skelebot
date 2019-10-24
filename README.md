@@ -2,16 +2,51 @@
 <p align="center"><img src="logo.gif"></p>
 <h1 align="center">Machine Learning Project Development Tool</h1>
 
----
-
 [![CircleCI token](https://circleci.com/gh/carsdotcom/skelebot/tree/master.svg?style=svg)](https://circleci.com/gh/carsdotcom/skelebot)
 [![codecov](https://codecov.io/gh/carsdotcom/skelebot/branch/master/graph/badge.svg)](https://codecov.io/gh/carsdotcom/skelebot)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7211eb35681489c9f76066d9a137e46)](https://www.codacy.com/app/sshookman/skelebot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=carsdotcom/skelebot&amp;utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/dynamic/xml.svg?style=svg&color=purple&label=Dev%20Version&query=.&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Fmaster%2FVERSION)
 ![PyPI](https://img.shields.io/pypi/v/skelebot?color=purple&label=PyPi%20Release)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/skelebot?color=purple&label=PyPi%20Installs)
 
----
+<!--CONTRIBUTORS-->
+<table>
+  <tr>
+    <td align="center" width="150px">
+      <a href="https://github.com/sshookman">
+        <img src="https://avatars0.githubusercontent.com/u/926448?v=4", width="100px"a><br />
+        <sub><b>Sean Shookman</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/jagmoreira">
+        <img src="https://avatars2.githubusercontent.com/u/13685125?v=4", width="100px"a><br />
+        <sub><b>Joao Moreira</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/kislam01">
+        <img src="https://avatars0.githubusercontent.com/u/16831765?v=4", width="100px"a><br />
+        <sub><b>Kazi Tanzim Islam</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/sgaist">
+        <img src="https://avatars0.githubusercontent.com/u/898010?v=4", width="100px"a><br />
+        <sub><b>Samuel Gaist</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/SanthoshBala18">
+        <img src="https://avatars3.githubusercontent.com/u/24211143?v=4", width="100px"a><br />
+        <sub><b>SanthoshBala18</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
+      <a href="https://github.com/sherry0531">
+        <img src="https://avatars0.githubusercontent.com/u/7463903?v=4", width="100px"a><br />
+        <sub><b>Sherry Wang</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+<!--/CONTRIBUTORS-->
 
 ## About
 

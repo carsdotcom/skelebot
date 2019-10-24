@@ -9,6 +9,7 @@ class TestConfigValidate(unittest.TestCase):
 
     config = {
         'name': 'test',
+        'env': 'test',
         'description': 'test',
         'maintainer': 'test',
         'contact': 'test',
@@ -53,6 +54,7 @@ class TestConfigValidate(unittest.TestCase):
 
     def test_invalid(self):
         self.validate_error('name', 123, 'String')
+        self.validate_error('env', 123, 'String')
         self.validate_error('description', 123, 'String')
         self.validate_error('maintainer', 123, 'String')
         self.validate_error('contact', 123, 'String')
