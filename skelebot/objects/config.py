@@ -1,6 +1,6 @@
 """Root Config Class for Skelebot YAML File"""
 
-from schema import Schema, And, Optional
+from schema import Schema, And, Or, Optional
 from .job import Job
 from .param import Param
 from .skeleYaml import SkeleYaml
@@ -26,7 +26,7 @@ class Config(SkeleYaml):
         Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
         Optional('primaryJob'): And(str, error='\'primaryJob\' must be a String'),
         Optional('ephemeral'): And(bool, error='\'ephemeral\' must be a Boolean'),
-        Optional('dependencies'): And(list, error='\'dependencies\' must be a List'),
+        Optional('dependencies'): Or(dict, list, error='\'dependencies\' must be a Dict or List'),
         Optional('ignores'): And(list, error='\'ignores\' must be a List'),
         Optional('jobs'): And(list, error='\'jobs\' must be a List'),
         Optional('ports'): And(list, error='\'ports\' must be a List'),

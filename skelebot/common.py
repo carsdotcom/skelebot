@@ -34,11 +34,11 @@ LANGUAGE_IMAGE = {
         
     }
 }
-
+_all_deps: dict = {"Python":["numpy", "pandas", "scipy", "scikit-learn"],"R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]}
 LANGUAGE_DEPENDENCIES = {
-    "Python":["numpy", "pandas", "scipy", "scikit-learn"],
-    "R":["data.table", "here", "stringr", "readr", "testthat", "yaml"],
-    "R+Python":["numpy", "pandas", "scipy", "scikit-learn","data.table", "here", "stringr", "readr", "testthat", "yaml"]
+    "Python": _all_deps["Python"],
+    "R": _all_deps["R"],
+    "R+Python": _all_deps,
 }
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
