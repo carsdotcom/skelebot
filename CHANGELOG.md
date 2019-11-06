@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.6
+#### Changed
+- **CommandBuilder** | Fixed bug to allow kabob-case parameters to be built into the command properly
+
+---
+
 ## v1.7.5
+#### Merged: 2019-10-18
 #### Changed
 - **README** | Update the README to add contributors via new skelebot plugin
 - **Contributors Plugin** | Adds config to the skelebot.yaml for the contributors plugin
@@ -12,6 +19,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.7.4
 #### Merged: 2019-10-17
+#### Released: 2019-10-17
 #### Changed
 - **Install Python Dependencies** | Install python dependencies from git and files
 
