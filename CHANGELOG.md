@@ -4,7 +4,7 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.7.6
+## v1.8.0
 #### Changed
 - **Dependency management** | Updated scaffolding options to allow for both R+Python
 

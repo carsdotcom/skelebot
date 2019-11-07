@@ -5,11 +5,16 @@ from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
 
-PY_INSTALL = "RUN [\"pip3\", \"install\", \"{dep}\"]\n"
-PY_INSTALL_VERSION = "RUN [\"pip3\", \"install\", \"{depName}=={version}\"]\n"
-PY_INSTALL_GITHUB = "RUN [\"pip3\", \"install\", \"git+{depPath}\"]\n"
+PY_INSTALL = "RUN [\"pip\", \"install\", \"{dep}\"]\n"
+PY_INSTALL_VERSION = "RUN [\"pip\", \"install\", \"{depName}=={version}\"]\n"
+PY_INSTALL_GITHUB = "RUN [\"pip\", \"install\", \"git+{depPath}\"]\n"
 PY_INSTALL_FILE = "COPY {depPath} {depPath}\n"
-PY_INSTALL_FILE += "RUN [\"pip3\", \"install\", \"/app/{depPath}\"]\n"
+PY_INSTALL_FILE += "RUN [\"pip\", \"install\", \"/app/{depPath}\"]\n"
+PY_R_INSTALL = "RUN [\"pip3\", \"install\", \"{dep}\"]\n"
+PY_R_INSTALL_VERSION = "RUN [\"pip3\", \"install\", \"{depName}=={version}\"]\n"
+PY_R_INSTALL_GITHUB = "RUN [\"pip3\", \"install\", \"git+{depPath}\"]\n"
+PY_R_INSTALL_FILE = "COPY {depPath} {depPath}\n"
+PY_R_INSTALL_FILE += "RUN [\"pip3\", \"install\", \"/app/{depPath}\"]\n"
 R_INSTALL = "RUN [\"Rscript\", \"-e\", \"install.packages('{dep}', repo='https://cloud.r-project.org'); library({dep})\"]\n"
 R_INSTALL_VERSION = "RUN [\"Rscript\", \"-e\", \"library(devtools); install_version('{depName}', version='{version}', repos='http://cran.us.r-project.org'); library({depName})\"]\n"
 R_INSTALL_GITHUB = "RUN [\"Rscript\", \"-e\", \"library(devtools); install_github('{depPath}'); library({depName})\"]\n"
@@ -61,14 +66,14 @@ def buildDockerfile(config):
         for dep in config.dependencies["Python"]:                                                                                      
             depSplit = dep.split(":")                                                                                        
             if ("github:" in dep):                                                                                           
-                docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])                                                      
+                docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])                                                      
             elif ("file:" in dep):                                                                                           
-                docker += PY_INSTALL_FILE.format(depPath=depSplit[1])                                                        
+                docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])                                                        
             elif ("=" in dep) & ("==" not in dep): # if specify version with '==', will be handled as a standard case        
                 verSplit = dep.split("=")                                                                                    
-                docker += PY_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])                                
+                docker += PY_R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])                                
             else:                                                                                                            
-                docker += PY_INSTALL.format(dep=dep)                                                                         
+                docker += PY_R_INSTALL.format(dep=dep)                                                                         
         for dep in config.dependencies["R"]:                                                                                      
             depSplit = dep.split(":")                                                                                        
             if ("github:" in dep):                                                                                           

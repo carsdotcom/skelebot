@@ -114,15 +114,15 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 FROM skelebot/python-base
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
-RUN ["pip3", "install", "pyyaml"]
-RUN ["pip3", "install", "artifactory"]
-RUN ["pip3", "install", "argparse"]
-RUN ["pip3", "install", "coverage"]
-RUN ["pip3", "install", "pytest"]
-RUN ["pip3", "install", "git+github.com/repo"]
+RUN ["pip", "install", "pyyaml"]
+RUN ["pip", "install", "artifactory"]
+RUN ["pip", "install", "argparse"]
+RUN ["pip", "install", "coverage"]
+RUN ["pip", "install", "pytest"]
+RUN ["pip", "install", "git+github.com/repo"]
 COPY libs/proj libs/proj
-RUN ["pip3", "install", "/app/libs/proj"]
-RUN ["pip3", "install", "dtable==9.0"]
+RUN ["pip", "install", "/app/libs/proj"]
+RUN ["pip", "install", "dtable==9.0"]
 RUN rm -rf build/
 RUN rm -rf dist/
 COPY . /app
@@ -267,11 +267,11 @@ CMD /bin/bash -c \"bash build.sh --env local --log info && echo Duuuuuude\"\n"""
 FROM whatever:uwant
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
-RUN ["pip3", "install", "pyyaml"]
-RUN ["pip3", "install", "artifactory"]
-RUN ["pip3", "install", "argparse"]
-RUN ["pip3", "install", "coverage"]
-RUN ["pip3", "install", "pytest"]
+RUN ["pip", "install", "pyyaml"]
+RUN ["pip", "install", "artifactory"]
+RUN ["pip", "install", "argparse"]
+RUN ["pip", "install", "coverage"]
+RUN ["pip", "install", "pytest"]
 RUN rm -rf build/
 RUN rm -rf dist/
 COPY . /app
