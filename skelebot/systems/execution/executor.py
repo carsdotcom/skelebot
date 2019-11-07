@@ -2,6 +2,7 @@
 
 import os
 import sys
+from ...common import VERSION
 from ..scaffolding.scaffolder import scaffold
 from .commandBuilder import build as buildCommand
 from .docker import build as buildDocker
@@ -14,7 +15,9 @@ def execute(config, sbParser, args=None):
     for command in getCommands(args):
         args = sbParser.parseArgs(command)
 
-        if (args.job is None):
+        if (vars(args).get("version_global", False)):
+            print("Skelebot v{}".format(VERSION))
+        elif (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):
             scaffold(args.existing)
@@ -54,11 +57,11 @@ def getJob(config, args):
 def executeJob(config, args, job):
     """Execute a Config job either natively or through Docker by building a command from it"""
 
-    command = buildCommand(config, job, args, args.native)
-    if (args.native):
+    command = buildCommand(config, job, args, args.native_global)
+    if (args.native_global):
         os.system(command)
     else:
-        if (not args.skip_build):
+        if (not args.skip_build_global):
             buildDocker(config)
         runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
 

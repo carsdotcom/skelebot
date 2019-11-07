@@ -6,6 +6,17 @@ import skelebot as sb
 
 class TestExecutor(unittest.TestCase):
 
+    @mock.patch('skelebot.systems.execution.executor.print')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_version(self, mock_skeleParser, mock_print):
+        config = sb.objects.config.Config()
+        args = argparse.Namespace(job=None, version_global=True)
+        mock_skeleParser.parseArgs.return_value = args
+
+        sb.systems.execution.executor.execute(config, mock_skeleParser)
+
+        mock_print.assert_called_with("Skelebot v1.8.1")
+
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):
         config = sb.objects.config.Config()
@@ -32,7 +43,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job_skip(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=True)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -45,7 +56,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job(self, mock_skeleParser, mock_run, mock_build):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=False)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=False)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -58,7 +69,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job_native(self, mock_skeleParser, mock_system):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=True)
+        args = argparse.Namespace(job="test", native_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -82,7 +93,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_chain(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=True)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])

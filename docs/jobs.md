@@ -64,7 +64,7 @@ If a job is executed in Docker `default` then any output generated will be gener
 > skelebot example 2018-01-01 --env dev
 ```
 
-**Global Job Parameters**
+### Global Job Parameters
 Often times you may have the same parameter that applies to every job in the project, such as setting the log level. For this situation Skelebot offers the ability to specify global parameters that apply to every job.
 
 These parameters are defined exactly the same way that job parameters are defined, but they are specifed at the root level of the config instead of inside the config of a single job. When a parameter is specified in the root level params list, it will be applied to each job that is defined in the config.
@@ -87,7 +87,7 @@ params:
 ...
 ```
 
-**Primary Job**
+### Primary Job
 By default the Docker Image that is built by Skelebot will not run a command, but instead requires skelebot to provide it with a script, arguments, and parameters to run when a job is executed. For the purpose of building images that can be distributed, Skelebot offers a way to specify a job as the project's Primary Job.
 
 ```
@@ -96,7 +96,7 @@ primaryJob: example
 
 This is done by simply using the name of one of the jobs in the `primaryJob` attribute of the config file. This will allow Skelebot to set this job as the default command for the docker image that is built, thereby making a more easily distributable Docker Image for the sake of deployment.
 
-**Skelebot Parameters**
+### Skelebot Parameters
 Skelebot has some optional parameters that allow you to control how the jobs are run. These parameters apply to everything in Skelebot, not just the jobs. As such, they are specified in the command line after the skelebot command and before the job argument.
 
  - **--env (-e)** - Specify the runtime environment configurations (skelebot-{env}.yaml) that will overwrite the default yaml
@@ -104,7 +104,7 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
 
 
-**Chaining Jobs**
+### Chaining Jobs
 Jobs can also be chained together in a single command (executed one after another) by simply concatenating them in the command separated by a `+` character. This allows for multiple jobs to be executed in a single command, and can be a real time saver for long running sequences of jobs.
 
 ```

@@ -42,7 +42,7 @@ Example Skelebot Project
 -----------------------------------
 Version: 0.1.0
 Environment: None
-Skelebot Version: 1.0.0
+Skelebot Version: 1.8.1
 -----------------------------------
 
 positional arguments:
@@ -63,6 +63,15 @@ optional arguments:
   -e ENV, --env ENV     Specify the runtime environment configurations
   -s, --skip-build      Skip the build process and attempt to use previous docker build
   -n, --native          Run natively instead of through Docker
+  -v, --version         Display the version number of Skelebot
+```
+
+### Version Parameter
+The version of Skelebot is printed in the help output, but sometimes that is the only thing you want to check. If you just want to see the currently installed Skelebot version, you can use the version parameter (`-v --version`) to do just that.
+
+```
+> skelebot --version
+Skelebot v.1.8.1
 ```
 
 ---
