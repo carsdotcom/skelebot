@@ -9,13 +9,13 @@ class TestExecutor(unittest.TestCase):
     @mock.patch('skelebot.systems.execution.executor.print')
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_version(self, mock_skeleParser, mock_print):
-        config = sb.objects.config.Config(version="6.6.6")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(job=None, version_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_print.assert_called_with("Skelebot v6.6.6")
+        mock_print.assert_called_with("Skelebot v1.8.1")
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):

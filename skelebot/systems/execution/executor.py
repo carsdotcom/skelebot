@@ -2,6 +2,7 @@
 
 import os
 import sys
+from ...common import VERSION
 from ..scaffolding.scaffolder import scaffold
 from .commandBuilder import build as buildCommand
 from .docker import build as buildDocker
@@ -15,7 +16,7 @@ def execute(config, sbParser, args=None):
         args = sbParser.parseArgs(command)
 
         if (vars(args).get("version_global", False)):
-            print("Skelebot v{}".format(config.version))
+            print("Skelebot v{}".format(VERSION))
         elif (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):

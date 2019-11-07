@@ -88,6 +88,7 @@ class SkeleParser:
         # Construct the root argument parser from which all sub-parsers will be built
         formatter = argparse.RawTextHelpFormatter
         self.parser = argparse.ArgumentParser(description=self.desc, formatter_class=formatter)
+        self.parser.add_argument(VN_ALT, VN_ARG, help=VN_HELP, action='store_true', dest=VN_DST)
         subparsers = self.parser.add_subparsers(dest="job")
 
         if (config.name is None):
@@ -99,7 +100,6 @@ class SkeleParser:
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
             self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true', dest=SB_DST)
             self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true', dest=NT_DST)
-            self.parser.add_argument(VN_ALT, VN_ARG, help=VN_HELP, action='store_true', dest=VN_DST)
 
         # ---Config Based Parser Setup---
 
