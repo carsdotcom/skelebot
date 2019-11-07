@@ -24,6 +24,11 @@
         <sub><b>Joao Moreira</b></sub>
       </a>
     </td>    <td align="center" width="150px">
+      <a href="https://github.com/chutchi2">
+        <img src="https://avatars0.githubusercontent.com/u/16807739?v=4", width="100px"a><br />
+        <sub><b>Cody Hutchins</b></sub>
+      </a>
+    </td>    <td align="center" width="150px">
       <a href="https://github.com/kislam01">
         <img src="https://avatars0.githubusercontent.com/u/16831765?v=4", width="100px"a><br />
         <sub><b>Kazi Tanzim Islam</b></sub>
@@ -38,7 +43,10 @@
         <img src="https://avatars3.githubusercontent.com/u/24211143?v=4", width="100px"a><br />
         <sub><b>SanthoshBala18</b></sub>
       </a>
-    </td>    <td align="center" width="150px">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="150px">
       <a href="https://github.com/sherry0531">
         <img src="https://avatars0.githubusercontent.com/u/7463903?v=4", width="100px"a><br />
         <sub><b>Sherry Wang</b></sub>
