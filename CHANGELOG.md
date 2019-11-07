@@ -5,8 +5,10 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.8.1
-#### Changed
+#### Added
 - **Version Param** | Added a version param for displaying the version number of Skelebot
+
+#### Changed
 - **Global Params** | Updated all global params to be read into variables with `_global` at the end to avoid conflicts with sub-parser parameters
 - **README Contributors** | Updated via contributors plugin to include the latest contributor
 - **GitHub Pages** | Updated help info doc to include the `--version` parameter
