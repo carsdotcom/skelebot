@@ -43,7 +43,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job_skip(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=True)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -56,7 +56,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job(self, mock_skeleParser, mock_run, mock_build):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=False)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=False)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -69,7 +69,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_job_native(self, mock_skeleParser, mock_system):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=True)
+        args = argparse.Namespace(job="test", native_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
@@ -93,7 +93,7 @@ class TestExecutor(unittest.TestCase):
     def test_execute_chain(self, mock_skeleParser, mock_run):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
-        args = argparse.Namespace(job="test", native=False, skip_build=True)
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
 
         sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])

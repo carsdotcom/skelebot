@@ -15,10 +15,12 @@ ENV_ARG = "--env"
 ENV_ALT = "-e"
 ENV_HELP = "Specify the runtime environment configurations"
 
+SB_DST = "skip_build_global"
 SB_ARG = "--skip-build"
 SB_ALT = "-s"
 SB_HELP = "Skip the build process and attempt to use previous docker build"
 
+NT_DST = "native_global"
 NT_ARG = "--native"
 NT_ALT = "-n"
 NT_HELP = "Run natively instead of through Docker"
@@ -95,8 +97,8 @@ class SkeleParser:
         else:
             # Add STANDARD PARAMS
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
-            self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true')
-            self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true')
+            self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true', dest=SB_DST)
+            self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true', dest=NT_DST)
             self.parser.add_argument(VN_ALT, VN_ARG, help=VN_HELP, action='store_true', dest=VN_DST)
 
         # ---Config Based Parser Setup---
