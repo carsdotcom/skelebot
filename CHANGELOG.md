@@ -4,15 +4,19 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.8.0
+## v1.8.1
 #### Changed
-- **Dependency management** | Updated scaffolding options to allow for both R+Python
+- **Version Param** | Added a version param for displaying the version number of Skelebot
+- **Global Params** | Updated all global params to be read into variables with `_global` at the end to avoid conflicts with sub-parser parameters
+- **README Contributors** | Updated via contributors plugin to include the latest contributor
+- **GitHub Pages** | Updated help info doc to include the `--version` parameter
 
 ---
 
-## v1.7.7
+## v1.8.0
+#### Merged: 2019-11-07
 #### Changed
-- **Version Param** | Added a version param for displaying the version number of Skelebot
+- **Dependency management** | Updated scaffolding options to allow for both R+Python
 
 ---
 
