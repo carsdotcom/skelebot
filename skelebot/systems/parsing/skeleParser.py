@@ -23,6 +23,11 @@ NT_ARG = "--native"
 NT_ALT = "-n"
 NT_HELP = "Run natively instead of through Docker"
 
+VN_DST = "version_global"
+VN_ARG = "--version"
+VN_ALT = "-v"
+VN_HELP = "Display the version number of Skelebot"
+
 def addArgs(args, subparser):
     """Add args to the given subparser"""
 
@@ -92,6 +97,7 @@ class SkeleParser:
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
             self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true')
             self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true')
+            self.parser.add_argument(VN_ALT, VN_ARG, help=VN_HELP, action='store_true', dest=VN_DST)
 
         # ---Config Based Parser Setup---
 

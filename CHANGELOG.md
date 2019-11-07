@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.7.7
+#### Changed
+- **Version Param** | Added a version param for displaying the version number of Skelebot
+
+---
+
 ## v1.7.6
+#### Merged: 2019-11-06
 #### Changed
 - **CommandBuilder** | Fixed bug to allow kabob-case parameters to be built into the command properly
 
