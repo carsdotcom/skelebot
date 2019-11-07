@@ -2,9 +2,9 @@ name: skelebot
 description: ML Build Tool
 maintainer: Sean Shookman
 contact: sshookman@cars.com
-language: Python
 ephemeral: True
-primaryJob: test
+
+language: Python
 dependencies:
 - pyyaml==5.1.2
 - artifactory==0.1.17
@@ -13,6 +13,7 @@ dependencies:
 - pytest==5.1.3
 - schema==0.7.0
 - colorama==0.4.1
+
 ignores:
 - '**/*.zip'
 - '**/*.RData'
@@ -20,6 +21,8 @@ ignores:
 - '**/*.csv'
 - '**/*.model'
 - '**/*.pyc'
+
+primaryJob: test
 jobs:
 - name: publish-base
   source: jobs/publish.sh
@@ -34,6 +37,7 @@ jobs:
     alt: c
     accepts: boolean
     help: Allow for the coverage report to be displayed
+
 components:
   jupyter:
     port: 1127
