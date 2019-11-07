@@ -62,7 +62,7 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('baseImage', 123, 'String')
         self.validate_error('primaryJob', 123, 'String')
         self.validate_error('ephemeral', 123, 'Boolean')
-        self.validate_error('dependencies', 123, 'List')
+        self.validate_error('dependencies', 123, 'Dict or List')
         self.validate_error('ignores', 123, 'List')
         self.validate_error('jobs', 123, 'List')
         self.validate_error('ports', 123, 'List')
