@@ -1,27 +1,19 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Feature Request
+about: Suggest a New Feature for Skelebot
 title: ''
-labels: ''
+labels: feature
 assignees: ''
 
 ---
 
-**OPTIONAL: Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+### Context
+Describe the reasons for wanting the new feature to be implemented.
 
-**REQUIRED: Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**OPTIONAL: Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**OPTIONAL: Additional context**
-Add any other context or screenshots about the feature request here.
+### Feature
+Provide a clear and concise description of the proposed feature.
 
 ---
 
-**REQUIRED: Acceptance Criteria**
-- [ ] ac-1
-- [ ] ac-2
-- [ ] ac-3
+### Acceptance Criteria
+- [ ] Add Acceptance Criteria
