@@ -4,7 +4,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.8.3
+#### Changed
+- **Tests** | Mock skelebot's version number in tests.
+
+---
+
 ## v1.8.2
+#### Merged: 2019-11-08
 #### Changed
 - **Templates** | The templates (bug reports, feature requests, pull requests) were updated to make them simpler and faster to use
 
