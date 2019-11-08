@@ -4,7 +4,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.8.2
+#### Changed
+- **Templates** | The templates (bug reports, feature requests, pull requests) were updated to make them simpler and faster to use
+
+---
+
 ## v1.8.1
+#### Merged: 2019-11-07
 #### Added
 - **Version Param** | Added a version param for displaying the version number of Skelebot
 

@@ -15,7 +15,7 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_print.assert_called_with("Skelebot v1.8.1")
+        mock_print.assert_called_with("Skelebot v1.8.2")
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):
