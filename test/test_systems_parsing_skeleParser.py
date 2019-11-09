@@ -39,6 +39,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(args.job, "scaffold")
         self.assertEqual(args.existing, False)
 
+    @mock.patch('skelebot.systems.parsing.skeleParser.VERSION', '6.6.6')
     def test_description(self):
         config = sb.objects.config.Config(name="test-project", description="A test project", version="0.1.0")
         sbParser = sb.systems.parsing.skeleParser.SkeleParser(config, "test")
@@ -49,7 +50,7 @@ A test project
 -----------------------------------
 Version: 0.1.0
 Environment: test
-Skelebot Version: 1.8.2
+Skelebot Version: 6.6.6
 -----------------------------------"""
 
         self.assertEqual(description, expectedDescription)
