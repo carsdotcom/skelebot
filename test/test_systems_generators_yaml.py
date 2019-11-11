@@ -1,6 +1,7 @@
 import os
 import unittest
 from unittest import mock
+from colorama import Fore, Style
 
 from skelebot.objects.component import Activation
 
@@ -63,6 +64,24 @@ class TestYaml(unittest.TestCase):
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
+
+    # Test to ensure that the config loads from skelebot.yaml properly even if a bad plugin is found and quarantined
+    @mock.patch('skelebot.components.componentFactory.print')
+    @mock.patch('shutil.move')
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_bad_plugin(self, mock_getcwd, mock_expanduser, mock_exists, mock_makedirs, mock_shutil, mock_print):
+        mock_expanduser.return_value = "{path}/test/plugins-bad".format(path=self.path)
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        mock_exists.side_effect = [True, False]
+        config = sb.systems.generators.yaml.loadConfig()
+
+        folder = "{}/test/plugins-bad/addNumbersBad".format(self.path)
+        mock_print.assert_called_with(Fore.YELLOW + "WARNING" + Style.RESET_ALL + " | The addNumbersBad plugin contains errors - Adding plugin to Quarantine")
+        mock_makedirs.assert_called_with("{path}/test/plugins-bad".format(path=self.path))
+        mock_shutil.assert_called_with(folder, folder)
 
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
     @mock.patch('os.path.expanduser')

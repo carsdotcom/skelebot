@@ -14,6 +14,7 @@ Skelebot Version: {version}
 -----------------------------------"""
 SKELEBOT_HOME = "~/.skelebot"
 PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
+PLUGINS_QUARANTINE = "{home}/plugins-quarantine".format(home=SKELEBOT_HOME)
 
 LANGUAGE_IMAGE = {
     "NA": {

@@ -4,7 +4,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.8.4
+#### Added
+- **Plugin Quarantine** |  Exception handling for plugins will quarantine any plugins that fail to load properly
+
+---
+
 ## v1.8.3
+#### Merged: 2019-11-09
 #### Changed
 - **Tests** | Mock skelebot's version number in tests.
 
