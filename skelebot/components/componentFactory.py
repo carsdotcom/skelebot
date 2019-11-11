@@ -2,9 +2,11 @@
 
 import os
 import sys
+import shutil
 import importlib
+from colorama import Fore, Style
 from ..objects.component import Activation
-from ..common import PLUGINS_HOME
+from ..common import PLUGINS_HOME, PLUGINS_QUARANTINE
 from .plugin import Plugin
 from .jupyter import Jupyter
 from .kerberos import Kerberos
@@ -13,6 +15,9 @@ from .prime import Prime
 from .dexec import Dexec
 from .artifactory import Artifactory
 from .registry import Registry
+
+WARNING_HEADER = Fore.YELLOW + "WARNING" + Style.RESET_ALL
+PLUGIN_WARNING = WARNING_HEADER + " | The {} plugin contains errors - Adding plugin to Quarantine"
 
 class ComponentFactory():
     """
@@ -44,9 +49,20 @@ class ComponentFactory():
             sys.path.append(pluginsHome)
             for pluginName in os.listdir(pluginsHome):
                 if (pluginName[0] != "_"):
-                    module = importlib.import_module("{name}.{name}".format(name=pluginName))
-                    plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
-                    self.COMPONENTS[pluginName.lower()] = plugin
+                    try:
+                        module = importlib.import_module("{name}.{name}".format(name=pluginName))
+                        plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
+                        self.COMPONENTS[pluginName.lower()] = plugin
+                    except:
+                        print(PLUGIN_WARNING.format(pluginName))
+
+                        pluginsQuarantine = os.path.expanduser(PLUGINS_QUARANTINE)
+                        if not os.path.exists(pluginsQuarantine):
+                            os.makedirs(pluginsQuarantine)
+
+                        src = "{folder}/{name}".format(name=pluginName, folder=pluginsHome)
+                        dst = "{folder}/{name}".format(name=pluginName, folder=pluginsQuarantine)
+                        shutil.move(src, dst)
 
     def buildComponents(self, activations=None, ignores=None):
         """Constructs a list of components based on which are active and which should be ignored"""
