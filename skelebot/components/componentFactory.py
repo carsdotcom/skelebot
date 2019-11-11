@@ -53,7 +53,7 @@ class ComponentFactory():
                         module = importlib.import_module("{name}.{name}".format(name=pluginName))
                         plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
                         self.COMPONENTS[pluginName.lower()] = plugin
-                    except:
+                    except Exception:
                         print(PLUGIN_WARNING.format(pluginName))
 
                         pluginsQuarantine = os.path.expanduser(PLUGINS_QUARANTINE)
