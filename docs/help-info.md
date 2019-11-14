@@ -74,6 +74,14 @@ The version of Skelebot is printed in the help output, but sometimes that is the
 Skelebot v.1.8.1
 ```
 
+### Contact Parameter
+Each project specifies a contact email address. This contact email can be retrieved from the command line directly by using the contact parameter (`-c --contact`).
+
+```
+> skelebot --contact
+me@my-email.com
+```
+
 ---
 
 <center><< <a href="installing.html">Installing</a>  |  <a href="scaffolding.html">Scaffolding</a> >></center>
