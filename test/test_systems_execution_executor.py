@@ -18,6 +18,17 @@ class TestExecutor(unittest.TestCase):
 
         mock_print.assert_called_with("Skelebot v6.6.6")
 
+    @mock.patch('skelebot.systems.execution.executor.print')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_contact(self, mock_skeleParser, mock_print):
+        config = sb.objects.config.Config(contact="me@my-mail.com")
+        args = argparse.Namespace(job=None, contact_global=True)
+        mock_skeleParser.parseArgs.return_value = args
+
+        sb.systems.execution.executor.execute(config, mock_skeleParser)
+
+        mock_print.assert_called_with("me@my-mail.com")
+
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_help(self, mock_skeleParser):
         config = sb.objects.config.Config()

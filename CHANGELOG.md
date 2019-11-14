@@ -4,9 +4,16 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.8.4
+## v1.8.5
 #### Added
-- **Plugin Quarantine** |  Exception handling for plugins will quarantine any plugins that fail to load properly
+- **Contact Param** | Added a global contact param for displaying the project's contact email
+
+---
+
+## v1.8.4
+#### Merged: 2019-11-11
+#### Added
+- **Plugin Quarantine** | Exception handling for plugins will quarantine any plugins that fail to load properly
 
 ---
 
