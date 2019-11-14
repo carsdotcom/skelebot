@@ -71,7 +71,7 @@ Example Skelebot Project
 -----------------------------------
 Version: 1.1.0
 Environment: None
-Skelebot Version: 1.8.1
+Skelebot Version: 1.8.5
 -----------------------------------
 
 positional arguments:
@@ -89,10 +89,11 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  -v, --version         Display the version number of Skelebot
   -e ENV, --env ENV     Specify the runtime environment configurations
   -s, --skip-build      Skip the build process and attempt to use previous docker build
   -n, --native          Run natively instead of through Docker
-  -v, --version         Display the version number of Skelebot
+  -c, --contact         Display the contact email of the Skelebot project
 ```
 
 ## Install

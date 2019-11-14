@@ -17,6 +17,8 @@ def execute(config, sbParser, args=None):
 
         if (vars(args).get("version_global", False)):
             print("Skelebot v{}".format(VERSION))
+        elif (vars(args).get("contact_global", False)):
+            print(config.contact)
         elif (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):

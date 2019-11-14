@@ -30,6 +30,11 @@ VN_ARG = "--version"
 VN_ALT = "-v"
 VN_HELP = "Display the version number of Skelebot"
 
+CN_DST = "contact_global"
+CN_ARG = "--contact"
+CN_ALT = "-c"
+CN_HELP = "Display the contact email of the Skelebot project"
+
 def addArgs(args, subparser):
     """Add args to the given subparser"""
 
@@ -100,6 +105,7 @@ class SkeleParser:
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
             self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true', dest=SB_DST)
             self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true', dest=NT_DST)
+            self.parser.add_argument(CN_ALT, CN_ARG, help=CN_HELP, action='store_true', dest=CN_DST)
 
         # ---Config Based Parser Setup---
 
