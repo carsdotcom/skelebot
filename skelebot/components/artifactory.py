@@ -44,7 +44,7 @@ def pullArtifact(user, token, file, url):
     else:
         print("Artifact Not Found: {url}".format(url=url))
 
-def findCompatibleArtifact(list_url, current_version, file):
+def findCompatibleArtifact(user, token, listUrl, currentVersion, filename, ext):
     """Searches the artifact folder to find the latest compatible artifact version"""
 
     compatible = None
@@ -52,10 +52,9 @@ def findCompatibleArtifact(list_url, current_version, file):
     if (path.exists()):
         print("Searching for Latest Compatible Artifact")
         path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
-        fileParts = file.split(".")
-        filename = fileParts[0]
-        ext = fileParts[1]
-        for artifact in path.glob("{filename}_v*/*.{ext}".format(filename=filename, ext=ext)):
+        pathGlob = "{filename}_v{major}.*.{ext}".format(filename=filename, ext=ext, major=currentVersion.split(".")[0])
+        print(pathGlob)
+        for artifact in path.glob(pathGlob):
             print("Found {}".format(artifact))
 
     return compatible
@@ -188,14 +187,16 @@ class Artifactory(Component):
         ext = selectedArtifact.file.split(".")[1]
         version = config.version if (args.job == "push") else args.version
 
+        file = None
         if (version == "LATEST"):
-            list_url = "{url}/{repo}/{path}?list"
-            list_url = list_url.format(url=self.url, repo=self.repo, path=self.path)
-            file = findCompatibleArtifact(list_url, config.version)
+            print("Need to find latest")
+            listUrl = "{url}/{repo}/{path}/"
+            listUrl = listUrl.format(url=self.url, repo=self.repo, path=self.path)
+            file = findCompatibleArtifact(user, token, listUrl, config.version, selectedArtifact.name, ext)
         else:
             file = "{filename}_v{version}.{ext}"
+            file = file.format(filename=selectedArtifact.name, version=version, ext=ext)
 
-        file = file.format(filename=selectedArtifact.name, version=version, ext=ext)
         url = "{url}/{repo}/{path}/{file}"
         url = url.format(url=self.url, repo=self.repo, path=self.path, file=file)
 
