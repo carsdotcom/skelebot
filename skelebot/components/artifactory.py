@@ -44,6 +44,22 @@ def pullArtifact(user, token, file, url):
     else:
         print("Artifact Not Found: {url}".format(url=url))
 
+def findCompatibleArtifact(list_url, current_version, file):
+    """Searches the artifact folder to find the latest compatible artifact version"""
+
+    compatible = None
+    path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
+    if (path.exists()):
+        print("Searching for Latest Compatible Artifact")
+        path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
+        fileParts = file.split(".")
+        filename = fileParts[0]
+        ext = fileParts[1]
+        for artifact in path.glob("{filename}_v*/*.{ext}".format(filename=filename, ext=ext)):
+            print("Found {}".format(artifact))
+
+    return compatible
+
 class Artifact(SkeleYaml):
     """
     Artifact Class
@@ -171,7 +187,14 @@ class Artifactory(Component):
         # Generate the local artifact file and the final Artifactory url path
         ext = selectedArtifact.file.split(".")[1]
         version = config.version if (args.job == "push") else args.version
-        file = "{filename}_v{version}.{ext}"
+
+        if (version == "LATEST"):
+            list_url = "{url}/{repo}/{path}?list"
+            list_url = list_url.format(url=self.url, repo=self.repo, path=self.path)
+            file = findCompatibleArtifact(list_url, config.version)
+        else:
+            file = "{filename}_v{version}.{ext}"
+
         file = file.format(filename=selectedArtifact.name, version=version, ext=ext)
         url = "{url}/{repo}/{path}/{file}"
         url = url.format(url=self.url, repo=self.repo, path=self.path, file=file)
