@@ -87,7 +87,7 @@ class TestArtifactory(unittest.TestCase):
         mock_input.return_value = "abc"
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None)
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None, override=False)
 
         self.artifactory.execute(config, args)
 
@@ -102,7 +102,7 @@ class TestArtifactory(unittest.TestCase):
         path.exists.return_value = False
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None)
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None, override=False)
 
         self.artifactory.execute(config, args)
 

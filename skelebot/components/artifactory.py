@@ -33,14 +33,15 @@ def pushArtifact(artifactFile, user, token, file, url, force):
         os.remove(file)
         raise
 
-def pullArtifact(user, token, file, url):
+def pullArtifact(user, token, file, url, override, original):
     """Pulls the given file from the url with the provided user/token auth"""
 
     if (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
         print("Pulling {file} from {url}".format(file=file, url=url))
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
         with path.open() as fd:
-            with open(file, "wb") as out:
+            dest = original if (override) else file
+            with open(dest, "wb") as out:
                 out.write(fd.read())
     else:
         print("Artifact Not Found: {url}".format(url=url))
@@ -157,6 +158,7 @@ class Artifactory(Component):
         parser.add_argument("version", help="The version of the artifact to pull")
         parser.add_argument("-u", "--user", help="Auth user for Artifactory")
         parser.add_argument("-t", "--token", help="Auth token for Artifactory")
+        parser.add_argument("-o", "--override", action='store_true',  help="Override the model in the existing directory")
 
         return subparsers
 
@@ -213,4 +215,4 @@ class Artifactory(Component):
         if (args.job == "push"):
             pushArtifact(selectedArtifact.file, user, token, file, url, args.force)
         elif (args.job == "pull"):
-            pullArtifact(user, token, file, url)
+            pullArtifact(user, token, file, url, args.override, selectedArtifact.file)
