@@ -7,9 +7,10 @@ from requests.exceptions import MissingSchema
 from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..objects.skeleYaml import SkeleYaml
+from ..objects.semver import Semver
 
-ERROR_ALREADY_PUSHED = """This artifact version has already been pushed.
-Please bump the version before pushing (skelebot bump) or force push (-f)."""
+ERROR_NOT_COMPATIBLE = "No Compatible Version Found"
+ERROR_ALREADY_PUSHED = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
 def pushArtifact(artifactFile, user, token, file, url, force):
     """Pushes the given file to the url with the provided user/token auth"""
@@ -17,7 +18,7 @@ def pushArtifact(artifactFile, user, token, file, url, force):
     # Error and exit if artifact already exists and we are not forcing an override
     try:
         if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
-            raise Exception(ERROR_ALREADY_PUSHED)
+            raise RuntimeError(ERROR_ALREADY_PUSHED)
     except MissingSchema:
         pass
 
@@ -32,17 +33,42 @@ def pushArtifact(artifactFile, user, token, file, url, force):
         os.remove(file)
         raise
 
-def pullArtifact(user, token, file, url):
+def pullArtifact(user, token, file, url, override, original):
     """Pulls the given file from the url with the provided user/token auth"""
 
     if (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
         print("Pulling {file} from {url}".format(file=file, url=url))
         path = artifactory.ArtifactoryPath(url, auth=(user, token))
         with path.open() as fd:
-            with open(file, "wb") as out:
+            dest = original if (override) else file
+            with open(dest, "wb") as out:
                 out.write(fd.read())
     else:
         print("Artifact Not Found: {url}".format(url=url))
+
+def findCompatibleArtifact(user, token, listUrl, currentVersion, filename, ext):
+    """Searches the artifact folder to find the latest compatible artifact version"""
+
+    print("Searching for Latest Compatible Artifact")
+    compatibleSemver = None
+    currentSemver = Semver(currentVersion)
+
+    # Find the artifacts in the folder with the same name and major version
+    path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
+    if (path.exists()):
+        pathGlob = "{filename}_v{major}.*.{ext}".format(filename=filename, ext=ext, major=currentSemver.major)
+        for artifact in path.glob(pathGlob):
+            artifactSemver = Semver(str(artifact).split("_v")[1].split(ext)[0])
+
+            # Identify the latest compatible version
+            if (currentSemver.isBackwardCompatible(artifactSemver)) and ((compatibleSemver is None) or (compatibleSemver < artifactSemver)):
+                compatibleSemver = artifactSemver
+
+    # Raise an error if no compatible version is found
+    if (compatibleSemver is None):
+        raise RuntimeError(ERROR_NOT_COMPATIBLE)
+
+    return "{filename}_v{version}.{ext}".format(filename=filename, version=compatibleSemver, ext=ext)
 
 class Artifact(SkeleYaml):
     """
@@ -132,6 +158,7 @@ class Artifactory(Component):
         parser.add_argument("version", help="The version of the artifact to pull")
         parser.add_argument("-u", "--user", help="Auth user for Artifactory")
         parser.add_argument("-t", "--token", help="Auth token for Artifactory")
+        parser.add_argument("-o", "--override", action='store_true',  help="Override the model in the existing directory")
 
         return subparsers
 
@@ -171,8 +198,16 @@ class Artifactory(Component):
         # Generate the local artifact file and the final Artifactory url path
         ext = selectedArtifact.file.split(".")[1]
         version = config.version if (args.job == "push") else args.version
-        file = "{filename}_v{version}.{ext}"
-        file = file.format(filename=selectedArtifact.name, version=version, ext=ext)
+
+        file = None
+        if (version == "LATEST"):
+            listUrl = "{url}/{repo}/{path}/"
+            listUrl = listUrl.format(url=self.url, repo=self.repo, path=self.path)
+            file = findCompatibleArtifact(user, token, listUrl, config.version, selectedArtifact.name, ext)
+        else:
+            file = "{filename}_v{version}.{ext}"
+            file = file.format(filename=selectedArtifact.name, version=version, ext=ext)
+
         url = "{url}/{repo}/{path}/{file}"
         url = url.format(url=self.url, repo=self.repo, path=self.path, file=file)
 
@@ -180,4 +215,4 @@ class Artifactory(Component):
         if (args.job == "push"):
             pushArtifact(selectedArtifact.file, user, token, file, url, args.force)
         elif (args.job == "pull"):
-            pullArtifact(user, token, file, url)
+            pullArtifact(user, token, file, url, args.override, selectedArtifact.file)

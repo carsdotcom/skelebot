@@ -43,6 +43,26 @@ display when executing the commands, or they can be passed as parameters in the 
  - `--user (-u)` - The Artifactory username
  - `--token (-t)` - The token associated to the Artifactory username
 
+#### Latest Compatible Version
+
+Skelebot allows for the pulling of artifacts based on the project's current version in order to obtain the "latest compatible version". The latest compatible version is the highest version number of the same major version that is not above the project's current version.
+
+This can be accomplished by specifying "LATEST" as the version number when executing the pull command.
+
+```
+> skelebot pull artifact-name LATEST
+```
+
+#### Override Artifact
+
+By default the pull command will place the artifact (with the version number) in the root directory of the project. However, you can tell Skelebot to place the artifact in the location that is provided in the config.
+This is done with the override parameter (`-o --override`) and would replace the existing artifact in that location automatically, so caution is advised when using this parameter.
+
+
+```
+> skelebot pull artifact-name 1.0.0 --override
+```
+
 ---
 
 <center><< <a href="publishing.html">Publishing</a>  |  <a href="hdfs-kerberos.html">HDFS Kerberos</a> >></center>

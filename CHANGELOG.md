@@ -4,7 +4,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.9.0
+#### Added
+- **Latest Compatible Version** | Added logic to artifactory pull commands to allow for dynamic look-up of the latest compatible version of an artifact
+- **Override Artifact** | Added an override parameter to the artifact component to allow for pull commands to write to the existing artifact file location
+
+---
+
 ## v1.8.5
+#### Merged: 2019-11-14
 #### Added
 - **Contact Param** | Added a global contact param for displaying the project's contact email
 
@@ -12,6 +20,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.8.4
 #### Merged: 2019-11-11
+#### Released: 2019-11-12
 #### Added
 - **Plugin Quarantine** | Exception handling for plugins will quarantine any plugins that fail to load properly
 
