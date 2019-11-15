@@ -7,9 +7,10 @@ from requests.exceptions import MissingSchema
 from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 from ..objects.skeleYaml import SkeleYaml
+from ..objects.semver import Semver
 
-ERROR_ALREADY_PUSHED = """This artifact version has already been pushed.
-Please bump the version before pushing (skelebot bump) or force push (-f)."""
+ERROR_NOT_COMPATIBLE = "No Compatible Version Found"
+ERROR_ALREADY_PUSHED = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
 def pushArtifact(artifactFile, user, token, file, url, force):
     """Pushes the given file to the url with the provided user/token auth"""
@@ -17,7 +18,7 @@ def pushArtifact(artifactFile, user, token, file, url, force):
     # Error and exit if artifact already exists and we are not forcing an override
     try:
         if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, token)).exists()):
-            raise Exception(ERROR_ALREADY_PUSHED)
+            raise RuntimeError(ERROR_ALREADY_PUSHED)
     except MissingSchema:
         pass
 
@@ -47,17 +48,26 @@ def pullArtifact(user, token, file, url):
 def findCompatibleArtifact(user, token, listUrl, currentVersion, filename, ext):
     """Searches the artifact folder to find the latest compatible artifact version"""
 
-    compatible = None
+    print("Searching for Latest Compatible Artifact")
+    compatibleSemver = None
+    currentSemver = Semver(currentVersion)
+
+    # Find the artifacts in the folder with the same name and major version
     path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
     if (path.exists()):
-        print("Searching for Latest Compatible Artifact")
-        path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
-        pathGlob = "{filename}_v{major}.*.{ext}".format(filename=filename, ext=ext, major=currentVersion.split(".")[0])
-        print(pathGlob)
+        pathGlob = "{filename}_v{major}.*.{ext}".format(filename=filename, ext=ext, major=currentSemver.major)
         for artifact in path.glob(pathGlob):
-            print("Found {}".format(artifact))
+            artifactSemver = Semver(str(artifact).split("_v")[1].split(ext)[0])
 
-    return compatible
+            # Identify the latest compatible version
+            if (currentSemver.isBackwardCompatible(artifactSemver)) and ((compatibleSemver is None) or (compatibleSemver < artifactSemver)):
+                compatibleSemver = artifactSemver
+
+    # Raise an error if no compatible version is found
+    if (compatibleSemver is None):
+        raise RuntimeError(ERROR_NOT_COMPATIBLE)
+
+    return "{filename}_v{version}.{ext}".format(filename=filename, version=compatibleSemver, ext=ext)
 
 class Artifact(SkeleYaml):
     """
@@ -189,7 +199,6 @@ class Artifactory(Component):
 
         file = None
         if (version == "LATEST"):
-            print("Need to find latest")
             listUrl = "{url}/{repo}/{path}/"
             listUrl = listUrl.format(url=self.url, repo=self.repo, path=self.path)
             file = findCompatibleArtifact(user, token, listUrl, config.version, selectedArtifact.name, ext)

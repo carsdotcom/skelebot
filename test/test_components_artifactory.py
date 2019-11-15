@@ -40,8 +40,7 @@ class TestArtifactory(unittest.TestCase):
         config = sb.objects.config.Config(version="1.0.0")
         args = argparse.Namespace(job="push", force=False, artifact='test', user='sean', token='abc123')
 
-        expectedException = """This artifact version has already been pushed.
-Please bump the version before pushing (skelebot bump) or force push (-f)."""
+        expectedException = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
         try:
             self.artifactory.execute(config, args)
