@@ -30,6 +30,13 @@ skelebot publish
 
 If not logged-in to the provided host in the registry, you will be prompted to enter your username and password.
 
+If you would like to make use of any custom tags when publishing the image, the tags parameter
+(`-t --tags`) can be used to specify a list of tag values.
+
+```
+skelebot publish --tags LOCAL DEV STAGE
+```
+
 ---
 
 <center><< <a href="versioning.html">Versioning</a>  |  <a href="artifacts.html">Artifacts</a> >></center>

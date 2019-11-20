@@ -4,6 +4,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.9.1
+#### Added
+- **Publish Tags Parameter** | Added "tags" parameter to the publish command to allow for multiple custom tags to be used when publishing the image
+
+---
+
 ## v1.9.0
 #### Added
 - **Latest Compatible Version** | Added logic to artifactory pull commands to allow for dynamic look-up of the latest compatible version of an artifact

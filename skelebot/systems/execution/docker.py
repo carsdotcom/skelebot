@@ -8,8 +8,13 @@ LOGIN_CMD = "docker login {}"
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
 SAVE_CMD = "docker save -o {filename} {image}"
-TAG_CMD = "docker tag {src} {image}:{version}"
-PUSH_CMD = "docker push {image}:{version}"
+TAG_CMD = "docker tag {src} {image}:{tag}"
+PUSH_CMD = "docker push {image}:{tag}"
+
+def execute(cmd):
+    status = os.system(cmd)
+    if (status != 0):
+        raise Exception("Docker Command Failed")
 
 def login(host=None):
     """Login to the given Docker Host"""
@@ -79,7 +84,7 @@ def save(config, filename="image.img"):
 
     return os.system(SAVE_CMD.format(image=config.getImageName(), filename=filename))
 
-def push(config, host=None, port=None, user=None):
+def push(config, host=None, port=None, user=None, tags=None):
     """Tag with version and latest and push the project Image to the provided Docker Image Host"""
 
     imageName = config.getImageName()
@@ -88,13 +93,9 @@ def push(config, host=None, port=None, user=None):
     user = "{user}/".format(user=user) if user is not None else ""
     image = "{host}{user}{name}".format(host=host, port=port, user=user, name=imageName)
 
-    status = os.system(TAG_CMD.format(src=imageName, image=image, version=config.version))
-    if (status == 0):
-        status = os.system(TAG_CMD.format(src=imageName, image=image, version="latest"))
-    if (status == 0):
-        status = os.system(PUSH_CMD.format(image=image, version=config.version))
-    if (status == 0):
-        status = os.system(PUSH_CMD.format(image=image, version="latest"))
+    tags = [] if tags is None else tags
+    tags = tags + [config.version, "latest"]
 
-    if (status != 0):
-        raise Exception("Docker Push Failed")
+    for tag in tags:
+        execute(TAG_CMD.format(src=imageName, image=image, tag=tag))
+        execute(PUSH_CMD.format(image=image, tag=tag))
