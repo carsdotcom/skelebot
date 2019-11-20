@@ -41,7 +41,8 @@ class Registry(Component):
         """
 
         helpMessage = "Publish your versioned Docker Image to the registry"
-        subparsers.add_parser("publish", help=helpMessage)
+        registryParser = subparsers.add_parser("publish", help=helpMessage)
+        registryParser.add_argument("-t", "--tags", nargs='*', help="Additional image tags")
 
         return subparsers
 
@@ -55,4 +56,4 @@ class Registry(Component):
 
         docker.login(self.host)
         docker.build(config)
-        docker.push(config, self.host, self.port, self.user)
+        docker.push(config, self.host, self.port, self.user, tags=args.tags)

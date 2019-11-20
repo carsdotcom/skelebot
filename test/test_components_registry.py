@@ -29,14 +29,28 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace()
+        args = argparse.Namespace(tags=None)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
 
         mock_docker.login.assert_called_with("docker.io")
         mock_docker.build.assert_called_with(config)
-        mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot")
+        mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=None)
+
+    @mock.patch('skelebot.components.registry.docker')
+    def test_execute_tags(self, mock_docker):
+        mock_docker.build.return_value = 0
+
+        config = sb.objects.config.Config(language="R")
+        args = argparse.Namespace(tags=["test", "dev", "stage"])
+
+        registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
+        registry.execute(config, args)
+
+        mock_docker.login.assert_called_with("docker.io")
+        mock_docker.build.assert_called_with(config)
+        mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=['test', 'dev', 'stage'])
 
     def test_validate_valid(self):
         try:
