@@ -6,7 +6,7 @@ Documenting All Changes to the Skelebot Project
 ## v1.9.2
 #### Changed
 - **Python Base Image** | Install basic compilers (+60MB) and update pip on python base image.
-- **Python Kerberos Image** | Remove `build-essentials` since that  since that is in the python base image.
+- **Python Kerberos Image** | Remove `build-essentials` since that is in the python base image.
 
 ---
 
