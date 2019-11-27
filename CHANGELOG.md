@@ -1,16 +1,24 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+---
+
+## v1.9.2
+#### Changed
+- **Python Base Image** | Install basic compilers (+60MB) and update pip on python base image.
+- **Python Kerberos Image** | Remove `build-essentials` since that is in the python base image.
 
 ---
 
 ## v1.9.1
+#### Merged: 2019-11-20
 #### Added
 - **Publish Tags Parameter** | Added "tags" parameter to the publish command to allow for multiple custom tags to be used when publishing the image
 
 ---
 
 ## v1.9.0
+#### Merged: 2019-11-15
 #### Added
 - **Latest Compatible Version** | Added logic to artifactory pull commands to allow for dynamic look-up of the latest compatible version of an artifact
 - **Override Artifact** | Added an override parameter to the artifact component to allow for pull commands to write to the existing artifact file location
