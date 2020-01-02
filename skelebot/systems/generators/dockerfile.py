@@ -1,6 +1,7 @@
 """Dockerfile Generator"""
 
 import os
+import re
 from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
@@ -44,7 +45,8 @@ def buildDockerfile(config):
                 docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])
             elif ("file:" in dep):
                 docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
-            elif ("=" in dep) & ("==" not in dep): # if specify version with '==', will be handled as a standard case
+            # if using PIP version specifiers, will be handled as a standard case
+            elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
                 verSplit = dep.split("=")
                 docker += PY_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
             else:
@@ -63,29 +65,30 @@ def buildDockerfile(config):
                 docker += R_INSTALL.format(dep=dep)
 
     if (config.language == "R+Python"):
-        for dep in config.dependencies["Python"]:                                                                                      
-            depSplit = dep.split(":")                                                                                        
-            if ("github:" in dep):                                                                                           
-                docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])                                                      
-            elif ("file:" in dep):                                                                                           
-                docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])                                                        
-            elif ("=" in dep) & ("==" not in dep): # if specify version with '==', will be handled as a standard case        
-                verSplit = dep.split("=")                                                                                    
-                docker += PY_R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])                                
-            else:                                                                                                            
-                docker += PY_R_INSTALL.format(dep=dep)                                                                         
-        for dep in config.dependencies["R"]:                                                                                      
-            depSplit = dep.split(":")                                                                                        
-            if ("github:" in dep):                                                                                           
-                docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])                                  
-            elif ("file:" in dep):                                                                                           
-                docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])                                    
-            elif ("=" in dep):                                                                                               
-                verSplit = dep.split("=")                                                                                    
-                docker += R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])                                 
-            else:                                                                                                            
-                docker += R_INSTALL.format(dep=dep)                                                                          
-        
+        for dep in config.dependencies["Python"]:
+            depSplit = dep.split(":")
+            if ("github:" in dep):
+                docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])
+            elif ("file:" in dep):
+                docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])
+            # if using PIP version specifiers, will be handled as a standard case
+            elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
+                verSplit = dep.split("=")
+                docker += PY_R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
+            else:
+                docker += PY_R_INSTALL.format(dep=dep)
+        for dep in config.dependencies["R"]:
+            depSplit = dep.split(":")
+            if ("github:" in dep):
+                docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])
+            elif ("file:" in dep):
+                docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])
+            elif ("=" in dep):
+                verSplit = dep.split("=")
+                docker += R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
+            else:
+                docker += R_INSTALL.format(dep=dep)
+
     # Run any custom global commands
     for command in config.commands:
         docker += "RUN {command}\n".format(command=command)
