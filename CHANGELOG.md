@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.10.0
+#### Added
+- **Dockerfile** | Add full support for pip version identifiers of dependencies.
+
+---
+
 ## v1.9.2
+#### Merged: 2019-11-27
 #### Changed
 - **Python Base Image** | Install basic compilers (+60MB) and update pip on python base image.
 - **Python Kerberos Image** | Remove `build-essentials` since that is in the python base image.
