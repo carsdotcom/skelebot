@@ -59,4 +59,4 @@ class Jupyter(Component):
         print("Notebook Starting on localhost:{port}".format(port=self.port))
         print("Copy the token below to authenticate with Jupyter")
 
-        return docker.run(config, command, "i", ports, ".", "jupyter")
+        return docker.run(config, command, "it", ports, ".", "jupyter")

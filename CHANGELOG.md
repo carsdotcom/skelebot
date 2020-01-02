@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.10.1
+#### Changed
+- **Jupyter** | Run jupyter in docker `-it` mode.
+
+---
+
 ## v1.10.0
+#### Merged: 2020-01-02
 #### Added
 - **Dockerfile** | Add full support for pip version identifiers of dependencies.
 
