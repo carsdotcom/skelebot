@@ -50,3 +50,11 @@ components:
     repoName: skelebot
     files:
     - README.md
+  repository:
+    artifactory:
+      url: https://repository.cars.com/artifactory
+      repo: cars-ml-core
+      path: test
+    artifacts:
+    - name: test1
+      file: skelebot.yaml

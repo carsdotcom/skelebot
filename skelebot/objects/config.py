@@ -140,10 +140,11 @@ class Config(SkeleYaml):
             if ("components" in config):
                 configComps = config["components"]
                 for compName in configComps:
-                    component = componentFactory.buildComponent(compName, configComps[compName])
-                    if (component is not None):
-                        components.append(component)
-                        compNames.append(component.__class__.__name__)
+                    if ("repository" not in configComps) or (compName != "artifactory"):
+                        component = componentFactory.buildComponent(compName, configComps[compName])
+                        if (component is not None):
+                            components.append(component)
+                            compNames.append(component.__class__.__name__)
 
             # Build the additonal components that are active without configuration data
             activations = [Activation.PROJECT, Activation.ALWAYS]

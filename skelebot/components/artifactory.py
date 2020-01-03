@@ -103,9 +103,6 @@ class Artifactory(Component):
     file to and from Artifactory based on the project version number
     """
 
-    print(DEPRECATION_WARNING.format(code="Artifactory Component", version="1.10.0",
-                                     msg="Please use the Repository Component instead."))
-
     activation = Activation.CONFIG
     commands = ["push", "pull"]
 
@@ -178,6 +175,9 @@ class Artifactory(Component):
         rename the artifact and push it to Artifactory or pull down the given artifact version
         from Artifactory
         """
+
+        print(DEPRECATION_WARNING.format(code="Artifactory Component", version="1.11.0",
+                                     msg="Please use the Repository Component instead."))
 
         artifactory.global_config = {
             self.url: {
