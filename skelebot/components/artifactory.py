@@ -3,7 +3,6 @@
 import os
 import shutil
 import artifactory
-from deprecated import deprecated
 from requests.exceptions import MissingSchema
 from schema import Schema, And, Optional
 from ..common import DEPRECATION_WARNING
