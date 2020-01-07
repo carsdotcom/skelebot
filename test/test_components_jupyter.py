@@ -35,7 +35,7 @@ class TestJupyter(unittest.TestCase):
         expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
 
         mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, expectedCommand, "i", ["1127:8888"], ".", "jupyter")
+        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], ".", "jupyter")
 
     @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_Python(self, mock_docker):
@@ -49,7 +49,7 @@ class TestJupyter(unittest.TestCase):
         expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
 
         mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, expectedCommand, "i", ["1127:8888"], ".", "jupyter")
+        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], ".", "jupyter")
 
     def test_validate_valid(self):
         try:
