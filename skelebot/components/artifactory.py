@@ -91,7 +91,6 @@ class Artifact(SkeleYaml):
         self.name = name
         self.file = file
 
-#@deprecated(version='1.10.0', reason="Replaced by 'repository' component")
 class Artifactory(Component):
     """
     *** DEPRECATED v1.10.0 ***

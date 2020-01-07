@@ -140,6 +140,7 @@ class Config(SkeleYaml):
             if ("components" in config):
                 configComps = config["components"]
                 for compName in configComps:
+                    # Ensures that artifactory component is not loaded if repository is present
                     if ("repository" not in configComps) or (compName != "artifactory"):
                         component = componentFactory.buildComponent(compName, configComps[compName])
                         if (component is not None):
