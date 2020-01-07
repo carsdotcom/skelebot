@@ -104,14 +104,16 @@ class Repository(Component):
         for artifact in self.artifacts:
             artifactNames.append(artifact.name)
 
-        parser = subparsers.add_parser("push", help="Push an artifact to artifactory")
+        repo = "Artifactory" if self.artifactory is not None else "S3"
+
+        parser = subparsers.add_parser("push", help="Push an artifact to {}".format(repo))
         parser.add_argument("artifact", choices=artifactNames)
         parser.add_argument("-f", "--force", action='store_true', help="Force the push")
         if (self.requiresPassword()):
             parser.add_argument("-u", "--user", help="Auth user for Artifactory")
             parser.add_argument("-t", "--token", help="Auth token for Artifactory")
 
-        parser = subparsers.add_parser("pull", help="Pull an artifact from artifactory")
+        parser = subparsers.add_parser("pull", help="Pull an artifact from {}".format(repo))
         parser.add_argument("artifact", choices=artifactNames)
         parser.add_argument("version", help="The version of the artifact to pull")
         parser.add_argument("-o", "--override", action='store_true',  help="Override the model in the existing directory")
@@ -128,13 +130,19 @@ class Repository(Component):
         for artifact in self.artifacts:
             if (artifact.name == args.artifact):
                 selectedArtifact = artifact
-
         ext = selectedArtifact.file.split(".")[1]
+
+        # Obtain the user and token if required
+        user = None
+        token = None
+        if (self.requiresPassword()):
+            user = args.user
+            token = args.token
 
         # Obtain the configured artifact repository
         artifactRepo = self.s3fs if self.s3fs is not None else self.artifactory
 
         if (args.job == "push"): # Push from Disk to Repo
-            artifactRepo.push(selectedArtifact, config.version, args.force, args.user, args.token)
+            artifactRepo.push(selectedArtifact, config.version, args.force, user, token)
         elif (args.job == "pull"): # Pull from Repo to Disk
-            artifactRepo.pull(selectedArtifact, args.version, config.version, args.override, args.user, args.token)
+            artifactRepo.pull(selectedArtifact, args.version, config.version, args.override, user, token)

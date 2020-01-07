@@ -43,3 +43,18 @@ components:
   jupyter:
     port: 1127
     folder: .
+  registry:
+    user: skelebot
+  contributors:
+    repoOwner: carsdotcom
+    repoName: skelebot
+    files:
+    - README.md
+  repository:
+    s3fs:
+      bucket: cars-data-sandbox-dev
+      region: us-east-1
+      profile: data-dev
+    artifacts:
+    - name: test1
+      file: skelebot.yaml

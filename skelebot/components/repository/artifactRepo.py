@@ -11,7 +11,7 @@ class ArtifactRepo(SkeleYaml):
         """ Function to be defined for pushing an artifact to an artifact repository """
         pass
 
-    def pull(self, artifact, version, dest=None, user=None, password=None):
+    def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Function to be defined for pulling an artifact from an artifact repository """
         pass
 

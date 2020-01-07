@@ -13,7 +13,7 @@ dependencies:
 - pytest==5.1.3
 - schema==0.7.0
 - colorama==0.4.1
-- s3fs
+- boto3==1.10.47
 
 ignores:
 - '**/*.zip'
@@ -50,11 +50,3 @@ components:
     repoName: skelebot
     files:
     - README.md
-  repository:
-    artifactory:
-      url: https://repository.cars.com/artifactory
-      repo: cars-ml-core
-      path: test
-    artifacts:
-    - name: test1
-      file: skelebot.yaml
