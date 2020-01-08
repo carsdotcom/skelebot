@@ -3,7 +3,7 @@ from schema import Schema, And, Optional
 from .artifactRepo import ArtifactRepo
 from ...objects.semver import Semver
 
-class S3fsRepo(ArtifactRepo):
+class S3Repo(ArtifactRepo):
     """
     S3 File System Class
 
@@ -11,9 +11,9 @@ class S3fsRepo(ArtifactRepo):
     """
 
     schema = Schema({
-        'bucket': And(str, error='S3fs \'bucket\' must be a String'),
-        'region': And(str, error='S3fs \'region\' must be a String'),
-        Optional('profile'): And(str, error='S3fs \'profile\' must be a String'),
+        'bucket': And(str, error='S3 \'bucket\' must be a String'),
+        'region': And(str, error='S3 \'region\' must be a String'),
+        Optional('profile'): And(str, error='S3 \'profile\' must be a String'),
     }, ignore_extra_keys=True)
 
     bucket = None

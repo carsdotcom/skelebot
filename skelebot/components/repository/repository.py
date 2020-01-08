@@ -2,7 +2,7 @@
 
 from schema import Schema, And, Optional, SchemaError
 from .artifactRepo import ArtifactRepo
-from .s3fsRepo import S3fsRepo
+from .s3Repo import S3Repo
 from .artifactoryRepo import ArtifactoryRepo
 from ...objects.component import Activation, Component
 from ...objects.skeleYaml import SkeleYaml
@@ -51,12 +51,12 @@ class Repository(Component):
 
     schema = Schema({
         Optional('artifacts'): And(list, error='Repository \'artifacts\' must be a List'),
-        Optional('s3fs'): And(dict, error='Repository \'s3fs\' must be an Object'),
+        Optional('s3'): And(dict, error='Repository \'s3\' must be an Object'),
         Optional('artifactory'): And(dict, error='Repository \'artifactory\' must be an Object'),
     }, ignore_extra_keys=True)
 
     artifacts = None
-    s3fs = None
+    s3 = None
     artifactory = None
 
     @classmethod
@@ -65,14 +65,14 @@ class Repository(Component):
 
         cls.validate(config)
 
-        s3fs = None
+        s3 = None
         artifactory = None
-        if ("s3fs" in config):
-            s3fs = S3fsRepo.load(config["s3fs"])
+        if ("s3" in config):
+            s3 = S3Repo.load(config["s3"])
         elif ("artifactory" in config):
             artifactory = ArtifactoryRepo.load(config["artifactory"])
         else:
-            raise SchemaError(None, "Repository must contain 's3fs' or 'artifactory' config")
+            raise SchemaError(None, "Repository must contain 's3' or 'artifactory' config")
 
         artifactDicts = config["artifacts"]
         artifacts = []
@@ -80,13 +80,13 @@ class Repository(Component):
             newArtifact = Artifact.load(artifact)
             artifacts.append(newArtifact)
 
-        return cls(artifacts, s3fs, artifactory)
+        return cls(artifacts, s3, artifactory)
 
-    def __init__(self, artifacts=None, s3fs=None, artifactory=None):
+    def __init__(self, artifacts=None, s3=None, artifactory=None):
         """Instantiate the Repository Class Object based on the provided parameters"""
 
         self.artifacts = artifacts if artifacts is not None else []
-        self.s3fs = s3fs
+        self.s3 = s3
         self.artifactory = artifactory
 
     def requiresPassword(self):
@@ -140,7 +140,7 @@ class Repository(Component):
             token = args.token
 
         # Obtain the configured artifact repository
-        artifactRepo = self.s3fs if self.s3fs is not None else self.artifactory
+        artifactRepo = self.s3 if self.s3 is not None else self.artifactory
 
         if (args.job == "push"): # Push from Disk to Repo
             artifactRepo.push(selectedArtifact, config.version, args.force, user, token)

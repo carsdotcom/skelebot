@@ -87,18 +87,19 @@ class ArtifactoryRepo(ArtifactRepo):
         url = ARTIFACT_PATH.format(url=self.url, repo=self.repo, path=self.path, file=artifactName)
 
         # Error and exit if artifact already exists and we are not forcing an override
-        try:
-            if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, password)).exists()):
-                raise RuntimeError(self.ERROR_ALREADY_PUSHED)
-        except MissingSchema:
-            pass
+        if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, password)).exists()):
+            raise RuntimeError(self.ERROR_ALREADY_PUSHED)
 
         # Push the artifact to the path in Artifactory
         print("Deploying {file} to {url}".format(file=artifactName, url=url))
         shutil.copyfile(artifact.file, artifactName)
         path = artifactory.ArtifactoryPath(url, auth=(user, password))
-        path.deploy_file(artifactName)
-        os.remove(artifactName)
+        try:
+            path.deploy_file(artifactName)
+            os.remove(artifactName)
+        except:
+            os.remove(artifactName)
+            raise
 
     def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Pull the artifact with the given version number (or LATEST) from Artifactory """

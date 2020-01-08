@@ -1,3 +1,3 @@
 """Scripts for the Repository Component"""
 
-from . import artifactoryRepo, artifactRepo, repository, s3fsRepo
+from . import artifactoryRepo, artifactRepo, repository, s3Repo
