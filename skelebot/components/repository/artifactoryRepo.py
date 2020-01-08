@@ -7,8 +7,6 @@ from .artifactRepo import ArtifactRepo
 from ...objects.semver import Semver
 
 ARTIFACT_PATH = "{url}/{repo}/{path}/{file}"
-ERROR_NOT_COMPATIBLE = "No Compatible Version Found"
-ERROR_ALREADY_PUSHED = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
 class ArtifactoryRepo(ArtifactRepo):
     """
@@ -72,7 +70,7 @@ class ArtifactoryRepo(ArtifactRepo):
 
         # Raise an error if no compatible version is found
         if (version is None):
-            raise RuntimeError(ERROR_NOT_COMPATIBLE)
+            raise RuntimeError(self.ERROR_NOT_COMPATIBLE)
 
         return version
 
@@ -91,7 +89,7 @@ class ArtifactoryRepo(ArtifactRepo):
         # Error and exit if artifact already exists and we are not forcing an override
         try:
             if (not force) and (artifactory.ArtifactoryPath(url, auth=(user, password)).exists()):
-                raise RuntimeError(ERROR_ALREADY_PUSHED)
+                raise RuntimeError(self.ERROR_ALREADY_PUSHED)
         except MissingSchema:
             pass
 

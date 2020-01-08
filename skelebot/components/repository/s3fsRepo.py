@@ -1,12 +1,7 @@
-import os
-import yaml
 import boto3
-import argparse
-import pandas as pd
-import pyarrow.parquet as pq
-
 from schema import Schema, And, Optional
 from .artifactRepo import ArtifactRepo
+from ...objects.semver import Semver
 
 class S3fsRepo(ArtifactRepo):
     """
@@ -40,7 +35,7 @@ class S3fsRepo(ArtifactRepo):
     def push(self, artifact, version, force=False, user=None, password=None):
         """ Push an artifact to S3 with the given version number """
 
-        client = connect()
+        client = self.connect()
 
         artifactName = artifact.getVersionedName(version)
         client.upload_file(artifact.file, self.bucket, artifactName)
@@ -55,11 +50,30 @@ class S3fsRepo(ArtifactRepo):
 
         # TODO: Handle Exceptions
 
-        client = connect()
+        client = self.connect()
 
-        #if (version == "LATEST"):
-            # TODO: Identify latest compatible version of the artifact in the bucket
+        # Identify the latest compatible version
+        if (version == "LATEST"):
+            version = None
+            currentSemver = Semver(currentVersion)
+            ext = artifact.file.split(".")[1]
+            response = client.list_objects(Bucket=self.bucket, Prefix=artifact.name)
+
+            # Iterate through all the artifacts int he bucket
+            for content in response["Contents"]:
+                artifactSemver = Semver(str(content["Key"]).split("_v")[1].split(ext)[0])
+
+                # Find the most recent backward compatible version AKA Latest Compatible Version (LCV)
+                if (currentSemver.isBackwardCompatible(artifactSemver)) and ((version is None) or (version < artifactSemver)):
+                    version = artifactSemver
+
+            if (version is None):
+                raise RuntimeError(self.ERROR_NOT_COMPATIBLE)
 
         artifactName = artifact.getVersionedName(version)
         dest = artifact.file if (override) else artifactName
-        client.download_file(self.bucket, artifactName, dest)
+
+        try:
+            client.download_file(self.bucket, artifactName, dest)
+        except:
+            raise RuntimeError("Failed to Locate the Specified Artifact")
