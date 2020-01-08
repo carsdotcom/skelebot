@@ -36,14 +36,17 @@ class S3fsRepo(ArtifactRepo):
         """ Push an artifact to S3 with the given version number """
 
         client = self.connect()
-
         artifactName = artifact.getVersionedName(version)
-        client.upload_file(artifact.file, self.bucket, artifactName)
 
-        # TODO: Handle Exceptions
-        # TODO: Need to allow for pushing of artifact with version number
-        # TODO: Need to prevent pushing if the artifact already exists
-        # TODO: Need to allow for forcing a push if the flag is set
+        # If the object exists and we are not force pushing, raise an error
+        if (not force):
+            response = client.list_objects(Bucket=self.bucket, Prefix=artifactName)
+            if ("Contents" in response.keys()):
+                print(response["Contents"][0]["Key"])
+                raise RuntimeError(self.ERROR_ALREADY_PUSHED)
+
+        # Upload the artifact with the versioned name
+        client.upload_file(artifact.file, self.bucket, artifactName)
 
     def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
@@ -65,13 +68,11 @@ class S3fsRepo(ArtifactRepo):
                 if (currentSemver.isBackwardCompatible(artifactSemver)) and ((version is None) or (version < artifactSemver)):
                     version = artifactSemver
 
+            # Raise an error if no LCV is found
             if (version is None):
                 raise RuntimeError(self.ERROR_NOT_COMPATIBLE)
 
+        # Download the artifact based on the version provided or LCV
         artifactName = artifact.getVersionedName(version)
         dest = artifact.file if (override) else artifactName
-
-        try:
-            client.download_file(self.bucket, artifactName, dest)
-        except:
-            raise RuntimeError("Failed to Locate the Specified Artifact")
+        client.download_file(self.bucket, artifactName, dest)
