@@ -53,6 +53,8 @@ class TestYaml(unittest.TestCase):
         expectedComponents = ["Registry", "Plugin", "Jupyter", "Bump", "Prime", "Dexec", "AddNumbers"]
         if not isTestEnv:
             expectedComponents.append("Artifactory")
+        else:
+            expectedComponents.append("Repository")
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
 

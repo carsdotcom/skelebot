@@ -93,7 +93,7 @@ class Artifact(SkeleYaml):
 
 class Artifactory(Component):
     """
-    *** DEPRECATED v1.10.0 ***
+    *** DEPRECATED v1.11.0 ***
 
     Artifactory Component Class
 
