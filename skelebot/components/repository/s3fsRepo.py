@@ -48,8 +48,6 @@ class S3fsRepo(ArtifactRepo):
     def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
 
-        # TODO: Handle Exceptions
-
         client = self.connect()
 
         # Identify the latest compatible version
