@@ -3,7 +3,20 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.11.0
+#### Changed
+- **Artifactory** | Deprecated this component in favor of the new Repostiory component
+- **config** | The config will not load the Artifactory component if the Repository component is present in the yaml
+- **GitHub Pages** | Updated to reflect the deprecation and the new component
+
+#### Added
+- **Repository** | New component for managing artifacts in Artifactory or S3
+
+---
+
 ## v1.10.1
+#### Merged: 2020-01-02
+#### Released: 2020-01-02
 #### Changed
 - **Jupyter** | Run jupyter in docker `-it` mode.
 
