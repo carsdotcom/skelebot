@@ -11,9 +11,9 @@ class S3Repo(ArtifactRepo):
     """
 
     schema = Schema({
-        'bucket': And(str, error='S3 \'bucket\' must be a String'),
-        'region': And(str, error='S3 \'region\' must be a String'),
-        Optional('profile'): And(str, error='S3 \'profile\' must be a String'),
+        'bucket': And(str, error="S3 'bucket' must be a String"),
+        'region': And(str, error="S3 'region' must be a String"),
+        Optional('profile'): And(str, error="S3 'profile' must be a String"),
     }, ignore_extra_keys=True)
 
     bucket = None

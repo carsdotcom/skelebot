@@ -4,7 +4,7 @@
 
 # Artifactory - DEPRECATED v1.11
 
-**The Artifactory component has been depreceted as of v1.11 and should no longer be used. The same functionality (and more) is provided with the Repository component as detailed below. The manner in which the components operate is identical (push and pull commands), they merely utilize a different config structure that allows the Repository component to handle more than just Artifactory repositories.**
+**The Artifactory component has been deprecated as of v1.11 and should no longer be used. The same functionality (and more) is provided with the Repository component as detailed below. The manner in which the components operate is identical (push and pull commands), they merely utilize a different config structure that allows the Repository component to handle more than just Artifactory repositories.**
 
 ---
 
@@ -47,7 +47,7 @@ components:
       file: xgb-model.pkl
 ```
 
-In order for the S3 setup to work you must have the appropraite credentials and config files setup in your `.aws/` folder. More information on aws credentials can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
+In order for the S3 setup to work you must have the appropriate credentials and config files setup in your `.aws/` folder. More information on aws credentials can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 
 The `artifacts` field accepts a list of artifacts names and path to the actual artifact object file. The `url`, `repo`, and `path` fields specify where the artifact will end up when it is pushed (or from where it will be pulled).
 

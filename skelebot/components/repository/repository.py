@@ -1,7 +1,6 @@
 """Repository Component"""
 
 from schema import Schema, And, Optional, SchemaError
-from .artifactRepo import ArtifactRepo
 from .s3Repo import S3Repo
 from .artifactoryRepo import ArtifactoryRepo
 from ...objects.component import Activation, Component
@@ -21,8 +20,8 @@ class Artifact(SkeleYaml):
     VERSIONED_NAME = "{filename}_v{version}.{ext}"
 
     schema = Schema({
-        'name': And(str, error='Artifact \'name\' must be a String'),
-        'file': And(str, error='Artifact \'file\' must be a String'),
+        'name': And(str, error="Artifact 'name' must be a String"),
+        'file': And(str, error="Artifact 'file' must be a String"),
     }, ignore_extra_keys=True)
 
     name = None
@@ -50,9 +49,9 @@ class Repository(Component):
     commands = ["push", "pull"]
 
     schema = Schema({
-        Optional('artifacts'): And(list, error='Repository \'artifacts\' must be a List'),
-        Optional('s3'): And(dict, error='Repository \'s3\' must be an Object'),
-        Optional('artifactory'): And(dict, error='Repository \'artifactory\' must be an Object'),
+        Optional('artifacts'): And(list, error="Repository 'artifacts' must be a List"),
+        Optional('s3'): And(dict, error="Repository 's3' must be an Object"),
+        Optional('artifactory'): And(dict, error="Repository 'artifactory' must be an Object"),
     }, ignore_extra_keys=True)
 
     artifacts = None
@@ -130,7 +129,6 @@ class Repository(Component):
         for artifact in self.artifacts:
             if (artifact.name == args.artifact):
                 selectedArtifact = artifact
-        ext = selectedArtifact.file.split(".")[1]
 
         # Obtain the user and token if required
         user = None

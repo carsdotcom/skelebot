@@ -294,7 +294,7 @@ class TestRepository(TestCase):
         except:
             self.fail("Validation Raised Exception Unexpectedly")
 
-    def test_validate_mising(self):
+    def test_validate_missing(self):
         s3Dict = copy.deepcopy(self.s3Dict)
         del s3Dict['bucket']
         del s3Dict['region']

@@ -1,8 +1,7 @@
 import artifactory
 import shutil
 import os
-from requests.exceptions import MissingSchema
-from schema import Schema, And, Optional
+from schema import Schema, And
 from .artifactRepo import ArtifactRepo
 from ...objects.semver import Semver
 
@@ -16,9 +15,9 @@ class ArtifactoryRepo(ArtifactRepo):
     """
 
     schema = Schema({
-        'url': And(str, error='Artifactory \'url\' must be a String'),
-        'repo': And(str, error='Artifactory \'repo\' must be a String'),
-        'path': And(str, error='Artifactory \'path\' must be a String'),
+        'url': And(str, error="Artifactory 'url' must be a String"),
+        'repo': And(str, error="Artifactory 'repo' must be a String"),
+        'path': And(str, error="Artifactory 'path' must be a String"),
     }, ignore_extra_keys=True)
 
     url = None
