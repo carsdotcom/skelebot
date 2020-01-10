@@ -9,9 +9,11 @@ dependencies:
 - pyyaml==5.1.2
 - artifactory==0.1.17
 - requests==2.22.0
-- coverage
-- pytest
+- coverage==4.5.4
+- pytest==5.1.3
 - schema==0.7.0
+- colorama==0.4.1
+- boto3~=1.10
 ignores:
 - '**/*.zip'
 - '**/*.RData'
@@ -43,3 +45,18 @@ components:
   jupyter:
     port: 1127
     folder: .
+  registry:
+    user: skelebot
+  contributors:
+    repoOwner: carsdotcom
+    repoName: skelebot
+    files:
+    - README.md
+  repository:
+    s3:
+      bucket: my-bucket
+      region: us-east-1
+      profile: test
+    artifacts:
+    - name: test1
+      file: skelebot.yaml

@@ -2,7 +2,7 @@
 
 import pkg_resources
 
-from colorama import Style
+from colorama import Fore, Style
 
 VERSION = pkg_resources.get_distribution("skelebot").version
 DESCRIPTION = Style.BRIGHT + "{project}" + Style.RESET_ALL + """
@@ -32,7 +32,6 @@ LANGUAGE_IMAGE = {
     "R+Python": {
         "base": "skelebot/r-base",
         "krb": "skelebot/r-krb"
-        
     }
 }
 _all_deps: dict = {"Python":["numpy", "pandas", "scipy", "scikit-learn"],"R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]}
@@ -43,3 +42,10 @@ LANGUAGE_DEPENDENCIES = {
 }
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
+
+ERROR_HEADER = Fore.RED + "ERROR" + Style.RESET_ALL + " | "
+ERROR = ERROR_HEADER + "{}"
+SCHEMA_ERROR = ERROR_HEADER + "skelebot.yaml | {}"
+
+WARN_HEADER = Fore.YELLOW + "WARN" + Style.RESET_ALL + " | "
+DEPRECATION_WARNING = WARN_HEADER + "The {code} has been deprecated as of v{version}. {msg}"

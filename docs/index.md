@@ -20,7 +20,7 @@ Skelebot also saves developer time by integrating with HDFS through Kerberos aut
  - Manage all of your project's **dependencies** in a single file
  - Execute any job in Docker through Skelebot **job execution** and provide an interface and documentation to others
  - Manually execute and debug any code using **skelebot exec** to access to your Docker container directly
- - Publish and download your versioned artifacts with **Artifactory** integration
+ - Manage your project's versioned **artifacts** in Artifactory or S3
  - Access data from **HDFS** through Kerberos authentication protocols defined in your configuration
  - Provide easily accessible **help documentation** for each of your Skelebot jobs
  - Spin up **Jupyter Notebooks** inside of Docker with all of your code, packages, and data ready to go

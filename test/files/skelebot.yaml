@@ -4,11 +4,11 @@ commands:
 components:
   artifactory:
     artifacts:
-    - file: model.RData
-      name: model
-    path: skelebot
-    repo: ml
-    url: artifactory.cars.com
+    - file: test
+      name: test
+    path: test
+    repo: cars-ml-core
+    url: https://repository.cars.com/artifactory
   jupyter:
     folder: notebooks/
     port: 1127

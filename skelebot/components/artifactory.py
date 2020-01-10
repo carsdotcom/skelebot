@@ -5,6 +5,7 @@ import shutil
 import artifactory
 from requests.exceptions import MissingSchema
 from schema import Schema, And, Optional
+from ..common import DEPRECATION_WARNING
 from ..objects.component import Activation, Component
 from ..objects.skeleYaml import SkeleYaml
 from ..objects.semver import Semver
@@ -92,6 +93,8 @@ class Artifact(SkeleYaml):
 
 class Artifactory(Component):
     """
+    *** DEPRECATED v1.11.0 ***
+
     Artifactory Component Class
 
     Provides the ability to push and pull artifacts that are defined in the skelebot config
@@ -170,6 +173,9 @@ class Artifactory(Component):
         rename the artifact and push it to Artifactory or pull down the given artifact version
         from Artifactory
         """
+
+        print(DEPRECATION_WARNING.format(code="Artifactory Component", version="1.11.0",
+                                     msg="Please use the Repository Component instead."))
 
         artifactory.global_config = {
             self.url: {

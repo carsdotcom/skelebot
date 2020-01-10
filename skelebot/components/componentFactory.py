@@ -15,6 +15,7 @@ from .prime import Prime
 from .dexec import Dexec
 from .artifactory import Artifactory
 from .registry import Registry
+from .repository.repository import Repository
 
 WARNING_HEADER = Fore.YELLOW + "WARNING" + Style.RESET_ALL
 PLUGIN_WARNING = WARNING_HEADER + " | The {} plugin contains errors - Adding plugin to Quarantine"
@@ -40,7 +41,8 @@ class ComponentFactory():
             Prime.__name__.lower(): Prime,
             Dexec.__name__.lower(): Dexec,
             Artifactory.__name__.lower(): Artifactory,
-            Registry.__name__.lower(): Registry
+            Registry.__name__.lower(): Registry,
+            Repository.__name__.lower(): Repository
         }
 
         # Add the plugin components to the master list
