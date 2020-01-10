@@ -197,6 +197,7 @@ class TestRepository(TestCase):
 
         self.s3.execute(config, args)
 
+        mock_client.list_objects.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
         mock_client.download_file.assert_called_with("my-bucket", "test_v1.0.5.pkl", "test_v1.0.5.pkl")
 
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')

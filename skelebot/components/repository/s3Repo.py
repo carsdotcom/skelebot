@@ -58,7 +58,8 @@ class S3Repo(ArtifactRepo):
             version = None
             currentSemver = Semver(currentVersion)
             ext = artifact.file.split(".")[1]
-            response = client.list_objects(Bucket=self.bucket, Prefix=artifact.name)
+            prefix = "{name}_v{major}".format(name=artifact.name, major=currentSemver.major)
+            response = client.list_objects(Bucket=self.bucket, Prefix=prefix)
 
             # Iterate through all the artifacts int he bucket
             for content in response["Contents"]:

@@ -53,7 +53,7 @@ components:
     files:
     - README.md
   repository:
-    s3fs:
+    s3:
       bucket: my-bucket
       region: us-east-1
       profile: test
