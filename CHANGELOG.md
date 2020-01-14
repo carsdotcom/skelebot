@@ -3,7 +3,18 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.12.0
+#### Changed
+- **Dockerfile Generator** | Adds the ability to construct ENTRYPOINT based Dockerfiles depending on the primaryExe field
+- **Docker Execution** | Adds the ability to properly override ENTRYPOINT when running commands against an image
+
+#### Added
+- **PrimaryExe** | New config field to set the execution method for the primary job for either CMD or ENTRYPOINT
+
+---
+
 ## v1.11.0
+#### Merged: 2020-01-10
 #### Changed
 - **Artifactory** | Deprecated this component in favor of the new Repostiory component
 - **config** | The config will not load the Artifactory component if the Repository component is present in the yaml
