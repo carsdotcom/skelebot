@@ -5,7 +5,6 @@ from argparse import Namespace
 
 import skelebot as sb
 
-# Test plugin that says 'Hi' at the end of every command
 class LimitMemory(sb.objects.component.Component):
     activation = sb.objects.component.Activation.CONFIG
 
@@ -213,6 +212,29 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-some_command --rm -i --memory {memory}GB test /bin/bash -c \"echo some_command\"".format(memory=memory)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+        mock_system.assert_called_once_with(expected)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.system')
+    @mock.patch('os.getcwd')
+    def test_run_docker_params_entrypoint(self, mock_getcwd, mock_system, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        memory = 256
+        args = Namespace(version='0.1')
+
+        homePath = "{path}/test/plugins".format(path=self.path)
+        mock_expanduser.return_value = homePath
+        mock_getcwd.return_value = folderPath
+        mock_system.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.primaryExe = "ENTRYPOINT"
+        config.components.append(LimitMemory(memory))
+        job = sb.objects.job.Job(name='some_command', help='Dummy', source='echo some_command')
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
+
+        expected = "docker run --name test-some_command --rm -i --memory {memory}GB --entrypoint echo test some_command".format(memory=memory)
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
         mock_system.assert_called_once_with(expected)
 

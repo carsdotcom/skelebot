@@ -7,6 +7,7 @@ from ...systems.generators import dockerignore
 LOGIN_CMD = "docker login {}"
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
+RUN_ENTRY_CMD = "docker run --name {image}-{jobName} --rm {params} --entrypoint {command} {image} {parameters}"
 SAVE_CMD = "docker save -o {filename} {image}"
 TAG_CMD = "docker tag {src} {image}:{tag}"
 PUSH_CMD = "docker push {image}:{tag}"
@@ -76,7 +77,13 @@ def run(config, command, mode, ports, mappings, task):
 
     # Assuming the image was built without errors, run the container with the given command
     image = config.getImageName()
-    runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
+    if "CMD" == config.primaryExe:
+        runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
+    elif "ENTRYPOINT" == config.primaryExe:
+        commandParts = command.split(" ")
+        extCommand = commandParts.pop(0)
+        parameters = " ".join(commandParts)
+        runCMD = RUN_ENTRY_CMD.format(image=image, jobName=task, command=extCommand, params=params, mode=mode, parameters=parameters)
     return os.system(runCMD)
 
 def save(config, filename="image.img"):

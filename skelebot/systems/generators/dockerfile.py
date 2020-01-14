@@ -104,8 +104,17 @@ def buildDockerfile(config):
     # Set the CMD to execute the primary job by default (if there is one)
     for job in config.jobs:
         if config.primaryJob == job.name:
-            docker += "CMD /bin/bash -c \"{command}\"\n"
-            docker = docker.format(command=commandBuilder.build(config, job, None))
+
+            command = commandBuilder.build(config, job, None)
+            if "CMD" == config.primaryExe:
+                docker += "CMD /bin/bash -c \"{command}\"\n".format(command=command)
+            elif "ENTRYPOINT" == config.primaryExe:
+                commandParts = command.split(" ")
+                ext = commandParts[0]
+                source = commandParts[1]
+                docker += "ENTRYPOINT [\"{ext}\", \"{source}\"]\n".format(ext=ext, source=source)
+
+            break
 
     dockerfile = open(FILE_PATH.format(path=os.getcwd()), "w")
     dockerfile.write(docker)

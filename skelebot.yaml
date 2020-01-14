@@ -24,6 +24,8 @@ ignores:
 - '**/*.pyc'
 
 primaryJob: test
+primaryExe: ENTRYPOINT
+
 jobs:
 - name: publish-base
   source: jobs/publish.sh
@@ -31,7 +33,7 @@ jobs:
   help: Build and Publish the Docker Base Images
 - name: test
   source: jobs/test.sh
-  mode: i
+  mode: it
   help: Run the test cases for the project with coverage
   params:
   - name: coverage

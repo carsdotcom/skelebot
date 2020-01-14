@@ -1,6 +1,6 @@
 """Root Config Class for Skelebot YAML File"""
 
-from schema import Schema, And, Or, Optional
+from schema import Schema, And, Or, Use, Optional
 from .job import Job
 from .param import Param
 from .skeleYaml import SkeleYaml
@@ -25,6 +25,7 @@ class Config(SkeleYaml):
         'language': And(str, error='\'language\' must be a String'),
         Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
         Optional('primaryJob'): And(str, error='\'primaryJob\' must be a String'),
+        Optional('primaryExe'): And(str, Use(str.upper), lambda s: s in ('CMD', 'ENTRYPOINT'), error='\'primaryExe\' must be CMD or ENTRYPOINT'),
         Optional('ephemeral'): And(bool, error='\'ephemeral\' must be a Boolean'),
         Optional('dependencies'): Or(dict, list, error='\'dependencies\' must be a Dict or List'),
         Optional('ignores'): And(list, error='\'ignores\' must be a List'),
@@ -44,6 +45,7 @@ class Config(SkeleYaml):
     language = None
     baseImage = None
     primaryJob = None
+    primaryExe = None
     ephemeral = None
     dependencies = None
     ignores = None
@@ -54,9 +56,9 @@ class Config(SkeleYaml):
     commands = None
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
-                 contact=None, language=None, baseImage=None, primaryJob=None, ephemeral=None,
-                 dependencies=None, ignores=None, jobs=None, ports=None, components=None, params=None,
-                 commands=None):
+                 contact=None, language=None, baseImage=None, primaryJob=None, primaryExe=None,
+                 ephemeral=None, dependencies=None, ignores=None, jobs=None, ports=None,
+                 components=None, params=None, commands=None):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -68,6 +70,7 @@ class Config(SkeleYaml):
         self.language = language
         self.baseImage = baseImage
         self.primaryJob = primaryJob
+        self.primaryExe = primaryExe.upper() if primaryExe is not None else "CMD"
         self.ephemeral = ephemeral
         self.dependencies = dependencies if dependencies is not None else []
         self.ignores = ignores if ignores is not None else []
