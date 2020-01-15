@@ -33,7 +33,7 @@ class TestConfigValidate(unittest.TestCase):
         try:
             sb.objects.config.Config.validate(config)
         except SchemaError as error:
-            self.assertEqual(error.code, "'{attr}' must be a {expected}".format(attr=attr, expected=expected))
+            self.assertEqual(error.code, "'{attr}' must be {expected}".format(attr=attr, expected=expected))
 
     def test_valid(self):
 
@@ -53,22 +53,24 @@ class TestConfigValidate(unittest.TestCase):
             self.assertEqual(error.code, "Missing keys: 'language', 'name'")
 
     def test_invalid(self):
-        self.validate_error('name', 123, 'String')
-        self.validate_error('env', 123, 'String')
-        self.validate_error('description', 123, 'String')
-        self.validate_error('maintainer', 123, 'String')
-        self.validate_error('contact', 123, 'String')
-        self.validate_error('language', 123, 'String')
-        self.validate_error('baseImage', 123, 'String')
-        self.validate_error('primaryJob', 123, 'String')
-        self.validate_error('ephemeral', 123, 'Boolean')
-        self.validate_error('dependencies', 123, 'Dict or List')
-        self.validate_error('ignores', 123, 'List')
-        self.validate_error('jobs', 123, 'List')
-        self.validate_error('ports', 123, 'List')
-        self.validate_error('components', 123, 'Dictionary')
-        self.validate_error('params', 123, 'List')
-        self.validate_error('commands', 123, 'List')
+        self.validate_error('name', 123, 'a String')
+        self.validate_error('env', 123, 'a String')
+        self.validate_error('description', 123, 'a String')
+        self.validate_error('maintainer', 123, 'a String')
+        self.validate_error('contact', 123, 'a String')
+        self.validate_error('language', 123, 'a String')
+        self.validate_error('baseImage', 123, 'a String')
+        self.validate_error('primaryJob', 123, 'a String')
+        self.validate_error('primaryExe', 123, 'CMD or ENTRYPOINT')
+        self.validate_error('primaryExe', 'bad', 'CMD or ENTRYPOINT')
+        self.validate_error('ephemeral', 123, 'a Boolean')
+        self.validate_error('dependencies', 123, 'a Dict or List')
+        self.validate_error('ignores', 123, 'a List')
+        self.validate_error('jobs', 123, 'a List')
+        self.validate_error('ports', 123, 'a List')
+        self.validate_error('components', 123, 'a Dictionary')
+        self.validate_error('params', 123, 'a List')
+        self.validate_error('commands', 123, 'a List')
 
 if __name__ == '__main__':
     unittest.main()

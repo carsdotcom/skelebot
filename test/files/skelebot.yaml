@@ -65,4 +65,5 @@ params:
   - error
   default: info
   name: log
+primaryExe: CMD
 primaryJob: build

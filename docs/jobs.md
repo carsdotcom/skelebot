@@ -96,6 +96,41 @@ primaryJob: example
 
 This is done by simply using the name of one of the jobs in the `primaryJob` attribute of the config file. This will allow Skelebot to set this job as the default command for the docker image that is built, thereby making a more easily distributable Docker Image for the sake of deployment.
 
+#### Primary Exe
+The `primaryExe` field in the skelebot.yaml config allows for the specification of an execution command to use in the Dockerfile. This field accepts two different values: "ENTRYPOINT" and "CMD". If the field is not specified in the config, the default "CMD" value is used.
+
+```
+primaryExe: (ENTRYPOINT, CMD)
+```
+
+Using "CMD" as the primary execution method requires that the primary job is configured to use only parameters, not arguments, and that each parameter has a default value. This allows the command string to be constructed in full so that it can be run without any extra parameters in the Docker Run command.
+
+In this scenario it is possible to set default parameter values to environment variables to allow for different user's to set different parameter values without altering the manner in which the image is executed.
+
+```
+...
+jobs:
+- name: test
+  source: jobs/test.sh
+  mode: it
+  help: Run the test cases for the project
+  params:
+  - name: runner
+    alt: r
+    default: $RUNNER
+    help: The name of the person running the tests
+```
+
+When using the "ENTRYPOINT" execution method, the parameters and arguments are not used in the construction of the Dockerfile, and instead are left to be inserted during the Docker Run process manually.
+
+Were the example job above to be configured with an "ENTRYPOINT" execution, the params could be specified at runtime in the following manner.
+
+```
+docker run my-image --runner ME
+```
+
+For more information on the details of "CMD" and "ENTRYPOINT" please refer to [Docker's Documentation](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact).
+
 ### Skelebot Parameters
 Skelebot has some optional parameters that allow you to control how the jobs are run. These parameters apply to everything in Skelebot, not just the jobs. As such, they are specified in the command line after the skelebot command and before the job argument.
 
