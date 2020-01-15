@@ -103,7 +103,7 @@ The `primaryExe` field in the skelebot.yaml config allows for the specification 
 primaryExe: (ENTRYPOINT, CMD)
 ```
 
-Using "CMD" as the primary execution method requires that the primary job is configured to use only parameters, not arguments, and that each parameter has a default value. This allows the command string can be constructed in full so that it can be run without any extra parameters in the Docker Run command.
+Using "CMD" as the primary execution method requires that the primary job is configured to use only parameters, not arguments, and that each parameter has a default value. This allows the command string to be constructed in full so that it can be run without any extra parameters in the Docker Run command.
 
 In this scenario it is possible to set default parameter values to environment variables to allow for different user's to set different parameter values without altering the manner in which the image is executed.
 
@@ -129,7 +129,7 @@ Were the example job above to be configured with an "ENTRYPOINT" execution, the 
 docker run my-image --runner ME
 ```
 
-For more information on the details of "CMD" and "ENTRYPOINT" please refer to [Docker's Documentation](https://docs.docker.com/engine/reference/builder/).
+For more information on the details of "CMD" and "ENTRYPOINT" please refer to [Docker's Documentation](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact).
 
 ### Skelebot Parameters
 Skelebot has some optional parameters that allow you to control how the jobs are run. These parameters apply to everything in Skelebot, not just the jobs. As such, they are specified in the command line after the skelebot command and before the job argument.
