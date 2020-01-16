@@ -1,8 +1,29 @@
 """Registry Component"""
 
 from schema import Schema, And, Optional
+from ..objects.skeleYaml import SkeleYaml
 from ..objects.component import Activation, Component
 from ..systems.execution import docker
+
+class Aws(SkeleYaml):
+    """
+    AWS Specific Registry Details
+
+    Provides the fields necessary for authenticating with an AWS ECR: region and profile.
+    """
+
+    schema = Schema({
+        'region': And(str, error='Registry AWS \'region\' must be a String'),
+        Optional('profile'): And(str, error='Registry AWS \'profile\' must be a String')
+    }, ignore_extra_keys=True)
+
+    region = None
+    profile = None
+
+    def __init__(self, region=None, profile=None):
+        """Instantiate the Registry Class Object based on the provided parameters"""
+        self.region = region
+        self.profile = profile
 
 class Registry(Component):
     """
@@ -20,17 +41,29 @@ class Registry(Component):
         Optional('host'): And(str, error='Registry \'host\' must be a String'),
         Optional('port'): And(int, error='Registry \'port\' must be an Integer'),
         Optional('user'): And(str, error='Registry \'user\' must be a String'),
+        Optional('aws'): And(dict, error='Registry \'aws\' must be a Dictionary')
     }, ignore_extra_keys=True)
 
     host = None
     port = None
     user = None
+    aws = None
 
-    def __init__(self, host=None, port=None, user=None):
+    @classmethod
+    def load(cls, config):
+        """Instantiate the AWS Class Object if it is present"""
+
+        cls.validate(config)
+        aws = Aws.load(config["aws"]) if ("aws" in config) else None
+
+        return cls(config.get("host"), config.get("port"), config.get("user"), aws)
+
+    def __init__(self, host=None, port=None, user=None, aws=None):
         """Instantiate the Registry Class Object based on the provided parameters"""
         self.host = host
         self.port = port
         self.user = user
+        self.aws = aws
 
     def addParsers(self, subparsers):
         """
@@ -54,6 +87,12 @@ class Registry(Component):
         building the project's Docker Image and pushing it to the defined registry.
         """
 
-        docker.login(self.host)
-        docker.build(config)
-        docker.push(config, self.host, self.port, self.user, tags=args.tags)
+        status = 0
+        if "amazonaws.com" in self.host:
+            status = docker.loginAWS(self.region, self.profile)
+        else:
+            status = docker.login(self.host)
+        status = docker.build(config)
+        status = docker.push(config, self.host, self.port, self.user, tags=args.tags)
+
+        return status
