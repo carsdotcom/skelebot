@@ -64,7 +64,7 @@ def build(config):
         os.remove(".dockerignore")
 
     # Raise an error if the build process failed
-    if (status > 0):
+    if (status != 0):
         raise Exception("Docker Build Failed")
 
     return status

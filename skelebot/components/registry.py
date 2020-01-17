@@ -87,12 +87,12 @@ class Registry(Component):
         building the project's Docker Image and pushing it to the defined registry.
         """
 
-        status = 0
-        if "amazonaws.com" in self.host:
-            status = docker.loginAWS(self.region, self.profile)
+        # Login to the registry
+        if self.aws is not None:
+            docker.loginAWS(self.aws.region, self.aws.profile)
         else:
-            status = docker.login(self.host)
-        status = docker.build(config)
-        status = docker.push(config, self.host, self.port, self.user, tags=args.tags)
+            docker.login(self.host)
 
-        return status
+        # Build and Push with the different tags (LATEST and VERSION default)
+        docker.build(config)
+        docker.push(config, self.host, self.port, self.user, tags=args.tags)
