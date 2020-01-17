@@ -5,7 +5,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.12.1
 #### Changed
-- **Excutor** | Fail job execution when status code is not zero
+- **Executor** | Fail job execution when status code is not zero
 
 ---
 
