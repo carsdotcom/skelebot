@@ -57,6 +57,7 @@ class TestExecutor(unittest.TestCase):
         config = sb.objects.config.Config(jobs=[job])
         args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
+        mock_run.return_value = 0
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
@@ -70,6 +71,7 @@ class TestExecutor(unittest.TestCase):
         config = sb.objects.config.Config(jobs=[job])
         args = argparse.Namespace(job="test", native_global=False, skip_build_global=False)
         mock_skeleParser.parseArgs.return_value = args
+        mock_run.return_value = 0
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
@@ -83,6 +85,7 @@ class TestExecutor(unittest.TestCase):
         config = sb.objects.config.Config(jobs=[job])
         args = argparse.Namespace(job="test", native_global=True)
         mock_skeleParser.parseArgs.return_value = args
+        mock_system.return_value = 0
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
@@ -107,10 +110,26 @@ class TestExecutor(unittest.TestCase):
         config = sb.objects.config.Config(jobs=[job])
         args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
         mock_skeleParser.parseArgs.return_value = args
+        mock_run.return_value = 0
 
         sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])
 
-        mock_run.assert_called_with(config, "python -u test.py", "i", [], [], "test")
+        test_call = mock.call(config, "python -u test.py", "i", [], [], "test")
+        mock_run.assert_has_calls([test_call, test_call])
+
+    @mock.patch('skelebot.systems.execution.executor.runDocker')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_chain_fail(self, mock_skeleParser, mock_run):
+        job = sb.objects.job.Job(name="test", source="test.py")
+        config = sb.objects.config.Config(jobs=[job])
+        args = argparse.Namespace(job="test", native_global=False, skip_build_global=True)
+        mock_skeleParser.parseArgs.return_value = args
+        mock_run.return_value = 1
+        try:
+            sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])
+            self.fail('exception expected')
+        except SystemExit:
+            mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
 if __name__ == '__main__':
     unittest.main()

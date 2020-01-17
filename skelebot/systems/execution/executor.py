@@ -27,7 +27,9 @@ def execute(config, sbParser, args=None):
             job = getJob(config, args)
 
             if (job is not None):
-                executeJob(config, args, job)
+                status = executeJob(config, args, job)
+                if status != 0:
+                    sys.exit(status)
             else:
                 executeComponent(config, args)
 
@@ -61,11 +63,12 @@ def executeJob(config, args, job):
 
     command = buildCommand(config, job, args, args.native_global)
     if (args.native_global):
-        os.system(command)
+        status = os.system(command)
     else:
         if (not args.skip_build_global):
             buildDocker(config)
-        runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
+        status = runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
+    return(status)
 
 def executeComponent(config, args):
     """Execute a Component of Skelebot"""
