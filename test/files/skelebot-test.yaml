@@ -3,6 +3,11 @@ ignores:
 - 'data/'
 - 'libs/'
 components:
+  registry:
+    host: test
+    aws:
+      region: us-east-1
+      profile: dev
   jupyter:
     folder: notebooks/
     port: 1128

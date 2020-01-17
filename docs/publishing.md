@@ -37,6 +37,20 @@ If you would like to make use of any custom tags when publishing the image, the 
 skelebot publish --tags LOCAL DEV STAGE
 ```
 
----
+### AWS ECR
+Skelebot supports publishing to AWS ECR as long as you have the proper credentials setup in `~/.aws/` as well as the [aws cli](https://aws.amazon.com/cli/) installed.
+
+To allow for ECR host authentication, the `aws` section will need to be added to your config.
+
+```
+components:
+  registry:
+    host: 12345.ecr.amazonaws.com
+    aws:
+      region: us-east-1
+      profile: dev
+```
+
+In this config the `region` field is required, but the `profile` field is optional and will make use of the default profile in your `~/.aws/` credentials if not provided.
 
 <center><< <a href="versioning.html">Versioning</a>  |  <a href="artifacts.html">Artifacts</a> >></center>

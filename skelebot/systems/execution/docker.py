@@ -4,6 +4,7 @@ import os
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
+AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
 LOGIN_CMD = "docker login {}"
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
@@ -17,6 +18,8 @@ def execute(cmd):
     if (status != 0):
         raise Exception("Docker Command Failed")
 
+    return status
+
 def login(host=None):
     """Login to the given Docker Host"""
 
@@ -28,6 +31,24 @@ def login(host=None):
 
     if (status != 0):
         raise Exception("Docker Login Failed")
+
+    return status
+
+def loginAWS(region=None, profile=None):
+    """Login to AWS with ~/.aws credentials to access an ECR host"""
+
+    region = region if region is not None else "us-east-1"
+    profile = profile if profile is not None else "default"
+
+    loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
+
+    print(loginCMD)
+    status = os.system(loginCMD)
+
+    if (status != 0):
+        raise Exception("Docker Login Failed")
+
+    return status
 
 def build(config):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
@@ -43,7 +64,7 @@ def build(config):
         os.remove(".dockerignore")
 
     # Raise an error if the build process failed
-    if (status > 0):
+    if (status != 0):
         raise Exception("Docker Build Failed")
 
     return status
@@ -103,6 +124,10 @@ def push(config, host=None, port=None, user=None, tags=None):
     tags = [] if tags is None else tags
     tags = tags + [config.version, "latest"]
 
+    status = 0
     for tag in tags:
-        execute(TAG_CMD.format(src=imageName, image=image, tag=tag))
-        execute(PUSH_CMD.format(image=image, tag=tag))
+        status = execute(TAG_CMD.format(src=imageName, image=image, tag=tag))
+        status = execute(PUSH_CMD.format(image=image, tag=tag))
+
+    return status
+

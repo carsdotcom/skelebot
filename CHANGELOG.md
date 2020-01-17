@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.13.0
+#### Changed
+- **Registry** | Added optional 'aws' config to the component to allow for ECR authentication and publishing
+- **Docker** | Added login method for AWS to allow for authenticating with ECR via the AWS CLI
+
+---
+
 ## v1.12.1
+#### Merged: 2020-01-17
 #### Changed
 - **Executor** | Fail job execution when status code is not zero
 

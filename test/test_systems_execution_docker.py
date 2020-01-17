@@ -42,6 +42,20 @@ class TestDocker(unittest.TestCase):
         with self.assertRaisesRegex(Exception, "Docker Login Failed"):
             sb.systems.execution.docker.login()
 
+    @mock.patch('os.system')
+    def test_login_aws(self, mock_system):
+        mock_system.return_value = 0
+
+        sb.systems.execution.docker.loginAWS("us-east-1", "dev")
+        mock_system.assert_called_once_with("$(aws ecr get-login --no-include-email --region us-east-1 --profile dev)")
+
+    @mock.patch('os.system')
+    def test_login_aws_error(self, mock_system):
+        mock_system.return_value = 1
+
+        with self.assertRaisesRegex(Exception, "Docker Login Failed"):
+            sb.systems.execution.docker.loginAWS("us-east-1", "dev")
+
     @mock.patch('os.path.expanduser')
     @mock.patch('os.system')
     @mock.patch('os.getcwd')
