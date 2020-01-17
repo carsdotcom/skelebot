@@ -45,7 +45,7 @@ To allow for ECR host authentication, the `aws` section will need to be added to
 ```
 components:
   registry:
-    host: 12345.ecr..amazonaws.com
+    host: 12345.ecr.amazonaws.com
     aws:
       region: us-east-1
       profile: dev
