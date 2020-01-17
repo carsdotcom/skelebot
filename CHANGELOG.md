@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.12.1
+#### Changed
+- **Executor** | Fail job execution when status code is not zero
+
+---
+
 ## v1.12.0
+#### Merged: 2020-01-15
+#### Released: 2020-01-15
 #### Changed
 - **Dockerfile Generator** | Adds the ability to construct ENTRYPOINT based Dockerfiles depending on the primaryExe field
 - **Docker Execution** | Adds the ability to properly override ENTRYPOINT when running commands against an image
