@@ -56,11 +56,12 @@ def buildParams(jobParams, args):
     paramString = ""
     if (jobParams is not None):
         for param in jobParams:
+            dash_prefix = '--' if len(param.name) > 1 else '-'
             value = args.get(param.name.replace("-", "_"), param.default)
             if (param.accepts == "boolean"):
                 if (value):
-                    paramString += " --{name}".format(name=param.name)
+                    paramString += " {dash_prefix}{name}".format(dash_prefix = dash_prefix, name=param.name)
             elif (value is not None):
-                paramString += " --{name} {value}".format(name=param.name, value=value)
+                paramString += " {dash_prefix}{name} {value}".format(dash_prefix = dash_prefix, name=param.name, value=value)
 
     return paramString

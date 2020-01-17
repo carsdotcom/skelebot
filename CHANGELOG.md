@@ -1,6 +1,9 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+## v1.14.0
+#### Changed
+- **Executor** | allow passing short-handed parameter name
 ---
 
 ## v1.13.0

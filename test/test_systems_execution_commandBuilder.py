@@ -64,6 +64,23 @@ class TestCommandBuilder(unittest.TestCase):
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
+    def test_build_short_param(self, mock_getcwd, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        config = sb.systems.generators.yaml.loadConfig()
+        job = config.jobs[2]
+        param = sb.objects.param.Param("test", "t", accepts="boolean")
+        job.params.append(param)
+
+        expected = "bash test_short.sh -f csv --log info"
+        command = sb.systems.execution.commandBuilder.build(config, job, None)
+        self.assertEqual(command, expected)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
     def test_build_kabob_params(self, mock_getcwd, mock_expanduser):
         folderPath = "{path}/test/files".format(path=self.path)
         args = Namespace(version='0.1', test_test="test", arg_arg="argy")
