@@ -53,6 +53,16 @@ jobs:
   mode: i
   name: test-direct-command
   source: echo Hello
+- help: Test passing short params
+  mode: i
+  name: test-short-param
+  params:
+  - choices:
+    - csv
+    - parquet
+    default: csv
+    name: f
+  source: test_short.sh
 language: Python
 maintainer: Mega Man
 name: test
