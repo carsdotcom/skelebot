@@ -21,6 +21,7 @@ class Jupyter(Component):
     schema = Schema({
         Optional('port'): And(int, error='Jupyter \'port\' must be an Integer'),
         Optional('folder'): And(str, error='Jupyter \'folder\' must be a String'),
+        Optional('mappings'): And(list, error='Jupyter \'mappings\' must be a List'),
     }, ignore_extra_keys=True)
 
     port = None
