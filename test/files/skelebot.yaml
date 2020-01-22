@@ -11,6 +11,7 @@ components:
     url: https://repository.cars.com/artifactory
   jupyter:
     folder: notebooks/
+    mappings: .
     port: 1127
 contact: megaman@cars.com
 dependencies:
