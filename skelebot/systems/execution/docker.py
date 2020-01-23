@@ -1,6 +1,7 @@
 """Docker Execution"""
 
 import os
+from subprocess import call
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
@@ -13,10 +14,10 @@ SAVE_CMD = "docker save -o {filename} {image}"
 TAG_CMD = "docker tag {src} {image}:{tag}"
 PUSH_CMD = "docker push {image}:{tag}"
 
-def execute(cmd):
-    status = os.system(cmd)
+def execute(cmd, err_msg="Docker Command Failed"):
+    status = call(cmd, shell=True)
     if (status != 0):
-        raise Exception("Docker Command Failed")
+        raise Exception(err_msg)
 
     return status
 
@@ -27,10 +28,7 @@ def login(host=None):
     loginCMD = LOGIN_CMD.format(host)
 
     print(loginCMD)
-    status = os.system(loginCMD)
-
-    if (status != 0):
-        raise Exception("Docker Login Failed")
+    status = execute(loginCMD, err_msg="Docker Login Failed")
 
     return status
 
@@ -43,10 +41,7 @@ def loginAWS(region=None, profile=None):
     loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
 
     print(loginCMD)
-    status = os.system(loginCMD)
-
-    if (status != 0):
-        raise Exception("Docker Login Failed")
+    status = execute(loginCMD, err_msg="Docker Login Failed")
 
     return status
 
@@ -56,16 +51,16 @@ def build(config):
     # Build Dockerfile, .dockerignore, and Docker Image
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
-    status = os.system(BUILD_CMD.format(image=config.getImageName()))
 
-    # Remove Files if ephemeral is set to True in Config
-    if (config.ephemeral):
-        os.remove("Dockerfile")
-        os.remove(".dockerignore")
+    buildCMD = BUILD_CMD.format(image=config.getImageName())
 
-    # Raise an error if the build process failed
-    if (status != 0):
-        raise Exception("Docker Build Failed")
+    try:
+        status = execute(buildCMD, err_msg="Docker Build Failed")
+    finally:
+        # Remove Files if ephemeral is set to True in Config
+        if (config.ephemeral):
+            os.remove("Dockerfile")
+            os.remove(".dockerignore")
 
     return status
 
@@ -98,19 +93,19 @@ def run(config, command, mode, ports, mappings, task):
 
     # Assuming the image was built without errors, run the container with the given command
     image = config.getImageName()
-    if "CMD" == config.primaryExe:
+    if config.primaryExe == "CMD":
         runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
-    elif "ENTRYPOINT" == config.primaryExe:
+    elif config.primaryExe == "ENTRYPOINT":
         commandParts = command.split(" ")
         extCommand = commandParts.pop(0)
         parameters = " ".join(commandParts)
         runCMD = RUN_ENTRY_CMD.format(image=image, jobName=task, command=extCommand, params=params, mode=mode, parameters=parameters)
-    return os.system(runCMD)
+    return execute(runCMD)
 
 def save(config, filename="image.img"):
     """Save the Image File to the disk"""
 
-    return os.system(SAVE_CMD.format(image=config.getImageName(), filename=filename))
+    return execute(SAVE_CMD.format(image=config.getImageName(), filename=filename))
 
 def push(config, host=None, port=None, user=None, tags=None):
     """Tag with version and latest and push the project Image to the provided Docker Image Host"""
@@ -119,7 +114,7 @@ def push(config, host=None, port=None, user=None, tags=None):
     port = ":{port}".format(port=port) if port is not None else ""
     host = "{host}{port}/".format(host=host, port=port) if host is not None else ""
     user = "{user}/".format(user=user) if user is not None else ""
-    image = "{host}{user}{name}".format(host=host, port=port, user=user, name=imageName)
+    image = "{host}{user}{name}".format(host=host, user=user, name=imageName)
 
     tags = [] if tags is None else tags
     tags = tags + [config.version, "latest"]
@@ -130,4 +125,3 @@ def push(config, host=None, port=None, user=None, tags=None):
         status = execute(PUSH_CMD.format(image=image, tag=tag))
 
     return status
-

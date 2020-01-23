@@ -78,18 +78,18 @@ class TestExecutor(unittest.TestCase):
         mock_build.assert_called_once_with(config)
         mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test")
 
-    @mock.patch('os.system')
+    @mock.patch('skelebot.systems.execution.executor.call')
     @mock.patch('skelebot.systems.parsing.skeleParser')
-    def test_execute_job_native(self, mock_skeleParser, mock_system):
+    def test_execute_job_native(self, mock_skeleParser, mock_call):
         job = sb.objects.job.Job(name="test", source="test.py")
         config = sb.objects.config.Config(jobs=[job])
         args = argparse.Namespace(job="test", native_global=True)
         mock_skeleParser.parseArgs.return_value = args
-        mock_system.return_value = 0
+        mock_call.return_value = 0
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_system.assert_called_once_with("python -u test.py")
+        mock_call.assert_called_once_with("python -u test.py", shell=True)
 
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_component(self, mock_skeleParser):
