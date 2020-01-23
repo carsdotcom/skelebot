@@ -1,7 +1,7 @@
 """Execution System"""
 
-import os
 import sys
+from subprocess import call
 from ...common import VERSION
 from ..scaffolding.scaffolder import scaffold
 from .commandBuilder import build as buildCommand
@@ -63,7 +63,7 @@ def executeJob(config, args, job):
 
     command = buildCommand(config, job, args, args.native_global)
     if (args.native_global):
-        status = os.system(command)
+        status = call(command, shell=True)
     else:
         if (not args.skip_build_global):
             buildDocker(config)
