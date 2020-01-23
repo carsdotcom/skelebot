@@ -4,24 +4,6 @@ from unittest import mock
 
 import skelebot as sb
 
-import subprocess
-
-_original_call = subprocess.call
-
-def assert_call(*args, **kwargs):
-    assert _original_call(*args, **kwargs) == 0
-
-
-def subprocess_call_assert_wrap(expected, message=None):
-    from subprocess import call as _subcall
-    def _wrapped(*args, **kwargs):
-        if message:
-            assert expected == _subcall(*args, **kwargs), message
-        else:
-            assert expected == _subcall(*args, **kwargs)
-    return _wrapped
-
-
 class TestExecutor(unittest.TestCase):
 
     @mock.patch('skelebot.systems.execution.executor.print')
