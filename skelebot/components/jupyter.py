@@ -21,15 +21,18 @@ class Jupyter(Component):
     schema = Schema({
         Optional('port'): And(int, error='Jupyter \'port\' must be an Integer'),
         Optional('folder'): And(str, error='Jupyter \'folder\' must be a String'),
+        Optional('mappings'): And(list, error='Jupyter \'mappings\' must be a List'),
     }, ignore_extra_keys=True)
 
     port = None
     folder = None
+    mappings = None
 
-    def __init__(self, port=8888, folder="."):
+    def __init__(self, port=8888, folder=".", mappings = '.'):
         """Initialize the class with simple default values for port and folder"""
         self.port = port
         self.folder = folder
+        self.mappings = mappings
 
     def addParsers(self, subparsers):
         """
@@ -55,8 +58,9 @@ class Jupyter(Component):
 
         command = COMMAND_TEMPLATE.format(folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
+        mappings = ["."] + self.mappings if "." not in self.mappings else self.mappings
 
         print("Notebook Starting on localhost:{port}".format(port=self.port))
         print("Copy the token below to authenticate with Jupyter")
 
-        return docker.run(config, command, "it", ports, ".", "jupyter")
+        return docker.run(config, command, "it", ports, mappings, "jupyter")

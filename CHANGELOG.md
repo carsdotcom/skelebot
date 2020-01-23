@@ -1,7 +1,13 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+## v1.15.0
+#### Changed
+- **Jupyter** | allow mapping folders outside of project folder
+
+---
 ## v1.14.0
+#### Merged: 2020-01-17
 #### Changed
 - **Executor** | allow passing short-handed parameter name
 ---
