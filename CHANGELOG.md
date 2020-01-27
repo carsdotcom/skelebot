@@ -1,7 +1,22 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+## v1.15.1
+#### Changed
+- **Docker Execution** | Replace os.system calls with subprocess.call
+- **Executor** | Replace os.system calls with subprocess.call
+
+---
+
+## v1.15.0
+#### Merged: 2020-01-23
+#### Changed
+- **Jupyter** | allow mapping folders outside of project folder
+
+---
+
 ## v1.14.0
+#### Merged: 2020-01-17
 #### Changed
 - **Executor** | allow passing short-handed parameter name
 ---
