@@ -372,10 +372,7 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         mock_getcwd.return_value = folderPath
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "R+Python"
-        config.dependencies = {"Python":["numpy", "pandas", "scipy", "scikit-learn"],"R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]}
-        # config.dependencies.append("github:github.com/repo:cool-lib")
-        # config.dependencies.append("file:libs/proj:cool-proj")
-        # config.dependencies.append("dtable=9.0")
+        config.dependencies = {"Python":["numpy", "pandas", "github:github.com/repo", "file:libs/proj", "dtable>=9.0", "dtable=9.0"],"R":["data.table", "here", "github:github.com/repo:cool-lib", "file:libs/proj:cool-proj", "dtable=9.0"]}
         config.components.append(sb.components.kerberos.Kerberos("conf", "tab", "user"))
 
         expectedDockerfile = """
@@ -387,14 +384,17 @@ MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
 RUN ["pip3", "install", "numpy"]
 RUN ["pip3", "install", "pandas"]
-RUN ["pip3", "install", "scipy"]
-RUN ["pip3", "install", "scikit-learn"]
+RUN ["pip3", "install", "git+github.com/repo"]
+COPY libs/proj libs/proj
+RUN ["pip3", "install", "/app/libs/proj"]
+RUN ["pip3", "install", "dtable>=9.0"]
+RUN ["pip3", "install", "dtable==9.0"]
 RUN ["Rscript", "-e", "install.packages('data.table', repo='https://cloud.r-project.org'); library(data.table)"]
 RUN ["Rscript", "-e", "install.packages('here', repo='https://cloud.r-project.org'); library(here)"]
-RUN ["Rscript", "-e", "install.packages('stringr', repo='https://cloud.r-project.org'); library(stringr)"]
-RUN ["Rscript", "-e", "install.packages('readr', repo='https://cloud.r-project.org'); library(readr)"]
-RUN ["Rscript", "-e", "install.packages('testthat', repo='https://cloud.r-project.org'); library(testthat)"]
-RUN ["Rscript", "-e", "install.packages('yaml', repo='https://cloud.r-project.org'); library(yaml)"]
+RUN ["Rscript", "-e", "library(devtools); install_github('github.com/repo'); library(cool-lib)"]
+COPY libs/proj libs/proj
+RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
+RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
 RUN rm -rf build/
 RUN rm -rf dist/
 COPY . /app
