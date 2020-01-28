@@ -1,7 +1,16 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+---
+
+## v1.15.2
+#### Changed
+- **Command Builder** | Fixes bug to handle list parameters properly by propogating the values without the brackets or commas
+
+---
+
 ## v1.15.1
+#### Merged: 2020-01-23
 #### Changed
 - **Docker Execution** | Replace os.system calls with subprocess.call
 - **Executor** | Replace os.system calls with subprocess.call

@@ -99,6 +99,25 @@ class TestCommandBuilder(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
         self.assertEqual(command, expected)
 
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_build_list_param(self, mock_getcwd, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        args = Namespace(version='0.1', test_test=[1, 2, 3], arg_arg="argy")
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        config = sb.systems.generators.yaml.loadConfig()
+        job = config.jobs[0]
+        param = sb.objects.param.Param("test-test", "t", accepts="list")
+        arg = sb.objects.arg.Arg("arg-arg")
+        job.params.append(param)
+        job.args.append(arg)
+
+        expected = "bash build.sh 0.1 argy --env local --test-test 1 2 3 --log info"
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
+        self.assertEqual(command, expected)
 
 if __name__ == '__main__':
     unittest.main()

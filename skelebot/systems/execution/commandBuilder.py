@@ -62,6 +62,8 @@ def buildParams(jobParams, args):
                 if (value):
                     paramString += " {dash_prefix}{name}".format(dash_prefix = dash_prefix, name=param.name)
             elif (value is not None):
+                if (param.accepts == "list"):
+                    value = " ".join(map(str, value))
                 paramString += " {dash_prefix}{name} {value}".format(dash_prefix = dash_prefix, name=param.name, value=value)
 
     return paramString
