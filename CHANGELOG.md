@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.16.0
+#### Changed
+- **Dockerfile Generator** | Swap order of copy and global commands in dockerfile generation.
+
+---
+
 ## v1.15.3
+#### Merged: 2020-01-28
+#### Released: 2020-01-29
 #### Changed
 - **Unit Tests** | Updates unit tests for Dockerfile generation to ensure all scenarios are covered
 
