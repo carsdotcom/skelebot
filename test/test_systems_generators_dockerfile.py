@@ -36,9 +36,9 @@ class TestDockerfile(unittest.TestCase):
 FROM ubuntu:18.04
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -79,9 +79,9 @@ RUN ["Rscript", "-e", "library(devtools); install_github('github.com/repo'); lib
 COPY libs/proj libs/proj
 RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
 RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -115,9 +115,9 @@ RUN ["pip", "install", "artifactory"]
 RUN ["pip", "install", "argparse"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 ENTRYPOINT [\"bash\", \"build.sh\"]\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -158,9 +158,9 @@ RUN ["pip", "install", "git+github.com/repo"]
 COPY libs/proj libs/proj
 RUN ["pip", "install", "/app/libs/proj"]
 RUN ["pip", "install", "dtable==9.0"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -204,9 +204,9 @@ RUN ["pip", "install", "pandas==0.25"]
 RUN ["pip", "install", "numpy~=1.17"]
 RUN ["pip", "install", "requests>= 2.2, == 2.*"]
 RUN ["pip", "install", "scipy!= 1.3.*"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -248,9 +248,9 @@ RUN ["Rscript", "-e", "library(devtools); install_github('github.com/repo'); lib
 COPY libs/proj libs/proj
 RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
 RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 COPY conf /etc/krb5.conf
 COPY tab /krb/auth.keytab
 CMD /bin/bash -c \"/./krb/init.sh user && bash build.sh --env local --log info\"\n"""
@@ -313,9 +313,9 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 FROM ubuntu:18.04
 MAINTAINER Mega Man <megaman@cars.com>
 WORKDIR /app
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info && echo Duuuuuude\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -349,9 +349,9 @@ RUN ["pip", "install", "artifactory"]
 RUN ["pip", "install", "argparse"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
         sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -395,9 +395,9 @@ RUN ["Rscript", "-e", "library(devtools); install_github('github.com/repo'); lib
 COPY libs/proj libs/proj
 RUN ["Rscript", "-e", "install.packages('/app/libs/proj', repos=NULL, type='source'); library(cool-proj)"]
 RUN ["Rscript", "-e", "library(devtools); install_version('dtable', version='9.0', repos='http://cran.us.r-project.org'); library(dtable)"]
+COPY . /app
 RUN rm -rf build/
 RUN rm -rf dist/
-COPY . /app
 COPY conf /etc/krb5.conf
 COPY tab /krb/auth.keytab
 CMD /bin/bash -c "/./krb/init.sh user && bash build.sh --env local --log info\"\n"""
