@@ -45,7 +45,7 @@ def loginAWS(host=None, region=None, profile=None):
 
         print(loginCMD)
         status = execute(loginCMD, err_msg="Docker Login V2 Failed")
-    # If AWS CLI V1 authentication failed try V2 command...
+    # If AWS CLI V2 authentication failed try V1 command...
     except Exception:
         loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
 
