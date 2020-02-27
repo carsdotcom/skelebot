@@ -44,18 +44,30 @@ class TestDocker(unittest.TestCase):
             sb.systems.execution.docker.login()
 
     @mock.patch('skelebot.systems.execution.docker.call')
-    def test_login_aws(self, mock_call):
+    def test_login_aws_v2(self, mock_call):
         mock_call.return_value = 0
 
-        sb.systems.execution.docker.loginAWS("us-east-1", "dev")
-        mock_call.assert_called_once_with("$(aws ecr get-login --no-include-email --region us-east-1 --profile dev)", shell=True)
+        sb.systems.execution.docker.loginAWS("123.dkr.ecr.us-east-1.amazonaws.com", "us-east-1", "dev")
+        mock_call.assert_called_once_with("aws ecr get-login-password | docker login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com", shell=True)
+
+    @mock.patch('skelebot.systems.execution.docker.call')
+    def test_login_aws_v1(self, mock_call):
+        mock_call.return_value = 1
+
+        with self.assertRaisesRegex(Exception, "Docker Login V1 Failed"):
+            sb.systems.execution.docker.loginAWS(None, "us-east-1", "dev")
+
+        mock_call.return_value = 0
+
+        sb.systems.execution.docker.loginAWS("123.dkr.ecr.us-east-1.amazonaws.com", "us-east-1", "dev")
+        mock_call.assert_any_call("$(aws ecr get-login --no-include-email --region us-east-1 --profile dev)", shell=True)
 
     @mock.patch('skelebot.systems.execution.docker.call')
     def test_login_aws_error(self, mock_call):
         mock_call.return_value = 1
 
-        with self.assertRaisesRegex(Exception, "Docker Login Failed"):
-            sb.systems.execution.docker.loginAWS("us-east-1", "dev")
+        with self.assertRaisesRegex(Exception, r"Docker Login .* Failed"):
+            sb.systems.execution.docker.loginAWS(None, "us-east-1", "dev")
 
     @mock.patch('os.path.expanduser')
     @mock.patch('skelebot.systems.execution.docker.call')

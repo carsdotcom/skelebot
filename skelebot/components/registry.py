@@ -89,7 +89,7 @@ class Registry(Component):
 
         # Login to the registry
         if self.aws is not None:
-            docker.loginAWS(self.aws.region, self.aws.profile)
+            docker.loginAWS(self.host, self.aws.region, self.aws.profile)
         else:
             docker.login(self.host)
 

@@ -6,6 +6,7 @@ from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
 AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
+AWS_LOGIN_CMD_V2 = "aws ecr get-login-password | docker login --username AWS --password-stdin {}"
 LOGIN_CMD = "docker login {}"
 BUILD_CMD = "docker build -t {image} ."
 RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
@@ -32,16 +33,24 @@ def login(host=None):
 
     return status
 
-def loginAWS(region=None, profile=None):
+def loginAWS(host=None, region=None, profile=None):
     """Login to AWS with ~/.aws credentials to access an ECR host"""
 
+    host = host if host is not None else ""
     region = region if region is not None else "us-east-1"
     profile = profile if profile is not None else "default"
 
-    loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
+    try:
+        loginCMD = AWS_LOGIN_CMD_V2.format(host)
 
-    print(loginCMD)
-    status = execute(loginCMD, err_msg="Docker Login Failed")
+        print(loginCMD)
+        status = execute(loginCMD, err_msg="Docker Login V2 Failed")
+    # If AWS CLI V1 authentication failed try V2 command...
+    except Exception:
+        loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
+
+        print(loginCMD)
+        status = execute(loginCMD, err_msg="Docker Login V1 Failed")
 
     return status
 
