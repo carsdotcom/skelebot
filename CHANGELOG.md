@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.16.1
+#### Changed
+- **Docker** | Add support for V2 of AWS cli authentication of ECR repos.
+
+---
+
 ## v1.16.0
+#### Merged: 2020-02-10
 #### Changed
 - **Dockerfile Generator** | Swap order of copy and global commands in dockerfile generation.
 

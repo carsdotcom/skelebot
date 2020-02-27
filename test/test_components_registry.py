@@ -53,7 +53,7 @@ class TestRegistry(unittest.TestCase):
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot", aws=aws)
         registry.execute(config, args)
 
-        mock_docker.loginAWS.assert_called_with("us-east-1", "dev")
+        mock_docker.loginAWS.assert_called_with("docker.io", "us-east-1", "dev")
         mock_docker.build.assert_called_with(config)
         mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=None)
 
