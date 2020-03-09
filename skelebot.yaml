@@ -3,6 +3,7 @@ description: ML Build Tool
 maintainer: Sean Shookman
 contact: sshookman@cars.com
 ephemeral: True
+timezone: America/Chicago
 
 language: Python
 dependencies:

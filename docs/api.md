@@ -49,4 +49,4 @@ _v1.1.0 Additions_
 
 ---
 
-<center><< <a href="base-images.html">Base Images</a>  |  <a href="index.html">Home</a> >></center>
+<center><< <a href="timezone.html">Timezone</a>  |  <a href="index.html">Home</a> >></center>

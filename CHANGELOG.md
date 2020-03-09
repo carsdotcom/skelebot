@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.17.0
+#### Changed
+- **Timezone** | Adds config property for setting the timezone of the Docker Container
+
+---
+
 ## v1.16.2
+#### Merged: 2020-03-09
 #### Changed
 - **S3 Repository** | Adds support for bucket names with "/" characters for pathing
 

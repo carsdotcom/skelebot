@@ -24,6 +24,7 @@ class Config(SkeleYaml):
         Optional('contact'): And(str, error='\'contact\' must be a String'),
         'language': And(str, error='\'language\' must be a String'),
         Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
+        Optional('timezone'): And(str, error='\'timezone\' must be a String'),
         Optional('primaryJob'): And(str, error='\'primaryJob\' must be a String'),
         Optional('primaryExe'): And(str, Use(str.upper), lambda s: s in ('CMD', 'ENTRYPOINT'), error='\'primaryExe\' must be CMD or ENTRYPOINT'),
         Optional('ephemeral'): And(bool, error='\'ephemeral\' must be a Boolean'),
@@ -44,6 +45,7 @@ class Config(SkeleYaml):
     contact = None
     language = None
     baseImage = None
+    timezone = None
     primaryJob = None
     primaryExe = None
     ephemeral = None
@@ -56,9 +58,9 @@ class Config(SkeleYaml):
     commands = None
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
-                 contact=None, language=None, baseImage=None, primaryJob=None, primaryExe=None,
-                 ephemeral=None, dependencies=None, ignores=None, jobs=None, ports=None,
-                 components=None, params=None, commands=None):
+                 contact=None, language=None, baseImage=None, timezone=None, primaryJob=None,
+                 primaryExe=None, ephemeral=None, dependencies=None, ignores=None, jobs=None,
+                 ports=None, components=None, params=None, commands=None):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -69,6 +71,7 @@ class Config(SkeleYaml):
         self.contact = contact
         self.language = language
         self.baseImage = baseImage
+        self.timezone = timezone
         self.primaryJob = primaryJob
         self.primaryExe = primaryExe.upper() if primaryExe is not None else "CMD"
         self.ephemeral = ephemeral
