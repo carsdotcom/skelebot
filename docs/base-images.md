@@ -20,4 +20,4 @@ A custom base image can be specified by adding the `baseImage` config field to t
 
 ---
 
-<center><< <a href="plugins.html">Plugins</a>  |  <a href="api.html">API</a> >></center>
+<center><< <a href="plugins.html">Plugins</a>  |  <a href="timezone.html">Timezone</a> >></center>
