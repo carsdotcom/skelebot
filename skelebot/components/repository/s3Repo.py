@@ -35,31 +35,39 @@ class S3Repo(ArtifactRepo):
     def push(self, artifact, version, force=False, user=None, password=None):
         """ Push an artifact to S3 with the given version number """
 
-        client = self.connect()
-        artifactName = artifact.getVersionedName(version)
+
+        bucket_parts = self.bucket.split("/")
+        bucket_parts.append(artifact.getVersionedName(version))
+        bucket = bucket_parts[0]
+        path = "/".join(bucket_parts[1:])
 
         # If the object exists and we are not force pushing, raise an error
+        client = self.connect()
         if (not force):
-            response = client.list_objects(Bucket=self.bucket, Prefix=artifactName)
+            response = client.list_objects_v2(Bucket=bucket, Prefix=path)
             if ("Contents" in response.keys()):
                 print(response["Contents"][0]["Key"])
                 raise RuntimeError(self.ERROR_ALREADY_PUSHED)
 
         # Upload the artifact with the versioned name
-        client.upload_file(artifact.file, self.bucket, artifactName)
+        client.upload_file(artifact.file, bucket, path)
 
     def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
 
-        client = self.connect()
-
         # Identify the latest compatible version
+        client = self.connect()
         if (version == "LATEST"):
             version = None
             currentSemver = Semver(currentVersion)
             ext = artifact.file.split(".")[1]
             prefix = "{name}_v{major}".format(name=artifact.name, major=currentSemver.major)
-            response = client.list_objects(Bucket=self.bucket, Prefix=prefix)
+
+            bucket_parts = self.bucket.split("/")
+            bucket = bucket_parts[0]
+            bucket_parts.append(prefix)
+            path = "/".join(bucket_parts[1:])
+            response = client.list_objects_v2(Bucket=bucket, Prefix=path)
 
             # Iterate through all the artifacts int he bucket
             for content in response["Contents"]:
@@ -76,4 +84,10 @@ class S3Repo(ArtifactRepo):
         # Download the artifact based on the version provided or LCV
         artifactName = artifact.getVersionedName(version)
         dest = artifact.file if (override) else artifactName
-        client.download_file(self.bucket, artifactName, dest)
+
+        bucket_parts = self.bucket.split("/")
+        bucket = bucket_parts[0]
+        bucket_parts.append(artifactName)
+        path = "/".join(bucket_parts[1:])
+
+        client.download_file(bucket, path, dest)

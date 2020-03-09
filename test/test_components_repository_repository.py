@@ -8,6 +8,7 @@ class TestRepository(TestCase):
 
     artifcatory = None
     s3 = None
+    s3_subfolder = None
 
     artifactoryDict = {
         "url": "test",
@@ -30,9 +31,11 @@ class TestRepository(TestCase):
         artifact = sb.components.repository.repository.Artifact("test", "test.pkl")
         artifactoryRepo = sb.components.repository.artifactoryRepo.ArtifactoryRepo("artifactory.test.com", "ml", "test")
         s3Repo = sb.components.repository.s3Repo.S3Repo("my-bucket", "us-east-1", "test")
+        s3Repo_path = sb.components.repository.s3Repo.S3Repo("my-bucket/sub/folder", "us-east-1", "test")
 
         self.artifactory = sb.components.repository.repository.Repository([artifact], s3=None, artifactory=artifactoryRepo)
         self.s3 = sb.components.repository.repository.Repository([artifact], s3=s3Repo, artifactory=None)
+        self.s3_subfolder = sb.components.repository.repository.Repository([artifact], s3=s3Repo_path, artifactory=None)
 
     def test_repository_load(self):
         artifact = sb.components.repository.repository.Artifact("test", "test.pkl")
@@ -82,7 +85,7 @@ class TestRepository(TestCase):
     def test_execute_push_conflict_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -95,7 +98,7 @@ class TestRepository(TestCase):
             self.fail("Exception Not Thrown")
         except Exception as exc:
             self.assertEqual(str(exc), expectedException)
-            mock_client.list_objects.assert_called_with(Bucket="my-bucket", Prefix="test_v1.0.0.pkl")
+            mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1.0.0.pkl")
 
     @mock.patch('shutil.copyfile')
     @mock.patch('os.remove')
@@ -141,6 +144,19 @@ class TestRepository(TestCase):
         self.s3.execute(config, args)
         mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "test_v1.0.0.pkl")
 
+    @mock.patch('boto3.Session')
+    def test_execute_push_s3_subfolder(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_session.client.return_value = mock_client
+        mock_boto3_session.return_value = mock_session
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
+
+        self.s3_subfolder.execute(config, args)
+        mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "sub/folder/test_v1.0.0.pkl")
+
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
@@ -168,6 +184,19 @@ class TestRepository(TestCase):
         self.s3.execute(config, args)
         mock_client.download_file.assert_called_with("my-bucket", "test_v0.1.0.pkl", "test_v0.1.0.pkl")
 
+    @mock.patch('boto3.Session')
+    def test_execute_pull_s3_subfolder(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_session.client.return_value = mock_client
+        mock_boto3_session.return_value = mock_session
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None, override=False)
+
+        self.s3_subfolder.execute(config, args)
+        mock_client.download_file.assert_called_with("my-bucket", "sub/folder/test_v0.1.0.pkl", "test_v0.1.0.pkl")
+
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
@@ -188,7 +217,7 @@ class TestRepository(TestCase):
     def test_execute_pull_lcv_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -197,7 +226,7 @@ class TestRepository(TestCase):
 
         self.s3.execute(config, args)
 
-        mock_client.list_objects.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
+        mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
         mock_client.download_file.assert_called_with("my-bucket", "test_v1.0.5.pkl", "test_v1.0.5.pkl")
 
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
@@ -221,7 +250,7 @@ class TestRepository(TestCase):
     def test_execute_pull_lcv_not_found_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -254,7 +283,7 @@ class TestRepository(TestCase):
     def test_execute_pull_override_and_lcv_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
