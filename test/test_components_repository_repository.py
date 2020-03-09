@@ -82,7 +82,7 @@ class TestRepository(TestCase):
     def test_execute_push_conflict_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -95,7 +95,7 @@ class TestRepository(TestCase):
             self.fail("Exception Not Thrown")
         except Exception as exc:
             self.assertEqual(str(exc), expectedException)
-            mock_client.list_objects.assert_called_with(Bucket="my-bucket", Prefix="test_v1.0.0.pkl")
+            mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1.0.0.pkl")
 
     @mock.patch('shutil.copyfile')
     @mock.patch('os.remove')
@@ -188,7 +188,7 @@ class TestRepository(TestCase):
     def test_execute_pull_lcv_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -197,7 +197,7 @@ class TestRepository(TestCase):
 
         self.s3.execute(config, args)
 
-        mock_client.list_objects.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
+        mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
         mock_client.download_file.assert_called_with("my-bucket", "test_v1.0.5.pkl", "test_v1.0.5.pkl")
 
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
@@ -221,7 +221,7 @@ class TestRepository(TestCase):
     def test_execute_pull_lcv_not_found_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
@@ -254,7 +254,7 @@ class TestRepository(TestCase):
     def test_execute_pull_override_and_lcv_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()
-        mock_client.list_objects.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
         mock_session.client.return_value = mock_client
         mock_boto3_session.return_value = mock_session
 
