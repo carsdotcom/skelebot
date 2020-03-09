@@ -46,7 +46,11 @@ class S3Repo(ArtifactRepo):
                 raise RuntimeError(self.ERROR_ALREADY_PUSHED)
 
         # Upload the artifact with the versioned name
-        client.upload_file(artifact.file, self.bucket, artifactName)
+        bucket_parts = self.bucket.split("/")
+        bucket_parts.append(artifactName)
+        bucket = bucket_parts[0]
+        path = "/".join(bucket_parts[1:])
+        client.upload_file(artifact.file, bucket, path)
 
     def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
