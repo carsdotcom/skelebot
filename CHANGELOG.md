@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.16.2
+#### Changed
+- **S3 Repository** | Adds support for bucket names with "/" characters for pathing
+
+---
+
 ## v1.16.1
+#### Merged: 2020-02-27
+#### Released: 2020-03-02
 #### Changed
 - **Docker** | Add support for V2 of AWS cli authentication of ECR repos.
 
