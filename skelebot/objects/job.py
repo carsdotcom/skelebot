@@ -20,7 +20,8 @@ class Job(SkeleYaml):
         Optional('args'): And(list, error='Job \'args\' must be a List'),
         Optional('params'): And(list, error='Job \'params\' must be a List'),
         Optional('ignores'): And(list, error='Job \'ignores\' must be a List'),
-        Optional('mappings'): And(list, error='Job \'mappings\' must be a List')
+        Optional('mappings'): And(list, error='Job \'mappings\' must be a List'),
+        Optional('ports'): And(list, error='\'ports\' must be a List')
     }, ignore_extra_keys=True)
 
     name = None
@@ -31,9 +32,10 @@ class Job(SkeleYaml):
     params = None
     ignores = None
     mappings = None
+    ports = None
 
     def __init__(self, name=None, source=None, mode=None, help=None, args=None, params=None,
-                 ignores=None, mappings=None):
+                 ignores=None, mappings=None, ports=None):
         """Initialize the job object with all provided optional attributes"""
 
         self.name = name
@@ -44,6 +46,7 @@ class Job(SkeleYaml):
         self.params = params if params is not None else []
         self.ignores = ignores if ignores is not None else []
         self.mappings = mappings if mappings is not None else []
+        self.ports = ports if ports is not None else []
 
     @classmethod
     def load(cls, config):

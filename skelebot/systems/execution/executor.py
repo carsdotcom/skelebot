@@ -67,7 +67,8 @@ def executeJob(config, args, job):
     else:
         if (not args.skip_build_global):
             buildDocker(config)
-        status = runDocker(config, command, job.mode, config.ports, job.mappings, job.name)
+        ports = sorted(list(set(config.ports + job.ports)))
+        status = runDocker(config, command, job.mode, ports, job.mappings, job.name)
     return(status)
 
 def executeComponent(config, args):
