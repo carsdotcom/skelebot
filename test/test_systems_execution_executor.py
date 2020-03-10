@@ -83,7 +83,7 @@ class TestExecutor(unittest.TestCase):
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_job_ports(self, mock_skeleParser, mock_run, mock_build):
         job = sb.objects.job.Job(name="test", source="test.py", ports=["10:10", "20:20"])
-        config = sb.objects.config.Config(jobs=[job], ports=["30:30"])
+        config = sb.objects.config.Config(jobs=[job], ports=["30:30", "10:10"])
         args = argparse.Namespace(job="test", native_global=False, skip_build_global=False)
         mock_skeleParser.parseArgs.return_value = args
         mock_run.return_value = 0
@@ -91,7 +91,7 @@ class TestExecutor(unittest.TestCase):
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
         mock_build.assert_called_once_with(config)
-        mock_run.assert_called_once_with(config, "python -u test.py", "i", ["30:30", "10:10", "20:20"], [], "test")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", ["10:10", "20:20", "30:30"], [], "test")
 
     @mock.patch('skelebot.systems.execution.executor.call')
     @mock.patch('skelebot.systems.parsing.skeleParser')
