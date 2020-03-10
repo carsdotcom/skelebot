@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.18.0
+#### Changed
+- **Job Ports** | Adds ability to map ports at the job level, instead of just globally
+
+---
+
 ## v1.17.0
+#### Merged: 2020-03-09
+#### Released: 2020-03-09
 #### Changed
 - **Timezone** | Adds config property for setting the timezone of the Docker Container
 

@@ -87,6 +87,36 @@ params:
 ...
 ```
 
+### Mapping Ports
+Skelebot provides the `ports` property in the skelebot.yaml config file for specifying on which ports jobs will run and expose their services. This property accepts a list of strings of a specific format: `{host-port}:{container-port}`.
+
+The `host-port` specifies the port that is exposed on the host machine. This is the port that you will use to access whatever you may be serving.
+
+The `container-port` specifies the port inside the Docker Container that will be mapped.
+
+Ports can be specified at two different levels.
+
+The global level will apply the port mappings to every job.
+
+```
+jobs:
+- ...
+ports:
+- 8080:8080
+- 8888:8888
+```
+
+The job level will apply the port mappings to only the specified job.
+
+```
+jobs:
+- name: run
+  source: run.py
+  help: run the server
+  ports:
+  - 8080:8888
+```
+
 ### Primary Job
 By default the Docker Image that is built by Skelebot will not run a command, but instead requires skelebot to provide it with a script, arguments, and parameters to run when a job is executed. For the purpose of building images that can be distributed, Skelebot offers a way to specify a job as the project's Primary Job.
 
