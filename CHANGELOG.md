@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.18.1
+#### Changed
+- **Artifactory BugFix** | issue with ArtifactoryPath.glob function fixed by avoiding using the function altogether
+
+---
+
 ## v1.18.0
+#### Merged: 2020-03-10
+#### Released: 2020-03-10
 #### Changed
 - **Job Ports** | Adds ability to map ports at the job level, instead of just globally
 

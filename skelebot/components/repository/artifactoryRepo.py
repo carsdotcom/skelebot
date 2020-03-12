@@ -54,18 +54,18 @@ class ArtifactoryRepo(ArtifactRepo):
         version = None
         currentSemver = Semver(currentVersion)
 
-        # Find the artifacts in the folder with the same name and major version
         listUrl = "{url}/{repo}/{path}/".format(url=self.url, repo=self.repo, path=self.path)
-        path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
         ext = artifact.file.split(".")[1]
-        if (path.exists()):
-            pathGlob = "{filename}_v{major}.*.{ext}".format(filename=artifact.name, ext=ext, major=currentSemver.major)
-            for artifactGlob in path.glob(pathGlob):
-                artifactSemver = Semver(str(artifactGlob).split("_v")[1].split(ext)[0])
+        path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
 
-                # Identify the latest compatible version
-                if (currentSemver.isBackwardCompatible(artifactSemver)) and ((version is None) or (version < artifactSemver)):
-                    version = artifactSemver
+        # Iterate over all artifacts in the ArtifactoryPath (because path.glob was throwing exceptions on Linux systems)
+        if (path.exists()):
+            for pathArtifact in path: # Only look at artifacts with the same filename and major version
+                modelPrefix = "{filename}_v{major}".format(filename=artifact.name, major=currentSemver.major)
+                if modelPrefix in str(pathArtifact):
+                    artifactSemver = Semver(str(pathArtifact).split("_v")[1].split(ext)[0])
+                    if (currentSemver.isBackwardCompatible(artifactSemver)) and ((version is None) or (version < artifactSemver)):
+                        version = artifactSemver # Identify the latest compatible version
 
         # Raise an error if no compatible version is found
         if (version is None):
