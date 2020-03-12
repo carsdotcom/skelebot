@@ -100,7 +100,7 @@ class TestArtifactory(unittest.TestCase):
     def test_execute_pull_lcv(self, mock_artifactory, mock_open, mock_input):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
-        mock_apath.glob.return_value = ["artifact_v1.1.0", "artifact_v0.2.4", "artifact_v1.0.0", "artifact_v2.0.1"]
+        mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="1.0.9")
         args = argparse.Namespace(job="pull", version='LATEST', artifact='test', user=None, token=None, override=False)
@@ -116,7 +116,7 @@ class TestArtifactory(unittest.TestCase):
     def test_execute_pull_lcv_not_found(self, mock_artifactory, mock_open, mock_input):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
-        mock_apath.glob.return_value = ["artifact_v1.1.0", "artifact_v0.2.4", "artifact_v1.0.0", "artifact_v2.0.1"]
+        mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="3.0.9")
         args = argparse.Namespace(job="pull", version='LATEST', artifact='test', user=None, token=None, override=False)
@@ -133,7 +133,7 @@ class TestArtifactory(unittest.TestCase):
     def test_execute_pull_override_and_lcv(self, mock_artifactory, mock_open, mock_input):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
-        mock_apath.glob.return_value = ["artifact_v1.1.0", "artifact_v0.2.4", "artifact_v1.0.0", "artifact_v2.0.1"]
+        mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="0.6.9")
         args = argparse.Namespace(job="pull", version='LATEST', artifact='test', user=None, token=None, override=True)

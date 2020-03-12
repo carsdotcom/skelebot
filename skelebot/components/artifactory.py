@@ -53,17 +53,16 @@ def findCompatibleArtifact(user, token, listUrl, currentVersion, filename, ext):
     print("Searching for Latest Compatible Artifact")
     compatibleSemver = None
     currentSemver = Semver(currentVersion)
-
-    # Find the artifacts in the folder with the same name and major version
     path = artifactory.ArtifactoryPath(listUrl, auth=(user, token))
-    if (path.exists()):
-        pathGlob = "{filename}_v{major}.*.{ext}".format(filename=filename, ext=ext, major=currentSemver.major)
-        for artifact in path.glob(pathGlob):
-            artifactSemver = Semver(str(artifact).split("_v")[1].split(ext)[0])
 
-            # Identify the latest compatible version
-            if (currentSemver.isBackwardCompatible(artifactSemver)) and ((compatibleSemver is None) or (compatibleSemver < artifactSemver)):
-                compatibleSemver = artifactSemver
+    # Iterate over all artifacts in the ArtifactoryPath (because path.glob was throwing exceptions on Linux systems)
+    if (path.exists()):
+        for artifact in path: # Only look at artifacts with the same filename and major version
+            modelPrefix = "{filename}_v{major}".format(filename=filename, major=currentSemver.major)
+            if modelPrefix in str(artifact):
+                artifactSemver = Semver(str(artifact).split("_v")[1].split(ext)[0])
+                if (currentSemver.isBackwardCompatible(artifactSemver)) and ((compatibleSemver is None) or (compatibleSemver < artifactSemver)):
+                    compatibleSemver = artifactSemver # Identify the latest compatible version
 
     # Raise an error if no compatible version is found
     if (compatibleSemver is None):
