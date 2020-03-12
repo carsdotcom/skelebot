@@ -59,10 +59,7 @@ def findCompatibleArtifact(user, token, listUrl, currentVersion, filename, ext):
     if (path.exists()):
         for artifact in path: # Only look at artifacts with the same filename and major version
             modelPrefix = "{filename}_v{major}".format(filename=filename, major=currentSemver.major)
-            print(artifact)
-            print(modelPrefix)
             if modelPrefix in str(artifact):
-                print(artifact)
                 artifactSemver = Semver(str(artifact).split("_v")[1].split(ext)[0])
                 if (currentSemver.isBackwardCompatible(artifactSemver)) and ((compatibleSemver is None) or (compatibleSemver < artifactSemver)):
                     compatibleSemver = artifactSemver # Identify the latest compatible version
