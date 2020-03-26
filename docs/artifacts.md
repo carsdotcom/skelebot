@@ -85,11 +85,24 @@ Pulling the latest compatible version can be accomplished by specifying "LATEST"
 > skelebot pull artifact-name LATEST
 ```
 
+#### ALL Artifacts
+
+For the puposes of automation, or general laziness, Skelebot offers a way to push and pull all of your artifacts in a single command. The keyword `ALL` can be used in place of the artifact name to iterate over each artifact during the push or pull process.
+
+```
+> skelebot push ALL
+```
+
+When used in conjunction with the `LATEST` keyword this can create a powerful pull command that obtains all of the compatible artifacts for the current version of your project.
+
+```
+> skelebot pull ALL LATEST
+```
+
 #### Override Artifact
 
 By default the pull command will place the artifact (with the version number) in the root directory of the project. However, you can tell Skelebot to place the artifact in the location that is provided in the config.
 This is done with the override parameter (`-o --override`) and would replace the existing artifact in that location automatically, so caution is advised when using this parameter.
-
 
 ```
 > skelebot pull artifact-name 1.0.0 --override

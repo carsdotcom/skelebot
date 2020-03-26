@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.18.2
+#### Changed
+- **Repository ALL Keyword** | Adds simple keyword in repository for pushing or pulling ALL artifacts at once
+
+---
+
 ## v1.18.1
+#### Merged: 2020-03-12
 #### Changed
 - **Artifactory BugFix** | issue with ArtifactoryPath.glob function fixed by avoiding using the function altogether
 

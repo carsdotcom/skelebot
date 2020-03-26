@@ -99,7 +99,7 @@ class Repository(Component):
         with the project version and pull artifacts with the provided version number
         """
 
-        artifactNames = []
+        artifactNames = ["ALL"]
         for artifact in self.artifacts:
             artifactNames.append(artifact.name)
 
@@ -124,12 +124,6 @@ class Repository(Component):
 
     def execute(self, config, args):
 
-        # Obtain the artifact that matches the provided name
-        selectedArtifact = None
-        for artifact in self.artifacts:
-            if (artifact.name == args.artifact):
-                selectedArtifact = artifact
-
         # Obtain the user and token if required
         user = None
         token = None
@@ -140,7 +134,14 @@ class Repository(Component):
         # Obtain the configured artifact repository
         artifactRepo = self.s3 if self.s3 is not None else self.artifactory
 
-        if (args.job == "push"): # Push from Disk to Repo
-            artifactRepo.push(selectedArtifact, config.version, args.force, user, token)
-        elif (args.job == "pull"): # Pull from Repo to Disk
-            artifactRepo.pull(selectedArtifact, args.version, config.version, args.override, user, token)
+        # Obtain the artifact(s) that matches the provided name
+        for artifact in self.artifacts:
+            if ((args.artifact == artifact.name) | (args.artifact == "ALL")):
+
+                # Push or Pull the Artifact
+                if (args.job == "push"): # Push from Disk to Repo
+                    print("Pushing version {version} of {artifact}".format(version=config.version, artifact=artifact.name))
+                    artifactRepo.push(artifact, config.version, args.force, user, token)
+                elif (args.job == "pull"): # Pull from Repo to Disk
+                    print("Pulling version {version} of {artifact}".format(version=args.version, artifact=artifact.name))
+                    artifactRepo.pull(artifact, args.version, config.version, args.override, user, token)
