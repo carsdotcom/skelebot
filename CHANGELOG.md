@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.18.3
+#### Changed
+- **R Images** | Updates the R images to use 3.6.3 because the 3.5.0 image was running on an outdated ubuntu version
+
+---
+
 ## v1.18.2
+#### Merged: 2020-03-26
+#### Released: 2020-03-26
 #### Changed
 - **Repository ALL Keyword** | Adds simple keyword in repository for pushing or pulling ALL artifacts at once
 

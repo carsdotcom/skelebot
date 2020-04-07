@@ -12,10 +12,17 @@ RUN apt-get install -y openjdk-8-jdk
 RUN apt-get install -y r-cran-rjava
 RUN apt-get install -y libmariadbclient-dev
 RUN apt-get install -y curl
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+
 RUN R CMD javareconf
 RUN ["Rscript", "-e", "install.packages('RJDBC',repo='https://cloud.r-project.org');library(RJDBC)"]
 
-RUN ["pip3", "install", "pyarrow==0.13.0"]
+RUN ["python3", "-m", "pip", "install", "--no-use-pep51", "pyarrow==0.16.0"]
 RUN ["pip3", "install", "s3fs==0.2.1"]
 RUN ["pip3", "install", "pandas==0.24.2"]
 RUN ["pip3", "install", "pyyaml==5.1.2"]
