@@ -1,4 +1,4 @@
-FROM r-base:3.5.0
+FROM r-base:3.6.3
 MAINTAINER Sean Shookman <sshookman@cars.com>
 
 RUN apt-get update
