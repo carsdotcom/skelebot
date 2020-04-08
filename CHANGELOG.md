@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.18.4
+#### Changed
+- **Dockerfile Generator** | Changes the way we parse the primary job with ENTRYPOINT execution
+
+---
+
 ## v1.18.3
+#### Merged: 2020-04-08
 #### Changed
 - **R Images** | Updates the R images to use 3.6.3 because the 3.5.0 image was running on an outdated ubuntu version
 
