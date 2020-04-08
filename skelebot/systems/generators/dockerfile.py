@@ -109,14 +109,22 @@ def buildDockerfile(config):
     for job in config.jobs:
         if config.primaryJob == job.name:
 
-            command = commandBuilder.build(config, job, None)
             if "CMD" == config.primaryExe:
+                command = commandBuilder.build(config, job, None)
                 docker += "CMD /bin/bash -c \"{command}\"\n".format(command=command)
             elif "ENTRYPOINT" == config.primaryExe:
+                # ENTRYPOINT execution ignores any job and global arguments and parameters
+                job_args = job.args
+                job_params = job.params
+                config_params = config.params
+                job.args, job.params, config.params = [], [], []
+
+                command = commandBuilder.build(config, job, None)
                 commandParts = command.split(" ")
-                ext = commandParts[0]
-                source = commandParts[1]
-                docker += "ENTRYPOINT [\"{ext}\", \"{source}\"]\n".format(ext=ext, source=source)
+                docker += 'ENTRYPOINT ["{}"]\n'.format('", "'.join(commandParts))
+
+                # Restore job and config for any downstream jobs
+                job.args, job.params, config.params = job_args, job_params, config_params
 
             break
 
