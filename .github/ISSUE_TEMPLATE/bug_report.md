@@ -16,7 +16,7 @@ Propose a solution to fix the bug by describing the desired outcome.
 ---
 
 ### System Information
-Provide as much information on your system as possible so the bug can be identifed.
+Provide as much information on your system as possible so the bug can be identified.
 
 Operating System:
 OS Version:
