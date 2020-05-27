@@ -2,8 +2,14 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+## v1.18.5
+#### Changed
+- **AWS Redshift Base Image** | Adds a base image with R, Redshift drivers, and AWS CLI
+
+---
 
 ## v1.18.4
+#### Merged: 2020-04-09
 #### Changed
 - **Dockerfile Generator** | Changes the way we parse the primary job with ENTRYPOINT execution
 

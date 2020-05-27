@@ -13,6 +13,10 @@ docker push skelebot/r-krb:latest
 docker build -t skelebot/r-aws base-images/r-aws/
 docker push skelebot/r-aws:latest
 
+# Build and Publish r-redshift
+docker build -t skelebot/r-redshift base-images/r-redshift/
+docker push skelebot/r-redshift:latest
+
 # Build and Publish python-base
 docker build -t skelebot/python-base base-images/python-base/
 docker push skelebot/python-base:latest
