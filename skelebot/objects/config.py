@@ -130,6 +130,12 @@ class Config(SkeleYaml):
             image_name += "-{env}".format(env=self.env)
         return image_name
 
+    def getHost(self, job, args):
+        host = self.host if self.host is not None else None
+        host = job.host if job.host is not None else host
+        host = args.host if hasattr(args, 'host') else host
+        return host
+
     def loadComponents(self, config):
         """
         Parses the components section of skelebot.yaml config to generate the complete list of

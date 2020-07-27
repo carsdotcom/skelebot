@@ -48,14 +48,17 @@ def loginAWS(host=None, region=None, profile=None):
 
     return status
 
-def build(config):
+def build(config, host=None):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
 
     # Build Dockerfile, .dockerignore, and Docker Image
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
 
-    buildCMD = DockerCommandBuilder().build(config.getImageName())
+    buildCMD = DockerCommandBuilder()
+    if (host is not None):
+        buildCMD = buildCMD.set_host(host)
+    buildCMD = buildCMD.build(config.getImageName())
 
     try:
         status = execute(buildCMD, err_msg="Docker Build Failed")
@@ -67,12 +70,15 @@ def build(config):
 
     return status
 
-def run(config, command, mode, ports, mappings, task):
+def run(config, host, command, mode, ports, mappings, task):
     """Run the Docker Container from the Image with the provided command"""
 
     image = config.getImageName()
     run_name = "{image}-{job}".format(image=image, job=task)
-    runCMD = DockerCommandBuilder().run(image).set_name(run_name).set_rm().set_mode(mode)
+    runCMD = DockerCommandBuilder()
+    if (host is not None):
+        runCMD = runCMD.set_host(host)
+    runCMD = runCMD.run(image).set_name(run_name).set_rm().set_mode(mode)
 
     # Construct the port mappings
     if (ports):

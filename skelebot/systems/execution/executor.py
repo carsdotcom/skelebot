@@ -62,13 +62,14 @@ def executeJob(config, args, job):
     """Execute a Config job either natively or through Docker by building a command from it"""
 
     command = buildCommand(config, job, args, args.native_global)
+    host = config.getHost(job, args)
     if (args.native_global):
         status = call(command, shell=True)
     else:
         if (not args.skip_build_global):
-            buildDocker(config)
+            buildDocker(config, host)
         ports = sorted(list(set(config.ports + job.ports)))
-        status = runDocker(config, command, job.mode, ports, job.mappings, job.name)
+        status = runDocker(config, host, command, job.mode, ports, job.mappings, job.name)
     return(status)
 
 def executeComponent(config, args):
