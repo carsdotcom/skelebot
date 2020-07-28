@@ -89,7 +89,7 @@ class DockerCommandBuilder():
         self.cmd = "docker"
 
     def set_host(self, host):
-        self.cmd += " host={}".format(host)
+        self.cmd += " -H {}".format(host)
         return self
 
     def login(self, hub):
