@@ -27,7 +27,7 @@ class Plugin(Component):
         parser.add_argument("plugin", help="The zip file of the skelebot plugin")
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 

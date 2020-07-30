@@ -232,7 +232,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
-        sb.systems.execution.docker.run(config, None, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
     @mock.patch('os.path.expanduser')
     @mock.patch('skelebot.systems.execution.docker.call')
@@ -254,7 +254,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker -H root@Hosty.McHostface run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
-        sb.systems.execution.docker.run(config, "root@Hosty.McHostface", command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host="root@Hosty.McHostface")
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('os.path.expanduser')
@@ -276,7 +276,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-some_command --rm -i --memory {memory}GB test /bin/bash -c \"echo some_command\"".format(memory=memory)
-        sb.systems.execution.docker.run(config, None, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('os.path.expanduser')
@@ -299,7 +299,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-some_command --rm -i --memory {memory}GB --entrypoint echo test some_command".format(memory=memory)
-        sb.systems.execution.docker.run(config, None, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('skelebot.systems.execution.docker.call')

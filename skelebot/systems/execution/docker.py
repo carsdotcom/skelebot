@@ -16,11 +16,11 @@ def execute(cmd, err_msg="Docker Command Failed"):
 
     return status
 
-def login(host=None):
+def login(host=None, docker_host=None):
     """Login to the given Docker Host"""
 
     host = host if host is not None else ""
-    loginCMD = DockerCommandBuilder().login(host)
+    loginCMD = DockerCommandBuilder(host=docker_host).login(host)
 
     print(loginCMD)
     status = execute(loginCMD, err_msg="Docker Login Failed")
@@ -55,10 +55,7 @@ def build(config, host=None):
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
 
-    buildCMD = DockerCommandBuilder()
-    if (host is not None):
-        buildCMD = buildCMD.set_host(host)
-    buildCMD = buildCMD.build(config.getImageName())
+    buildCMD = DockerCommandBuilder(host=host).build(config.getImageName())
 
     try:
         status = execute(buildCMD, err_msg="Docker Build Failed")
@@ -70,15 +67,12 @@ def build(config, host=None):
 
     return status
 
-def run(config, host, command, mode, ports, mappings, task):
+def run(config, command, mode, ports, mappings, task, host=None):
     """Run the Docker Container from the Image with the provided command"""
 
     image = config.getImageName()
     run_name = "{image}-{job}".format(image=image, job=task)
-    runCMD = DockerCommandBuilder()
-    if (host is not None):
-        runCMD = runCMD.set_host(host)
-    runCMD = runCMD.run(image).set_name(run_name).set_rm().set_mode(mode)
+    runCMD = DockerCommandBuilder(host=host).run(image).set_name(run_name).set_rm().set_mode(mode)
 
     # Construct the port mappings
     if (ports):
@@ -111,10 +105,10 @@ def run(config, host, command, mode, ports, mappings, task):
 
     return execute(runCMD.build(command))
 
-def save(config, filename="image.img"):
+def save(config, filename="image.img", host=None):
     """Save the Image File to the disk"""
 
-    cmd = DockerCommandBuilder().save(config.getImageName()).set_output(filename).build()
+    cmd = DockerCommandBuilder(host=host).save(config.getImageName()).set_output(filename).build()
     return execute(cmd)
 
 def push(config, host=None, port=None, user=None, tags=None):

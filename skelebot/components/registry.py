@@ -79,7 +79,7 @@ class Registry(Component):
 
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 
@@ -91,7 +91,8 @@ class Registry(Component):
         if self.aws is not None:
             docker.loginAWS(self.host, self.aws.region, self.aws.profile)
         else:
-            docker.login(self.host)
+            docker_host = config.getHost(args=args)
+            docker.login(host=self.host, docker_host=docker_host)
 
         # Build and Push with the different tags (LATEST and VERSION default)
         docker.build(config)

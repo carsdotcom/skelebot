@@ -85,12 +85,11 @@ class RunCommandBuilder():
 class DockerCommandBuilder():
     cmd = None
 
-    def __init__(self):
+    def __init__(self, host=None):
         self.cmd = "docker"
-
-    def set_host(self, host):
-        self.cmd += " -H {}".format(host)
-        return self
+        if host is not None:
+            print("Executing Docker on Host {}".format(host))
+            self.cmd += " -H {}".format(host)
 
     def login(self, hub):
         self.cmd += " login {}".format(hub)

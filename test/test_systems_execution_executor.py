@@ -61,7 +61,7 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_run.assert_called_once_with(config, None, "python -u test.py", "i", [], [], "test")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host=None)
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -75,8 +75,8 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_build.assert_called_once_with(config, None)
-        mock_run.assert_called_once_with(config, None, "python -u test.py", "i", [], [], "test")
+        mock_build.assert_called_once_with(config, host=None)
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host=None)
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -90,8 +90,8 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_build.assert_called_once_with(config, "host1")
-        mock_run.assert_called_once_with(config, "host1", "python -u test.py", "i", [], [], "test")
+        mock_build.assert_called_once_with(config, host="host1")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host="host1")
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -105,8 +105,8 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_build.assert_called_once_with(config, "host2")
-        mock_run.assert_called_once_with(config, "host2", "python -u test.py", "i", [], [], "test")
+        mock_build.assert_called_once_with(config, host="host2")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host="host2")
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -120,8 +120,8 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_build.assert_called_once_with(config, "host3")
-        mock_run.assert_called_once_with(config, "host3", "python -u test.py", "i", [], [], "test")
+        mock_build.assert_called_once_with(config, host="host3")
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host="host3")
 
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -135,8 +135,8 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_build.assert_called_once_with(config, None)
-        mock_run.assert_called_once_with(config, None, "python -u test.py", "i", ["10:10", "20:20", "30:30"], [], "test")
+        mock_build.assert_called_once_with(config, host=None)
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", ["10:10", "20:20", "30:30"], [], "test", host=None)
 
     @mock.patch('skelebot.systems.execution.executor.call')
     @mock.patch('skelebot.systems.parsing.skeleParser')
@@ -161,7 +161,7 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_component.execute.assert_called_once_with(config, args)
+        mock_component.execute.assert_called_once_with(config, args, host=None)
 
     @mock.patch('skelebot.systems.execution.executor.runDocker')
     @mock.patch('skelebot.systems.parsing.skeleParser')
@@ -174,7 +174,7 @@ class TestExecutor(unittest.TestCase):
 
         sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])
 
-        test_call = mock.call(config, None, "python -u test.py", "i", [], [], "test")
+        test_call = mock.call(config, "python -u test.py", "i", [], [], "test", host=None)
         mock_run.assert_has_calls([test_call, test_call])
 
     @mock.patch('skelebot.systems.execution.executor.runDocker')
@@ -189,7 +189,7 @@ class TestExecutor(unittest.TestCase):
             sb.systems.execution.executor.execute(config, mock_skeleParser, ["test", "+", "test"])
             self.fail('exception expected')
         except SystemExit:
-            mock_run.assert_called_once_with(config, None, "python -u test.py", "i", [], [], "test")
+            mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host=None)
 
 if __name__ == '__main__':
     unittest.main()

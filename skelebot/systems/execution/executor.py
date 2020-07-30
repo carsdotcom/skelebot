@@ -62,19 +62,20 @@ def executeJob(config, args, job):
     """Execute a Config job either natively or through Docker by building a command from it"""
 
     command = buildCommand(config, job, args, args.native_global)
-    host = config.getHost(job, args)
+    host = config.getHost(job=job, args=args)
     if (args.native_global):
         status = call(command, shell=True)
     else:
         if (not args.skip_build_global):
-            buildDocker(config, host)
+            buildDocker(config, host=host)
         ports = sorted(list(set(config.ports + job.ports)))
-        status = runDocker(config, host, command, job.mode, ports, job.mappings, job.name)
+        status = runDocker(config, command, job.mode, ports, job.mappings, job.name, host=host)
     return(status)
 
 def executeComponent(config, args):
     """Execute a Component of Skelebot"""
+    host = config.getHost(args=args)
 
     for component in config.components:
         if (args.job in component.commands):
-            component.execute(config, args)
+            component.execute(config, args, host=host)

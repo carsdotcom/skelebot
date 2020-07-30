@@ -130,10 +130,12 @@ class Config(SkeleYaml):
             image_name += "-{env}".format(env=self.env)
         return image_name
 
-    def getHost(self, job, args):
+    def getHost(self, job=None, args=None):
         host = self.host if self.host is not None else None
-        host = job.host if job.host is not None else host
-        host = args.host if hasattr(args, 'host') else host
+        if job is not None:
+            host = job.host if job.host is not None else host
+        if args is not None:
+            host = args.host if getattr(args, 'host', None) is not None else host
         return host
 
     def loadComponents(self, config):

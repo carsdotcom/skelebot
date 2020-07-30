@@ -28,7 +28,7 @@ class Dexec(Component):
         parser.add_argument("-m", "--map", action="store_true", help=argHelp)
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 
@@ -40,5 +40,5 @@ class Dexec(Component):
         if (args.map):
             mappings.append(".")
 
-        docker.build(config)
-        docker.run(config, "/bin/bash", "it", [], mappings, "exec")
+        docker.build(config, host=host)
+        docker.run(config, "/bin/bash", "it", [], mappings, "exec", host=host)
