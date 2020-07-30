@@ -14,6 +14,7 @@ jobs:
 - name: example
   source: src/jobs/example.sh
   mode: i
+  host: ssh://root@me.local
   help: EXAMPLE JOB
   mappings: 
   - data/
@@ -40,6 +41,7 @@ A job must contain three things in order to work. It must have a name, so you ca
  - **source** - Command to be executed(ex: echo 'Hello') or the path to the script (R, Python, or Bash) that will be executed
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
  - **mode** - The mode in which to execute the docker image [i: interactive(default), d: detached]
+ - **host** - The host on which the job should be executed (overrides the global "host" field)
  - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]
  - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
  - **args** - List of required arguments for the job that are passed to the underlying script in the order specified
@@ -167,7 +169,7 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--env (-e)** - Specify the runtime environment configurations (skelebot-{env}.yaml) that will overwrite the default yaml
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
  - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
-
+ - **--host (-h) HOST** - Set the Docker Host on which the command will be executed (overrides config level "host" fields)
 
 ### Chaining Jobs
 Jobs can also be chained together in a single command (executed one after another) by simply concatenating them in the command separated by a `+` character. This allows for multiple jobs to be executed in a single command, and can be a real time saver for long running sequences of jobs.

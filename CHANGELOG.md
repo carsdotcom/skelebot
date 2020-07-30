@@ -2,6 +2,15 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+## v1.19.0
+#### Added
+- **Host Parameter** | Adds a global optional parameter to set the docker host
+- **Global Host Field** | Adds a global optional config field to set the docker host
+- **Job Host Field** | Adds a job-level optional config field to set the docker host
+#### Changed
+- **Docker Command Building** | Refactors the way in which Docker Commands are built
+
+---
 ## v1.18.5
 #### Changed
 - **AWS Redshift Base Image** | Adds a base image with R, Redshift drivers, and AWS CLI
