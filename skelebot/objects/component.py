@@ -50,7 +50,7 @@ class Component(SkeleYaml):
         return ""
 
     # Execution System Hooks
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """Defines the execution of commands in the component's commands attribute"""
         return None
     def prependCommand(self, job, native):

@@ -38,7 +38,7 @@ class TestRegistry(unittest.TestCase):
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
 
-        mock_docker.login.assert_called_with("docker.io")
+        mock_docker.login.assert_called_with(host="docker.io", docker_host=None)
         mock_docker.build.assert_called_with(config)
         mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=None)
 
@@ -67,7 +67,7 @@ class TestRegistry(unittest.TestCase):
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
 
-        mock_docker.login.assert_called_with("docker.io")
+        mock_docker.login.assert_called_with(host="docker.io", docker_host=None)
         mock_docker.build.assert_called_with(config)
         mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=['test', 'dev', 'stage'])
 

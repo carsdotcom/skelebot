@@ -16,6 +16,7 @@ class TestConfigValidate(unittest.TestCase):
         'language': 'test',
         'baseImage': 'test',
         'primaryJob': 'test',
+        'host': 'test',
         'ephemeral': True,
         'dependencies': [1, 2],
         'ignores': [1, 2],
@@ -71,6 +72,7 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('components', 123, 'a Dictionary')
         self.validate_error('params', 123, 'a List')
         self.validate_error('commands', 123, 'a List')
+        self.validate_error('host', 123, 'a String')
 
 if __name__ == '__main__':
     unittest.main()

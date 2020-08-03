@@ -33,7 +33,7 @@ class Bump(Component):
 
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 

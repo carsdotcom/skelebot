@@ -25,7 +25,7 @@ class TestPrime(unittest.TestCase):
         prime = sb.components.prime.Prime()
         prime.execute(config, args)
 
-        mock_docker.build.assert_called_with(config)
+        mock_docker.build.assert_called_with(config, host=None)
 
     @mock.patch('skelebot.components.prime.docker')
     def test_execute_output(self, mock_docker):
@@ -38,8 +38,8 @@ class TestPrime(unittest.TestCase):
         prime = sb.components.prime.Prime()
         prime.execute(config, args)
 
-        mock_docker.build.assert_called_with(config)
-        mock_docker.save.assert_called_with(config, "my-image.img")
+        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.save.assert_called_with(config, "my-image.img", host=None)
 
     @mock.patch('skelebot.components.prime.docker')
     def test_execute_exception(self, mock_docker):
@@ -55,8 +55,8 @@ class TestPrime(unittest.TestCase):
             self.fail("Exception Expected")
         except Exception as exc:
             self.assertEqual(str(exc), "Priming Failed")
-            mock_docker.build.assert_called_with(config)
-            mock_docker.save.assert_called_with(config, "my-image.img")
+            mock_docker.build.assert_called_with(config, host=None)
+            mock_docker.save.assert_called_with(config, "my-image.img", host=None)
 
 if __name__ == '__main__':
     unittest.main()

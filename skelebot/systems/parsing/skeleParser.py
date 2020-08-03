@@ -20,6 +20,11 @@ SB_ARG = "--skip-build"
 SB_ALT = "-s"
 SB_HELP = "Skip the build process and attempt to use previous docker build"
 
+HS_DST = "host"
+HS_ARG = "--docker-host"
+HS_ALT = "-d"
+HS_HELP = "Set the Docker Host on which the command will be executed"
+
 NT_DST = "native_global"
 NT_ARG = "--native"
 NT_ALT = "-n"
@@ -103,6 +108,7 @@ class SkeleParser:
         else:
             # Add STANDARD PARAMS
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)
+            self.parser.add_argument(HS_ALT, HS_ARG, help=HS_HELP, dest=HS_DST)
             self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true', dest=SB_DST)
             self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true', dest=NT_DST)
             self.parser.add_argument(CN_ALT, CN_ARG, help=CN_HELP, action='store_true', dest=CN_DST)

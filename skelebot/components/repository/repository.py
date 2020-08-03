@@ -122,7 +122,7 @@ class Repository(Component):
 
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
 
         # Obtain the user and token if required
         user = None

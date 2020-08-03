@@ -44,4 +44,4 @@ NOTE: When installing via `file:` or `github:` the ability to specify a version 
 
 ---
 
-<center><< <a href="scaffolding.html">Scaffolding</a>  |  <a href="jobs.html">Jobs</a> >></center>
+<center><< <a href="docker-host.html">Docker Host</a>  |  <a href="jobs.html">Jobs</a> >></center>

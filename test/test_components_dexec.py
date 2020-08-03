@@ -22,8 +22,8 @@ class TestDexec(unittest.TestCase):
         dexec = sb.components.dexec.Dexec()
         dexec.execute(config, args)
 
-        mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], [], "exec")
+        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], [], "exec", host=None)
 
     @mock.patch('skelebot.components.dexec.docker')
     def test_execute_map(self, mock_docker):
@@ -33,8 +33,8 @@ class TestDexec(unittest.TestCase):
         dexec = sb.components.dexec.Dexec()
         dexec.execute(config, args)
 
-        mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], ["."], "exec")
+        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], ["."], "exec", host=None)
 
 if __name__ == '__main__':
     unittest.main()

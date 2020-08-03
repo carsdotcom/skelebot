@@ -27,7 +27,7 @@ class Prime(Component):
         primeParser.add_argument("-o", "--output", help="Output file name for the image file")
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 
@@ -35,9 +35,9 @@ class Prime(Component):
         built so as to be ready for deployment
         """
 
-        status = docker.build(config)
+        status = docker.build(config, host=host)
         if (status == 0) & (args.output is not None):
-            status = docker.save(config, args.output)
+            status = docker.save(config, args.output, host=host)
 
         if (status > 0):
             raise Exception("Priming Failed")

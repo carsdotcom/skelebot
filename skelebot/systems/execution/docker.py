@@ -2,18 +2,12 @@
 
 import os
 from subprocess import call
+from .dockerCommand import DockerCommandBuilder
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
-AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
+AWS_LOGIN_CMD  = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
 AWS_LOGIN_CMD_V2 = "aws ecr get-login-password | docker login --username AWS --password-stdin {}"
-LOGIN_CMD = "docker login {}"
-BUILD_CMD = "docker build -t {image} ."
-RUN_CMD = "docker run --name {image}-{jobName} --rm {params} {image} /bin/bash -c \"{command}\""
-RUN_ENTRY_CMD = "docker run --name {image}-{jobName} --rm {params} --entrypoint {command} {image} {parameters}"
-SAVE_CMD = "docker save -o {filename} {image}"
-TAG_CMD = "docker tag {src} {image}:{tag}"
-PUSH_CMD = "docker push {image}:{tag}"
 
 def execute(cmd, err_msg="Docker Command Failed"):
     status = call(cmd, shell=True)
@@ -22,11 +16,11 @@ def execute(cmd, err_msg="Docker Command Failed"):
 
     return status
 
-def login(host=None):
+def login(host=None, docker_host=None):
     """Login to the given Docker Host"""
 
     host = host if host is not None else ""
-    loginCMD = LOGIN_CMD.format(host)
+    loginCMD = DockerCommandBuilder(host=docker_host).login(host)
 
     print(loginCMD)
     status = execute(loginCMD, err_msg="Docker Login Failed")
@@ -54,14 +48,14 @@ def loginAWS(host=None, region=None, profile=None):
 
     return status
 
-def build(config):
+def build(config, host=None):
     """Build the Docker Image after building the Dockerfile and .dockerignore from Config"""
 
     # Build Dockerfile, .dockerignore, and Docker Image
     dockerfile.buildDockerfile(config)
     dockerignore.buildDockerignore(config)
 
-    buildCMD = BUILD_CMD.format(image=config.getImageName())
+    buildCMD = DockerCommandBuilder(host=host).build(config.getImageName())
 
     try:
         status = execute(buildCMD, err_msg="Docker Build Failed")
@@ -73,15 +67,17 @@ def build(config):
 
     return status
 
-def run(config, command, mode, ports, mappings, task):
+def run(config, command, mode, ports, mappings, task, host=None):
     """Run the Docker Container from the Image with the provided command"""
 
-    params = "-{mode}".format(mode=mode)
+    image = config.getImageName()
+    run_name = "{image}-{job}".format(image=image, job=task)
+    runCMD = DockerCommandBuilder(host=host).run(image).set_name(run_name).set_rm().set_mode(mode)
 
     # Construct the port mappings
     if (ports):
         for port in ports:
-            params += " -p {port}".format(port=port)
+            runCMD = runCMD.set_port(port)
 
     # Construct the volume mappings
     if (mappings):
@@ -89,32 +85,31 @@ def run(config, command, mode, ports, mappings, task):
             if ("~" in vmap):
                 vmap = vmap.replace("~", os.path.expanduser("~"))
 
-            if (":" in vmap):
-                params += " -v {vmap}".format(vmap=vmap)
-            else:
-                params += " -v {pwd}/{vmap}:/app/{vmap}".format(pwd=os.getcwd(), vmap=vmap)
+            if (":" not in vmap):
+                vmap = "{pwd}/{vmap}:/app/{vmap}".format(pwd=os.getcwd(), vmap=vmap)
+
+            runCMD = runCMD.set_volume(vmap)
 
     # Construct the additional parameters from the components
     for component in config.components:
         addParams = component.addDockerRunParams()
         if (addParams is not None):
-            params += " {params}".format(params=addParams)
+            runCMD = runCMD.set_params(addParams)
 
     # Assuming the image was built without errors, run the container with the given command
-    image = config.getImageName()
-    if config.primaryExe == "CMD":
-        runCMD = RUN_CMD.format(image=image, jobName=task, command=command, params=params, mode=mode)
-    elif config.primaryExe == "ENTRYPOINT":
+    if config.primaryExe == "ENTRYPOINT":
         commandParts = command.split(" ")
-        extCommand = commandParts.pop(0)
+        command = commandParts.pop(0)
         parameters = " ".join(commandParts)
-        runCMD = RUN_ENTRY_CMD.format(image=image, jobName=task, command=extCommand, params=params, mode=mode, parameters=parameters)
-    return execute(runCMD)
+        runCMD = runCMD.set_entrypoint(parameters)
 
-def save(config, filename="image.img"):
+    return execute(runCMD.build(command))
+
+def save(config, filename="image.img", host=None):
     """Save the Image File to the disk"""
 
-    return execute(SAVE_CMD.format(image=config.getImageName(), filename=filename))
+    cmd = DockerCommandBuilder(host=host).save(config.getImageName()).set_output(filename).build()
+    return execute(cmd)
 
 def push(config, host=None, port=None, user=None, tags=None):
     """Tag with version and latest and push the project Image to the provided Docker Image Host"""
@@ -130,7 +125,7 @@ def push(config, host=None, port=None, user=None, tags=None):
 
     status = 0
     for tag in tags:
-        status = execute(TAG_CMD.format(src=imageName, image=image, tag=tag))
-        status = execute(PUSH_CMD.format(image=image, tag=tag))
+        status = execute(DockerCommandBuilder().tag(imageName, image, tag))
+        status = execute(DockerCommandBuilder().push(image).set_tag(tag).build())
 
     return status

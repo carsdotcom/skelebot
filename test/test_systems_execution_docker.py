@@ -147,7 +147,7 @@ class TestDocker(unittest.TestCase):
         config = sb.systems.generators.yaml.loadConfig()
         config.ephemeral = True
 
-        sb.systems.execution.docker.build(config)
+        sb.systems.execution.docker.build(config, None)
         mock_call.assert_called_once_with("docker build -t test .", shell=True)
         mock_remove.assert_any_call("Dockerfile")
         mock_remove.assert_any_call(".dockerignore")
@@ -164,8 +164,23 @@ class TestDocker(unittest.TestCase):
 
         config = sb.systems.generators.yaml.loadConfig()
 
-        sb.systems.execution.docker.build(config)
+        sb.systems.execution.docker.build(config, None)
         mock_call.assert_called_once_with("docker build -t test .", shell=True)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
+    def test_build_host(self, mock_getcwd, mock_call, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+
+        sb.systems.execution.docker.build(config, "root@hosty.McHostface")
+        mock_call.assert_called_once_with("docker -H root@hosty.McHostface build -t test .", shell=True)
 
     @mock.patch('os.path.expanduser')
     @mock.patch('skelebot.systems.execution.docker.call')
@@ -180,7 +195,7 @@ class TestDocker(unittest.TestCase):
         config = sb.systems.generators.yaml.loadConfig()
         config.env = 'test'
 
-        sb.systems.execution.docker.build(config)
+        sb.systems.execution.docker.build(config, None)
         mock_call.assert_called_once_with("docker build -t test-test .", shell=True)
 
     @mock.patch('os.path.expanduser')
@@ -196,7 +211,7 @@ class TestDocker(unittest.TestCase):
         config = sb.systems.generators.yaml.loadConfig()
 
         with self.assertRaisesRegex(Exception, "Docker Build Failed"):
-            sb.systems.execution.docker.build(config)
+            sb.systems.execution.docker.build(config, None)
 
     @mock.patch('os.path.expanduser')
     @mock.patch('skelebot.systems.execution.docker.call')
@@ -217,7 +232,29 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
-        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
+        mock_call.assert_called_once_with(expected, shell=True)
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
+
+    def test_run_host(self, mock_getcwd, mock_call, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        args = Namespace(version='0.1')
+
+        homePath = "{path}/test/plugins".format(path=self.path)
+        mock_expanduser.return_value = homePath
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.ports = ["1127:1127"]
+        job = config.jobs[0]
+        job.mappings = ["data/", "/test/output/:/app/output/", "~/temp/:/app/temp/"]
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
+
+        expected = "docker -H root@Hosty.McHostface run --name test-build --rm -i -p 1127:1127 -v {cwd}/data/:/app/data/ -v /test/output/:/app/output/ -v {path}/temp/:/app/temp/ test /bin/bash -c \"bash build.sh 0.1 --env local --log info\"".format(cwd=folderPath, path=homePath)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host="root@Hosty.McHostface")
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('os.path.expanduser')
@@ -239,7 +276,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-some_command --rm -i --memory {memory}GB test /bin/bash -c \"echo some_command\"".format(memory=memory)
-        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('os.path.expanduser')
@@ -262,7 +299,7 @@ class TestDocker(unittest.TestCase):
         command = sb.systems.execution.commandBuilder.build(config, job, args)
 
         expected = "docker run --name test-some_command --rm -i --memory {memory}GB --entrypoint echo test some_command".format(memory=memory)
-        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name)
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
 
     @mock.patch('skelebot.systems.execution.docker.call')

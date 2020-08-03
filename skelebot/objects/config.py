@@ -22,6 +22,7 @@ class Config(SkeleYaml):
         Optional('description'): And(str, error='\'description\' must be a String'),
         Optional('maintainer'): And(str, error='\'maintainer\' must be a String'),
         Optional('contact'): And(str, error='\'contact\' must be a String'),
+        Optional('host'): And(str, error='\'host\' must be a String'),
         'language': And(str, error='\'language\' must be a String'),
         Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
         Optional('timezone'): And(str, error='\'timezone\' must be a String'),
@@ -43,6 +44,7 @@ class Config(SkeleYaml):
     version = None
     maintainer = None
     contact = None
+    host = None
     language = None
     baseImage = None
     timezone = None
@@ -58,9 +60,9 @@ class Config(SkeleYaml):
     commands = None
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
-                 contact=None, language=None, baseImage=None, timezone=None, primaryJob=None,
-                 primaryExe=None, ephemeral=None, dependencies=None, ignores=None, jobs=None,
-                 ports=None, components=None, params=None, commands=None):
+                 contact=None, host=None, language=None, baseImage=None, timezone=None,
+                 primaryJob=None, primaryExe=None, ephemeral=None, dependencies=None, ignores=None,
+                 jobs=None, ports=None, components=None, params=None, commands=None):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -69,6 +71,7 @@ class Config(SkeleYaml):
         self.version = version
         self.maintainer = maintainer
         self.contact = contact
+        self.host = host
         self.language = language
         self.baseImage = baseImage
         self.timezone = timezone
@@ -126,6 +129,14 @@ class Config(SkeleYaml):
         if self.env:
             image_name += "-{env}".format(env=self.env)
         return image_name
+
+    def getHost(self, job=None, args=None):
+        host = self.host if self.host is not None else None
+        if job is not None:
+            host = job.host if job.host is not None else host
+        if args is not None:
+            host = args.host if getattr(args, 'host', None) is not None else host
+        return host
 
     def loadComponents(self, config):
         """
