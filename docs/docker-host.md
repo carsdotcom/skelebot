@@ -12,7 +12,7 @@ root of your skelebot.yaml config file.
 host: ssh://root@remote.host
 ```
 
-The same parmeter is available at the job-level, and will override the global field if specified.
+The same parameter is available at the job-level, and will override the global field if specified.
 Skelebot also offers an optional parameter for setting the docker host when running a command.
 This value would override anything present in the skelebot.yaml config. More information on both of
 these can be found [here](jobs.md).
