@@ -111,7 +111,7 @@ class TestExecutor(unittest.TestCase):
     @mock.patch('skelebot.systems.execution.executor.buildDocker')
     @mock.patch('skelebot.systems.execution.executor.runDocker')
     @mock.patch('skelebot.systems.parsing.skeleParser')
-    def test_execute_job_host_both(self, mock_skeleParser, mock_run, mock_build):
+    def test_execute_job_host_param(self, mock_skeleParser, mock_run, mock_build):
         job = sb.objects.job.Job(name="test", source="test.py", host="host2")
         config = sb.objects.config.Config(jobs=[job], host="host1")
         args = argparse.Namespace(job="test", native_global=False, skip_build_global=False, host="host3")

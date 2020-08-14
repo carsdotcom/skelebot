@@ -34,8 +34,8 @@ class TestJupyter(unittest.TestCase):
 
         expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
 
-        mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], ".", "jupyter")
+        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], ".", "jupyter", host=None)
 
     @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_Python(self, mock_docker):
@@ -48,8 +48,22 @@ class TestJupyter(unittest.TestCase):
 
         expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
 
-        mock_docker.build.assert_called_with(config)
-        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], [".", "other_project/data"], "jupyter")
+        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], [".", "other_project/data"], "jupyter", host=None)
+
+    @mock.patch('skelebot.components.jupyter.docker')
+    def test_execute_host(self, mock_docker):
+        mock_docker.build.return_value = 0
+        config = sb.objects.config.Config(host="host1")
+        args = argparse.Namespace()
+
+        jupyter = sb.components.jupyter.Jupyter(port=1127, folder="notebooks/")
+        jupyter.execute(config, args)
+
+        expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
+
+        mock_docker.build.assert_called_with(config, host='host1')
+        mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"], ".", "jupyter", host='host1')
 
     def test_validate_valid(self):
         try:

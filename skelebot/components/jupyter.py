@@ -45,7 +45,7 @@ class Jupyter(Component):
         subparsers.add_parser("jupyter", help=helpMessage)
         return subparsers
 
-    def execute(self, config, args, host=None):
+    def execute(self, config, args):
         """
         Execution Hook
 
@@ -53,8 +53,9 @@ class Jupyter(Component):
         mapped container on the configured port with the configured folder based on the same image
         that the rest of the project utilizes
         """
+        host = config.getHost(args=args)
 
-        docker.build(config)
+        docker.build(config, host=host)
 
         command = COMMAND_TEMPLATE.format(folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
@@ -63,4 +64,4 @@ class Jupyter(Component):
         print("Notebook Starting on localhost:{port}".format(port=self.port))
         print("Copy the token below to authenticate with Jupyter")
 
-        return docker.run(config, command, "it", ports, mappings, "jupyter")
+        return docker.run(config, command, "it", ports, mappings, "jupyter", host=host)
