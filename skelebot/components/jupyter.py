@@ -45,7 +45,7 @@ class Jupyter(Component):
         subparsers.add_parser("jupyter", help=helpMessage)
         return subparsers
 
-    def execute(self, config, args):
+    def execute(self, config, args, host=None):
         """
         Execution Hook
 
@@ -53,7 +53,6 @@ class Jupyter(Component):
         mapped container on the configured port with the configured folder based on the same image
         that the rest of the project utilizes
         """
-        host = config.getHost(args=args)
 
         docker.build(config, host=host)
 
