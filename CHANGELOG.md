@@ -2,7 +2,7 @@
 Documenting All Changes to the Skelebot Project
 
 ---
-## v1.19.0
+## v1.19.1
 #### Changed
 - **Base Python Image** | Update base python version from 3.6.5 to 3.8.5
 
