@@ -3,6 +3,10 @@ Documenting All Changes to the Skelebot Project
 
 ---
 ## v1.19.0
+#### Changed
+- **Base Python Image** | Update base python version from 3.6.5 to 3.8.5
+
+## v1.19.0
 #### Added
 - **Host Parameter** | Adds a global optional parameter to set the docker host
 - **Global Host Field** | Adds a global optional config field to set the docker host
