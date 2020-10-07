@@ -2,11 +2,20 @@
 Documenting All Changes to the Skelebot Project
 
 ---
-## v1.19.1
+
+## v1.19.2
 #### Changed
 - **Jupyter Component** | Propagate the docker host command to jupyter component
 
 ---
+
+## v1.19.1
+#### Merged: 2020-10-07
+#### Changed
+- **R Base Images** | Fixes issues with now borken R base images that was preventing them from building
+
+---
+
 ## v1.19.0
 #### Merged: 2020-08-03
 #### Added
@@ -17,6 +26,7 @@ Documenting All Changes to the Skelebot Project
 - **Docker Command Building** | Refactors the way in which Docker Commands are built
 
 ---
+
 ## v1.18.5
 #### Merged: 2020-05-27
 #### Changed

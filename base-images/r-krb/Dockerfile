@@ -9,10 +9,11 @@ RUN apt-get update && \
 
 RUN apt-get update
 RUN apt-get install -y openjdk-8-jdk
-RUN apt-get install -y r-cran-rjava
 RUN apt-get install -y libmariadbclient-dev
 RUN apt-get install -y curl
+RUN apt-get install -y libpq-dev
 RUN R CMD javareconf
+RUN ["Rscript", "-e", "install.packages('rJava',repo='https://cloud.r-project.org');library(rJava)"]
 RUN ["Rscript", "-e", "install.packages('RJDBC',repo='https://cloud.r-project.org');library(RJDBC)"]
 RUN ["Rscript", "-e", "install.packages('implyr',repo='https://cloud.r-project.org');library(implyr)"]
 RUN ["Rscript", "-e", "install.packages('data.table',repo='https://cloud.r-project.org');library(data.table)"]
