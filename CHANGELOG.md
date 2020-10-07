@@ -2,7 +2,13 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+## v1.19.1
+#### Changed
+- **R Base Images** | Fixes issues with now borken R base images that was preventing them from building
+
+---
 ## v1.19.0
+#### Merged: 2020-08-03
 #### Added
 - **Host Parameter** | Adds a global optional parameter to set the docker host
 - **Global Host Field** | Adds a global optional config field to set the docker host
@@ -12,6 +18,7 @@ Documenting All Changes to the Skelebot Project
 
 ---
 ## v1.18.5
+#### Merged: 2020-05-27
 #### Changed
 - **AWS Redshift Base Image** | Adds a base image with R, Redshift drivers, and AWS CLI
 
