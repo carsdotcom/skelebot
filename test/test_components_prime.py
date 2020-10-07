@@ -28,6 +28,19 @@ class TestPrime(unittest.TestCase):
         mock_docker.build.assert_called_with(config, host=None)
 
     @mock.patch('skelebot.components.prime.docker')
+    def test_execute_host(self, mock_docker):
+        mock_docker.build.return_value = 0
+        mock_docker.save.return_value = 0
+
+        config = sb.objects.config.Config()
+        args = argparse.Namespace(output=None)
+
+        prime = sb.components.prime.Prime()
+        prime.execute(config, args, host='host1')
+
+        mock_docker.build.assert_called_with(config, host='host1')
+
+    @mock.patch('skelebot.components.prime.docker')
     def test_execute_output(self, mock_docker):
         mock_docker.build.return_value = 0
         mock_docker.save.return_value = 0

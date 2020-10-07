@@ -16,7 +16,7 @@ jobs:
   mode: i
   host: ssh://root@me.local
   help: EXAMPLE JOB
-  mappings: 
+  mappings:
   - data/
   - ~/myname.keytab:~/root/keytabs
   - models/:app/model-output/
@@ -169,7 +169,7 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--env (-e)** - Specify the runtime environment configurations (skelebot-{env}.yaml) that will overwrite the default yaml
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
  - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
- - **--host (-h) HOST** - Set the Docker Host on which the command will be executed (overrides config level "host" fields)
+ - **--host (-d) HOST** - Set the Docker Host on which the command will be executed (overrides config level "host" fields)
 
 ### Chaining Jobs
 Jobs can also be chained together in a single command (executed one after another) by simply concatenating them in the command separated by a `+` character. This allows for multiple jobs to be executed in a single command, and can be a real time saver for long running sequences of jobs.
