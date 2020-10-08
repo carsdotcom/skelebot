@@ -56,7 +56,7 @@ class S3Repo(ArtifactRepo):
 
         # Identify the latest compatible version
         client = self.connect()
-        if (version == "LATEST"):
+        if (version == "LATEST") and (artifact.singular == False):
             version = None
             currentSemver = Semver(currentVersion)
             ext = artifact.file.split(".")[1]

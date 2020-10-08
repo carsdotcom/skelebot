@@ -30,13 +30,14 @@ class TestRepository(TestCase):
     def setUp(self):
         artifact = sb.components.repository.repository.Artifact("test", "test.pkl")
         artifact2 = sb.components.repository.repository.Artifact("test2", "test2.pkl")
+        artifact3 = sb.components.repository.repository.Artifact("test3", "test3.pkl", singular=True)
         artifactoryRepo = sb.components.repository.artifactoryRepo.ArtifactoryRepo("artifactory.test.com", "ml", "test")
         s3Repo = sb.components.repository.s3Repo.S3Repo("my-bucket", "us-east-1", "test")
         s3Repo_path = sb.components.repository.s3Repo.S3Repo("my-bucket/sub/folder", "us-east-1", "test")
 
-        self.artifactory = sb.components.repository.repository.Repository([artifact, artifact2], s3=None, artifactory=artifactoryRepo)
-        self.s3 = sb.components.repository.repository.Repository([artifact, artifact2], s3=s3Repo, artifactory=None)
-        self.s3_subfolder = sb.components.repository.repository.Repository([artifact], s3=s3Repo_path, artifactory=None)
+        self.artifactory = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=None, artifactory=artifactoryRepo)
+        self.s3 = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=s3Repo, artifactory=None)
+        self.s3_subfolder = sb.components.repository.repository.Repository([artifact, artifact3], s3=s3Repo_path, artifactory=None)
 
     def test_repository_load(self):
         artifact = sb.components.repository.repository.Artifact("test", "test.pkl")
@@ -210,6 +211,20 @@ class TestRepository(TestCase):
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=("abc", "abc"))
         mock_open.assert_called_with("test_v0.1.0.pkl", "wb")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.input')
+    @mock.patch('builtins.open')
+    @mock.patch('artifactory.ArtifactoryPath')
+    def test_execute_pull_artifactory_singular(self, mock_artifactory, mock_open, mock_input):
+        mock_input.return_value = "abc"
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test3', user=None, token=None, override=False)
+
+        self.artifactory.execute(config, args)
+
+        #mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test3.pkl", auth=("abc", "abc"))
+        #mock_open.assert_called_with("test3.pkl", "wb")
+
     @mock.patch('boto3.Session')
     def test_execute_pull_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
@@ -235,6 +250,19 @@ class TestRepository(TestCase):
 
         self.s3_subfolder.execute(config, args)
         mock_client.download_file.assert_called_with("my-bucket", "sub/folder/test_v0.1.0.pkl", "test_v0.1.0.pkl")
+
+    @mock.patch('boto3.Session')
+    def test_execute_pull_s3_subfolder_singular(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_session.client.return_value = mock_client
+        mock_boto3_session.return_value = mock_session
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="pull", version='0.1.0', artifact='test3', user=None, token=None, override=False)
+
+        self.s3_subfolder.execute(config, args)
+        mock_client.download_file.assert_called_with("my-bucket", "sub/folder/test3.pkl", "test3.pkl")
 
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
