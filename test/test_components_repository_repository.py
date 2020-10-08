@@ -222,8 +222,8 @@ class TestRepository(TestCase):
 
         self.artifactory.execute(config, args)
 
-        #mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test3.pkl", auth=("abc", "abc"))
-        #mock_open.assert_called_with("test3.pkl", "wb")
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test3.pkl", auth=("abc", "abc"))
+        mock_open.assert_called_with("test3.pkl", "wb")
 
     @mock.patch('boto3.Session')
     def test_execute_pull_s3(self, mock_boto3_session):

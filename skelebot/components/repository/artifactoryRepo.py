@@ -110,7 +110,7 @@ class ArtifactoryRepo(ArtifactRepo):
             password = self.getToken()
 
         # Find Latest Compatible Version or Use Provided Version Number if the artifact is not 'singular'
-        version = version if (version != "LATEST") and (artifact.singular == False) else self.getLatestCompatibleVersion(artifact, currentVersion, user, password)
+        version = version if (version != "LATEST" or artifact.singular == True) else self.getLatestCompatibleVersion(artifact, currentVersion, user, password)
 
         # Construct the Artifactory URL for the specified Artifact
         artifactName = artifact.getVersionedName(version)
