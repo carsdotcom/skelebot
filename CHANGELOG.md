@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.20.0
+#### Changed
+- **Repository Component** | Artifacts have an optional singular field that can be used to specify artifacts that do not use any versioning
+
+---
+
 ## v1.19.2
+#### Merged: 2020-10-07
 #### Changed
 - **Jupyter Component** | Propagate the docker host command to jupyter component
 
