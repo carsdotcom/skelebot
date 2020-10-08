@@ -54,13 +54,17 @@ class Jupyter(Component):
         that the rest of the project utilizes
         """
 
-        docker.build(config)
+        docker.build(config, host=host)
 
         command = COMMAND_TEMPLATE.format(folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
-        mappings = ["."] + self.mappings if "." not in self.mappings else self.mappings
+        # Only map current dir if not running on remote host
+        if host is None:
+            mappings = ["."] + self.mappings if "." not in self.mappings else self.mappings
+        else:
+            mappings = self.mappings
 
         print("Notebook Starting on localhost:{port}".format(port=self.port))
         print("Copy the token below to authenticate with Jupyter")
 
-        return docker.run(config, command, "it", ports, mappings, "jupyter")
+        return docker.run(config, command, "it", ports, mappings, "jupyter", host=host)
