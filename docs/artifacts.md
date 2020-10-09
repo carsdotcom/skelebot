@@ -45,12 +45,17 @@ components:
     artifacts:
       name: model
       file: xgb-model.pkl
+      singular: False
 ```
 
 In order for the S3 setup to work you must have the appropriate credentials and config files setup in your `.aws/` folder. More information on aws credentials can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 
 The `artifacts` field accepts a list of artifacts names and path to the actual artifact object file. The `url`, `repo`, and `path` fields specify where the artifact will end up when it is pushed (or from where it will be pulled).
 
+The artifacts are defined with three fields.
+ - The `name` field is used for renaming the artifact when storing it.
+ - The `file` field specifies the location of the file in the project folder structure.
+ - The `singular` field is optional and defaults to False. If set to True the artifact will not be appended with a version number when it is pushed. This means there will be only one artifact stored and overrided each time.
 
 ### Pushing
 

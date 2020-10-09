@@ -18,24 +18,37 @@ class Artifact(SkeleYaml):
     """
 
     VERSIONED_NAME = "{filename}_v{version}.{ext}"
+    SINGULAR_NAME = "{filename}.{ext}"
 
     schema = Schema({
         'name': And(str, error="Artifact 'name' must be a String"),
         'file': And(str, error="Artifact 'file' must be a String"),
+        Optional('singular'): And(bool, error="Artifact 'singular' must be a Boolean"),
     }, ignore_extra_keys=True)
 
     name = None
     file = None
+    singular = None
 
-    def __init__(self, name, file):
+    def __init__(self, name, file, singular=False):
         """ Initialize the Artifact object with a name to be used in commands a file path """
         self.name = name
         self.file = file
+        self.singular = singular
 
     def getVersionedName(self, version):
-        """ Constuct the full versioned filename for the artifact with the given version number """
+        """
+        Constuct the full versioned filename for the artifact with the given version number
+        or without the number if it is a 'singular' artifact instead of a versioned artifact
+        """
         ext = self.file.split(".")[1]
-        return self.VERSIONED_NAME.format(filename=self.name, version=version, ext=ext)
+        ver_name = None
+        if (self.singular):
+            ver_name = self.SINGULAR_NAME.format(filename=self.name, ext=ext)
+        else:
+            ver_name = self.VERSIONED_NAME.format(filename=self.name, version=version, ext=ext)
+        return ver_name
+
 
 class Repository(Component):
     """

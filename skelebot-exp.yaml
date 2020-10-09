@@ -60,3 +60,6 @@ components:
     artifacts:
     - name: test1
       file: skelebot.yaml
+    - name: test2
+      file: skelebot-exp.yaml
+      singular: True
