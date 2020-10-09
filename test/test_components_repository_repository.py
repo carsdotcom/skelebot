@@ -133,6 +133,19 @@ class TestRepository(TestCase):
         mock_copy.assert_called_with("test.pkl", "test_v1.0.0.pkl")
         mock_remove.assert_called_with("test_v1.0.0.pkl")
 
+    @mock.patch('shutil.copyfile')
+    @mock.patch('os.remove')
+    @mock.patch('artifactory.ArtifactoryPath')
+    def test_execute_push_artifactory_singular(self, mock_artifactory, mock_remove, mock_copy):
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123')
+
+        self.artifactory.execute(config, args)
+
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test3.pkl", auth=('sean', 'abc123'))
+        mock_copy.assert_called_with("test3.pkl", "test3.pkl")
+        mock_remove.assert_called_with("test3.pkl")
+
     @mock.patch('boto3.Session')
     def test_execute_push_s3(self, mock_boto3_session):
         mock_client = mock.Mock()
@@ -145,6 +158,19 @@ class TestRepository(TestCase):
 
         self.s3.execute(config, args)
         mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "test_v1.0.0.pkl")
+
+    @mock.patch('boto3.Session')
+    def test_execute_push_s3_singular(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_session.client.return_value = mock_client
+        mock_boto3_session.return_value = mock_session
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123')
+
+        self.s3.execute(config, args)
+        mock_client.upload_file.assert_called_with("test3.pkl", "my-bucket", "test3.pkl")
 
     @mock.patch('shutil.copyfile')
     @mock.patch('os.remove')
