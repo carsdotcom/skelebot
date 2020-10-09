@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.20.1
+#### Changed
+- **Registry Component** | Add remote execution support to skelebot publish command
+
+---
+
 ## v1.20.0
+#### Merged: 2020-10-09
 #### Changed
 - **Repository Component** | Artifacts have an optional singular field that can be used to specify artifacts that do not use any versioning
 
