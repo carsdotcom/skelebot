@@ -6,8 +6,8 @@ from .dockerCommand import DockerCommandBuilder
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
 
-AWS_LOGIN_CMD  = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
-AWS_LOGIN_CMD_V2 = "aws ecr get-login-password | docker login --username AWS --password-stdin {}"
+AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
+AWS_LOGIN_CMD_V2 = "aws ecr get-login-password | docker{} login --username AWS --password-stdin {}"
 
 def execute(cmd, err_msg="Docker Command Failed"):
     status = call(cmd, shell=True)
@@ -27,7 +27,7 @@ def login(host=None, docker_host=None):
 
     return status
 
-def loginAWS(host=None, region=None, profile=None):
+def loginAWS(host=None, region=None, profile=None, docker_host=None):
     """Login to AWS with ~/.aws credentials to access an ECR host"""
 
     host = host if host is not None else ""
@@ -35,7 +35,8 @@ def loginAWS(host=None, region=None, profile=None):
     profile = profile if profile is not None else "default"
 
     try:
-        loginCMD = AWS_LOGIN_CMD_V2.format(host)
+        docker_host = " -H {}".format(docker_host) if docker_host is not None else  ""
+        loginCMD = AWS_LOGIN_CMD_V2.format(docker_host, host)
 
         print(loginCMD)
         status = execute(loginCMD, err_msg="Docker Login V2 Failed")
@@ -111,7 +112,7 @@ def save(config, filename="image.img", host=None):
     cmd = DockerCommandBuilder(host=host).save(config.getImageName()).set_output(filename).build()
     return execute(cmd)
 
-def push(config, host=None, port=None, user=None, tags=None):
+def push(config, host=None, port=None, user=None, tags=None, docker_host=None):
     """Tag with version and latest and push the project Image to the provided Docker Image Host"""
 
     imageName = config.getImageName()
@@ -125,7 +126,7 @@ def push(config, host=None, port=None, user=None, tags=None):
 
     status = 0
     for tag in tags:
-        status = execute(DockerCommandBuilder().tag(imageName, image, tag))
-        status = execute(DockerCommandBuilder().push(image).set_tag(tag).build())
+        status = execute(DockerCommandBuilder(host=docker_host).tag(imageName, image, tag))
+        status = execute(DockerCommandBuilder(host=docker_host).push(image).set_tag(tag).build())
 
     return status
