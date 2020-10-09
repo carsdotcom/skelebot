@@ -35,16 +35,16 @@ def loginAWS(host=None, region=None, profile=None, docker_host=None):
     profile = profile if profile is not None else "default"
 
     try:
-        docker_host = " -H {}".format(docker_host) if docker_host is not None else  ""
-        loginCMD = AWS_LOGIN_CMD_V2.format(docker_host, host)
+        v2_docker_host = " -H {}".format(docker_host) if docker_host is not None else  ""
+        loginCMD = AWS_LOGIN_CMD_V2.format(v2_docker_host, host)
 
-        print(loginCMD)
         status = execute(loginCMD, err_msg="Docker Login V2 Failed")
     # If AWS CLI V2 authentication failed try V1 command...
     except Exception:
+        if docker_host is not None:
+            raise ValueError("Remote hosts are not supported by Docker Login V1")
         loginCMD = AWS_LOGIN_CMD.format(region=region, profile=profile)
 
-        print(loginCMD)
         status = execute(loginCMD, err_msg="Docker Login V1 Failed")
 
     return status
