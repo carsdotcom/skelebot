@@ -111,4 +111,3 @@ class DockerCommandBuilder():
 
     def run(self, image):
         return RunCommandBuilder(self.cmd, image)
-
