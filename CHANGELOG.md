@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.20.2
+#### Changed
+- **Dockerfile Generator** | Allows user to specify protocol in python github dependencies
+
+---
+
 ## v1.20.1
+#### Merged: 2020-10-10
 #### Changed
 - **Registry Component** | Add remote execution support to skelebot publish command
 

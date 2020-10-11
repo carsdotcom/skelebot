@@ -219,6 +219,7 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "Python"
         config.dependencies.append("github:github.com/repo")
+        config.dependencies.append("github:https://github.com/securerepo")
         config.dependencies.append("file:libs/proj")
         config.dependencies.append("dtable=9.0")
 
@@ -235,6 +236,7 @@ RUN ["pip", "install", "argparse"]
 RUN ["pip", "install", "coverage"]
 RUN ["pip", "install", "pytest"]
 RUN ["pip", "install", "git+github.com/repo"]
+RUN ["pip", "install", "git+https://github.com/securerepo"]
 COPY libs/proj libs/proj
 RUN ["pip", "install", "/app/libs/proj"]
 RUN ["pip", "install", "dtable==9.0"]
@@ -452,7 +454,20 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         mock_getcwd.return_value = folderPath
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "R+Python"
-        config.dependencies = {"Python":["numpy", "pandas", "github:github.com/repo", "file:libs/proj", "dtable>=9.0", "dtable=9.0"],"R":["data.table", "here", "github:github.com/repo:cool-lib", "file:libs/proj:cool-proj", "dtable=9.0"]}
+        config.dependencies = {
+            "Python":[
+                "numpy", "pandas",
+                "github:github.com/repo", "github:https://github.com/securerepo",
+                "file:libs/proj",
+                "dtable>=9.0", "dtable=9.0"
+            ],
+            "R":[
+                "data.table", "here",
+                "github:github.com/repo:cool-lib",
+                "file:libs/proj:cool-proj",
+                "dtable=9.0"
+            ]
+        }
         config.components.append(sb.components.kerberos.Kerberos("conf", "tab", "user"))
 
         expectedDockerfile = """
@@ -465,6 +480,7 @@ WORKDIR /app
 RUN ["pip3", "install", "numpy"]
 RUN ["pip3", "install", "pandas"]
 RUN ["pip3", "install", "git+github.com/repo"]
+RUN ["pip3", "install", "git+https://github.com/securerepo"]
 COPY libs/proj libs/proj
 RUN ["pip3", "install", "/app/libs/proj"]
 RUN ["pip3", "install", "dtable>=9.0"]
