@@ -40,7 +40,7 @@ skelebot publish --tags LOCAL DEV STAGE
 ### AWS ECR
 Skelebot supports publishing to AWS ECR as long as you have the proper credentials setup in `~/.aws/` as well as the [aws cli](https://aws.amazon.com/cli/) installed.
 
-**Note**: If the project is set up to run on a remote machine using the `host` field (more details [here](docker-host.md)), make sure the _local_ version of the aws cli is at least 2.0, otherwise publishing will fail. ECR authentication on older versions of the aws cli below 2.0 uses a very different method that is not currently being executed on remote hosts by skelebot.
+NOTE: If the project is set up to run on a remote machine using the `host` field (more details [here](docker-host.md)), make sure the _local_ version of the aws cli is at least 2.0, otherwise publishing will fail. ECR authentication on older versions of the aws cli below 2.0 uses a very different method that is not currently being executed on remote hosts by skelebot.
 
 To allow for ECR host authentication, the `aws` section will need to be added to your config.
 

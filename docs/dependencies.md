@@ -25,7 +25,7 @@ Versions for packages in Python can be specified by appending `={version}` or `=
 R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
 
 ```
-language: R 
+language: R
 dependencies:
 - {type}:{source}:{name}
 - file:libs/myPackage.tgz:mypack
@@ -40,7 +40,10 @@ dependencies:
 - github:myGitHub/fakeRepo
 ```
 
-NOTE: When installing via `file:` or `github:` the ability to specify a version is not available.
+NOTES:
+
+- When installing via `file:` or `github:` the ability to specify a version is not available.
+- Python `github` dependencies may optionally specify a protocol like https (more info [here](https://pip.pypa.io/en/stable/reference/pip_install/#git)).
 
 ---
 

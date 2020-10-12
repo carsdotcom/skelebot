@@ -44,7 +44,7 @@ def buildDockerfile(config):
     # Add language dependencies
     if (config.language == "Python"):
         for dep in config.dependencies:
-            depSplit = dep.split(":")
+            depSplit = dep.split(":", maxsplit=1)
             if ("github:" in dep):
                 docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])
             elif ("file:" in dep):
@@ -70,7 +70,7 @@ def buildDockerfile(config):
 
     if (config.language == "R+Python"):
         for dep in config.dependencies["Python"]:
-            depSplit = dep.split(":")
+            depSplit = dep.split(":", maxsplit=1)
             if ("github:" in dep):
                 docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])
             elif ("file:" in dep):
