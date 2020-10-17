@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.20.3
+#### Changed
+- **Dependencies** | Make all skelebot dependencies less strict and replace the source of the artifactory package.
+
+---
+
 ## v1.20.2
+#### Merged: 2020-10-12
 #### Changed
 - **Dockerfile Generator** | Allows user to specify protocol in python github dependencies
 
