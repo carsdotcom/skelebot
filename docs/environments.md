@@ -14,6 +14,15 @@ To enable an environment, pass the `-e (--env)` parameter followed by the name o
 
 Environment configurations can override any property in the skelebot yaml, even jobs, but keep in mind that any attribute in the environemtn config will completely override the attribute from the default config. This means if you want to change a child attribute, everything under that parent will need to be included in the config as well.
 
+All of the available environments for a given Skelebot project can be listed with the `envs` command. The `[default]` value that appears first int he list indicates the global skelebot.yaml file, and is active by default when no `-e` parameter is passed.
+
+```
+> skelebot envs
+[default]
+dev
+it
+```
+
 ---
 
 <center><< <a href="docker-ignores.html">Docker Ignores</a>  |  <a href="versioning.html">Versioning</a> >></center>
