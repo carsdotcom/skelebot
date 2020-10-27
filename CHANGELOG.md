@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.0
+#### Changed
+- **Environments** | Adds a new component for listing the available environments in a skelebot project
+
+---
+
 ## v1.20.3
+#### Merged: 2020-10-22
 #### Changed
 - **Dependencies** | Make all skelebot dependencies less strict and replace the source of the artifactory package.
 
