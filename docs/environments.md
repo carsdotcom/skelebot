@@ -6,6 +6,8 @@
 
 Skelebot supports projects that require multiple configurations for different environments. The skelebot.yaml file will serve as the default configuration for your project. In order to modify the configuration for another environment simply create a new file named `skelebot-{env}.yaml`. This file follows the exact same structure as the normal skelebot.yaml file but only needs to contain values that will override the default values.
 
+The environments names should consist of only alpha characters (a-z) in order to allow Skelebot to detect it.
+
 To enable an environment, pass the `-e (--env)` parameter followed by the name of the environment when executing a command.
 
 ```
