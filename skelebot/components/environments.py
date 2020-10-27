@@ -22,7 +22,7 @@ class Environments(Component):
         """
         SkeleParser Hook
 
-        Adds a parser for the jupter command the starts up the notebooks in Docker
+        Adds a parser for the envs command to list the available skelebot environments. 
         """
 
         subparsers.add_parser("envs", help=HELP_MESSAGE)
