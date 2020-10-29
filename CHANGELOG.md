@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.1
+#### Changed
+- **R-Base Image** | Fixes the r-base image to include pip3 which was previously included by default
+
+---
+
 ## v1.21.0
+#### Merged: 2020-10-27
 #### Changed
 - **Environments** | Adds a new component for listing the available environments in a skelebot project
 
