@@ -10,7 +10,6 @@ AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --prof
 AWS_LOGIN_CMD_V2 = "aws ecr get-login-password --region {region} --profile {profile} | docker{docker_host} login --username AWS --password-stdin {host}"
 
 def execute(cmd, err_msg="Docker Command Failed"):
-    print(cmd)
     status = call(cmd, shell=True)
     if (status != 0):
         raise Exception(err_msg)
