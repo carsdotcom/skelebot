@@ -4,6 +4,12 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v1.21.3
+#### Changed
+- **Registry Component** | Allows for the global `--skip-build` parameter to properly skipping the Docker build step in the publish process
+
+---
+
+## v1.21.3
 #### Added
 - **Commands Documentation** | Added documentation for the image commands feature in Skelebot
 

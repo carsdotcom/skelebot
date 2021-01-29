@@ -33,7 +33,7 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None)
+        args = argparse.Namespace(tags=None, skip_build_global=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
@@ -43,11 +43,24 @@ class TestRegistry(unittest.TestCase):
         mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=None, docker_host=None)
 
     @mock.patch('skelebot.components.registry.docker')
+    def test_execute_skip_build(self, mock_docker):
+        mock_docker.build.return_value = 0
+
+        config = sb.objects.config.Config(language="R")
+        args = argparse.Namespace(tags=None, skip_build_global=True)
+
+        registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
+        registry.execute(config, args)
+
+        mock_docker.login.assert_called_with(host="docker.io", docker_host=None)
+        mock_docker.push.assert_called_with(config, "docker.io", 88, "skelebot", tags=None, docker_host=None)
+
+    @mock.patch('skelebot.components.registry.docker')
     def test_execute_host(self, mock_docker):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None)
+        args = argparse.Namespace(tags=None, skip_build_global=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args, host="host1")
@@ -61,7 +74,7 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None)
+        args = argparse.Namespace(tags=None, skip_build_global=False)
 
         aws = sb.components.registry.Aws(region="us-east-1", profile="dev")
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot", aws=aws)
@@ -76,7 +89,7 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None)
+        args = argparse.Namespace(tags=None, skip_build_global=False)
 
         aws = sb.components.registry.Aws(region="us-east-1", profile="dev")
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot", aws=aws)
@@ -91,7 +104,7 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=["test", "dev", "stage"])
+        args = argparse.Namespace(tags=["test", "dev", "stage"], skip_build_global=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
