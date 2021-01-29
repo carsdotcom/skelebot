@@ -47,4 +47,4 @@ NOTES:
 
 ---
 
-<center><< <a href="docker-host.html">Docker Host</a>  |  <a href="jobs.html">Jobs</a> >></center>
+<center><< <a href="docker-host.html">Docker Host</a>  |  <a href="image-commands.html">Image Commands</a> >></center>

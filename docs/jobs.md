@@ -182,4 +182,4 @@ The example above would first execute the `query` job, followed by the `wrangle`
 
 ---
 
-<center><< <a href="dependencies.html">Dependencies</a>  |  <a href="priming.html">Priming</a> >></center>
+<center><< <a href="image-commands.html">Image Commands</a>  |  <a href="priming.html">Priming</a> >></center>

@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.3
+#### Added
+- **Commands Documentation** | Added documentation for the image commands feature in Skelebot
+
+---
+
 ## v1.21.2
 #### Changed
 - **Docker** | Include AWS registry region and profile when authenticating using AWS cli V2.
