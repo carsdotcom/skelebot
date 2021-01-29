@@ -48,14 +48,14 @@ class TestDocker(unittest.TestCase):
         mock_call.return_value = 0
 
         sb.systems.execution.docker.loginAWS("123.dkr.ecr.us-east-1.amazonaws.com", "us-east-1", "dev")
-        mock_call.assert_called_once_with("aws ecr get-login-password | docker login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com", shell=True)
+        mock_call.assert_called_once_with("aws ecr get-login-password --region us-east-1 --profile dev | docker login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com", shell=True)
 
     @mock.patch('skelebot.systems.execution.docker.call')
     def test_login_aws_v2_host(self, mock_call):
         mock_call.return_value = 0
 
         sb.systems.execution.docker.loginAWS("123.dkr.ecr.us-east-1.amazonaws.com", "us-east-1", "dev", "host1")
-        mock_call.assert_called_once_with("aws ecr get-login-password | docker -H host1 login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com", shell=True)
+        mock_call.assert_called_once_with("aws ecr get-login-password --region us-east-1 --profile dev | docker -H host1 login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com", shell=True)
 
     @mock.patch('skelebot.systems.execution.docker.call')
     def test_login_aws_v1(self, mock_call):
