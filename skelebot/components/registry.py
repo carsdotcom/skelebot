@@ -94,5 +94,7 @@ class Registry(Component):
             docker.login(host=self.host, docker_host=host)
 
         # Build and Push with the different tags (LATEST and VERSION default)
-        docker.build(config, host=host)
+        if (not args.skip_build_global):
+            docker.build(config, host=host)
+
         docker.push(config, self.host, self.port, self.user, tags=args.tags, docker_host=host)
