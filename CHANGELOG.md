@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.2
+#### Changed
+- **Docker** | Include AWS registry region and profile when authenticating using AWS cli V2.
+
+---
+
 ## v1.21.1
+#### Merged: 2020-10-29
 #### Changed
 - **R-Base Image** | Fixes the r-base image to include pip3 which was previously included by default
 
