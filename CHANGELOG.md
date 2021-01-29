@@ -3,19 +3,22 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.21.3
+## v1.21.4
 #### Changed
 - **Registry Component** | Allows for the global `--skip-build` parameter to properly skipping the Docker build step in the publish process
 
 ---
 
 ## v1.21.3
+#### Merged: 2021-01-29
 #### Added
 - **Commands Documentation** | Added documentation for the image commands feature in Skelebot
 
 ---
 
 ## v1.21.2
+#### Merged: 2021-01-29
+#### Released: 2021-01-29
 #### Changed
 - **Docker** | Include AWS registry region and profile when authenticating using AWS cli V2.
 
