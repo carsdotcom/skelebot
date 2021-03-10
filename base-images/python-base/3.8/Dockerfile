@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8-slim
 MAINTAINER Sean Shookman <sshookman@cars.com>
 
 # Install basic compilers and libraries commonly needed for downstream packages
