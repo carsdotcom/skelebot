@@ -40,7 +40,7 @@ LANGUAGE_DEPENDENCIES = {
     "R": _all_deps["R"],
     "R+Python": _all_deps,
 }
-PYTHON_VERSIONS = ['3.6', '3.8']
+PYTHON_VERSIONS = ['3.6', '3.7', '3.8']
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 

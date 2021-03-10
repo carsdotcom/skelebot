@@ -18,9 +18,9 @@ docker build -t skelebot/r-redshift base-images/r-redshift/
 docker push skelebot/r-redshift:latest
 
 # Build and Publish python-base
-docker build -t skelebot/python-base:3.6 base-images/python-base/3.6/
+docker build -t skelebot/python-base:3.6 -t skelebot/python-base:latest base-images/python-base/3.6/
 docker build -t skelebot/python-base:3.7 base-images/python-base/3.7/
-docker build -t skelebot/python-base:3.8 -t skelebot/python-base:latest base-images/python-base/3.8/
+docker build -t skelebot/python-base:3.8 base-images/python-base/3.8/
 docker push skelebot/python-base # Newer Docker clinets will push latest by default and will need to do `docker push skelebot/python-base --all-tags`
 
 # Build and Publish python-krb
