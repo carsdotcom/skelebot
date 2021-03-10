@@ -5,7 +5,7 @@ from .job import Job
 from .param import Param
 from .skeleYaml import SkeleYaml
 from .component import Activation
-from ..common import LANGUAGE_IMAGE
+from ..common import LANGUAGE_IMAGE, PYTHON_VERSIONS
 from ..components.componentFactory import ComponentFactory
 
 class Config(SkeleYaml):
@@ -35,7 +35,8 @@ class Config(SkeleYaml):
         Optional('ports'): And(list, error='\'ports\' must be a List'),
         Optional('components'): And(dict, error='\'components\' must be a Dictionary'),
         Optional('params'): And(list, error='\'params\' must be a List'),
-        Optional('commands'): And(list, error='\'commands\' must be a List')
+        Optional('commands'): And(list, error='\'commands\' must be a List'),
+                Optional('pythonVersion'): And(str, error='\'pythonVersion\' must be a String')
     }, ignore_extra_keys=True)
 
     name = None
@@ -58,11 +59,12 @@ class Config(SkeleYaml):
     components = None
     params = None
     commands = None
+    pythonVersion = '3.6'
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
                  contact=None, host=None, language=None, baseImage=None, timezone=None,
                  primaryJob=None, primaryExe=None, ephemeral=None, dependencies=None, ignores=None,
-                 jobs=None, ports=None, components=None, params=None, commands=None):
+                 jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.6'):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -85,6 +87,7 @@ class Config(SkeleYaml):
         self.components = components if components is not None else []
         self.params = params if params is not None else []
         self.commands = commands if commands is not None else []
+        self.pythonVersion = pythonVersion
 
     def toDict(self):
         """
@@ -113,6 +116,12 @@ class Config(SkeleYaml):
         else:
             language = self.language if self.language is not None else "NA"
             image = LANGUAGE_IMAGE[language]
+            if language == 'Python':
+                if self.pythonVersion not in PYTHON_VERSIONS:
+                    print('pythonVersion has to be one of {versions}, but got {pythonVersion}'.format(versions = ' '.join(PYTHON_VERSIONS), pythonVersion = self.pythonVersion))
+                    self.pythonVersion = '3.6' # manually set to default python version
+                    print('Using python {pythonVersion} instead'.format(pythonVersion = self.pythonVersion))
+                image['base'] = image['base'].format(pythonVersion = self.pythonVersion)
 
             variant = "base"
             for component in self.components:

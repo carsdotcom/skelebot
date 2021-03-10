@@ -22,7 +22,7 @@ LANGUAGE_IMAGE = {
         "krb": "ubuntu:18.04"
     },
     "Python": {
-        "base": "skelebot/python-base",
+        "base": "skelebot/python-base:{pythonVersion}",
         "krb": "skelebot/python-krb"
     },
     "R": {
@@ -40,6 +40,7 @@ LANGUAGE_DEPENDENCIES = {
     "R": _all_deps["R"],
     "R+Python": _all_deps,
 }
+PYTHON_VERSIONS = ['3.6', '3.8']
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 

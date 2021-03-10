@@ -66,6 +66,7 @@ jobs:
     name: f
   source: test_short.sh
 language: Python
+pythonVersion: '4.0'
 maintainer: Mega Man
 name: test
 params:
