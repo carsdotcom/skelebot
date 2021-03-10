@@ -25,7 +25,7 @@ class TestConfigValidate(unittest.TestCase):
         'components': {},
         'params': [1, 2],
         'commands': [],
-        'pythonVersion': 'test',
+        'pythonVersion': '3.8',
     }
 
     def validate_error(self, attr, reset, expected):
@@ -74,7 +74,7 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('params', 123, 'a List')
         self.validate_error('commands', 123, 'a List')
         self.validate_error('host', 123, 'a String')
-        self.validate_error('pythonVersion', 123, 'a String')
+        self.validate_error('pythonVersion', 123, 'one of:' + ', '.join(sb.common.PYTHON_VERSIONS))
 
 if __name__ == '__main__':
     unittest.main()

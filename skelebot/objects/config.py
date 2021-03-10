@@ -36,7 +36,7 @@ class Config(SkeleYaml):
         Optional('components'): And(dict, error='\'components\' must be a Dictionary'),
         Optional('params'): And(list, error='\'params\' must be a List'),
         Optional('commands'): And(list, error='\'commands\' must be a List'),
-                Optional('pythonVersion'): And(str, error='\'pythonVersion\' must be a String')
+        Optional('pythonVersion'): And(str, Or(*PYTHON_VERSIONS), error='\'pythonVersion\' must be one of:' + ', '.join(PYTHON_VERSIONS))
     }, ignore_extra_keys=True)
 
     name = None
@@ -117,10 +117,6 @@ class Config(SkeleYaml):
             language = self.language if self.language is not None else "NA"
             image = LANGUAGE_IMAGE[language]
             if language == 'Python':
-                if self.pythonVersion not in PYTHON_VERSIONS:
-                    print('pythonVersion has to be one of {versions}, but got {pythonVersion}'.format(versions = ' '.join(PYTHON_VERSIONS), pythonVersion = self.pythonVersion))
-                    self.pythonVersion = '3.6' # manually set to default python version
-                    print('Using python {pythonVersion} instead'.format(pythonVersion = self.pythonVersion))
                 image['base'] = image['base'].format(pythonVersion = self.pythonVersion)
 
             variant = "base"
