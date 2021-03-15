@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.5
+#### Changed
+- **Python-Base Image** | Pushed python 3.8 base image to Docker Hub and allows users to specify python version for projects in skelebot.yaml with pythonVersion parameter
+
+---
+
 ## v1.21.4
+#### Merged: 2021-01-29
 #### Changed
 - **Registry Component** | Allows for the global `--skip-build` parameter to properly skipping the Docker build step in the publish process
 
