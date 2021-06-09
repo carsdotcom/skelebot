@@ -22,9 +22,7 @@ RUN R CMD javareconf
 RUN ["Rscript", "-e", "install.packages('rJava',repo='https://cloud.r-project.org');library(rJava)"]
 RUN ["Rscript", "-e", "install.packages('RJDBC',repo='https://cloud.r-project.org');library(RJDBC)"]
 
-#RUN ["python3", "-m", "pip", "install", "--no-use-pep51", "pyarrow==0.16.0"]
 RUN ["python3", "-m", "pip", "install", "--no-use-pep51", "pyarrow"]
-#RUN ["pip3", "install", "pyarrow==0.16.0"]
 RUN ["pip3", "install", "s3fs==0.2.1"]
 RUN ["pip3", "install", "pandas"]
 RUN ["pip3", "install", "pyyaml==5.1.2"]
