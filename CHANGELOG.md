@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.6
+#### Changed
+- **R-aws Image** | Publishes update for R-aws image to fix some dependency issues in R related to rlang
+
+---
+
 ## v1.21.5
+#### Merged: 2021-03-15
 #### Changed
 - **Python-Base Image** | Pushed python 3.8 base image to Docker Hub and allows users to specify python version for projects in skelebot.yaml with pythonVersion parameter
 
