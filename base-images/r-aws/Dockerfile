@@ -8,8 +8,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk
-RUN apt-get install -y libmariadbclient-dev
+RUN apt-get install -y openjdk-11-jdk
+RUN apt-get install -y libmariadb-dev-compat libmariadb-dev
 RUN apt-get install -y curl
 RUN apt-get install -y python3
 RUN apt-get install -y python3-pip
@@ -22,7 +22,7 @@ RUN R CMD javareconf
 RUN ["Rscript", "-e", "install.packages('rJava',repo='https://cloud.r-project.org');library(rJava)"]
 RUN ["Rscript", "-e", "install.packages('RJDBC',repo='https://cloud.r-project.org');library(RJDBC)"]
 
-RUN ["python3", "-m", "pip", "install", "--no-use-pep51", "pyarrow==0.16.0"]
+RUN ["python3", "-m", "pip", "install", "--no-use-pep51", "pyarrow"]
 RUN ["pip3", "install", "s3fs==0.2.1"]
 RUN ["pip3", "install", "pandas"]
 RUN ["pip3", "install", "pyyaml==5.1.2"]
