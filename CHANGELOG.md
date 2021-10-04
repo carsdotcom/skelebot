@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.7
+#### Changed
+- **Python-Base Image** | Add support for python 3.9 projects with skelebot base image.
+
+---
+
 ## v1.21.6
+#### Merged: 2021-06-10
 #### Changed
 - **R-aws Image** | Publishes update for R-aws image to fix some dependency issues in R related to rlang
 
