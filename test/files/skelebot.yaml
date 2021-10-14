@@ -79,3 +79,4 @@ params:
   name: log
 primaryExe: CMD
 primaryJob: build
+pythonVersion: '3.6'
