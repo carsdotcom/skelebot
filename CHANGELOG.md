@@ -3,7 +3,16 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.21.8
+#### Changed
+- **Scaffolding** | Full test coverage for scaffold function.
+- **Component** | Full test coverage for Component base class.
+
+---
+
 ## v1.21.7
+#### Merged: 2021-10-04
+#### Released: 2021-10-14
 #### Changed
 - **Python-Base Image** | Add support for python 3.9 projects with skelebot base image.
 

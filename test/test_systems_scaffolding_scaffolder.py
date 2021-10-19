@@ -58,15 +58,28 @@ class TestScaffolder(unittest.TestCase):
     @mock.patch('os.path.exists')
     @mock.patch('os.getcwd')
     @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.Config')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    def test_execute_scaffold(self, mock_prompt, mock_yaml, mock_readme, mock_dignore, mock_dockerfile, mock_cFactory, mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
+    def test_execute_scaffold(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
+                              mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
+                              mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
+
+        # Set up mock components with scaffolding
+        mock_single_comp = mock.MagicMock()
+        mock_single_comp.scaffold.return_value = 'foo'
+        mock_list_comp = mock.MagicMock()
+        mock_list_comp.scaffold.return_value = ['bar', 'baz']
+
+        mock_cFactory.return_value.buildComponents.return_value = [
+            mock_single_comp, mock_list_comp
+        ]
 
         sb.systems.scaffolding.scaffolder.scaffold()
 
@@ -76,6 +89,9 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R","R+Python"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+        mock_config.assert_called_once()
+        self.assertEqual(['foo', 'bar', 'baz'], mock_config.call_args[1]['components'])
 
         mock_makedirs.assert_any_call("config/", exist_ok=True)
         mock_makedirs.assert_any_call("data/", exist_ok=True)
