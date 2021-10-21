@@ -151,6 +151,34 @@ class TestExecutor(unittest.TestCase):
 
         mock_call.assert_called_once_with("python -u test.py", shell=True)
 
+    @mock.patch('skelebot.systems.execution.executor.call')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_job_native_always(self, mock_skeleParser, mock_call):
+        job = sb.objects.job.Job(name="test", source="test.py", native="always")
+        config = sb.objects.config.Config(jobs=[job])
+        args = argparse.Namespace(job="test", native_global=False)
+        mock_skeleParser.parseArgs.return_value = args
+        mock_call.return_value = 0
+
+        sb.systems.execution.executor.execute(config, mock_skeleParser)
+
+        mock_call.assert_called_once_with("python -u test.py", shell=True)
+
+    @mock.patch('skelebot.systems.execution.executor.buildDocker')
+    @mock.patch('skelebot.systems.execution.executor.runDocker')
+    @mock.patch('skelebot.systems.parsing.skeleParser')
+    def test_execute_job_native_never(self, mock_skeleParser, mock_run, mock_build):
+        job = sb.objects.job.Job(name="test", source="test.py", native="never")
+        config = sb.objects.config.Config(jobs=[job])
+        args = argparse.Namespace(job="test", native_global=True, skip_build_global=False)
+        mock_skeleParser.parseArgs.return_value = args
+        mock_run.return_value = 0
+
+        sb.systems.execution.executor.execute(config, mock_skeleParser)
+
+        mock_build.assert_called_once_with(config, host=None)
+        mock_run.assert_called_once_with(config, "python -u test.py", "i", [], [], "test", host=None)
+
     @mock.patch('skelebot.systems.parsing.skeleParser')
     def test_execute_component(self, mock_skeleParser):
         mock_component = mock.MagicMock()
