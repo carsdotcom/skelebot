@@ -11,6 +11,7 @@ class TestJobValidate(unittest.TestCase):
         'name': 'test',
         'source': 'test',
         'mode': 'test',
+        'native': 'optional',
         'help': 'test',
         'args': [1, 2],
         'params': [1, 2],
@@ -26,7 +27,7 @@ class TestJobValidate(unittest.TestCase):
             sb.objects.job.Job.validate(job)
             self.fail("Exception Expected")
         except SchemaError as error:
-            self.assertEqual(error.code, "Job '{attr}' must be a {expected}".format(attr=attr, expected=expected))
+            self.assertEqual(error.code, "Job '{attr}' must be {expected}".format(attr=attr, expected=expected))
 
     def test_valid(self):
 
@@ -48,14 +49,15 @@ class TestJobValidate(unittest.TestCase):
             self.assertEqual(error.code, "Missing keys: 'help', 'name', 'source'")
 
     def test_invalid(self):
-        self.validate_error('name', 123, 'String')
-        self.validate_error('source', 123, 'String')
-        self.validate_error('mode', 123, 'String')
-        self.validate_error('help', 123, 'String')
-        self.validate_error('args', 123, 'List')
-        self.validate_error('params', 123, 'List')
-        self.validate_error('ignores', 123, 'List')
-        self.validate_error('mappings', 123, 'List')
+        self.validate_error('name', 123, 'a String')
+        self.validate_error('source', 123, 'a String')
+        self.validate_error('mode', 123, 'a String')
+        self.validate_error('native', 'nope', 'one of: \'always\', \'never\', \'optional\'')
+        self.validate_error('help', 123, 'a String')
+        self.validate_error('args', 123, 'a List')
+        self.validate_error('params', 123, 'a List')
+        self.validate_error('ignores', 123, 'a List')
+        self.validate_error('mappings', 123, 'a List')
 
 if __name__ == '__main__':
     unittest.main()

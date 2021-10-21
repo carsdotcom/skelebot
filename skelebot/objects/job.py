@@ -1,6 +1,6 @@
 """Job Class"""
 
-from schema import Schema, And, Optional
+from schema import Schema, And, Or, Optional
 from .skeleYaml import SkeleYaml
 from .param import Param
 from .arg import Arg
@@ -16,7 +16,8 @@ class Job(SkeleYaml):
         'name': And(str, error='Job \'name\' must be a String'),
         'source': And(str, error='Job \'source\' must be a String'),
         Optional('mode'): And(str, error='Job \'mode\' must be a String'),
-        Optional('native'): And(str, error='Job \'native\' must be a String'),
+        Optional('native'): And(str, Or('always', 'never', 'optional'),
+            error='Job \'native\' must be one of: \'always\', \'never\', \'optional\''),
         Optional('host'): And(str, error='Job \'host\' must be a String'),
         'help': And(str, error='Job \'help\' must be a String'),
         Optional('args'): And(list, error='Job \'args\' must be a List'),
