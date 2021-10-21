@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.22.0
+#### Changed
+- **Job** | Added new `native` parameter for jobs to run ALWAYS or NEVER natively
+
+---
+
 ## v1.21.8
+#### Merged: 2021-10-19
 #### Changed
 - **Scaffolding** | Full test coverage for scaffold function.
 - **Component** | Full test coverage for Component base class.

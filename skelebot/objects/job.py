@@ -16,6 +16,7 @@ class Job(SkeleYaml):
         'name': And(str, error='Job \'name\' must be a String'),
         'source': And(str, error='Job \'source\' must be a String'),
         Optional('mode'): And(str, error='Job \'mode\' must be a String'),
+        Optional('native'): And(str, error='Job \'native\' must be a String'),
         Optional('host'): And(str, error='Job \'host\' must be a String'),
         'help': And(str, error='Job \'help\' must be a String'),
         Optional('args'): And(list, error='Job \'args\' must be a List'),
@@ -28,6 +29,7 @@ class Job(SkeleYaml):
     name = None
     source = None
     mode = None
+    native = None
     host = None
     help = None
     args = None
@@ -36,14 +38,15 @@ class Job(SkeleYaml):
     mappings = None
     ports = None
 
-    def __init__(self, name=None, source=None, mode=None, host=None, help=None, args=None,
-                 params=None, ignores=None, mappings=None, ports=None):
+    def __init__(self, name=None, source=None, mode=None, native=None, host=None, help=None,
+                    args=None, params=None, ignores=None, mappings=None, ports=None):
         """Initialize the job object with all provided optional attributes"""
 
         self.name = name
         self.source = source
         self.help = help
         self.mode = mode if mode is not None else "i"
+        self.native = native if native is not None else "optional"
         self.host = host
         self.args = args if args is not None else []
         self.params = params if params is not None else []

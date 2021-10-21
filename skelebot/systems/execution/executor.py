@@ -63,7 +63,14 @@ def executeJob(config, args, job):
 
     command = buildCommand(config, job, args, args.native_global)
     host = config.getHost(job=job, args=args)
-    if (args.native_global):
+
+    is_native = args.native_global
+    if (job.native == "always"):
+        is_native = True
+    elif (job.native == "never"):
+        is_native = False
+
+    if (is_native):
         status = call(command, shell=True)
     else:
         if (not args.skip_build_global):

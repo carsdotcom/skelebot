@@ -14,6 +14,7 @@ jobs:
 - name: example
   source: src/jobs/example.sh
   mode: i
+  native: optional
   host: ssh://root@me.local
   help: EXAMPLE JOB
   mappings:
@@ -41,6 +42,7 @@ A job must contain three things in order to work. It must have a name, so you ca
  - **source** - Command to be executed(ex: echo 'Hello') or the path to the script (R, Python, or Bash) that will be executed
  - **help** - Text that will be displayed when the -h (--help) parameter is passed
  - **mode** - The mode in which to execute the docker image [i: interactive(default), d: detached]
+ - **native** - Optional parameter to specify if the job should 'always' be run natively or 'never' be run natively [always, never, optional(default)]
  - **host** - The host on which the job should be executed (overrides the global "host" field)
  - **mappings** - Volume maps for docker run in one of the two formats supported: [{project-folder}, {local-folder}:{container-folder}]
  - **ignores** - A list of files, folders, or regex patterns to ignore from the Docker build context
@@ -168,7 +170,7 @@ Skelebot has some optional parameters that allow you to control how the jobs are
 
  - **--env (-e)** - Specify the runtime environment configurations (skelebot-{env}.yaml) that will overwrite the default yaml
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
- - **--native (-n)** - Run natively instead of through Docker (NOTE: This will not install any dependencies)
+ - **--native (-n)** - Run natively instead of through Docker (NOTE: Running natively will not install any dependencies and jobs with the native config parameter set will override this parameter)
  - **--host (-d) HOST** - Set the Docker Host on which the command will be executed (overrides config level "host" fields)
 
 ### Chaining Jobs
