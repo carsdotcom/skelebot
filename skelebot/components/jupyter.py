@@ -54,7 +54,7 @@ class Jupyter(Component):
         that the rest of the project utilizes
         """
 
-        docker.build(config, host=host)
+        docker.build(config, host=host, verbose=args.verbose_global)
 
         command = COMMAND_TEMPLATE.format(folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
@@ -67,4 +67,7 @@ class Jupyter(Component):
         print("Notebook Starting on localhost:{port}".format(port=self.port))
         print("Copy the token below to authenticate with Jupyter")
 
-        return docker.run(config, command, "it", ports, mappings, "jupyter", host=host)
+        return docker.run(
+            config, command, "it", ports, mappings, "jupyter", host=host,
+            verbose=args.verbose_global
+        )

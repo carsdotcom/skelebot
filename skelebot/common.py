@@ -50,3 +50,6 @@ SCHEMA_ERROR = ERROR_HEADER + "skelebot.yaml | {}"
 
 WARN_HEADER = Fore.YELLOW + "WARN" + Style.RESET_ALL + " | "
 DEPRECATION_WARNING = WARN_HEADER + "The {code} has been deprecated as of v{version}. {msg}"
+
+INFO_HEADER = Fore.GREEN + "INFO" + Style.RESET_ALL + " | "
+INFO = INFO_HEADER + "{}"

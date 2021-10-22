@@ -20,12 +20,12 @@ class TestPrime(unittest.TestCase):
         mock_docker.save.return_value = 0
 
         config = sb.objects.config.Config()
-        args = argparse.Namespace(output=None)
+        args = argparse.Namespace(output=None, verbose_global=False)
 
         prime = sb.components.prime.Prime()
         prime.execute(config, args)
 
-        mock_docker.build.assert_called_with(config, host=None)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
 
     @mock.patch('skelebot.components.prime.docker')
     def test_execute_host(self, mock_docker):
@@ -33,12 +33,12 @@ class TestPrime(unittest.TestCase):
         mock_docker.save.return_value = 0
 
         config = sb.objects.config.Config()
-        args = argparse.Namespace(output=None)
+        args = argparse.Namespace(output=None, verbose_global=False)
 
         prime = sb.components.prime.Prime()
         prime.execute(config, args, host='host1')
 
-        mock_docker.build.assert_called_with(config, host='host1')
+        mock_docker.build.assert_called_with(config, host='host1', verbose=False)
 
     @mock.patch('skelebot.components.prime.docker')
     def test_execute_output(self, mock_docker):
@@ -46,13 +46,13 @@ class TestPrime(unittest.TestCase):
         mock_docker.save.return_value = 0
 
         config = sb.objects.config.Config()
-        args = argparse.Namespace(output="my-image.img")
+        args = argparse.Namespace(output="my-image.img", verbose_global=False)
 
         prime = sb.components.prime.Prime()
         prime.execute(config, args)
 
-        mock_docker.build.assert_called_with(config, host=None)
-        mock_docker.save.assert_called_with(config, "my-image.img", host=None)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
+        mock_docker.save.assert_called_with(config, "my-image.img", host=None, verbose=False)
 
     @mock.patch('skelebot.components.prime.docker')
     def test_execute_exception(self, mock_docker):
@@ -60,7 +60,7 @@ class TestPrime(unittest.TestCase):
         mock_docker.save.return_value = 1
 
         config = sb.objects.config.Config()
-        args = argparse.Namespace(output="my-image.img")
+        args = argparse.Namespace(output="my-image.img", verbose_global=False)
 
         prime = sb.components.prime.Prime()
         try:
@@ -68,8 +68,8 @@ class TestPrime(unittest.TestCase):
             self.fail("Exception Expected")
         except Exception as exc:
             self.assertEqual(str(exc), "Priming Failed")
-            mock_docker.build.assert_called_with(config, host=None)
-            mock_docker.save.assert_called_with(config, "my-image.img", host=None)
+            mock_docker.build.assert_called_with(config, host=None, verbose=False)
+            mock_docker.save.assert_called_with(config, "my-image.img", host=None, verbose=False)
 
 if __name__ == '__main__':
     unittest.main()

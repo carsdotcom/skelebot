@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.23.0
+#### Changed
+- **Execution** | Added global `--verbose` parameter that prints all job commands to the screen just before execution.
+
+---
+
 ## v1.22.0
+#### Merged: 2021-10-21
 #### Changed
 - **Job** | Added new `native` parameter for jobs to run ALWAYS or NEVER natively
 

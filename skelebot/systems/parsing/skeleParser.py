@@ -40,6 +40,11 @@ CN_ARG = "--contact"
 CN_ALT = "-c"
 CN_HELP = "Display the contact email of the Skelebot project"
 
+VB_DST = "verbose_global"
+VB_ARG = "--verbose"
+VB_ALT = "-V"
+VB_HELP = "Print all job commands to the screen just before execution"
+
 def addArgs(args, subparser):
     """Add args to the given subparser"""
 
@@ -112,6 +117,7 @@ class SkeleParser:
             self.parser.add_argument(SB_ALT, SB_ARG, help=SB_HELP, action='store_true', dest=SB_DST)
             self.parser.add_argument(NT_ALT, NT_ARG, help=NT_HELP, action='store_true', dest=NT_DST)
             self.parser.add_argument(CN_ALT, CN_ARG, help=CN_HELP, action='store_true', dest=CN_DST)
+            self.parser.add_argument(VB_ALT, VB_ARG, help=VB_HELP, action='store_true', dest=VB_DST)
 
         # ---Config Based Parser Setup---
 

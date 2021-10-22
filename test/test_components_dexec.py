@@ -17,24 +17,28 @@ class TestDexec(unittest.TestCase):
     @mock.patch('skelebot.components.dexec.docker')
     def test_execute_nomap(self, mock_docker):
         config = sb.objects.config.Config(name="test-dexec")
-        args = argparse.Namespace(map=False)
+        args = argparse.Namespace(map=False, verbose_global=False)
 
         dexec = sb.components.dexec.Dexec()
         dexec.execute(config, args)
 
-        mock_docker.build.assert_called_with(config, host=None)
-        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], [], "exec", host=None)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
+        mock_docker.run.assert_called_with(
+            config, "/bin/bash", "it", [], [], "exec", host=None, verbose=False
+        )
 
     @mock.patch('skelebot.components.dexec.docker')
     def test_execute_map(self, mock_docker):
         config = sb.objects.config.Config(name="test-dexec")
-        args = argparse.Namespace(map=True)
+        args = argparse.Namespace(map=True, verbose_global=False)
 
         dexec = sb.components.dexec.Dexec()
         dexec.execute(config, args)
 
-        mock_docker.build.assert_called_with(config, host=None)
-        mock_docker.run.assert_called_with(config, "/bin/bash", "it", [], ["."], "exec", host=None)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
+        mock_docker.run.assert_called_with(
+            config, "/bin/bash", "it", [], ["."], "exec", host=None, verbose=False
+        )
 
 if __name__ == '__main__':
     unittest.main()
