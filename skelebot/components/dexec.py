@@ -40,5 +40,8 @@ class Dexec(Component):
         if (args.map):
             mappings.append(".")
 
-        docker.build(config, host=host)
-        docker.run(config, "/bin/bash", "it", [], mappings, "exec", host=host)
+        docker.build(config, host=host, verbose=args.verbose_global)
+        docker.run(
+            config, "/bin/bash", "it", [], mappings, "exec", host=host,
+            verbose=args.verbose_global
+        )

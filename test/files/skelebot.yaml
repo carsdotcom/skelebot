@@ -42,6 +42,7 @@ jobs:
   - temp/
   mode: i
   name: build
+  native: optional
   params:
   - alt: e
     choices:
@@ -54,10 +55,12 @@ jobs:
 - help: Direct command test
   mode: i
   name: test-direct-command
+  native: optional
   source: echo Hello
 - help: Test passing short params
   mode: i
   name: test-short-param
+  native: optional
   params:
   - choices:
     - csv

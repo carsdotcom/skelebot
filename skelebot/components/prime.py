@@ -35,9 +35,9 @@ class Prime(Component):
         built so as to be ready for deployment
         """
 
-        status = docker.build(config, host=host)
+        status = docker.build(config, host=host, verbose=args.verbose_global)
         if (status == 0) & (args.output is not None):
-            status = docker.save(config, args.output, host=host)
+            status = docker.save(config, args.output, host=host, verbose=args.verbose_global)
 
         if (status > 0):
             raise Exception("Priming Failed")

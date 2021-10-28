@@ -172,6 +172,7 @@ Skelebot has some optional parameters that allow you to control how the jobs are
  - **--skip-build (-s)** - Skip the docker build process and assume the docker image is already constructed and ready to be used
  - **--native (-n)** - Run natively instead of through Docker (NOTE: Running natively will not install any dependencies and jobs with the native config parameter set will override this parameter)
  - **--host (-d) HOST** - Set the Docker Host on which the command will be executed (overrides config level "host" fields)
+ - **--verbose (-V)** - Print all docker build (if applicable) and job commands to the screen just before execution
 
 ### Chaining Jobs
 Jobs can also be chained together in a single command (executed one after another) by simply concatenating them in the command separated by a `+` character. This allows for multiple jobs to be executed in a single command, and can be a real time saver for long running sequences of jobs.

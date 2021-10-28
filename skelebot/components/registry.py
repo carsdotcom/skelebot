@@ -89,12 +89,18 @@ class Registry(Component):
 
         # Login to the registry
         if self.aws is not None:
-            docker.loginAWS(self.host, self.aws.region, self.aws.profile, docker_host=host)
+            docker.loginAWS(
+                self.host, self.aws.region, self.aws.profile, docker_host=host,
+                verbose=args.verbose_global
+            )
         else:
-            docker.login(host=self.host, docker_host=host)
+            docker.login(host=self.host, docker_host=host, verbose=args.verbose_global)
 
         # Build and Push with the different tags (LATEST and VERSION default)
         if (not args.skip_build_global):
-            docker.build(config, host=host)
+            docker.build(config, host=host, verbose=args.verbose_global)
 
-        docker.push(config, self.host, self.port, self.user, tags=args.tags, docker_host=host)
+        docker.push(
+            config, self.host, self.port, self.user, tags=args.tags,
+            docker_host=host, verbose=args.verbose_global
+        )

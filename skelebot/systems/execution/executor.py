@@ -7,6 +7,7 @@ from ..scaffolding.scaffolder import scaffold
 from .commandBuilder import build as buildCommand
 from .docker import build as buildDocker
 from .docker import run as runDocker
+from ...common import INFO
 
 def execute(config, sbParser, args=None):
     """Execute the command(s) that was sent into Skelebot based on the project Config"""
@@ -71,12 +72,17 @@ def executeJob(config, args, job):
         is_native = False
 
     if (is_native):
+        if args.verbose_global:
+            print(INFO.format(command))
         status = call(command, shell=True)
     else:
         if (not args.skip_build_global):
-            buildDocker(config, host=host)
+            buildDocker(config, host=host, verbose=args.verbose_global)
         ports = sorted(list(set(config.ports + job.ports)))
-        status = runDocker(config, command, job.mode, ports, job.mappings, job.name, host=host)
+        status = runDocker(
+            config, command, job.mode, ports, job.mappings, job.name, host=host,
+            verbose=args.verbose_global
+        )
     return(status)
 
 def executeComponent(config, args):

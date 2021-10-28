@@ -3,6 +3,8 @@ import unittest
 from unittest import mock
 from argparse import Namespace
 
+from colorama import Fore, Style
+
 import skelebot as sb
 
 class LimitMemory(sb.objects.component.Component):
@@ -348,6 +350,15 @@ class TestDocker(unittest.TestCase):
 
         sb.systems.execution.docker.save(sb.objects.config.Config(name="Test Project"), "test.img")
         mock_call.assert_called_once_with("docker save -o test.img test-project", shell=True)
+
+    @mock.patch('skelebot.systems.execution.docker.print')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    def test_execute_verbose(self, mock_call, mock_print):
+        mock_call.return_value = 0
+
+        sb.systems.execution.docker.execute("echo foo", err_msg="Something bad", verbose=True)
+        mock_print.assert_called_once_with(Fore.GREEN + "INFO" + Style.RESET_ALL + " | echo foo")
+        mock_call.assert_called_once_with("echo foo", shell=True)
 
 if __name__ == '__main__':
     unittest.main()
