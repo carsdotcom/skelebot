@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.24.0
+#### Changed
+- **Dependencies** | Added the ability for python dependencies to be specified and installed via a txt file such as `requirements.txt`
+
+---
+
 ## v1.23.0
+#### Merged: 2021-10-28
 #### Changed
 - **Execution** | Added global `--verbose` parameter that prints all job commands to the screen just before execution.
 

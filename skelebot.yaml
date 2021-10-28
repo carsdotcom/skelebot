@@ -7,14 +7,7 @@ timezone: America/Chicago
 
 language: Python
 dependencies:
-- PyYAML>=5.1.2
-- dohq-artifactory>=0.1.17
-- requests>=2.22.0
-- schema~=0.7.0
-- colorama~=0.4.1
-- coverage~=4.5.4
-- pytest~=5.1
-- boto3~=1.10
+- req:requirements.txt
 
 ignores:
 - '**/*.zip'
