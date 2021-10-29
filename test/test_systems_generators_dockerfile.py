@@ -221,6 +221,7 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         config.dependencies.append("github:github.com/repo")
         config.dependencies.append("github:https://github.com/securerepo")
         config.dependencies.append("file:libs/proj")
+        config.dependencies.append("req:requirements.txt")
         config.dependencies.append("dtable=9.0")
 
         expectedDockerfile = """
@@ -239,6 +240,8 @@ RUN ["pip", "install", "git+github.com/repo"]
 RUN ["pip", "install", "git+https://github.com/securerepo"]
 COPY libs/proj libs/proj
 RUN ["pip", "install", "/app/libs/proj"]
+COPY requirements.txt requirements.txt
+RUN ["pip", "install", "-r", "/app/requirements.txt"]
 RUN ["pip", "install", "dtable==9.0"]
 COPY . /app
 RUN rm -rf build/

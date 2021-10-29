@@ -23,6 +23,7 @@ Versions for packages in R can be specified by appending `={version}` to the end
 Versions for packages in Python can be specified by appending `={version}` or `=={version}` to the end of the dependency name.
 
 R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
+Python also allows for installs using a text file via `req:requirements.txt` syntax.
 
 ```
 language: R
@@ -37,6 +38,7 @@ language: Python
 dependencies:
 - {type}:{source}
 - file:libs/myPackage.tgz
+- req:requirements.txt
 - github:myGitHub/fakeRepo
 ```
 

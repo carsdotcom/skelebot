@@ -11,6 +11,8 @@ PY_INSTALL_VERSION = "RUN [\"pip\", \"install\", \"{depName}=={version}\"]\n"
 PY_INSTALL_GITHUB = "RUN [\"pip\", \"install\", \"git+{depPath}\"]\n"
 PY_INSTALL_FILE = "COPY {depPath} {depPath}\n"
 PY_INSTALL_FILE += "RUN [\"pip\", \"install\", \"/app/{depPath}\"]\n"
+PY_INSTALL_REQ = "COPY {depPath} {depPath}\n"
+PY_INSTALL_REQ += "RUN [\"pip\", \"install\", \"-r\", \"/app/{depPath}\"]\n"
 PY_R_INSTALL = "RUN [\"pip3\", \"install\", \"{dep}\"]\n"
 PY_R_INSTALL_VERSION = "RUN [\"pip3\", \"install\", \"{depName}=={version}\"]\n"
 PY_R_INSTALL_GITHUB = "RUN [\"pip3\", \"install\", \"git+{depPath}\"]\n"
@@ -49,6 +51,8 @@ def buildDockerfile(config):
                 docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])
             elif ("file:" in dep):
                 docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
+            elif ("req:" in dep):
+                docker += PY_INSTALL_REQ.format(depPath=depSplit[1])
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
                 verSplit = dep.split("=")
