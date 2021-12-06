@@ -79,6 +79,9 @@ def run(config, command, mode, ports, mappings, task, host=None, verbose=False):
     run_name = "{image}-{job}".format(image=image, job=task)
     runCMD = DockerCommandBuilder(host=host).run(image).set_name(run_name).set_rm().set_mode(mode)
 
+    if config.gpu:
+        runCMD = runCMD.set_gpu()
+
     # Construct the port mappings
     if (ports):
         for port in ports:

@@ -36,7 +36,8 @@ class Config(SkeleYaml):
         Optional('components'): And(dict, error='\'components\' must be a Dictionary'),
         Optional('params'): And(list, error='\'params\' must be a List'),
         Optional('commands'): And(list, error='\'commands\' must be a List'),
-        Optional('pythonVersion'): And(str, Or(*PYTHON_VERSIONS), error='\'pythonVersion\' must be one of:' + ', '.join(PYTHON_VERSIONS))
+        Optional('pythonVersion'): And(str, Or(*PYTHON_VERSIONS), error='\'pythonVersion\' must be one of:' + ', '.join(PYTHON_VERSIONS)),
+        Optional('gpu'): And(bool, error='\'gpu\' must be a Boolean')
     }, ignore_extra_keys=True)
 
     name = None
@@ -60,11 +61,13 @@ class Config(SkeleYaml):
     params = None
     commands = None
     pythonVersion = '3.6'
+    gpu = False
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
                  contact=None, host=None, language=None, baseImage=None, timezone=None,
                  primaryJob=None, primaryExe=None, ephemeral=None, dependencies=None, ignores=None,
-                 jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.6'):
+                 jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.6',
+                 gpu = False):
         """Initialize the config object with all provided optional attributes"""
 
         self.name = name
@@ -88,6 +91,7 @@ class Config(SkeleYaml):
         self.params = params if params is not None else []
         self.commands = commands if commands is not None else []
         self.pythonVersion = pythonVersion
+        self.gpu = gpu
 
     def toDict(self):
         """

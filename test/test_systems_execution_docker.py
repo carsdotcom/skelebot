@@ -344,6 +344,27 @@ class TestDocker(unittest.TestCase):
         sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
         mock_call.assert_called_once_with(expected, shell=True)
 
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
+    def test_run_gpu(self, mock_getcwd, mock_call, mock_expanduser):
+        folderPath = "{path}/test/files".format(path=self.path)
+        args = Namespace(version='0.1')
+
+        homePath = "{path}/test/plugins".format(path=self.path)
+        mock_expanduser.return_value = homePath
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        config.gpu = True
+        job = sb.objects.job.Job(name='some_command', help='Dummy', source='echo some_command')
+        command = sb.systems.execution.commandBuilder.build(config, job, args)
+        
+        expected = "docker run --name test-some_command --rm -i --gpus all --ipc=host test /bin/bash -c \"echo some_command\""
+        sb.systems.execution.docker.run(config, command, job.mode, config.ports, job.mappings, job.name, host=None)
+        mock_call.assert_called_once_with(expected, shell=True)
+
     @mock.patch('skelebot.systems.execution.docker.call')
     def test_save(self, mock_call):
         mock_call.return_value = 0

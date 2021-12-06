@@ -1,9 +1,13 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+## v1.24.1
+#### Changed
+- **Dependencies** | Added the ability to run docker with gpu
 ---
 
 ## v1.24.0
+#### Merged: 2021-11-17
 #### Changed
 - **Dependencies** | Added the ability for python dependencies to be specified and installed via a txt file such as `requirements.txt`
 
