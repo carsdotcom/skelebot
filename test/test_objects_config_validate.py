@@ -26,6 +26,7 @@ class TestConfigValidate(unittest.TestCase):
         'params': [1, 2],
         'commands': [],
         'pythonVersion': '3.8',
+        'gpu': True
     }
 
     def validate_error(self, attr, reset, expected):
@@ -75,6 +76,7 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('commands', 123, 'a List')
         self.validate_error('host', 123, 'a String')
         self.validate_error('pythonVersion', 123, 'one of:' + ', '.join(sb.common.PYTHON_VERSIONS))
+        self.validate_error('gpu', 123, 'a Boolean')
 
 if __name__ == '__main__':
     unittest.main()
