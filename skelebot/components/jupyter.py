@@ -5,7 +5,7 @@ from ..objects.component import Activation, Component
 from ..systems.execution import docker
 
 HELP_TEMPLATE = "Spin up Jupyter in a Docker Container (port={port}, folder={folder})"
-COMMAND_TEMPLATE = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir={folder}"
+COMMAND_TEMPLATE = "jupyter {job} --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir={folder}"
 
 class Jupyter(Component):
     """
@@ -22,17 +22,20 @@ class Jupyter(Component):
         Optional('port'): And(int, error='Jupyter \'port\' must be an Integer'),
         Optional('folder'): And(str, error='Jupyter \'folder\' must be a String'),
         Optional('mappings'): And(list, error='Jupyter \'mappings\' must be a List'),
+        Optional('lab'): And(bool, error='Jupyter \'lab\' must be a Boolean'),
     }, ignore_extra_keys=True)
 
     port = None
     folder = None
     mappings = None
+    lab = None
 
-    def __init__(self, port=8888, folder=".", mappings = '.'):
+    def __init__(self, port=8888, folder=".", mappings='.', lab=False):
         """Initialize the class with simple default values for port and folder"""
         self.port = port
         self.folder = folder
         self.mappings = mappings
+        self.lab = lab
 
     def addParsers(self, subparsers):
         """
@@ -56,7 +59,8 @@ class Jupyter(Component):
 
         docker.build(config, host=host, verbose=args.verbose_global)
 
-        command = COMMAND_TEMPLATE.format(folder=self.folder)
+        job = "lab" if self.lab else "notebook"
+        command = COMMAND_TEMPLATE.format(job=job, folder=self.folder)
         ports = ["{port}:8888".format(port=self.port)]
         # Only map current dir if not running on remote host
         if host is None:

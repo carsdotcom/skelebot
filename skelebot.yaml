@@ -2,7 +2,7 @@ name: skelebot
 description: ML Build Tool
 maintainer: Sean Shookman
 contact: sshookman@cars.com
-ephemeral: True
+ephemeral: False
 timezone: America/Chicago
 
 language: Python
@@ -39,6 +39,7 @@ components:
   jupyter:
     port: 1127
     folder: .
+    lab: True
   registry:
     user: skelebot
   contributors:

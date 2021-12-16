@@ -10,3 +10,4 @@ RUN apt-get update && \
 
 RUN pip --no-cache-dir install -U pip
 RUN pip --no-cache-dir install jupyter
+RUN pip --no-cache-dir install jupyterlab

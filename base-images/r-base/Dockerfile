@@ -13,3 +13,4 @@ RUN apt-get install -y gfortran
 RUN ["Rscript", "-e", "install.packages('glue', repo='https://cloud.r-project.org'); library(glue)"]
 RUN ["Rscript", "-e", "install.packages('devtools', repo='https://cloud.r-project.org'); library(devtools)"]
 RUN apt-get install -y python3-pip
+RUN pip --no-cache-dir install jupyterlab
