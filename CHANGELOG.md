@@ -12,6 +12,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.25.0
 #### Merged: 2021-12-08
+#### Released: 2021-12-08
 #### Changed
 - **Dependencies** | Added the ability to run docker with gpu
 
