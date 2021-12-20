@@ -18,11 +18,11 @@ def scaffold(existing=True):
     maintainer = promptUser("Enter a MAINTAINER NAME")
     contact = promptUser("Enter a CONTACT EMAIL")
     language = promptUser("Select a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
-    template = promptUser("Select a TEMPLATE", options=TEMPLATES[language])
+    template = promptUser("Select a TEMPLATE", options=list(TEMPLATES[language].keys()))
     template = TEMPLATES[language][template]
 
     # Iterate over components for additional prompts and add any components that are scaffolded
-    components = {}
+    components = []
     componentFactory = ComponentFactory()
     for component in componentFactory.buildComponents():
         component = component.scaffold()
@@ -44,7 +44,7 @@ def scaffold(existing=True):
         # Setting up the folder structure for the project
         print("Rigging up the skele-bones...")
         for directory in template["dirs"]:
-            os.makedirs(f"{directory}/", exist_ok=True)
+            os.makedirs(directory, exist_ok=True)
 
         # Setting up the file templates for the project
         print("Attaching fiber optic ligaments...")
@@ -58,11 +58,11 @@ def scaffold(existing=True):
     # Build the config object based on the user inputs
     cfg = template["config"]
     cfg["name"] = name
-    cfg["description"] = description
-    cfg["maintainer"] = maintainer
-    cfg["contact"] = contact
-    cfg["components"] = components
     config = Config.load(cfg)
+    config.description = description
+    config.maintainer = maintainer
+    config.contact = contact
+    config.components = components
     config.version = "0.1.0"
 
     if (not existing):

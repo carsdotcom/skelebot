@@ -14,7 +14,7 @@ class TestScaffolder(unittest.TestCase):
                                     mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_exists.return_value = False
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", False]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Container", False]
 
         try:
             sb.systems.scaffolding.scaffolder.scaffold(False)
@@ -26,7 +26,8 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
             mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
             mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-            mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R","R+Python"])
+            mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
     @mock.patch('os.path.expanduser')
@@ -41,7 +42,7 @@ class TestScaffolder(unittest.TestCase):
                                             mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_exists.return_value = False
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Dash", True]
 
         sb.systems.scaffolding.scaffolder.scaffold(True)
 
@@ -49,7 +50,8 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R","R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_yaml.saveConfig.assert_called_once()
@@ -65,11 +67,11 @@ class TestScaffolder(unittest.TestCase):
     @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    def test_execute_scaffold(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
+    def test_execute_scaffold_container(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
                               mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
                               mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", True]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Container", True]
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -81,25 +83,120 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold()
+        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Enter a LANGUAGE", options=["Python", "R","R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-        mock_config.assert_called_once()
-        self.assertEqual(['foo', 'bar', 'baz'], mock_config.call_args[1]['components'])
+        mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("config/", exist_ok=True)
         mock_makedirs.assert_any_call("data/", exist_ok=True)
-        mock_makedirs.assert_any_call("models/", exist_ok=True)
         mock_makedirs.assert_any_call("notebooks/", exist_ok=True)
-        mock_makedirs.assert_any_call("output/", exist_ok=True)
         mock_makedirs.assert_any_call("queries/", exist_ok=True)
         mock_makedirs.assert_any_call("src/jobs/", exist_ok=True)
+
+        mock_dockerfile.buildDockerfile.assert_called_once()
+        mock_dignore.buildDockerignore.assert_called_once()
+        mock_readme.buildREADME.assert_called_once()
+        mock_yaml.saveConfig.assert_called_once()
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.Config')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    def test_execute_scaffold_package(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
+                              mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
+                              mock_getcwd, mock_exists, mock_expanduser):
+        mock_expanduser.return_value = "test/plugins"
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Package", True]
+
+        # Set up mock components with scaffolding
+        mock_single_comp = mock.MagicMock()
+        mock_single_comp.scaffold.return_value = 'foo'
+        mock_list_comp = mock.MagicMock()
+        mock_list_comp.scaffold.return_value = ['bar', 'baz']
+
+        mock_cFactory.return_value.buildComponents.return_value = [
+            mock_single_comp, mock_list_comp
+        ]
+
+        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+
+        mock_prompt.assert_any_call("Enter a PROJECT NAME")
+        mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+        mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+        mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+        mock_config.load.assert_called_once()
+
+        mock_makedirs.assert_any_call("notebooks/", exist_ok=True)
+        mock_makedirs.assert_any_call("test/", exist_ok=True)
+        mock_makedirs.assert_any_call("jobs/", exist_ok=True)
+
+        mock_dockerfile.buildDockerfile.assert_called_once()
+        mock_dignore.buildDockerignore.assert_called_once()
+        mock_readme.buildREADME.assert_called_once()
+        mock_yaml.saveConfig.assert_called_once()
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.getcwd')
+    @mock.patch('os.makedirs')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.open')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.Config')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    def test_execute_scaffold_dash(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
+                              mock_dockerfile, mock_cFactory, mock_config, mock_open,
+                              mock_makedirs, mock_getcwd, mock_exists, mock_expanduser):
+        mock_expanduser.return_value = "test/plugins"
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Dash", True]
+
+        # Set up mock components with scaffolding
+        mock_single_comp = mock.MagicMock()
+        mock_single_comp.scaffold.return_value = 'foo'
+        mock_list_comp = mock.MagicMock()
+        mock_list_comp.scaffold.return_value = ['bar', 'baz']
+
+        mock_cFactory.return_value.buildComponents.return_value = [
+            mock_single_comp, mock_list_comp
+        ]
+
+        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+
+        print(mock_open.mock_calls)
+
+        mock_prompt.assert_any_call("Enter a PROJECT NAME")
+        mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+        mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+        mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+        mock_config.load.assert_called_once()
+
+        mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
 
         mock_dockerfile.buildDockerfile.assert_called_once()
         mock_dignore.buildDockerignore.assert_called_once()

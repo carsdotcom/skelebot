@@ -44,8 +44,8 @@ PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 
 TEMPLATES = {
     "Python": {
-        "dash": {
-            "dirs": ["src/assets"],
+        "Dash": {
+            "dirs": ["src/assets/"],
             "files": {
                 "src/app.py": "templates/dash/app_py",
                 "src/server.py": "templates/dash/server_py",
@@ -66,32 +66,47 @@ TEMPLATES = {
                 }]
             }
         },
-        "package": {
-            "dirs": ["notebooks" "test" "jobs"],
+        "Package": {
+            "dirs": ["notebooks/", "test/", "jobs/"],
             "files": { },
             "config": {
                 "ephemeral": False,
                 "language": "Python",
-                "dependencies": ["pandas"]
+                "dependencies": _all_deps["Python"]
             }
         },
-        "container": {
-            "dirs": ["config", "data", "notebooks", "queries", "src/jobs"],
+        "Container": {
+            "dirs": ["config/", "data/", "notebooks/", "queries/", "src/jobs/"],
             "files": { },
             "config": {
                 "ephemeral": False,
                 "language": "Python",
-                "dependencies": ["pandas"]
+                "dependencies": _all_deps["Python"]
             }
         }
     },
     "R": {
-        "container": {
-            "dirs": ["config", "data", "queries", "src/jobs"],
+        "Container": {
+            "dirs": ["config/", "data/", "queries/", "src/jobs/"],
             "files": { },
             "config": {
                 "ephemeral": False,
-                "language": "R"
+                "language": "R",
+                "dependencies": _all_deps["R"]
+            }
+        }
+    },
+    "R+Python": {
+        "Container": {
+            "dirs": ["config/", "data/", "queries/", "src/jobs/"],
+            "files": { },
+            "config": {
+                "ephemeral": False,
+                "language": "R+Python",
+                "dependencies": {
+                    "Python": ["pandas"],
+                    "R": _all_deps
+                }
             }
         }
     }

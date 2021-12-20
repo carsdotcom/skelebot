@@ -36,7 +36,7 @@ class TestJupyter(unittest.TestCase):
 
         mock_docker.build.assert_called_with(config, host=None, verbose=False)
         mock_docker.run.assert_called_with(
-            config, expectedCommand, "it", ["1127:8888"], ".", "jupyter", host=None, verbose=False
+            config, expectedCommand, "it", ["1127:8888"], ["."], "jupyter", host=None, verbose=False
         )
 
     @mock.patch('skelebot.components.jupyter.docker')
@@ -69,7 +69,7 @@ class TestJupyter(unittest.TestCase):
 
         mock_docker.build.assert_called_with(config, host="host1", verbose=False)
         mock_docker.run.assert_called_with(config, expectedCommand, "it", ["1127:8888"],
-            ".", "jupyter", host="host1", verbose=False
+            ["."], "jupyter", host="host1", verbose=False
         )
 
     def test_validate_valid(self):

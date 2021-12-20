@@ -7,6 +7,8 @@ def promptUser(message, options=None, boolean=False):
 
     if (options):
         options = list(map(str, options))
+        if (len(options) == 1):
+            inp = options[0]
         while inp not in options:
             inp = input("{msg} [{options}]: ".format(msg=message, options=', '.join(options)))
     elif (boolean):
