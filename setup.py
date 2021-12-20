@@ -14,6 +14,7 @@ setup(
     author="Sean Shookman",
     author_email="sshookman@cars.com",
     packages=find_packages(),
+    include_package_data=True,
     zip_safe=False,
     setup_requires=["pytest-runner"],
     tests_require=requirements,

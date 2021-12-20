@@ -1,0 +1,4 @@
+include skelebot/systems/scaffolding/templates/dash/app_py
+include skelebot/systems/scaffolding/templates/dash/config_py
+include skelebot/systems/scaffolding/templates/dash/server_py
+include skelebot/systems/scaffolding/templates/dash/style_css

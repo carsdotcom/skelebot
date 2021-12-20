@@ -4,11 +4,11 @@ import os
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
-from ...common import LANGUAGE_DEPENDENCIES
+from ...common import LANGUAGE_DEPENDENCIES, TEMPLATES
 from .prompt import promptUser
 
-def scaffold(existing=False):
-    """Scaffold a new or existing project into a Skelebot project"""
+def scaffold(existing=True):
+    """Scaffold a new Dashboard Project"""
 
     # Prompt for basic project information
     print("Scaffolding Skelebot Project")
@@ -17,10 +17,12 @@ def scaffold(existing=False):
     description = promptUser("Enter a PROJECT DESCRIPTION")
     maintainer = promptUser("Enter a MAINTAINER NAME")
     contact = promptUser("Enter a CONTACT EMAIL")
-    language = promptUser("Enter a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
+    language = promptUser("Select a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
+    template = promptUser("Select a TEMPLATE", options=TEMPLATES[language])
+    template = TEMPLATES[language][template]
 
     # Iterate over components for additional prompts and add any components that are scaffolded
-    components = []
+    components = {}
     componentFactory = ComponentFactory()
     for component in componentFactory.buildComponents():
         component = component.scaffold()
@@ -29,11 +31,6 @@ def scaffold(existing=False):
                 components += component
             else:
                 components.append(component)
-
-    # Build the config object based on the user inputs
-    config = Config(name=name, description=description, version="0.1.0", maintainer=maintainer,
-                    contact=contact, language=language, primaryJob=None, ephemeral=False,
-                    dependencies=LANGUAGE_DEPENDENCIES[language], components=components)
 
     # Confirm user input - allow them to back out before generating files
     print("--:-" * 5, "-:--" * 5)
@@ -45,21 +42,36 @@ def scaffold(existing=False):
     print("--:-" * 5, "-:--" * 5)
     if (not existing):
         # Setting up the folder structure for the project
-        print("Wiring up the skele-bones...")
-        os.makedirs("config/", exist_ok=True)
-        os.makedirs("data/", exist_ok=True)
-        os.makedirs("models/", exist_ok=True)
-        os.makedirs("notebooks/", exist_ok=True)
-        os.makedirs("output/", exist_ok=True)
-        os.makedirs("queries/", exist_ok=True)
-        os.makedirs("src/jobs/", exist_ok=True)
+        print("Rigging up the skele-bones...")
+        for directory in template["dirs"]:
+            os.makedirs(f"{directory}/", exist_ok=True)
 
+        # Setting up the file templates for the project
+        print("Attaching fiber optic ligaments...")
+        dirname = os.path.dirname(__file__)
+        for destination, template_file in template["files"].items():
+            with open(os.path.join(dirname, template_file), "r") as tmp_file:
+                with open(destination, "w") as dst_file:
+                    dst_file.write(tmp_file.read())
+
+    print("Soldering the micro-computer to the skele-skull...")
+    # Build the config object based on the user inputs
+    cfg = template["config"]
+    cfg["name"] = name
+    cfg["description"] = description
+    cfg["maintainer"] = maintainer
+    cfg["contact"] = contact
+    cfg["components"] = components
+    config = Config.load(cfg)
+    config.version = "0.1.0"
+
+    if (not existing):
         # Creating the files for the project
-        print("Soldering the micro-computer to the skele-skull...")
+        print("Uploading default {template.key()} system drivers...")
         dockerfile.buildDockerfile(config)
         dockerignore.buildDockerignore(config)
         readme.buildREADME(config)
 
-    # For existing projects only the skelebot.yaml file is generated
+    # For existing projects, only the skelebot.yaml file is generated
     yaml.saveConfig(config)
     print("Your Skelebot project is ready to go!")

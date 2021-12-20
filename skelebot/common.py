@@ -42,6 +42,62 @@ LANGUAGE_DEPENDENCIES = {
 }
 PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 
+TEMPLATES = {
+    "Python": {
+        "dash": {
+            "dirs": ["src/assets"],
+            "files": {
+                "src/app.py": "templates/dash/app_py",
+                "src/server.py": "templates/dash/server_py",
+                "src/config.py": "templates/dash/config_py",
+                "src/assets/style.css": "templates/dash/style_css"
+            },
+            "config": {
+                "ephemeral": False,
+                "language": "Python",
+                "dependencies": ["dash~=2.0"],
+                "ports": ["5000:5000"],
+                "primaryExe": "CMD",
+                "primaryJob": "run",
+                "jobs": [{
+                    "name": "run",
+                    "source": "src/app.py",
+                    "help": "Start the Dashboard"
+                }]
+            }
+        },
+        "package": {
+            "dirs": ["notebooks" "test" "jobs"],
+            "files": { },
+            "config": {
+                "ephemeral": False,
+                "language": "Python",
+                "dependencies": ["pandas"]
+            }
+        },
+        "container": {
+            "dirs": ["config", "data", "notebooks", "queries", "src/jobs"],
+            "files": { },
+            "config": {
+                "ephemeral": False,
+                "language": "Python",
+                "dependencies": ["pandas"]
+            }
+        }
+    },
+    "R": {
+        "container": {
+            "dirs": ["config", "data", "queries", "src/jobs"],
+            "files": { },
+            "config": {
+                "ephemeral": False,
+                "language": "R"
+            }
+        }
+    }
+}
+
+
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 
 ERROR_HEADER = Fore.RED + "ERROR" + Style.RESET_ALL + " | "
