@@ -1,3 +1,4 @@
+import os
 import unittest
 from unittest import mock
 
@@ -291,13 +292,15 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        mock_open.assert_any_call("/Users/seanshookman/GitHub/skelebot/skelebot/systems/scaffolding/templates/dash/app_py", "r")
+        dirname = os.path.dirname(__file__)
+        dirname = dirname[:len(dirname) - 5]
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/app_py"), "r")
         mock_open.assert_any_call("src/app.py", "w")
-        mock_open.assert_any_call("/Users/seanshookman/GitHub/skelebot/skelebot/systems/scaffolding/templates/dash/server_py", "r")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/server_py"), "r")
         mock_open.assert_any_call("src/server.py", "w")
-        mock_open.assert_any_call("/Users/seanshookman/GitHub/skelebot/skelebot/systems/scaffolding/templates/dash/config_py", "r")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/config_py"), "r")
         mock_open.assert_any_call("src/config.py", "w")
-        mock_open.assert_any_call("/Users/seanshookman/GitHub/skelebot/skelebot/systems/scaffolding/templates/dash/style_css", "r")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/style_css"), "r")
         mock_open.assert_any_call("src/assets/style.css", "w")
 
         mock_dockerfile.buildDockerfile.assert_called_once()
