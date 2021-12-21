@@ -51,7 +51,9 @@ def scaffold(existing=True):
         dirname = os.path.dirname(__file__)
         for destination, template_file in template["files"].items():
             with open(os.path.join(dirname, template_file), "r") as tmp_file:
+                print(os.path.join(dirname, template_file))
                 with open(destination, "w") as dst_file:
+                    print(destination)
                     dst_file.write(tmp_file.read())
 
     print("Soldering the micro-computer to the skele-skull...")

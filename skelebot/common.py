@@ -98,7 +98,7 @@ TEMPLATES = {
     },
     "R+Python": {
         "Container": {
-            "dirs": ["config/", "data/", "queries/", "src/jobs/"],
+            "dirs": ["config/", "data/", "notebooks/", "queries/", "src/jobs/"],
             "files": { },
             "config": {
                 "ephemeral": False,
