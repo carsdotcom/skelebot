@@ -11,6 +11,7 @@ components:
     url: https://repository.cars.com/artifactory
   jupyter:
     folder: notebooks/
+    lab: false
     mappings:
     - ~/test:/app/test
     port: 1127
@@ -22,6 +23,7 @@ dependencies:
 - coverage
 - pytest
 description: test cases
+gpu: false
 ignores:
 - '**/*.zip'
 - '**/*.RData'

@@ -1,9 +1,21 @@
 # Skelebot - Changelog
 Documenting All Changes to the Skelebot Project
 
+---
+
+## v1.26.0
+#### Changed
+- **Base Images** | Added jupyter-lab to all the base images (even the R base image!)
+- **Jupyter Component** | Added the option to the Jupyter component to spin up lab instead of notebook
+
+---
+
 ## v1.25.0
+#### Merged: 2021-12-08
+#### Released: 2021-12-08
 #### Changed
 - **Dependencies** | Added the ability to run docker with gpu
+
 ---
 
 ## v1.24.0
