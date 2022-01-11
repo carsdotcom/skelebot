@@ -15,9 +15,10 @@ class TestScaffolder(unittest.TestCase):
                                     mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_exists.return_value = False
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Container", False]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Default", False]
         try:
-            sb.systems.scaffolding.scaffolder.scaffold(False)
+            scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+            scaffolder.scaffold()
             self.fail("Exception Expected")
         except Exception as exc:
             self.assertEqual(str(exc), "Aborting Scaffolding Process")
@@ -27,7 +28,7 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
             mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
             mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Default"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
     @mock.patch('os.path.expanduser')
@@ -44,14 +45,15 @@ class TestScaffolder(unittest.TestCase):
         mock_exists.return_value = False
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Dash", True]
 
-        sb.systems.scaffolding.scaffolder.scaffold(True)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=True)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Default"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_yaml.saveConfig.assert_called_once()
@@ -71,7 +73,7 @@ class TestScaffolder(unittest.TestCase):
                               mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
                               mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R", "Container", True]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R", "Default", True]
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -83,7 +85,8 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
@@ -119,7 +122,7 @@ class TestScaffolder(unittest.TestCase):
                               mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
                               mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R+Python", "Container", True]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R+Python", "Default", True]
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -131,7 +134,8 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
@@ -168,7 +172,7 @@ class TestScaffolder(unittest.TestCase):
                               mock_dockerfile, mock_cFactory, mock_config, mock_makedirs,
                               mock_getcwd, mock_exists, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Container", True]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Default", True]
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -180,14 +184,15 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Default"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_config.load.assert_called_once()
@@ -230,21 +235,20 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Default"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_config.load.assert_called_once()
 
-        mock_makedirs.assert_any_call("notebooks/", exist_ok=True)
         mock_makedirs.assert_any_call("test/", exist_ok=True)
-        mock_makedirs.assert_any_call("jobs/", exist_ok=True)
 
         mock_dockerfile.buildDockerfile.assert_called_once()
         mock_dignore.buildDockerignore.assert_called_once()
@@ -279,14 +283,16 @@ class TestScaffolder(unittest.TestCase):
             mock_single_comp, mock_list_comp
         ]
 
-        sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        #sb.systems.scaffolding.scaffolder.scaffold(existing=False)
+        scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+        scaffolder.scaffold()
 
         mock_prompt.assert_any_call("Enter a PROJECT NAME")
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Container"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Dash", "Package", "Default"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_config.load.assert_called_once()

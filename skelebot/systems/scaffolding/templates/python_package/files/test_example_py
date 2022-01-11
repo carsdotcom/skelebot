@@ -1,0 +1,10 @@
+from unittest import TestCase, main
+
+class TestExample(TestCase):
+
+    def test_example_one(self):
+        test_value = False
+        self.assertTrue(test_value)
+
+if __name__ == '__main__':
+    main()

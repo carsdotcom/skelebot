@@ -1,0 +1,24 @@
+dirs:
+- "src/assets/"
+
+files:
+- name: "src/app.py"
+  template: files/app_py
+- name: "src/server.py"
+  template: files/server_py
+- name: "src/config.py"
+  template: files/config_py
+- name: "src/assets/style.css"
+  template: files/style_css
+
+config:
+    language: Python
+    dependencies:
+    - dash~=2.0
+    ports:
+    - 5000:5000
+    primaryJob: run
+    jobs:
+    - name: run
+      source: src/app.py
+      help: "Start the Dashboard"

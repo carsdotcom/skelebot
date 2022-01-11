@@ -1,4 +1,19 @@
-include skelebot/systems/scaffolding/templates/dash/app_py
-include skelebot/systems/scaffolding/templates/dash/config_py
-include skelebot/systems/scaffolding/templates/dash/server_py
-include skelebot/systems/scaffolding/templates/dash/style_css
+include skelebot/systems/scaffolding/templates/python/template.yaml
+
+include skelebot/systems/scaffolding/templates/python_dash/template.yaml
+include skelebot/systems/scaffolding/templates/python_dash/files/app_py
+include skelebot/systems/scaffolding/templates/python_dash/files/config_py
+include skelebot/systems/scaffolding/templates/python_dash/files/server_py
+include skelebot/systems/scaffolding/templates/python_dash/files/style_css
+
+include skelebot/systems/scaffolding/templates/python_package/template.yaml
+include skelebot/systems/scaffolding/templates/python_package/files/__init__py
+include skelebot/systems/scaffolding/templates/python_package/files/changelog_md
+include skelebot/systems/scaffolding/templates/python_package/files/main_py
+include skelebot/systems/scaffolding/templates/python_package/files/requirements_txt
+include skelebot/systems/scaffolding/templates/python_package/files/setup_py
+include skelebot/systems/scaffolding/templates/python_package/files/test_example_py
+
+include skelebot/systems/scaffolding/templates/r/template.yaml
+
+include skelebot/systems/scaffolding/templates/r_python/template.yaml

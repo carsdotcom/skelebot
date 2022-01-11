@@ -10,6 +10,9 @@ SCF_HELP = "Scaffold a new or existing project with Skelebot"
 SCF_EX = "--existing"
 SCF_EX_ALT = "-e"
 SCF_EX_HELP = "Scaffold an existing project without creating new folder"
+SCF_TP = "--template"
+SCF_TP_ALT = "-t"
+SCF_TP_HELP = "Specify a Scaffolding Template with the path to the folder"
 
 ENV_ARG = "--env"
 ENV_ALT = "-e"
@@ -110,6 +113,7 @@ class SkeleParser:
             # Add SCF parser
             scaffoldParser = subparsers.add_parser(SCF_ARG, help=SCF_HELP)
             scaffoldParser.add_argument(SCF_EX_ALT, SCF_EX, action='store_true', help=SCF_EX_HELP)
+            scaffoldParser.add_argument(SCF_TP_ALT, SCF_TP, help=SCF_TP_HELP)
         else:
             # Add STANDARD PARAMS
             self.parser.add_argument(ENV_ALT, ENV_ARG, help=ENV_HELP)

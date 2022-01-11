@@ -1,0 +1,3 @@
+def main():
+    """ Entrypoint for the {name} CLI (if needed) """
+    print("Hello {name}!")

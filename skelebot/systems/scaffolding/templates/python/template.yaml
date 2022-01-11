@@ -1,0 +1,14 @@
+name: default
+
+dirs:
+- "config/"
+- "data/"
+- "notebooks/"
+- "queries/"
+- "src/jobs/"
+- "test/"
+
+config:
+    language: Python
+    dependencies:
+    - req:requirements.txt

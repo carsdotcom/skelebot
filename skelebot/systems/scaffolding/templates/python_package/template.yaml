@@ -1,0 +1,28 @@
+name: package
+
+dirs:
+- "{name_simple}/"
+- "test/"
+
+files:
+- name: "setup.py"
+  template: files/setup_py
+- name: "requirements.txt"
+  template: files/requirements_txt
+- name: "CHANGELOG.md"
+  template: files/changelog_md
+- name: "{name_simple}/{name_simple}.py"
+  template: files/main_py
+- name: "{name_simple}/__init__.py"
+  template: files/__init__py
+- name: "test/test_example.py"
+  template: files/test_example_py
+
+config:
+    language: Python
+    dependencies:
+    - req:requirements.txt
+    jobs:
+    - name: test
+      source: setup.py pytest
+      help: "Execute Unit Tests"

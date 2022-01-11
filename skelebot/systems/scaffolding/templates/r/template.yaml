@@ -1,0 +1,18 @@
+name: default
+
+dirs:
+- "config/"
+- "data/"
+- "queries/"
+- "src/jobs/"
+- "test/"
+
+config:
+    language: R
+    dependencies:
+    - data.table
+    - here
+    - stringr
+    - readr
+    - testthat
+    - yaml
