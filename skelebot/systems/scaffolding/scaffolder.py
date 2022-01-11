@@ -20,7 +20,7 @@ class Scaffolder:
                 text = text.replace(key_str, value)
 
         return text
-
+    
     def __load_template(self, path):
         template = None
         with open(f"{path}/template.yaml", "r") as yaml_file:
@@ -29,12 +29,12 @@ class Scaffolder:
 
         return template
 
-    def __init__(self, existing=False):
+    def __init__(self, existing=True):
         self.existing = existing
         self.variables = {}
 
     def scaffold(self):
-        """Scaffold a new or existing project into a Skelebot project"""
+        """Scaffold a new Dashboard Project"""
 
         # Prompt for basic project information
         print("Scaffolding Skelebot Project")
@@ -53,11 +53,12 @@ class Scaffolder:
         self.variables["contact"] = contact
         self.variables["language"] = language
 
-        # Select and Load a template for scaffolding
+        # Load the Template Config
         template = promptUser("Select a TEMPLATE", options=list(TEMPLATES[language].keys()))
         template_path = TEMPLATE_PATH.format(name=TEMPLATES[language][template])
         template_path = os.path.join(os.path.dirname(__file__), template_path)
-        template = self.__load_template(template_path)
+        template = self.__load_template(template_path) 
+        print("TEST 1 TEST")
 
         # Iterate over components for additional prompts and add any components that are scaffolded
         components = []
@@ -67,13 +68,8 @@ class Scaffolder:
             if (component is not None):
                 if (isinstance(component, list)):
                     components += component
-                else:
-                    components.append(component)
-
-        # Build the config object based on the user inputs
-        config = Config(name=name, description=description, version="0.1.0", maintainer=maintainer,
-                        contact=contact, language=language, primaryJob=None, ephemeral=False,
-                        dependencies=LANGUAGE_DEPENDENCIES[language], components=components)
+                else: components.append(component)
+        print("TEST 2 TEST")
 
         # Confirm user input - allow them to back out before generating files
         print("--:-" * 5, "-:--" * 5)
@@ -81,6 +77,7 @@ class Scaffolder:
         print("(", os.getcwd(), ")")
         if (not promptUser("Confirm Skelebot Setup", boolean=True)):
             raise Exception("Aborting Scaffolding Process")
+        print("TEST 3 TEST")
 
         print("--:-" * 5, "-:--" * 5)
         if (not self.existing):
@@ -98,6 +95,7 @@ class Scaffolder:
                     with open(destination, "w") as dst_file:
                         dst_file.write(self.__format_variables(tmp_file.read()))
 
+        print("Soldering the micro-computer to the skele-skull...")
         # Build the config object based on the user inputs
         cfg = template["config"]
         cfg["name"] = name
@@ -110,11 +108,11 @@ class Scaffolder:
 
         if (not self.existing):
             # Creating the files for the project
-            print("Uploading default {template.key()} system drivers...")
+            print("Initializing default {template.key()} systems...")
             dockerfile.buildDockerfile(config)
             dockerignore.buildDockerignore(config)
             readme.buildREADME(config)
 
-        # For existing projects only the skelebot.yaml file is generated
+        # For existing projects, only the skelebot.yaml file is generated
         yaml.saveConfig(config)
         print("Your Skelebot project is ready to go!")

@@ -45,8 +45,8 @@ PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 TEMPLATE_PATH = "templates/{name}"
 TEMPLATES = {
     "Python": {
-        "Dash": "python_dash",
-        "Default": "python"
+        "Default": "python",
+        "Dash": "python_dash"
     },
     "R": {
         "Default": "r"

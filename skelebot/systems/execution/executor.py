@@ -23,7 +23,7 @@ def execute(config, sbParser, args=None):
         elif (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):
-            scaffolder = Scaffolder(args.existing)
+            scaffolder = Scaffolder(existing=args.existing)
             scaffolder.scaffold()
         else:
             job = getJob(config, args)
