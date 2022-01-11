@@ -1,0 +1,20 @@
+components: {}
+contact: sean
+dependencies:
+- dash~=2.0
+description: test
+gpu: false
+jobs:
+- help: Start the Dashboard
+  mode: i
+  name: run
+  native: optional
+  source: src/app.py
+language: Python
+maintainer: sean
+name: test
+ports:
+- 5000:5000
+primaryExe: CMD
+primaryJob: run
+pythonVersion: '3.6'

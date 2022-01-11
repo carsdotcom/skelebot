@@ -25,6 +25,9 @@ To add Skelebot support to an existing project you can run the scaffolding comma
 ### Prompts
 The scaffolding command will prompt for information required in order to generate the project yaml and structure. Once you have answered all the prompts and the scaffolding is complete you will have a Skelebot project that is ready to be used.
 
+### Templates
+The scaffolder will prompt you to select a template based on the language you selected. Currently the only option that is avaiable is a Dash template for quickly getting a dashbaord up and running in Python.
+
 ```
 >> CARS.COM | skelebot scaffold
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
@@ -32,7 +35,8 @@ Enter a PROJECT NAME (no spaces): my-ml-project
 Enter a PROJECT DESCRIPTION: A Machine Learning Project
 Enter a MAINTAINER NAME: Firstname Lastname
 Enter a CONTACT EMAIL: flastname@gmail.com
-Enter a LANGUAGE [Python, R]: Python
+Select a LANGUAGE [Python, R]: Python
+Select a TEMPLATE [Default, Dash]: Python
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
 Setting up the my-ml-project Skelebot project in the current directory
 ( /Users/seanshookman/Code/git.cars.com/cml/skelebot/temp )

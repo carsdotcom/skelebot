@@ -1,0 +1,26 @@
+name: default
+
+dirs:
+- "config/"
+- "data/"
+- "models/"
+- "notebooks/"
+- "output"
+- "queries"
+- "src/jobs/"
+
+config:
+    language: R+Python
+    dependencies:
+        Python:
+        - numpy
+        - pandas
+        - scipy
+        - scikit-learn
+        R:
+        - data.table
+        - here
+        - stringr
+        - readr
+        - testthat
+        - yaml

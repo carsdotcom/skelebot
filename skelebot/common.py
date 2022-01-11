@@ -42,6 +42,20 @@ LANGUAGE_DEPENDENCIES = {
 }
 PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 
+TEMPLATE_PATH = "templates/{name}"
+TEMPLATES = {
+    "Python": {
+        "Dash": "python_dash",
+        "Default": "python"
+    },
+    "R": {
+        "Default": "r"
+    },
+    "R+Python": {
+        "Default": "r_python"
+    }
+}
+
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 
 ERROR_HEADER = Fore.RED + "ERROR" + Style.RESET_ALL + " | "
