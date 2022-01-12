@@ -126,8 +126,7 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(__file__)
-        dirname = dirname[:len(dirname) - 5]
+        dirname = os.path.dirname(os.path.dirname(__file__))
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/app_py"), "r")
         mock_open.assert_any_call("src/app.py", "w")
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/server_py"), "r")
