@@ -55,7 +55,8 @@ class Scaffolder:
 
         # Load the Template Config
         template = promptUser("Select a TEMPLATE", options=list(TEMPLATES[language].keys()))
-        template_path = TEMPLATE_PATH.format(name=TEMPLATES[language][template])
+        template_name = TEMPLATES[language][template]
+        template_path = TEMPLATE_PATH.format(name=template_name)
         template_path = os.path.join(os.path.dirname(__file__), template_path)
         template = self.__load_template(template_path) 
 
@@ -105,7 +106,7 @@ class Scaffolder:
 
         if (not self.existing):
             # Creating the files for the project
-            print("Initializing default {template.key()} systems...")
+            print(f"Initializing default {template_name} systems...")
             dockerfile.buildDockerfile(config)
             dockerignore.buildDockerignore(config)
             readme.buildREADME(config)
