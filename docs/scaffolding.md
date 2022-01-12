@@ -26,7 +26,7 @@ To add Skelebot support to an existing project you can run the scaffolding comma
 The scaffolding command will prompt for information required in order to generate the project yaml and structure. Once you have answered all the prompts and the scaffolding is complete you will have a Skelebot project that is ready to be used.
 
 ### Templates
-The scaffolder will prompt you to select a template based on the language you selected. Currently the only option that is avaiable is a Dash template for quickly getting a dashbaord up and running in Python.
+The scaffolder will prompt you to select a template based on the language you selected. Currently the only option that is available is a Dash template for quickly getting a dashboard up and running in Python.
 
 ```
 >> CARS.COM | skelebot scaffold
