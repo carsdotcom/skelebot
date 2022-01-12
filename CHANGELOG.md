@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.27.2
+#### Changed
+- **Scaffolding** | Fixed minor bug in scaffolding output text
+
+---
+
 ## v1.27.1
 #### Merged: 2022-01-12
 #### Released: 2022-01-12
