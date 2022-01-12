@@ -4,6 +4,36 @@ from unittest import mock
 
 import skelebot as sb
 
+DASH_TEMPLATE = {
+    "dirs": ["src/assets/"],
+    "files": [
+        {
+            "name": "src/app.py",
+            "template": "files/app_py"
+        },{
+            "name": "src/server.py",
+            "template": "files/server_py"
+        },{
+            "name": "src/config.py",
+            "template": "files/config_py"
+        },{
+            "name": "src/assets/style.css",
+            "template": "files/style_css"
+        }
+    ],
+    "config": {
+        "language": "Python",
+        "dependencies": ["dash~=2.0"],
+        "ports": ["5000:5000"],
+        "primaryJob": "run",
+        "jobs": {
+            "name": "run",
+            "source": "src/app.py",
+            "help": "Start the Dashboard"
+        }
+    }
+}
+
 class TestScaffolder(unittest.TestCase):
 
     @mock.patch('os.path.expanduser')
@@ -60,14 +90,17 @@ class TestScaffolder(unittest.TestCase):
     @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerfile')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.dockerignore')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.pyyaml')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.readme')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.yaml')
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    def test_execute_scaffold_dash(self, mock_prompt, mock_yaml, mock_readme, mock_dignore,
-                              mock_dockerfile, mock_cFactory, mock_config, mock_open,
+    def test_execute_scaffold_dash(self, mock_prompt, mock_yaml, mock_readme, mock_pyyaml,
+                              mock_dignore, mock_dockerfile, mock_cFactory, mock_config, mock_open,
                               mock_makedirs, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Dash", True]
+
+        mock_pyyaml.load.return_value = DASH_TEMPLATE
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -82,32 +115,32 @@ class TestScaffolder(unittest.TestCase):
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
         scaffolder.scaffold()
 
-        #mock_prompt.assert_any_call("Enter a PROJECT NAME")
-        #mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
-        #mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
-        #mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        #mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        #mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash"])
-        #mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+        mock_prompt.assert_any_call("Enter a PROJECT NAME")
+        mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+        mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+        mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash"])
+        mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-        #mock_config.load.assert_called_once()
+        mock_config.load.assert_called_once()
 
-        #mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        #dirname = os.path.dirname(__file__)
-        #dirname = dirname[:len(dirname) - 5]
-        #mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/app_py"), "r")
-        #mock_open.assert_any_call("src/app.py", "w")
-        #mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/server_py"), "r")
-        #mock_open.assert_any_call("src/server.py", "w")
-        #mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/config_py"), "r")
-        #mock_open.assert_any_call("src/config.py", "w")
-        #mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/dash/style_css"), "r")
-        #mock_open.assert_any_call("src/assets/style.css", "w")
+        mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
+        dirname = os.path.dirname(__file__)
+        dirname = dirname[:len(dirname) - 5]
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/app_py"), "r")
+        mock_open.assert_any_call("src/app.py", "w")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/server_py"), "r")
+        mock_open.assert_any_call("src/server.py", "w")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/config_py"), "r")
+        mock_open.assert_any_call("src/config.py", "w")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/style_css"), "r")
+        mock_open.assert_any_call("src/assets/style.css", "w")
 
-        #mock_dockerfile.buildDockerfile.assert_called_once()
-        #mock_dignore.buildDockerignore.assert_called_once()
-        #mock_readme.buildREADME.assert_called_once()
-        #mock_yaml.saveConfig.assert_called_once()
+        mock_dockerfile.buildDockerfile.assert_called_once()
+        mock_dignore.buildDockerignore.assert_called_once()
+        mock_readme.buildREADME.assert_called_once()
+        mock_yaml.saveConfig.assert_called_once()
 
     @mock.patch('skelebot.systems.scaffolding.prompt.input')
     def test_scaffold_prompt(self, mock_input):

@@ -58,7 +58,6 @@ class Scaffolder:
         template_path = TEMPLATE_PATH.format(name=TEMPLATES[language][template])
         template_path = os.path.join(os.path.dirname(__file__), template_path)
         template = self.__load_template(template_path) 
-        print("TEST 1 TEST")
 
         # Iterate over components for additional prompts and add any components that are scaffolded
         components = []
@@ -69,7 +68,6 @@ class Scaffolder:
                 if (isinstance(component, list)):
                     components += component
                 else: components.append(component)
-        print("TEST 2 TEST")
 
         # Confirm user input - allow them to back out before generating files
         print("--:-" * 5, "-:--" * 5)
@@ -77,7 +75,6 @@ class Scaffolder:
         print("(", os.getcwd(), ")")
         if (not promptUser("Confirm Skelebot Setup", boolean=True)):
             raise Exception("Aborting Scaffolding Process")
-        print("TEST 3 TEST")
 
         print("--:-" * 5, "-:--" * 5)
         if (not self.existing):
