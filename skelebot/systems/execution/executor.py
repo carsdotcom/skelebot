@@ -3,7 +3,7 @@
 import sys
 from subprocess import call
 from ...common import VERSION
-from ..scaffolding.scaffolder import scaffold
+from ..scaffolding.scaffolder import Scaffolder
 from .commandBuilder import build as buildCommand
 from .docker import build as buildDocker
 from .docker import run as runDocker
@@ -23,7 +23,8 @@ def execute(config, sbParser, args=None):
         elif (args.job is None):
             sbParser.showHelp()
         elif (args.job == "scaffold"):
-            scaffold(args.existing)
+            scaffolder = Scaffolder(existing=args.existing)
+            scaffolder.scaffold()
         else:
             job = getJob(config, args)
 

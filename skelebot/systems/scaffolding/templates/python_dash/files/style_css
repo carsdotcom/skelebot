@@ -1,0 +1,49 @@
+/* GLOBAL */
+body {
+    font-family: sans-serif;
+    background-color: #111;
+    color: #fff;
+}
+
+/* INPUT LABELS */
+label {
+    margin-right: 10px;
+}
+
+/* TAB CONTAINER */
+.jsx-4017309047.tab-container {
+    width: 50%;
+    padding: 2px 2px 0px 2px;
+    border-radius: 15px;
+    border: 2px solid #666;
+    border-bottom: none;
+}
+
+/* ALL TABS */
+.jsx-3468109796.tab {
+    background-color: #666;
+    color: #000;
+    border-radius: 15px;
+    border: 2px solid #111 !important;
+}
+
+/* HOVERED TAB */
+.jsx-3468109796.tab:hover {
+    background-color: #f0f;
+}
+
+/* SELECTED TAB */
+.jsx-3468109796.tab.tab--selected {
+    background-color: #719;
+    color: #FFF;
+}
+
+/* SELECTED HOVERED TAB */
+.jsx-3468109796.tab.tab--selected:hover {
+    background-color: #f0f;
+}
+
+/* DROPDOWN INPUT */
+div#dropdown-input {
+    color: #000;
+}

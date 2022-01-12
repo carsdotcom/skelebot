@@ -41,16 +41,19 @@ class TestExecutor(unittest.TestCase):
 
         mock_skeleParser.showHelp.assert_called_once()
 
-    @mock.patch('skelebot.systems.execution.executor.scaffold')
+    @mock.patch('skelebot.systems.execution.executor.Scaffolder')
     @mock.patch('skelebot.systems.parsing.skeleParser')
-    def test_execute_scaffold(self, mock_skeleParser, mock_scaffold):
+    def test_execute_scaffold(self, mock_skeleParser, mock_scaffolder):
         config = sb.objects.config.Config()
-        args = argparse.Namespace(job="scaffold", existing=False)
+        args = argparse.Namespace(job="scaffold", existing=False, template=None)
         mock_skeleParser.parseArgs.return_value = args
+        mock_scaffold = mock.MagicMock()
+        mock_scaffolder.return_value = mock_scaffold
 
         sb.systems.execution.executor.execute(config, mock_skeleParser)
 
-        mock_scaffold.assert_called_once_with(False)
+        mock_scaffolder.assert_called_once_with(existing=False)
+        mock_scaffold.scaffold.assert_called_once()
 
     @mock.patch('skelebot.systems.execution.executor.runDocker')
     @mock.patch('skelebot.systems.parsing.skeleParser')

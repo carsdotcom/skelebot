@@ -1,0 +1,11 @@
+include skelebot/systems/scaffolding/templates/python/template.yaml
+
+include skelebot/systems/scaffolding/templates/python_dash/template.yaml
+include skelebot/systems/scaffolding/templates/python_dash/files/app_py
+include skelebot/systems/scaffolding/templates/python_dash/files/config_py
+include skelebot/systems/scaffolding/templates/python_dash/files/server_py
+include skelebot/systems/scaffolding/templates/python_dash/files/style_css
+
+include skelebot/systems/scaffolding/templates/r/template.yaml
+
+include skelebot/systems/scaffolding/templates/r_python/template.yaml

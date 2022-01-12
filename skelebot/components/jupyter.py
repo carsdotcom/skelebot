@@ -30,11 +30,11 @@ class Jupyter(Component):
     mappings = None
     lab = None
 
-    def __init__(self, port=8888, folder=".", mappings='.', lab=False):
+    def __init__(self, port=8888, folder=".", mappings=None, lab=False):
         """Initialize the class with simple default values for port and folder"""
         self.port = port
         self.folder = folder
-        self.mappings = mappings
+        self.mappings = ["."] if mappings is None else mappings
         self.lab = lab
 
     def addParsers(self, subparsers):
