@@ -36,7 +36,7 @@ Enter a PROJECT DESCRIPTION: A Machine Learning Project
 Enter a MAINTAINER NAME: Firstname Lastname
 Enter a CONTACT EMAIL: flastname@gmail.com
 Select a LANGUAGE [Python, R]: Python
-Select a TEMPLATE [Default, Dash]: Python
+Select a TEMPLATE [Default, Dash]: Dash
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
 Setting up the my-ml-project Skelebot project in the current directory
 ( /Users/seanshookman/Code/git.cars.com/cml/skelebot/temp )
