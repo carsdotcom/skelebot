@@ -17,7 +17,8 @@ def loadConfig(env=None):
 
     config = Config.load(readYaml(env))
     config.env = env
-    config.version = loadVersion()
+    if (config.version is None):
+        config.version = loadVersion()
     return config
 
 def saveConfig(config):

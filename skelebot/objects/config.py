@@ -188,7 +188,7 @@ class Config(SkeleYaml):
             cls.validate(config)
             values = {}
             for attr, value in config.items():
-                if (attr in vars(Config)) and (attr != "components") and (attr != "version"):
+                if (attr in vars(Config) and (attr != "components")):
                     if (attr == "jobs"):
                         values[attr] = Job.loadList(value)
                     elif (attr == "params"):
