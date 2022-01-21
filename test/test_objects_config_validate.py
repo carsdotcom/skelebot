@@ -35,6 +35,7 @@ class TestConfigValidate(unittest.TestCase):
 
         try:
             sb.objects.config.Config.validate(config)
+            self.fail("Validation Did Not Raise Error")
         except SchemaError as error:
             self.assertEqual(error.code, "'{attr}' must be {expected}".format(attr=attr, expected=expected))
 
@@ -57,6 +58,7 @@ class TestConfigValidate(unittest.TestCase):
 
     def test_invalid(self):
         self.validate_error('name', 123, 'a String')
+        self.validate_error('version', 1.2, 'a String')
         self.validate_error('env', 123, 'a String')
         self.validate_error('description', 123, 'a String')
         self.validate_error('maintainer', 123, 'a String')

@@ -20,6 +20,7 @@ class Config(SkeleYaml):
         'name': And(str, error='\'name\' must be a String'),
         Optional('env'): And(str, error='\'env\' must be a String'),
         Optional('description'): And(str, error='\'description\' must be a String'),
+        Optional('version'): And(str, error='\'version\' must be a String'),
         Optional('maintainer'): And(str, error='\'maintainer\' must be a String'),
         Optional('contact'): And(str, error='\'contact\' must be a String'),
         Optional('host'): And(str, error='\'host\' must be a String'),
