@@ -14,10 +14,10 @@ class TestYaml(unittest.TestCase):
     def setUp(self):
         self.path = os.getcwd()
 
-    def validateYaml(self, config, isTestEnv=False):
+    def validateYaml(self, config, version, isTestEnv=False):
         self.assertEqual(config.name, "test")
         self.assertEqual(config.description, "test cases")
-        self.assertEqual(config.version, "6.6.6")
+        self.assertEqual(config.version, version)
         self.assertEqual(config.maintainer, "Mega Man")
         self.assertEqual(config.contact, "megaman@cars.com")
         self.assertEqual(config.language, "Python")
@@ -65,7 +65,7 @@ class TestYaml(unittest.TestCase):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig()
-        self.validateYaml(config)
+        self.validateYaml(config, "6.6.6")
 
     # Test to ensure that the config loads from skelebot.yaml properly even if a bad plugin is found and quarantined
     @mock.patch('skelebot.components.componentFactory.print')
@@ -92,7 +92,7 @@ class TestYaml(unittest.TestCase):
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
         config = sb.systems.generators.yaml.loadConfig("test")
-        self.validateYaml(config, True)
+        self.validateYaml(config, "0.0.1", True)
 
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
     @mock.patch('os.path.expanduser')
@@ -147,7 +147,7 @@ class TestYaml(unittest.TestCase):
 
         sb.systems.generators.yaml.saveConfig(config)
         config = sb.systems.generators.yaml.loadConfig()
-        self.validateYaml(config)
+        self.validateYaml(config, "6.6.6")
 
 
 if __name__ == '__main__':

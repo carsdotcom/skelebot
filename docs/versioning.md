@@ -14,6 +14,12 @@ By default the project will start with version 0.1.0 (initial pre-release versio
 > skelebot bump [major, minor, patch]
 ```
 
+The value from the `VERSION` file can be overridden by specifiying the value in the config yaml file directly. This allows different env configs to specify their own version if needed.
+
+```
+version: 1.0.0
+```
+
 More information on semantic versioning (when to bump major, minor, and patch) can be found on [semver.org](https://semver.org/).
 
 ---

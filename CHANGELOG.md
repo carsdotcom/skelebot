@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.27.3
+#### Changed
+- **Version** | Added the ability to set the version in the config yaml and have it override the VERSION file value
+
+---
+
 ## v1.27.2
 #### Changed
 - **Scaffolding** | Fixed minor bug in scaffolding output text
