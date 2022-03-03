@@ -33,7 +33,7 @@ class TestRepository(TestCase):
         artifact3 = sb.components.repository.repository.Artifact("test3", "test3.pkl", singular=True)
         artifactoryRepo = sb.components.repository.artifactoryRepo.ArtifactoryRepo("artifactory.test.com", "ml", "test")
         s3Repo = sb.components.repository.s3Repo.S3Repo("my-bucket", "us-east-1", "test")
-        s3Repo_path = sb.components.repository.s3Repo.S3Repo("my-bucket/sub/folder", "us-east-1", "test")
+        s3Repo_path = sb.components.repository.s3Repo.S3Repo("my-bucket/sub/folder", "us-east-1")
 
         self.artifactory = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=None, artifactory=artifactoryRepo)
         self.s3 = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=s3Repo, artifactory=None)
