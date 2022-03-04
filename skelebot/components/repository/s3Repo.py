@@ -20,7 +20,7 @@ class S3Repo(ArtifactRepo):
     region = None
     profile = None
 
-    def __init__(self, bucket, region, profile):
+    def __init__(self, bucket, region, profile=None):
         """ Initialize the needed values for any S3 connection """
         self.bucket = bucket
         self.region = region
