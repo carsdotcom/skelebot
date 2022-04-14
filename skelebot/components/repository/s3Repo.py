@@ -92,6 +92,7 @@ class S3Repo(ArtifactRepo):
         obj = None
         if (in_memory == True):
             obj = client.get_object(Bucket=bucket, Key=path)
+            obj = obj['Body'].read()
         else:
             client.download_file(bucket, path, dest)
 
