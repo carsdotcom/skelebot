@@ -3,7 +3,22 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.28.0
+#### Changed
+- **In Memory Pull** | Allows S3Repo class to pull artifacts and return them directly in python
+
+---
+
+## v1.27.3
+#### Merged: 2022-03-04
+#### Released: 2022-03-04
+#### Changed
+- **S3 Repository** | Fixed bug preventing the profile attribute from being empty
+
+---
+
 ## v1.27.2
+#### Merged: 2022-01-12
 #### Changed
 - **Scaffolding** | Fixed minor bug in scaffolding output text
 
