@@ -51,7 +51,7 @@ class S3Repo(ArtifactRepo):
         # Upload the artifact with the versioned name
         client.upload_file(artifact.file, bucket, path)
 
-    def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None):
+    def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None, in_memory=False):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
 
         # Identify the latest compatible version
@@ -89,4 +89,11 @@ class S3Repo(ArtifactRepo):
         bucket_parts.append(artifactName)
         path = "/".join(bucket_parts[1:])
 
-        client.download_file(bucket, path, dest)
+        obj = None
+        if (in_memory == True):
+            obj = client.get_object(Bucket=bucket, Key=path)
+            obj = obj['Body'].read()
+        else:
+            client.download_file(bucket, path, dest)
+
+        return obj

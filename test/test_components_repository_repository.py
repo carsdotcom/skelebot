@@ -6,6 +6,7 @@ import skelebot as sb
 
 class TestRepository(TestCase):
 
+    s3Repo = None
     artifcatory = None
     s3 = None
     s3_subfolder = None
@@ -35,6 +36,7 @@ class TestRepository(TestCase):
         s3Repo = sb.components.repository.s3Repo.S3Repo("my-bucket", "us-east-1", "test")
         s3Repo_path = sb.components.repository.s3Repo.S3Repo("my-bucket/sub/folder", "us-east-1")
 
+        self.s3Repo = s3Repo
         self.artifactory = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=None, artifactory=artifactoryRepo)
         self.s3 = sb.components.repository.repository.Repository([artifact, artifact2, artifact3], s3=s3Repo, artifactory=None)
         self.s3_subfolder = sb.components.repository.repository.Repository([artifact, artifact3], s3=s3Repo_path, artifactory=None)
@@ -321,6 +323,22 @@ class TestRepository(TestCase):
 
         mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
         mock_client.download_file.assert_called_with("my-bucket", "test_v1.0.5.pkl", "test_v1.0.5.pkl")
+
+    @mock.patch('boto3.Session')
+    def test_execute_pull_s3_in_mem(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_streambody = mock.Mock()
+        mock_client.list_objects_v2.return_value = {"Contents": [{"Key": "test_v1.1.0.pkl"},{"Key": "test_v1.0.5.pkl"},{"Key": "test_v1.0.0.pkl"}]}
+        mock_session.client.return_value = mock_client
+        mock_client.get_object.return_value = {"Body": mock_streambody}
+        mock_boto3_session.return_value = mock_session
+
+        self.s3Repo.pull(sb.components.repository.repository.Artifact("test", "test.pkl"), "LATEST", currentVersion="1.0.5", in_memory=True)
+
+        mock_client.list_objects_v2.assert_called_with(Bucket="my-bucket", Prefix="test_v1")
+        mock_client.get_object.assert_called_with(Bucket="my-bucket", Key="test_v1.0.5.pkl")
+        mock_streambody.read.assert_called_once()
 
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
