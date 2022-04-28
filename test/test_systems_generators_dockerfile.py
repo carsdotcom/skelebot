@@ -226,7 +226,7 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         mock_call.return_value = 1
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "Python"
-        config.dependencies.append("ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl")
+        config.dependencies.append("ca_file:cars:12345:python-pkg:ml-lib:0.1.0:prod")
 
         try:
             sb.systems.generators.dockerfile.buildDockerfile(config)
@@ -249,7 +249,7 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         config.dependencies.append("github:github.com/repo")
         config.dependencies.append("github:https://github.com/securerepo")
         config.dependencies.append("file:libs/proj")
-        config.dependencies.append("ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl")
+        config.dependencies.append("ca_file:cars:12345:python-pkg:ml-lib:0.1.0:prod")
         config.dependencies.append("req:requirements.txt")
         config.dependencies.append("dtable=9.0")
 
@@ -498,7 +498,7 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
                 "numpy", "pandas",
                 "github:github.com/repo", "github:https://github.com/securerepo",
                 "file:libs/proj",
-                "ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl",
+                "ca_file:cars:12345:python-pkg:ml-lib:0.1.0:prod",
                 "dtable>=9.0", "dtable=9.0"
             ],
             "R":[
@@ -532,7 +532,7 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
                 "numpy", "pandas",
                 "github:github.com/repo", "github:https://github.com/securerepo",
                 "file:libs/proj",
-                "ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl",
+                "ca_file:cars:12345:python-pkg:ml-lib:0.1.0:prod",
                 "dtable>=9.0", "dtable=9.0"
             ],
             "R":[

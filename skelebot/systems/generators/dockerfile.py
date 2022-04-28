@@ -7,7 +7,7 @@ from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
 
-PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version} --profile {profile} --format pypi --asset {asset} libs/{asset}"
+PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version}{profile} --format pypi --asset {asset} libs/{asset}"
 PY_INSTALL = "RUN [\"pip\", \"install\", \"{dep}\"]\n"
 PY_INSTALL_VERSION = "RUN [\"pip\", \"install\", \"{depName}=={version}\"]\n"
 PY_INSTALL_GITHUB = "RUN [\"pip\", \"install\", \"git+{depPath}\"]\n"
@@ -56,13 +56,13 @@ def buildDockerfile(config):
             elif (dep.startswith("req:")):
                 docker += PY_INSTALL_REQ.format(depPath=depSplit[1])
             elif (dep.startswith("ca_file:")):
-                profile = depSplit[1]
-                domain = depSplit[2]
-                owner = depSplit[3]
-                repo = depSplit[4]
-                pkg = depSplit[5]
-                version = depSplit[6]
-                asset = depSplit[7]
+                domain = depSplit[1]
+                owner = depSplit[2]
+                repo = depSplit[3]
+                pkg = depSplit[4]
+                version = depSplit[5]
+                asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
+                profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
                 cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
                 status = call(cmd, shell=True)
                 if (status != 0):
@@ -96,13 +96,13 @@ def buildDockerfile(config):
             elif (dep.startswith("file:")):
                 docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])
             elif (dep.startswith("ca_file:")):
-                profile = depSplit[1]
-                domain = depSplit[2]
-                owner = depSplit[3]
-                repo = depSplit[4]
-                pkg = depSplit[5]
-                version = depSplit[6]
-                asset = depSplit[7]
+                domain = depSplit[1]
+                owner = depSplit[2]
+                repo = depSplit[3]
+                pkg = depSplit[4]
+                version = depSplit[5]
+                asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
+                profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
                 cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
                 status = call(cmd, shell=True)
                 if (status != 0):
