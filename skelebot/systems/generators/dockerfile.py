@@ -2,10 +2,12 @@
 
 import os
 import re
+from subprocess import call
 from ..execution import commandBuilder
 
 FILE_PATH = "{path}/Dockerfile"
 
+PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version} --profile {profile} --format pypi --asset {asset} libs/{asset}"
 PY_INSTALL = "RUN [\"pip\", \"install\", \"{dep}\"]\n"
 PY_INSTALL_VERSION = "RUN [\"pip\", \"install\", \"{depName}=={version}\"]\n"
 PY_INSTALL_GITHUB = "RUN [\"pip\", \"install\", \"git+{depPath}\"]\n"
@@ -46,13 +48,27 @@ def buildDockerfile(config):
     # Add language dependencies
     if (config.language == "Python"):
         for dep in config.dependencies:
-            depSplit = dep.split(":", maxsplit=1)
-            if ("github:" in dep):
+            depSplit = dep.split(":")
+            if (dep.startswith("github:")):
                 docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])
-            elif ("file:" in dep):
+            elif (dep.startswith("file:")):
                 docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
-            elif ("req:" in dep):
+            elif (dep.startswith("req:")):
                 docker += PY_INSTALL_REQ.format(depPath=depSplit[1])
+            elif (dep.startswith("ca_file:")):
+                profile = depSplit[1]
+                domain = depSplit[2]
+                owner = depSplit[3]
+                repo = depSplit[4]
+                pkg = depSplit[5]
+                version = depSplit[6]
+                asset = depSplit[7]
+                cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
+                status = call(cmd, shell=True)
+                if (status != 0):
+                    raise Exception("Failed to Obtain CodeArtifact Package")
+
+                docker += PY_INSTALL_FILE.format(depPath=f"libs/{asset}")
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
                 verSplit = dep.split("=")
@@ -62,9 +78,9 @@ def buildDockerfile(config):
     if (config.language == "R"):
         for dep in config.dependencies:
             depSplit = dep.split(":")
-            if ("github:" in dep):
+            if (dep.startswith("github:")):
                 docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])
-            elif ("file:" in dep):
+            elif (dep.startswith("file:")):
                 docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])
             elif ("=" in dep):
                 verSplit = dep.split("=")
@@ -74,10 +90,10 @@ def buildDockerfile(config):
 
     if (config.language == "R+Python"):
         for dep in config.dependencies["Python"]:
-            depSplit = dep.split(":", maxsplit=1)
-            if ("github:" in dep):
+            depSplit = dep.split(":")
+            if (dep.startswith("github:")):
                 docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])
-            elif ("file:" in dep):
+            elif (dep.startswith("file:")):
                 docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
@@ -87,9 +103,9 @@ def buildDockerfile(config):
                 docker += PY_R_INSTALL.format(dep=dep)
         for dep in config.dependencies["R"]:
             depSplit = dep.split(":")
-            if ("github:" in dep):
+            if (dep.startswith("github:")):
                 docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])
-            elif ("file:" in dep):
+            elif (dep.startswith("file:")):
                 docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])
             elif ("=" in dep):
                 verSplit = dep.split("=")
