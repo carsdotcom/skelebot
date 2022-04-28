@@ -50,7 +50,7 @@ def buildDockerfile(config):
         for dep in config.dependencies:
             depSplit = dep.split(":")
             if (dep.startswith("github:")):
-                docker += PY_INSTALL_GITHUB.format(depPath=depSplit[1])
+                docker += PY_INSTALL_GITHUB.format(depPath=dep.split(":", maxsplit=1)[1])
             elif (dep.startswith("file:")):
                 docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
             elif (dep.startswith("req:")):
@@ -92,9 +92,23 @@ def buildDockerfile(config):
         for dep in config.dependencies["Python"]:
             depSplit = dep.split(":")
             if (dep.startswith("github:")):
-                docker += PY_R_INSTALL_GITHUB.format(depPath=depSplit[1])
+                docker += PY_R_INSTALL_GITHUB.format(depPath=dep.split(":", maxsplit=1)[1])
             elif (dep.startswith("file:")):
                 docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])
+            elif (dep.startswith("ca_file:")):
+                profile = depSplit[1]
+                domain = depSplit[2]
+                owner = depSplit[3]
+                repo = depSplit[4]
+                pkg = depSplit[5]
+                version = depSplit[6]
+                asset = depSplit[7]
+                cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
+                status = call(cmd, shell=True)
+                if (status != 0):
+                    raise Exception("Failed to Obtain CodeArtifact Package")
+
+                docker += PY_R_INSTALL_FILE.format(depPath=f"libs/{asset}")
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
                 verSplit = dep.split("=")

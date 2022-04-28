@@ -1,3 +1,9 @@
+#try:
+    #self.artifactory.execute(config, args)
+    #self.fail("Exception Not Thrown")
+#except RuntimeError as err:
+    #self.assertEqual(str(err), "No Compatible Version Found")
+
 import os
 import unittest
 from unittest import mock
@@ -208,19 +214,42 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
 
+    @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_base_py(self, mock_getcwd, mock_expanduser):
+    def test_buildDockerfile_py_ca_file_error(self, mock_getcwd, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_call.return_value = 1
+        config = sb.systems.generators.yaml.loadConfig()
+        config.language = "Python"
+        config.dependencies.append("ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl")
+
+        try:
+            sb.systems.generators.dockerfile.buildDockerfile(config)
+            self.fail("Exception Not Thrown")
+        except Exception as exc:
+            self.assertEqual(str(exc), "Failed to Obtain CodeArtifact Package")
+
+    @mock.patch('skelebot.systems.generators.dockerfile.call')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_buildDockerfile_base_py(self, mock_getcwd, mock_expanduser, mock_call):
+        folderPath = "{path}/test/files".format(path=self.path)
+        filePath = "{folder}/Dockerfile".format(folder=folderPath)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "Python"
         config.dependencies.append("github:github.com/repo")
         config.dependencies.append("github:https://github.com/securerepo")
         config.dependencies.append("file:libs/proj")
+        config.dependencies.append("ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl")
         config.dependencies.append("req:requirements.txt")
         config.dependencies.append("dtable=9.0")
 
@@ -240,6 +269,8 @@ RUN ["pip", "install", "git+github.com/repo"]
 RUN ["pip", "install", "git+https://github.com/securerepo"]
 COPY libs/proj libs/proj
 RUN ["pip", "install", "/app/libs/proj"]
+COPY libs/ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl
+RUN ["pip", "install", "/app/libs/ml_lib-0.1.0-py3-none-any.whl"]
 COPY requirements.txt requirements.txt
 RUN ["pip", "install", "-r", "/app/requirements.txt"]
 RUN ["pip", "install", "dtable==9.0"]
@@ -248,11 +279,14 @@ RUN rm -rf build/
 RUN rm -rf dist/
 CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
+        expectedCMD = "aws codeartifact get-package-version-asset --domain cars --domain-owner 12345 --repository python-pkg --package ml-lib --package-version 0.1.0 --profile prod --format pypi --asset ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl"
+
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
         data = None
         with open(filePath, "r") as file:
             data = file.read()
+        mock_call.assert_called_with(expectedCMD, shell=True)
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
 
@@ -447,14 +481,16 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
 
+    @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_R_plus_Python(self, mock_getcwd, mock_expanduser):
+    def test_buildDockerfile_R_py_ca_file_error(self, mock_getcwd, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_call.return_value = -1
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "R+Python"
         config.dependencies = {
@@ -462,6 +498,41 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
                 "numpy", "pandas",
                 "github:github.com/repo", "github:https://github.com/securerepo",
                 "file:libs/proj",
+                "ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl",
+                "dtable>=9.0", "dtable=9.0"
+            ],
+            "R":[
+                "data.table", "here",
+                "github:github.com/repo:cool-lib",
+                "file:libs/proj:cool-proj",
+                "dtable=9.0"
+            ]
+        }
+
+        try:
+            sb.systems.generators.dockerfile.buildDockerfile(config)
+            self.fail("Exception Not Thrown")
+        except Exception as exc:
+            self.assertEqual(str(exc), "Failed to Obtain CodeArtifact Package")
+
+    @mock.patch('skelebot.systems.generators.dockerfile.call')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_buildDockerfile_R_plus_Python(self, mock_getcwd, mock_expanduser, mock_call):
+        folderPath = "{path}/test/files".format(path=self.path)
+        filePath = "{folder}/Dockerfile".format(folder=folderPath)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+        config = sb.systems.generators.yaml.loadConfig()
+        config.language = "R+Python"
+        config.dependencies = {
+            "Python":[
+                "numpy", "pandas",
+                "github:github.com/repo", "github:https://github.com/securerepo",
+                "file:libs/proj",
+                "ca_file:prod:cars:12345:python-pkg:ml-lib:0.1.0:ml_lib-0.1.0-py3-none-any.whl",
                 "dtable>=9.0", "dtable=9.0"
             ],
             "R":[
@@ -486,6 +557,8 @@ RUN ["pip3", "install", "git+github.com/repo"]
 RUN ["pip3", "install", "git+https://github.com/securerepo"]
 COPY libs/proj libs/proj
 RUN ["pip3", "install", "/app/libs/proj"]
+COPY libs/ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl
+RUN ["pip3", "install", "/app/libs/ml_lib-0.1.0-py3-none-any.whl"]
 RUN ["pip3", "install", "dtable>=9.0"]
 RUN ["pip3", "install", "dtable==9.0"]
 RUN ["Rscript", "-e", "install.packages('data.table', repo='https://cloud.r-project.org'); library(data.table)"]
@@ -502,11 +575,14 @@ COPY tab /krb/auth.keytab
 CMD /bin/bash -c "/./krb/init.sh user && bash build.sh --env local --log info\"\n"""
         sb.systems.generators.dockerfile.buildDockerfile(config)
 
+        expectedCMD = "aws codeartifact get-package-version-asset --domain cars --domain-owner 12345 --repository python-pkg --package ml-lib --package-version 0.1.0 --profile prod --format pypi --asset ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl"
+
         data = None
         with open(filePath, "r") as file:
             data = file.read()
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
+        mock_call.assert_called_with(expectedCMD, shell=True)
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
