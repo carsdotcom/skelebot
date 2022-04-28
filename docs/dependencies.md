@@ -42,6 +42,24 @@ dependencies:
 - github:myGitHub/fakeRepo
 ```
 
+### CodeArtifact Python Packages
+
+Skelebot also supports pulling Python packages that are stored in AWS CodeArtifact. This requires a good deal of information in order to authenticate and pull the correct asset for the package.
+
+```
+language: Python
+dependencies:
+- ca_file:{profile}:{domain}:{owner}:{repo}:{pkg}:{version}:{asset}
+```
+These are the values that needed to be provided (separated by colons) in order to preperly obtain the package and include it in the Docker image.
+- profile - The AWS profile on your machine that has access to this CodeArtifact repository (ex: dev)
+- domain - The domain name of the AWS CodeArtifact repository (ex: my_domain)
+- owner - The owner of the AWS CodeArtifact repository (ex: 111122223333)
+- repo - The repository in CodeArtifact where the package is located (ex: my_repo)
+- pkg - The name of the Python package to be installed (ex: my_package)
+- version - The version of the package to be pulled (ex: 1.0.0)
+- asset - The name of the wheel asset that will actually be used for installation (ex: my_package-1.0.0-py3-none-any.whl)
+
 NOTES:
 
 - When installing via `file:` or `github:` the ability to specify a version is not available.

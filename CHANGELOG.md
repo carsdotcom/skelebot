@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.29.0
+#### Changed
+- **CodeArtifact Dependencies** | Adds an option to pull CodeArtifact Python packages into a libs folder for install during docker build
+
+---
+
 ## v1.28.0
+#### Merged: 2022-04-15
+#### Released: 2022-04-15
 #### Changed
 - **In Memory Pull** | Allows S3Repo class to pull artifacts and return them directly in python
 
