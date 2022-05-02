@@ -9,7 +9,7 @@ jobs:
       - run:
           name: pip env
           command: |
-            sudo pip install pipenv
+            sudo pip install pipenv==2022.4.8
             pipenv install
       - run:
           name: install dependencies
