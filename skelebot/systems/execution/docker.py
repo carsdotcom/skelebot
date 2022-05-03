@@ -5,7 +5,7 @@ from subprocess import call
 from .dockerCommand import DockerCommandBuilder
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
-from ...common import INFO
+from ...common import INFO, WARN_HEADER
 
 AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
 AWS_LOGIN_CMD_V2 = "aws ecr get-login-password --region {region} --profile {profile} | docker{docker_host} login --username AWS --password-stdin {host}"
@@ -135,6 +135,10 @@ def push(config, host=None, port=None, user=None, tags=None, docker_host=None, v
         tags = tags + ["latest"]
 
     status = 0
+
+    if (len(tags) == 0):
+        print(WARN_HEADER + "No Tags to Publish")
+
     for tag in tags:
         status = execute(
             DockerCommandBuilder(host=docker_host).tag(imageName, image, tag),

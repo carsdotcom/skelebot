@@ -33,7 +33,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False)
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
@@ -41,7 +42,44 @@ class TestRegistry(unittest.TestCase):
         mock_docker.login.assert_called_with(host="docker.io", docker_host=None, verbose=False)
         mock_docker.build.assert_called_with(config, host=None, verbose=False)
         mock_docker.push.assert_called_with(
-            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False
+            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False,
+            omit_latest=False, omit_version=False
+        )
+
+    @mock.patch('skelebot.components.registry.docker')
+    def test_execute_omit_latest(self, mock_docker):
+        mock_docker.build.return_value = 0
+
+        config = sb.objects.config.Config(language="R")
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=True)
+
+        registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
+        registry.execute(config, args)
+
+        mock_docker.login.assert_called_with(host="docker.io", docker_host=None, verbose=False)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
+        mock_docker.push.assert_called_with(
+            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False,
+            omit_latest=True, omit_version=False
+        )
+
+    @mock.patch('skelebot.components.registry.docker')
+    def test_execute_omit_version(self, mock_docker):
+        mock_docker.build.return_value = 0
+
+        config = sb.objects.config.Config(language="R")
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=True, omit_latest=False)
+
+        registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
+        registry.execute(config, args)
+
+        mock_docker.login.assert_called_with(host="docker.io", docker_host=None, verbose=False)
+        mock_docker.build.assert_called_with(config, host=None, verbose=False)
+        mock_docker.push.assert_called_with(
+            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False,
+            omit_latest=False, omit_version=True
         )
 
     @mock.patch('skelebot.components.registry.docker')
@@ -49,14 +87,16 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None, skip_build_global=True, verbose_global=False)
+        args = argparse.Namespace(tags=None, skip_build_global=True, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
 
         mock_docker.login.assert_called_with(host="docker.io", docker_host=None, verbose=False)
         mock_docker.push.assert_called_with(
-            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False
+            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False,
+            omit_latest=False, omit_version=False
         )
 
     @mock.patch('skelebot.components.registry.docker')
@@ -64,7 +104,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False)
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args, host="host1")
@@ -72,7 +113,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.login.assert_called_with(host="docker.io", docker_host="host1", verbose=False)
         mock_docker.build.assert_called_with(config, host="host1", verbose=False)
         mock_docker.push.assert_called_with(
-            config, "docker.io", 88, "skelebot", tags=None, docker_host="host1", verbose=False
+            config, "docker.io", 88, "skelebot", tags=None, docker_host="host1", verbose=False,
+            omit_latest=False, omit_version=False
         )
 
     @mock.patch('skelebot.components.registry.docker')
@@ -80,7 +122,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False)
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         aws = sb.components.registry.Aws(region="us-east-1", profile="dev")
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot", aws=aws)
@@ -91,7 +134,8 @@ class TestRegistry(unittest.TestCase):
         )
         mock_docker.build.assert_called_with(config, host=None, verbose=False)
         mock_docker.push.assert_called_with(
-            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False
+            config, "docker.io", 88, "skelebot", tags=None, docker_host=None, verbose=False,
+            omit_latest=False, omit_version=False
         )
 
     @mock.patch('skelebot.components.registry.docker')
@@ -99,7 +143,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False)
+        args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         aws = sb.components.registry.Aws(region="us-east-1", profile="dev")
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot", aws=aws)
@@ -110,7 +155,8 @@ class TestRegistry(unittest.TestCase):
         )
         mock_docker.build.assert_called_with(config, host="host1", verbose=False)
         mock_docker.push.assert_called_with(
-            config, "docker.io", 88, "skelebot", tags=None, docker_host="host1", verbose=False
+            config, "docker.io", 88, "skelebot", tags=None, docker_host="host1", verbose=False,
+            omit_latest=False, omit_version=False
         )
 
     @mock.patch('skelebot.components.registry.docker')
@@ -118,7 +164,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.return_value = 0
 
         config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(tags=["test", "dev", "stage"], skip_build_global=False, verbose_global=False)
+        args = argparse.Namespace(tags=["test", "dev", "stage"], skip_build_global=False, verbose_global=False,
+                                    omit_version=False, omit_latest=False)
 
         registry = sb.components.registry.Registry(host="docker.io", port=88, user="skelebot")
         registry.execute(config, args)
@@ -127,7 +174,8 @@ class TestRegistry(unittest.TestCase):
         mock_docker.build.assert_called_with(config, host=None, verbose=False)
         mock_docker.push.assert_called_with(
             config, "docker.io", 88, "skelebot", tags=['test', 'dev', 'stage'],
-            docker_host=None, verbose=False
+            docker_host=None, verbose=False,
+            omit_latest=False, omit_version=False
         )
 
     def test_validate_valid(self):
