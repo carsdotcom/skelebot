@@ -25,7 +25,14 @@ The values that are provided will be structured in the name of the docker image 
 When published the current version of the project will be used as a tag as well as 'latest'.
 
 ```
-skelebot publish
+usage: skelebot publish [-h] [-t [TAGS [TAGS ...]]] [-v] [-l]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t [TAGS [TAGS ...]], --tags [TAGS [TAGS ...]]
+                        Additional image tags
+  -v, --omit-version    Do not publish the version as a tag
+  -l, --omit-latest     Do not publish the 'LATEST' tag
 ```
 
 If not logged-in to the provided host in the registry, you will be prompted to enter your username and password.
@@ -33,9 +40,8 @@ If not logged-in to the provided host in the registry, you will be prompted to e
 If you would like to make use of any custom tags when publishing the image, the tags parameter
 (`-t --tags`) can be used to specify a list of tag values.
 
-```
-skelebot publish --tags LOCAL DEV STAGE
-```
+By default, the `LATEST` tag and a version tag will be published along with any additianl tags that are specified.
+Each of these may be omitted by providing the corresponding flags: `--omit-version (-v)` and `--omit-latest (-l)`
 
 ### AWS ECR
 Skelebot supports publishing to AWS ECR as long as you have the proper credentials setup in `~/.aws/` as well as the [aws cli](https://aws.amazon.com/cli/) installed.

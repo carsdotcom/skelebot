@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.30.0
+#### Changed
+- **Docker Publish** | Docker Publish allows for omitting version and LATEST tags
+
+---
+
 ## v1.29.0
+#### Merged: 2022-05-02
+#### Released: 2022-05-02
 #### Changed
 - **CodeArtifact Dependencies** | Adds an option to pull CodeArtifact Python packages into a libs folder for install during docker build
 
