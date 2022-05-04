@@ -76,6 +76,8 @@ class Registry(Component):
         helpMessage = "Publish your versioned Docker Image to the registry"
         registryParser = subparsers.add_parser("publish", help=helpMessage)
         registryParser.add_argument("-t", "--tags", nargs='*', help="Additional image tags")
+        registryParser.add_argument("-v", "--omit-version", action="store_true", help="Do not publish the version as a tag")
+        registryParser.add_argument("-l", "--omit-latest", action="store_true", help="Do not publish the 'latest' tag")
 
         return subparsers
 
@@ -102,5 +104,6 @@ class Registry(Component):
 
         docker.push(
             config, self.host, self.port, self.user, tags=args.tags,
-            docker_host=host, verbose=args.verbose_global
+            docker_host=host, verbose=args.verbose_global, omit_latest=args.omit_latest,
+            omit_version=args.omit_version
         )

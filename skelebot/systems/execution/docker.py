@@ -5,7 +5,7 @@ from subprocess import call
 from .dockerCommand import DockerCommandBuilder
 from ...systems.generators import dockerfile
 from ...systems.generators import dockerignore
-from ...common import INFO
+from ...common import INFO, WARN_HEADER
 
 AWS_LOGIN_CMD = "$(aws ecr get-login --no-include-email --region {region} --profile {profile})"
 AWS_LOGIN_CMD_V2 = "aws ecr get-login-password --region {region} --profile {profile} | docker{docker_host} login --username AWS --password-stdin {host}"
@@ -119,7 +119,7 @@ def save(config, filename="image.img", host=None, verbose=False):
     cmd = DockerCommandBuilder(host=host).save(config.getImageName()).set_output(filename).build()
     return execute(cmd, verbose=verbose)
 
-def push(config, host=None, port=None, user=None, tags=None, docker_host=None, verbose=False):
+def push(config, host=None, port=None, user=None, tags=None, docker_host=None, verbose=False, omit_latest=False, omit_version=False):
     """Tag with version and latest and push the project Image to the provided Docker Image Host"""
 
     imageName = config.getImageName()
@@ -129,9 +129,16 @@ def push(config, host=None, port=None, user=None, tags=None, docker_host=None, v
     image = "{host}{user}{name}".format(host=host, user=user, name=imageName)
 
     tags = [] if tags is None else tags
-    tags = tags + [config.version, "latest"]
+    if (omit_version == False):
+        tags = tags + [config.version]
+    if (omit_latest == False):
+        tags = tags + ["latest"]
 
     status = 0
+
+    if (len(tags) == 0):
+        print(WARN_HEADER + "No Tags to Publish")
+
     for tag in tags:
         status = execute(
             DockerCommandBuilder(host=docker_host).tag(imageName, image, tag),

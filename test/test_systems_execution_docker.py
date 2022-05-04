@@ -114,6 +114,63 @@ class TestDocker(unittest.TestCase):
     @mock.patch('os.path.expanduser')
     @mock.patch('skelebot.systems.execution.docker.call')
     @mock.patch('os.getcwd')
+    def test_push_omit_version(self, mock_getcwd, mock_call, mock_expanduser):
+        host = "docker.io"
+        port = 8888
+        user = "skelebot"
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        sb.systems.execution.docker.push(config, host, port, user, omit_version=True)
+
+        mock_call.assert_any_call("docker tag test docker.io:8888/skelebot/test:latest", shell=True)
+        mock_call.assert_any_call("docker push docker.io:8888/skelebot/test:latest", shell=True)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
+    def test_push_omit_latest(self, mock_getcwd, mock_call, mock_expanduser):
+        host = "docker.io"
+        port = 8888
+        user = "skelebot"
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        sb.systems.execution.docker.push(config, host, port, user, omit_latest=True)
+
+        mock_call.assert_any_call("docker tag test docker.io:8888/skelebot/test:6.6.6", shell=True)
+        mock_call.assert_any_call("docker push docker.io:8888/skelebot/test:6.6.6", shell=True)
+
+    @mock.patch('skelebot.systems.execution.docker.print')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
+    def test_push_omit_both(self, mock_getcwd, mock_call, mock_expanduser, mock_print):
+        host = "docker.io"
+        port = 8888
+        user = "skelebot"
+        folderPath = "{path}/test/files".format(path=self.path)
+
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+        mock_call.return_value = 0
+
+        config = sb.systems.generators.yaml.loadConfig()
+        sb.systems.execution.docker.push(config, host, port, user, omit_version=True, omit_latest=True)
+
+        mock_print.assert_called_with("\x1b[33mWARN\x1b[0m | No Tags to Publish")
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('skelebot.systems.execution.docker.call')
+    @mock.patch('os.getcwd')
     def test_push_host(self, mock_getcwd, mock_call, mock_expanduser):
         host = "docker.io"
         port = 8888
