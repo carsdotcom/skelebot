@@ -40,7 +40,7 @@ If not logged-in to the provided host in the registry, you will be prompted to e
 If you would like to make use of any custom tags when publishing the image, the tags parameter
 (`-t --tags`) can be used to specify a list of tag values.
 
-By default, the `LATEST` tag and a version tag will be published along with any additianl tags that are specified.
+By default, the `LATEST` tag and a version tag will be published along with any additional tags that are specified.
 Each of these may be omitted by providing the corresponding flags: `--omit-version (-v)` and `--omit-latest (-l)`
 
 ### AWS ECR
