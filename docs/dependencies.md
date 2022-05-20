@@ -23,7 +23,8 @@ Versions for packages in R can be specified by appending `={version}` to the end
 Versions for packages in Python can be specified by appending `={version}` or `=={version}` to the end of the dependency name.
 
 R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
-Python also allows for installs using a text file via `req:requirements.txt` syntax.
+
+Python also allows for installs using a text file via `req:requirements.txt` syntax or using a [`pyproject.toml`](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html) via `pyproj:` syntax. When using the later it is also possible to install optional set(s) of dependencies by specifying their respective keys: e.g. `pyproj:extra,test` would install the required dependencies, as well as the `extra` and `test` sets of optional dependencies, if they exist in the pyproject.toml file.
 
 ```
 language: R
@@ -40,6 +41,8 @@ dependencies:
 - file:libs/myPackage.tgz
 - req:requirements.txt
 - github:myGitHub/fakeRepo
+- pyproj:
+- pyproj:extra,test
 ```
 
 ### CodeArtifact Python Packages
@@ -63,6 +66,7 @@ NOTES:
 
 - When installing via `file:` or `github:` the ability to specify a version is not available.
 - Python `github` dependencies may optionally specify a protocol like https (more info [here](https://pip.pypa.io/en/stable/reference/pip_install/#git)).
+- When installing via `pyproj:`, Skelebot makes no attempt to validate the pyproject.toml file. However, if any requested optional dependencies are malformed or not present in the file, they will be ignored with a warning.
 
 ---
 
