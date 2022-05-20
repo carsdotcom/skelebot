@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.31.0
+#### Changed
+- **Dependencies** | Added the ability for python dependencies to be specified and installed via a `pyproject.toml` file
+
+---
+
 ## v1.30.0
+#### Merged: 2022-05-03
 #### Changed
 - **Docker Publish** | Docker Publish allows for omitting version and LATEST tags
 
