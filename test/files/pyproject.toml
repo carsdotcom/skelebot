@@ -1,0 +1,19 @@
+[project]
+name = "test"
+description = "Just a test"
+dependencies = [
+    "requests",
+    "numpy==1.15.4",
+    "pandas~=1.1",
+    'scikit-learn<=2.0.0 ; python_version<="3.6"',
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest ~= 6.2",
+    "pytest-cov ~= 3.0"
+]
+custom = [
+    "fake-package == 1.2.3",
+    "not-real"
+]

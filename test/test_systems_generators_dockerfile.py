@@ -17,6 +17,45 @@ class SayDude(sb.objects.component.Component):
     def appendCommand(self, job, native):
         return "echo Duuuuuude"
 
+class TestParsePyproj(unittest.TestCase):
+    path = ""
+
+    # Get the path to the current working directory before we mock the function to do so
+    def setUp(self):
+        self.path = os.getcwd()
+
+    @mock.patch('os.getcwd')
+    def test_required_deps(self, mock_getcwd):
+        folderPath = "{path}/test/files".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        expected_deps = 'requests", "numpy==1.15.4", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<=\'3.6\''
+        actual_deps = sb.systems.generators.dockerfile.parse_pyproj()
+
+        self.assertEqual(actual_deps, expected_deps)
+
+    @mock.patch('os.getcwd')
+    def test_optional_deps(self, mock_getcwd):
+        folderPath = "{path}/test/files".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        expected_deps = 'requests", "numpy==1.15.4", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<=\'3.6\'", "pytest ~= 6.2", "pytest-cov ~= 3.0", "fake-package == 1.2.3", "not-real'
+        actual_deps = sb.systems.generators.dockerfile.parse_pyproj(['test', 'custom'])
+
+        self.assertEqual(actual_deps, expected_deps)
+
+    @mock.patch('skelebot.systems.generators.dockerfile.print')
+    @mock.patch('os.getcwd')
+    def test_optional_deps_not_found(self, mock_getcwd, mock_print):
+        folderPath = "{path}/test/files".format(path=self.path)
+        mock_getcwd.return_value = folderPath
+
+        expected_deps = 'requests", "numpy==1.15.4", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<=\'3.6\''
+        actual_deps = sb.systems.generators.dockerfile.parse_pyproj(['fake'])
+
+        self.assertEqual(actual_deps, expected_deps)
+        mock_print.assert_called_with("\x1b[33mWARN\x1b[0m | 'fake' dependency set not found in pyproject.toml")
+
 class TestDockerfile(unittest.TestCase):
     path = ""
 
@@ -251,6 +290,7 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
         config.dependencies.append("file:libs/proj")
         config.dependencies.append("ca_file:cars:12345:python-pkg:ml-lib:0.1.0:prod")
         config.dependencies.append("req:requirements.txt")
+        config.dependencies.append("pyproj:")
         config.dependencies.append("dtable=9.0")
 
         expectedDockerfile = """
@@ -273,6 +313,7 @@ COPY libs/ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl
 RUN ["pip", "install", "/app/libs/ml_lib-0.1.0-py3-none-any.whl"]
 COPY requirements.txt requirements.txt
 RUN ["pip", "install", "-r", "/app/requirements.txt"]
+RUN ["pip", "install", "requests", "numpy==1.15.4", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<='3.6'"]
 RUN ["pip", "install", "dtable==9.0"]
 COPY . /app
 RUN rm -rf build/
