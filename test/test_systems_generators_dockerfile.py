@@ -216,13 +216,14 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
 
     @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
+    @mock.patch('os.makedirs')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_py_ca_file_error(self, mock_getcwd, mock_expanduser, mock_call):
+    def test_buildDockerfile_py_ca_file_error(self, mock_getcwd, mock_mkdir, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
-        filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_mkdir.return_value = 1
         mock_call.return_value = 1
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "Python"
@@ -236,13 +237,15 @@ CMD /bin/bash -c "python -u jobs/dummy.py --log info"\n"""
 
     @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
+    @mock.patch('os.makedirs')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_base_py(self, mock_getcwd, mock_expanduser, mock_call):
+    def test_buildDockerfile_base_py(self, mock_getcwd, mock_mkdir, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_mkdir.return_value = 1
         mock_call.return_value = 0
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "Python"
@@ -286,6 +289,7 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
         data = None
         with open(filePath, "r") as file:
             data = file.read()
+        mock_mkdir.assert_called_with("{folder}/libs".format(folder=folderPath), exist_ok=True)
         mock_call.assert_called_with(expectedCMD, shell=True)
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
@@ -483,13 +487,14 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
     @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
+    @mock.patch('os.makedirs')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_R_py_ca_file_error(self, mock_getcwd, mock_expanduser, mock_call):
+    def test_buildDockerfile_R_py_ca_file_error(self, mock_getcwd, mock_mkdir, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
-        filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_mkdir.return_value = 1
         mock_call.return_value = -1
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "R+Python"
@@ -517,13 +522,15 @@ CMD /bin/bash -c \"bash build.sh --env local --log info\"\n"""
 
     @mock.patch('skelebot.systems.generators.dockerfile.call')
     @mock.patch('os.path.expanduser')
+    @mock.patch('os.makedirs')
     @mock.patch('os.getcwd')
-    def test_buildDockerfile_R_plus_Python(self, mock_getcwd, mock_expanduser, mock_call):
+    def test_buildDockerfile_R_plus_Python(self, mock_getcwd, mock_mkdir, mock_expanduser, mock_call):
         folderPath = "{path}/test/files".format(path=self.path)
         filePath = "{folder}/Dockerfile".format(folder=folderPath)
 
         mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
         mock_getcwd.return_value = folderPath
+        mock_mkdir.return_value = 1
         mock_call.return_value = 0
         config = sb.systems.generators.yaml.loadConfig()
         config.language = "R+Python"
@@ -582,6 +589,7 @@ CMD /bin/bash -c "/./krb/init.sh user && bash build.sh --env local --log info\"\
             data = file.read()
         self.assertTrue(data is not None)
         self.assertEqual(data, expectedDockerfile)
+        mock_mkdir.assert_called_with("{folder}/libs".format(folder=folderPath), exist_ok=True)
         mock_call.assert_called_with(expectedCMD, shell=True)
 
     @mock.patch('os.path.expanduser')

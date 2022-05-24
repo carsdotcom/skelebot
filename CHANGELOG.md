@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.30.1
+#### Changed
+- **CodeArtifact Dependencies** | Create libs folder if it doesn't already exist
+
+---
+
 ## v1.30.0
+#### Merged: 2022-05-04
 #### Changed
 - **Docker Publish** | Docker Publish allows for omitting version and LATEST tags
 

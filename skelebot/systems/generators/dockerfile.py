@@ -64,6 +64,7 @@ def buildDockerfile(config):
                 asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
                 profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
                 cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
+                os.makedirs(os.path.join(os.getcwd(), 'libs'), exist_ok=True)
                 status = call(cmd, shell=True)
                 if (status != 0):
                     raise Exception("Failed to Obtain CodeArtifact Package")
@@ -104,6 +105,7 @@ def buildDockerfile(config):
                 asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
                 profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
                 cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
+                os.makedirs(os.path.join(os.getcwd(), 'libs'), exist_ok=True)
                 status = call(cmd, shell=True)
                 if (status != 0):
                     raise Exception("Failed to Obtain CodeArtifact Package")
