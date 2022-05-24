@@ -5,6 +5,12 @@ import re
 from subprocess import call
 from ..execution import commandBuilder
 
+try:
+    import tomllib
+except ModuleNotFoundError:
+    # python <= 3.11
+    import tomli as tomllib
+
 FILE_PATH = "{path}/Dockerfile"
 
 PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version}{profile} --format pypi --asset {asset} libs/{asset}"
@@ -32,6 +38,22 @@ DOCKERFILE = """
 # Editing this file manually is not advised as all changes will be overwritten by Skelebot
 
 """
+
+def parse_pyproj(pyproject_file):
+    """Parse all required and optional dependencies from pyproject file."""
+    with open(os.path.join(os.getcwd(), pyproject_file), "rb") as f:
+        pyproj = tomllib.load(f).get("project", {})
+
+    deps = pyproj.get("dependencies", []).copy()
+    for opt_deps in pyproj.get('optional-dependencies', {}).values():
+        deps += opt_deps
+
+    # Replace any double quotes in dependencies with single quotes so we don't
+    # break the Dockerfile
+    deps = [d.replace('"', "'") for d in deps]
+
+    return '", "'.join(deps)
+
 
 def buildDockerfile(config):
     """Generates the Dockerfile based on values from the Config object"""
@@ -70,6 +92,9 @@ def buildDockerfile(config):
                     raise Exception("Failed to Obtain CodeArtifact Package")
 
                 docker += PY_INSTALL_FILE.format(depPath=f"libs/{asset}")
+            elif (dep.startswith("proj:")):
+                deps = parse_pyproj(depSplit[1])
+                docker += PY_INSTALL.format(dep=deps)
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
                 verSplit = dep.split("=")
