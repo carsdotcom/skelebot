@@ -4,7 +4,6 @@ import os
 import re
 from subprocess import call
 from ..execution import commandBuilder
-from ...common import WARN_HEADER
 
 try:
     import tomllib
@@ -13,7 +12,6 @@ except ModuleNotFoundError:
     import tomli as tomllib
 
 FILE_PATH = "{path}/Dockerfile"
-PYPROJECT_PATH = "{path}/pyproject.toml"
 
 PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version}{profile} --format pypi --asset {asset} libs/{asset}"
 PY_INSTALL = "RUN [\"pip\", \"install\", \"{dep}\"]\n"
@@ -41,19 +39,14 @@ DOCKERFILE = """
 
 """
 
-def parse_pyproj(opt_deps=None):
-    """Parse required and any specified optional dependencies from pyproject.toml"""
-    with open(PYPROJECT_PATH.format(path=os.getcwd()), "rb") as f:
+def parse_pyproj(pyproject_file):
+    """Parse all required and optional dependencies from pyproject file."""
+    with open(os.path.join(os.getcwd(), pyproject_file), "rb") as f:
         pyproj = tomllib.load(f).get("project", {})
 
     deps = pyproj.get("dependencies", []).copy()
-    if opt_deps is not None:
-        for opt in opt_deps:
-            if opt:
-                try:
-                    deps += pyproj['optional-dependencies'][opt]
-                except KeyError:
-                    print(WARN_HEADER + "'{}' dependency set not found in pyproject.toml".format(opt))
+    for opt_deps in pyproj.get('optional-dependencies', {}).values():
+        deps += opt_deps
 
     # Replace any double quotes in dependencies with single quotes so we don't
     # break the Dockerfile
@@ -99,9 +92,8 @@ def buildDockerfile(config):
                     raise Exception("Failed to Obtain CodeArtifact Package")
 
                 docker += PY_INSTALL_FILE.format(depPath=f"libs/{asset}")
-            elif (dep.startswith("pyproj:")):
-                opt_deps = None if not depSplit[1] else depSplit[1].split(",")
-                deps = parse_pyproj(opt_deps=opt_deps)
+            elif (dep.startswith("proj:")):
+                deps = parse_pyproj(depSplit[1])
                 docker += PY_INSTALL.format(dep=deps)
             # if using PIP version specifiers, will be handled as a standard case
             elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
