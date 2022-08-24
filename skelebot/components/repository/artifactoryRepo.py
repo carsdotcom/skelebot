@@ -73,7 +73,7 @@ class ArtifactoryRepo(ArtifactRepo):
 
         return version
 
-    def push(self, artifact, version, force=False, user=None, password=None):
+    def push(self, artifact, version, force=False, user=None, password=None, prefix=None):
         """ Push the artifact with the given version number to Artifactory """
 
         # Obtain any missing credentials
@@ -82,7 +82,7 @@ class ArtifactoryRepo(ArtifactRepo):
         if (password is None):
             password = self.getToken()
 
-        artifactName = artifact.getVersionedName(version)
+        artifactName = artifact.getVersionedName(version, prefix=prefix)
         url = ARTIFACT_PATH.format(url=self.url, repo=self.repo, path=self.path, file=artifactName)
 
         # Error and exit if artifact already exists and we are not forcing an override

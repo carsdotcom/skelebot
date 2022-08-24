@@ -17,8 +17,8 @@ class Artifact(SkeleYaml):
     artifact files and artifact names
     """
 
-    VERSIONED_NAME = "{filename}_v{version}.{ext}"
-    SINGULAR_NAME = "{filename}.{ext}"
+    VERSIONED_NAME = "{prefix}{filename}_v{version}.{ext}"
+    SINGULAR_NAME = "{prefix}{filename}.{ext}"
 
     schema = Schema({
         'name': And(str, error="Artifact 'name' must be a String"),
@@ -36,17 +36,18 @@ class Artifact(SkeleYaml):
         self.file = file
         self.singular = singular
 
-    def getVersionedName(self, version):
+    def getVersionedName(self, version, prefix=None):
         """
         Constuct the full versioned filename for the artifact with the given version number
         or without the number if it is a 'singular' artifact instead of a versioned artifact
         """
         ext = self.file.split(".")[1]
         ver_name = None
+        prefix = prefix if prefix is not None else ""
         if (self.singular):
-            ver_name = self.SINGULAR_NAME.format(filename=self.name, ext=ext)
+            ver_name = self.SINGULAR_NAME.format(prefix=prefix, filename=self.name, ext=ext)
         else:
-            ver_name = self.VERSIONED_NAME.format(filename=self.name, version=version, ext=ext)
+            ver_name = self.VERSIONED_NAME.format(prefix=prefix, filename=self.name, version=version, ext=ext)
         return ver_name
 
 
@@ -121,6 +122,7 @@ class Repository(Component):
         parser = subparsers.add_parser("push", help="Push an artifact to {}".format(repo))
         parser.add_argument("artifact", choices=artifactNames)
         parser.add_argument("-f", "--force", action='store_true', help="Force the push")
+        parser.add_argument("-p", "--prefix", help="Prefix the artifact name or names with text")
         if (self.requiresPassword()):
             parser.add_argument("-u", "--user", help="Auth user for Artifactory")
             parser.add_argument("-t", "--token", help="Auth token for Artifactory")
@@ -154,7 +156,7 @@ class Repository(Component):
                 # Push or Pull the Artifact
                 if (args.job == "push"): # Push from Disk to Repo
                     print("Pushing version {version} of {artifact}".format(version=config.version, artifact=artifact.name))
-                    artifactRepo.push(artifact, config.version, args.force, user, token)
+                    artifactRepo.push(artifact, config.version, args.force, user, token, args.prefix)
                 elif (args.job == "pull"): # Pull from Repo to Disk
                     print("Pulling version {version} of {artifact}".format(version=args.version, artifact=artifact.name))
                     artifactRepo.pull(artifact, args.version, config.version, args.override, user, token)

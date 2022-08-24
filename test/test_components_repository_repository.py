@@ -75,7 +75,7 @@ class TestRepository(TestCase):
     def test_execute_push_conflict_artifactory(self, mock_artifactory, mock_rename, mock_input):
         mock_input.return_value = "abc"
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=False, artifact='test', user=None, token=None)
+        args = argparse.Namespace(job="push", force=False, artifact='test', user=None, token=None, prefix=None)
         expectedException = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
         try:
@@ -94,7 +94,7 @@ class TestRepository(TestCase):
         mock_boto3_session.return_value = mock_session
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=False, artifact='test', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=False, artifact='test', user='sean', token='abc123', prefix=None)
         expectedException = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
 
         try:
@@ -113,7 +113,7 @@ class TestRepository(TestCase):
         mock_artifactory.return_value = mock_path
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix=None)
 
         with self.assertRaises(KeyError):
             self.artifactory.execute(config, args)
@@ -127,7 +127,7 @@ class TestRepository(TestCase):
     @mock.patch('artifactory.ArtifactoryPath')
     def test_execute_push_artifactory(self, mock_artifactory, mock_remove, mock_copy):
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix=None)
 
         self.artifactory.execute(config, args)
 
@@ -138,9 +138,22 @@ class TestRepository(TestCase):
     @mock.patch('shutil.copyfile')
     @mock.patch('os.remove')
     @mock.patch('artifactory.ArtifactoryPath')
+    def test_execute_push_artifactory_prefix(self, mock_artifactory, mock_remove, mock_copy):
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix="prefix_")
+
+        self.artifactory.execute(config, args)
+
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/prefix_test_v1.0.0.pkl", auth=('sean', 'abc123'))
+        mock_copy.assert_called_with("test.pkl", "prefix_test_v1.0.0.pkl")
+        mock_remove.assert_called_with("prefix_test_v1.0.0.pkl")
+
+    @mock.patch('shutil.copyfile')
+    @mock.patch('os.remove')
+    @mock.patch('artifactory.ArtifactoryPath')
     def test_execute_push_artifactory_singular(self, mock_artifactory, mock_remove, mock_copy):
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123', prefix=None)
 
         self.artifactory.execute(config, args)
 
@@ -156,10 +169,23 @@ class TestRepository(TestCase):
         mock_boto3_session.return_value = mock_session
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix=None)
 
         self.s3.execute(config, args)
         mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "test_v1.0.0.pkl")
+
+    @mock.patch('boto3.Session')
+    def test_execute_push_s3_prefix(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_session.client.return_value = mock_client
+        mock_boto3_session.return_value = mock_session
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix="prefix_")
+
+        self.s3.execute(config, args)
+        mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "prefix_test_v1.0.0.pkl")
 
     @mock.patch('boto3.Session')
     def test_execute_push_s3_singular(self, mock_boto3_session):
@@ -169,7 +195,7 @@ class TestRepository(TestCase):
         mock_boto3_session.return_value = mock_session
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test3', user='sean', token='abc123', prefix=None)
 
         self.s3.execute(config, args)
         mock_client.upload_file.assert_called_with("test3.pkl", "my-bucket", "test3.pkl")
@@ -179,7 +205,7 @@ class TestRepository(TestCase):
     @mock.patch('artifactory.ArtifactoryPath')
     def test_execute_push_artifactory_all(self, mock_artifactory, mock_remove, mock_copy):
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='ALL', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='ALL', user='sean', token='abc123', prefix=None)
 
         self.artifactory.execute(config, args)
 
@@ -204,7 +230,7 @@ class TestRepository(TestCase):
         mock_boto3_session.return_value = mock_session
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='ALL', user='sean', token='abc124')
+        args = argparse.Namespace(job="push", force=True, artifact='ALL', user='sean', token='abc124', prefix=None)
 
         self.s3.execute(config, args)
         mock_client.upload_file.assert_has_calls([
@@ -220,7 +246,7 @@ class TestRepository(TestCase):
         mock_boto3_session.return_value = mock_session
 
         config = sb.objects.config.Config(version="1.0.0")
-        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123')
+        args = argparse.Namespace(job="push", force=True, artifact='test', user='sean', token='abc123', prefix=None)
 
         self.s3_subfolder.execute(config, args)
         mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "sub/folder/test_v1.0.0.pkl")
