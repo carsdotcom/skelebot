@@ -5,7 +5,7 @@ class TestArtifactRepo(TestCase):
 
     def test_push_pass(self):
         artifactRepo = sb.components.repository.artifactRepo.ArtifactRepo()
-        nothing = artifactRepo.push("artifact", "1.1.0", force=False, user=None, password=None)
+        nothing = artifactRepo.push("artifact", "1.1.0", force=False, user=None, password=None, prefix=None)
         self.assertTrue(nothing is None)
 
     def test_pull_pass(self):
