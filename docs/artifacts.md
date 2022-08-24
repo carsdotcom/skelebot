@@ -67,6 +67,8 @@ To push an artifact that is specified in your skelebot.yaml, simply use the push
 
 When pushing the artifact to the repository, Skelebot will utilize the version number from the config in order to version the artifact. If you attempt to push the same artifact with the same version more than once, you will be prompted with an error message. If you intend on overwriting the artifact, The `-f --force` parameter can be used to forcibly push an existing artifact.
 
+You can also prefix a string of text in front of the artifact name when pushing the artifact to the destination by supplying a string with the `-p --prefix PREFIX` paramater.
+
 ### Pulling
 
 To pull an artifact that is specified in your skelebot.yaml file, you can use the pull command with the artifact name and the version you wish to pull.

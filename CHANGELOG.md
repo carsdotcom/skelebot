@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.32.0
+#### Changed
+- **Push Prefix** | Added the ability to push artifacts to S3 or Artifactory with prefix text
+
+---
+
 ## v1.31.0
+#### Merged: 2022-05-24
+#### Released: 2022-05-24
 #### Changed
 - **Dependencies** | Added the ability for python dependencies to be specified and installed via a `pyproject.toml` file
 
@@ -18,6 +26,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.30.0
 #### Merged: 2022-05-04
+#### Released: 2022-05-04
 #### Changed
 - **Docker Publish** | Docker Publish allows for omitting version and LATEST tags
 
