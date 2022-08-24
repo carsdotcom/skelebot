@@ -32,11 +32,11 @@ class S3Repo(ArtifactRepo):
         client = session.client('s3')
         return client
 
-    def push(self, artifact, version, force=False, user=None, password=None):
+    def push(self, artifact, version, force=False, user=None, password=None, prefix=None):
         """ Push an artifact to S3 with the given version number """
 
         bucket_parts = self.bucket.split("/")
-        bucket_parts.append(artifact.getVersionedName(version))
+        bucket_parts.append(artifact.getVersionedName(version, prefix=prefix))
         bucket = bucket_parts[0]
         path = "/".join(bucket_parts[1:])
 
