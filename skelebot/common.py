@@ -55,6 +55,7 @@ TEMPLATES = {
         "Default": "r_python"
     }
 }
+GITHUB_RAW = "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{filepath}"
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 
