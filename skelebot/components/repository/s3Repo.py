@@ -94,7 +94,6 @@ class S3Repo(ArtifactRepo):
             obj = client.get_object(Bucket=bucket, Key=path)
             obj = obj['Body'].read()
         else:
-            print(f"{bucket} {path} {dest}")
             client.download_file(bucket, path, dest)
 
         return obj

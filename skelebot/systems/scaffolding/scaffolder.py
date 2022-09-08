@@ -28,7 +28,7 @@ class Scaffolder:
 
     def __load_github_template(self, owner, repo, branch="main"):
         url = GITHUB_RAW.format(owner=owner, repo=repo, branch=branch, filepath="template.yaml")
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         yaml_text = self.__format_variables(response.text)
         template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
         for file_dict in template.get("files", []):
@@ -90,8 +90,6 @@ class Scaffolder:
         for prompt in template.get("prompts", []):
             self.variables[prompt["var"]] = promptUser(prompt["message"])
 
-        print(self.variables)
-
         # Iterate over components for additional prompts and add any components that are scaffolded
         components = []
         componentFactory = ComponentFactory()
@@ -122,7 +120,7 @@ class Scaffolder:
                 file_path = file_dict["template"]
                 file_body = ""
                 if (file_path.startswith("http")):
-                    response = requests.get(file_path)
+                    response = requests.get(file_path, timeout=10)
                     file_body = response.text
                 else:
                     template_file = f"{template_path}/{file_path}"
