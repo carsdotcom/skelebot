@@ -42,8 +42,6 @@ class Scaffolder:
             # If the template has NOT been cloned before, clone it
             status = call(f"cd {path} && git clone {url} {template_name}", shell=True)
 
-        print(f"STATUS OF CLONE/PULL: {status}")
-
         return self.__load_template(template_name)
 
     def __load_template(self, name):
