@@ -31,12 +31,11 @@ class Scaffolder:
     def __load_git_template(self, url):
         # Construct template_name (folder name) and template path
         template_name = re.sub("[:/\\.@-]+", "_", url)
-        path = TEMPLATE_PATH.format(name="")
-        path = os.path.join(os.path.dirname(__file__), path)
-        template_path = f"{path}{template_name}"
+        template_path = TEMPLATE_PATH.format(name=template_name)
+        template_path = os.path.join(os.path.dirname(__file__), template_path)
 
         # Clone or pull the template from the Git URL into the template folder
-        if (os.path.exists(f"{path}/{template_name}")):
+        if (os.path.exists(template_path)):
             # If the template has been cloned before, just pull --rebase
             status = call(f"cd {template_path} && git pull --rebase", shell=True)
         else:
