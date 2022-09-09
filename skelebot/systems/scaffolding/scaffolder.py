@@ -1,11 +1,15 @@
 """Scaffolder System"""
 
 import os
+import re
+import json
+import requests
 import yaml as pyyaml
+from subprocess import call
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
-from ...common import LANGUAGE_DEPENDENCIES, TEMPLATES, TEMPLATE_PATH
+from ...common import LANGUAGE_DEPENDENCIES, TEMPLATES, TEMPLATE_PATH, GITHUB_RAW
 from .prompt import promptUser
 
 class Scaffolder:
@@ -20,12 +24,39 @@ class Scaffolder:
                 text = text.replace(key_str, value)
 
         return text
-    
-    def __load_template(self, path):
+
+    def __format_config(self, config):
+        return eval(self.__format_variables(str(config)))
+
+    def __load_git_template(self, url):
+        # Construct template_name (folder name) and template path
+        template_name = re.sub("[:/\\.@-]+", "_", url)
+        template_path = TEMPLATE_PATH.format(name=template_name)
+        template_path = os.path.join(os.path.dirname(__file__), template_path)
+
+        # Clone or pull the template from the Git URL into the template folder
+        if (os.path.exists(template_path)):
+            # If the template has been cloned before, just pull --rebase
+            status = call(f"cd {template_path} && git pull --rebase", shell=True)
+        else:
+            # If the template has NOT been cloned before, clone it
+            status = call(f"git clone {url} {template_path}", shell=True)
+
+        return self.__load_template(template_name)
+
+    def __load_template(self, name):
         template = None
+
+        path = TEMPLATE_PATH.format(name=name)
+        path = os.path.join(os.path.dirname(__file__), path)
         with open(f"{path}/template.yaml", "r") as yaml_file:
             yaml_text = self.__format_variables(yaml_file.read())
             template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
+
+        # Update file paths in the template
+        for file_dict in template.get("files", []):
+            file_path = file_dict["template"]
+            file_dict["template"] = f"{path}/{file_path}"
 
         return template
 
@@ -47,18 +78,26 @@ class Scaffolder:
 
         # Configure Template Variables
         self.variables["name"] = name
-        self.variables["name_simple"] = name.lower().replace(" ", "_")
+        self.variables["name_simple"] = name.lower().replace(" ", "_").replace("-", "_")
         self.variables["description"] = description
         self.variables["maintainer"] = maintainer
         self.variables["contact"] = contact
         self.variables["language"] = language
 
         # Load the Template Config
-        template = promptUser("Select a TEMPLATE", options=list(TEMPLATES[language].keys()))
-        template_name = TEMPLATES[language][template]
-        template_path = TEMPLATE_PATH.format(name=template_name)
-        template_path = os.path.join(os.path.dirname(__file__), template_path)
-        template = self.__load_template(template_path) 
+        options = list(TEMPLATES[language].keys())
+        template = promptUser("Select a TEMPLATE", options=options)
+        template_name = TEMPLATES[language][template.capitalize()]
+        if (template_name == "git"):
+            url = promptUser("Enter Git Repo URL")
+            template = self.__load_git_template(url)
+        else:
+            template = self.__load_template(template_name)
+
+        # Prompt user based on the template
+        for prompt in template.get("prompts", []):
+            print(prompt)
+            self.variables[prompt["var"]] = promptUser(prompt["message"])
 
         # Iterate over components for additional prompts and add any components that are scaffolded
         components = []
@@ -87,15 +126,15 @@ class Scaffolder:
             # Setting up the file templates for the project
             print("Attaching fiber optic ligaments...")
             for file_dict in template.get("files", []):
-                destination = file_dict["name"]
-                template_file = f"{template_path}/{file_dict['template']}"
-                with open(template_file, "r") as tmp_file:
-                    with open(destination, "w") as dst_file:
+                with open(file_dict["template"], "r") as tmp_file:
+                    print(f"READING TEMPLATE: {file_dict['template']}")
+                    with open(file_dict["name"], "w") as dst_file:
+                        print(f"WRITING FILE: {file_dict['name']}")
                         dst_file.write(self.__format_variables(tmp_file.read()))
 
         print("Soldering the micro-computer to the skele-skull...")
         # Build the config object based on the user inputs
-        cfg = template["config"]
+        cfg = self.__format_config(template["config"])
         cfg["name"] = name
         config = Config.load(cfg)
         config.description = description
@@ -106,7 +145,7 @@ class Scaffolder:
 
         if (not self.existing):
             # Creating the files for the project
-            print(f"Initializing default {template_name} systems...")
+            print("Initializing default systems...")
             dockerfile.buildDockerfile(config)
             dockerignore.buildDockerignore(config)
             readme.buildREADME(config)
