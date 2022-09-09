@@ -139,6 +139,6 @@ config:
 ```
 
 ### Usage
-To use the template in the scaffolding process you need only to specify the Git clone URL during the scaffolding process. As long as the user has access to the repository, it can be cloned and used in the scaffolding process.
+To use the template in the scaffolding process you need only to specify the Git clone URL during the scaffolding process. As long as the user has access to the repository, and `git` installed and available in the `$PATH`, it can be cloned and used in the scaffolding process.
 
 <center><< <a href="scaffolding.html">Scaffolding</a>  |  <a href="docker-host.html">Docker Host</a> >></center>
