@@ -46,13 +46,16 @@ TEMPLATE_PATH = "templates/{name}"
 TEMPLATES = {
     "Python": {
         "Default": "python",
-        "Dash": "python_dash"
+        "Dash": "python_dash",
+        "Git": "git"
     },
     "R": {
-        "Default": "r"
+        "Default": "r",
+        "Git": "git"
     },
     "R+Python": {
-        "Default": "r_python"
+        "Default": "r_python",
+        "Git": "git"
     }
 }
 GITHUB_RAW = "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{filepath}"

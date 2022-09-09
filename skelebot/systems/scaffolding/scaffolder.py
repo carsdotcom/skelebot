@@ -1,9 +1,11 @@
 """Scaffolder System"""
 
 import os
+import re
 import json
 import requests
 import yaml as pyyaml
+from subprocess import call
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
@@ -26,23 +28,37 @@ class Scaffolder:
     def __format_config(self, config):
         return eval(self.__format_variables(str(config)))
 
-    def __load_github_template(self, owner, repo, branch="main"):
-        url = GITHUB_RAW.format(owner=owner, repo=repo, branch=branch, filepath="template.yaml")
-        response = requests.get(url, timeout=10)
-        yaml_text = self.__format_variables(response.text)
-        template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
-        for file_dict in template.get("files", []):
-            path = file_dict["template"]
-            file_url = GITHUB_RAW.format(owner=owner, repo=repo, branch=branch, filepath=path)
-            file_dict["template"] = file_url
+    def __load_git_template(self, url):
+        # Construct template_name (folder name) and template path
+        template_name = re.sub("[:/\\.@-]+", "_", url)
+        path = TEMPLATE_PATH.format(name="")
+        path = os.path.join(os.path.dirname(__file__), path)
 
-        return template
+        # Clone or pull the template from the Git URL into the template folder
+        if (os.path.exists(f"{path}/{template_name}")):
+            # If the template has been cloned before, just pull --rebase
+            status = call("git pull --rebase", shell=True)
+        else:
+            # If the template has NOT been cloned before, clone it
+            status = call(f"cd {path} && git clone {url} {template_name}", shell=True)
 
-    def __load_template(self, path):
+        print(f"STATUS OF CLONE/PULL: {status}")
+
+        return self.__load_template(template_name)
+
+    def __load_template(self, name):
         template = None
+
+        path = TEMPLATE_PATH.format(name=name)
+        path = os.path.join(os.path.dirname(__file__), path)
         with open(f"{path}/template.yaml", "r") as yaml_file:
             yaml_text = self.__format_variables(yaml_file.read())
             template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
+
+        # Update file paths in the template
+        for file_dict in template.get("files", []):
+            file_path = file_dict["template"]
+            file_dict["template"] = f"{path}/{file_path}"
 
         return template
 
@@ -72,19 +88,13 @@ class Scaffolder:
 
         # Load the Template Config
         options = list(TEMPLATES[language].keys())
-        options.append("github:{owner}:{repo}:{branch}")
         template = promptUser("Select a TEMPLATE", options=options, reiterate=False)
-        if (template.startswith("github:")):
-            template_parts = template.split(":")
-            owner = template_parts[1]
-            repo = template_parts[2]
-            branch = template_parts[3] if (len(template_parts) > 3) else "main"
-            template = self.__load_github_template(owner, repo, branch=branch)
+        template_name = TEMPLATES[language][template.capitalize()]
+        if (template_name == "git"):
+            url = promptUser("Enter Git Repo URL")
+            template = self.__load_git_template(url)
         else:
-            template_name = TEMPLATES[language][template]
-            template_path = TEMPLATE_PATH.format(name=template_name)
-            template_path = os.path.join(os.path.dirname(__file__), template_path)
-            template = self.__load_template(template_path)
+            template = self.__load_template(template_name)
 
         # Prompt user based on the template
         for prompt in template.get("prompts", []):
@@ -117,18 +127,9 @@ class Scaffolder:
             # Setting up the file templates for the project
             print("Attaching fiber optic ligaments...")
             for file_dict in template.get("files", []):
-                file_path = file_dict["template"]
-                file_body = ""
-                if (file_path.startswith("http")):
-                    response = requests.get(file_path, timeout=10)
-                    file_body = response.text
-                else:
-                    template_file = f"{template_path}/{file_path}"
-                    with open(template_file, "r") as tmp_file:
-                        file_body = tmp_file.read()
-
-                with open(file_dict["name"], "w") as dst_file:
-                    dst_file.write(self.__format_variables(file_body))
+                with open(file_dict["template"], "r") as tmp_file:
+                    with open(file_dict["name"], "w") as dst_file:
+                        dst_file.write(self.__format_variables(tmp_file.read()))
 
         print("Soldering the micro-computer to the skele-skull...")
         # Build the config object based on the user inputs
