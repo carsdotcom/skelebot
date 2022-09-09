@@ -226,7 +226,8 @@ class TestScaffolder(unittest.TestCase):
         mock_dignore.buildDockerignore.assert_called_once()
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
-        mock_call.assert_called_once_with("cd /app/skelebot/systems/scaffolding/templates/ && git clone git@repo git_repo", shell=True)
+        template_folder = os.path.join(dirname, "skelebot/systems/scaffolding/templates/")
+        mock_call.assert_called_once_with(f"cd {template_folder} && git clone git@repo git_repo", shell=True)
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
