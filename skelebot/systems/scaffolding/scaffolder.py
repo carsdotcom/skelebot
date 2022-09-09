@@ -40,7 +40,9 @@ class Scaffolder:
             status = call("git pull --rebase", shell=True)
         else:
             # If the template has NOT been cloned before, clone it
-            status = call(f"cd {path} && git clone {url} {template_name}", shell=True)
+            path = TEMPLATE_PATH.format(name=template_name)
+            path = os.path.join(os.path.dirname(__file__), path)
+            status = call(f"git clone {url} {path}", shell=True)
 
         return self.__load_template(template_name)
 
