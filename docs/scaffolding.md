@@ -48,7 +48,7 @@ Your skelebot is ready to go!
 ```
 
 ### Git Templates
-The scaffolder can also load templates from Git repositories diring the scaffolding process by selecting `Git` as the TEMPLATE when prompted.
+The scaffolder can also load templates from Git repositories during the scaffolding process by selecting `Git` as the TEMPLATE when prompted.
 
 ```
 Select a TEMPLATE [Default, Dash, Git]: Git
