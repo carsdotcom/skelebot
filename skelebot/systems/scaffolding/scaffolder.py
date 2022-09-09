@@ -33,16 +33,15 @@ class Scaffolder:
         template_name = re.sub("[:/\\.@-]+", "_", url)
         path = TEMPLATE_PATH.format(name="")
         path = os.path.join(os.path.dirname(__file__), path)
+        template_path = f"{path}{template_name}"
 
         # Clone or pull the template from the Git URL into the template folder
         if (os.path.exists(f"{path}/{template_name}")):
             # If the template has been cloned before, just pull --rebase
-            status = call("git pull --rebase", shell=True)
+            status = call(f"cd {template_path} && git pull --rebase", shell=True)
         else:
             # If the template has NOT been cloned before, clone it
-            path = TEMPLATE_PATH.format(name=template_name)
-            path = os.path.join(os.path.dirname(__file__), path)
-            status = call(f"git clone {url} {path}", shell=True)
+            status = call(f"git clone {url} {template_path}", shell=True)
 
         return self.__load_template(template_name)
 

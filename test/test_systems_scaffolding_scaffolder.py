@@ -157,7 +157,8 @@ class TestScaffolder(unittest.TestCase):
         mock_dignore.buildDockerignore.assert_called_once()
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
-        mock_call.assert_called_once_with("git pull --rebase", shell=True)
+        template_path = os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo")
+        mock_call.assert_called_once_with(f"cd {template_path} && git pull --rebase", shell=True)
 
     @mock.patch('os.path.exists')
     @mock.patch('os.path.expanduser')
