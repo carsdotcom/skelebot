@@ -86,7 +86,7 @@ class Scaffolder:
 
         # Load the Template Config
         options = list(TEMPLATES[language].keys())
-        template = promptUser("Select a TEMPLATE", options=options, reiterate=False)
+        template = promptUser("Select a TEMPLATE", options=options)
         template_name = TEMPLATES[language][template.capitalize()]
         if (template_name == "git"):
             url = promptUser("Enter Git Repo URL")

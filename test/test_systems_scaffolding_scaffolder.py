@@ -55,7 +55,7 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
             mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
             mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash"])
+            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
     @mock.patch('os.path.expanduser')
@@ -77,7 +77,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_yaml.saveConfig.assert_called_once()
@@ -120,7 +120,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
         mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
-        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash"])
+        mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
         mock_config.load.assert_called_once()
