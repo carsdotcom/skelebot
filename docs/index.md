@@ -32,6 +32,7 @@ Skelebot also saves developer time by integrating with HDFS through Kerberos aut
 - [Installing](installing.md)
 - [Help Info](help-info.md)
 - [Scaffolding](scaffolding.md)
+- [Scaffolding Template](template.md)
 - [Docker Host](docker-host.md)
 - [Dependencies](dependencies.md)
 - [Image Commands](image-commands.md)

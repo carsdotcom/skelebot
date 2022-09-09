@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.33.0
+#### Added
+- **Git Templates** | Added the ability to load templates from Git repos in scaffolding
+
+---
+
 ## v1.32.0
+#### Merged: 2022-08-24
 #### Changed
 - **Push Prefix** | Added the ability to push artifacts to S3 or Artifactory with prefix text
 

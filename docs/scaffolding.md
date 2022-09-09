@@ -36,7 +36,7 @@ Enter a PROJECT DESCRIPTION: A Machine Learning Project
 Enter a MAINTAINER NAME: Firstname Lastname
 Enter a CONTACT EMAIL: flastname@gmail.com
 Select a LANGUAGE [Python, R]: Python
-Select a TEMPLATE [Default, Dash]: Dash
+Select a TEMPLATE [Default, Dash, Git]: Dash
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
 Setting up the my-ml-project Skelebot project in the current directory
 ( /Users/seanshookman/Code/git.cars.com/cml/skelebot/temp )
@@ -45,6 +45,14 @@ Confirm Skelebot Setup (Y/n): y
 Wiring up the skele-bones...
 Soldering the micro-computer to the skele-skull...
 Your skelebot is ready to go!
+```
+
+### Git Templates
+The scaffolder can also load templates from Git repositories diring the scaffolding process by selecting `Git` as the TEMPLATE when prompted.
+
+```
+Select a TEMPLATE [Default, Dash, Git]: Git
+Enter Git Repo URL: git@github.com:carsdotcom/template_repo.git
 ```
 
 ### Results
@@ -56,4 +64,4 @@ The structure produced is merely a suggestion and does not need to be adhered to
 
 ---
 
-<center><< <a href="help-info.html">Help Info</a>  |  <a href="dependencies.html">Dependencies</a> >></center>
+<center><< <a href="help-info.html">Help Info</a>  |  <a href="template.html">Scaffolding Template</a> >></center>
