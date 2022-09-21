@@ -70,7 +70,8 @@ class S3Repo(ArtifactRepo):
 
             # Iterate through all the artifacts int he bucket
             for content in response["Contents"]:
-                artifactSemver = Semver(str(content["Key"]).split("_v")[1].split(ext)[0])
+                artifactName = str(content["Key"]).split("/")[-1]
+                artifactSemver = Semver(artifactName.split("_v")[-1].split(ext)[0])
 
                 # Find the most recent backward compatible version AKA Latest Compatible Version (LCV)
                 if (currentSemver.isBackwardCompatible(artifactSemver)) and ((version is None) or (version < artifactSemver)):

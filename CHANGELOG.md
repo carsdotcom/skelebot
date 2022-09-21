@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.33.1
+#### Changed
+- **S3Repo** | Fixed a bug in S3Repo where the artifact version was not being parsed properly in some cases
+
+---
+
 ## v1.33.0
+#### Merged: 2022-09-09
 #### Added
 - **Git Templates** | Added the ability to load templates from Git repos in scaffolding
 
