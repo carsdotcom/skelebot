@@ -5,7 +5,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.33.2
 #### Changed
-- **Scaffolding** | Fixed a bug in scaffolding where templates were not having componenets loaded in the config section
+- **Scaffolding** | Fixed a bug in scaffolding where templates were not having components loaded in the config section
 
 ---
 
