@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.33.2
+#### Changed
+- **Scaffolding** | Fixed a bug in scaffolding where templates were not having componenets loaded in the config section
+
+---
+
 ## v1.33.1
+#### Merged: 2022-09-19
+#### Released: 2022-09-19
 #### Changed
 - **S3Repo** | Fixed a bug in S3Repo where the artifact version was not being parsed properly in some cases
 
