@@ -96,7 +96,6 @@ class Scaffolder:
 
         # Prompt user based on the template
         for prompt in template.get("prompts", []):
-            print(prompt)
             self.variables[prompt["var"]] = promptUser(prompt["message"])
 
         # Iterate over components for additional prompts and add any components that are scaffolded
@@ -127,9 +126,7 @@ class Scaffolder:
             print("Attaching fiber optic ligaments...")
             for file_dict in template.get("files", []):
                 with open(file_dict["template"], "r") as tmp_file:
-                    print(f"READING TEMPLATE: {file_dict['template']}")
                     with open(file_dict["name"], "w") as dst_file:
-                        print(f"WRITING FILE: {file_dict['name']}")
                         dst_file.write(self.__format_variables(tmp_file.read()))
 
         print("Soldering the micro-computer to the skele-skull...")
