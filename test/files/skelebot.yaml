@@ -15,6 +15,16 @@ components:
     mappings:
     - ~/test:/app/test
     port: 1127
+  skelerest:
+    requests:
+      put-metadata:
+        aws: true
+        awsProfile: data-dev
+        awsRegion: us-east-1
+        body: data.json
+        endpoint: https://things.things
+        method: PUT
+        name: my-data
 contact: megaman@cars.com
 dependencies:
 - pyyaml
