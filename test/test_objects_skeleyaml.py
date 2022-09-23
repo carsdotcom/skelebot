@@ -42,13 +42,13 @@ class TestSkeleYaml(unittest.TestCase):
 
         self.assertEqual(res_jon["par_one"], 33)
         self.assertEqual(res_jon["par_two"], 1)
-        self.assertEqual(res_jon.get("nope", None), None)
+        self.assertNotIn("nope", res_jon)
         self.assertEqual(res_geo["par_one"], 45)
-        self.assertEqual(res_geo.get("par_two", None), None)
-        self.assertEqual(res_geo.get("nope", None), None)
+        self.assertNotIn("par_two", res_geo)
+        self.assertNotIn("nope", res_geo)
         self.assertEqual(res_fav["par_one"], 12)
         self.assertEqual(res_fav["par_two"], 42)
-        self.assertEqual(res_fav.get("nope", None), None)
+        self.assertNotIn("nope", res_fav)
 
 if __name__ == '__main__':
     unittest.main()
