@@ -42,16 +42,21 @@ class SkeleYaml():
 
         dct = copy.deepcopy(vars(self))
         removeList = []
-        for key in dct.keys():
-            if (dct[key] is None) or (dct[key] == []):
+        for key, value in dct.items():
+            if (value is None) or (value == []):
                 removeList.append(key)
-            elif (isinstance(dct[key], SkeleYaml)):
-                dct[key] = dct[key].toDict()
-            elif (isinstance(dct[key], list)):
+            elif (isinstance(value, SkeleYaml)):
+                dct[key] = value.toDict()
+            elif (isinstance(value, list)):
                 dctList = []
-                for element in dct[key]:
+                for element in value:
                     dctList.append(element.toDict() if isinstance(element, SkeleYaml) else element)
                 dct[key] = dctList
+            elif (isinstance(value, dict)):
+                dctDict = {}
+                for item_key, item_value in value.items():
+                    dctDict[item_key] = item_value.toDict() if (isinstance(item_value, SkeleYaml)) else item_value
+                dct[key] = dctDict
 
         for key in removeList:
             del dct[key]

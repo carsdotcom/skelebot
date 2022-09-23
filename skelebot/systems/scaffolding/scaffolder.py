@@ -143,6 +143,7 @@ class Scaffolder:
         config.maintainer = maintainer
         config.contact = contact
         config.version = "0.1.0"
+        yaml.saveConfig(config)
 
         if (not self.existing):
             # Creating the files for the project
@@ -151,6 +152,4 @@ class Scaffolder:
             dockerignore.buildDockerignore(config)
             readme.buildREADME(config)
 
-        # For existing projects, only the skelebot.yaml file is generated
-        yaml.saveConfig(config)
         print("Your Skelebot project is ready to go!")

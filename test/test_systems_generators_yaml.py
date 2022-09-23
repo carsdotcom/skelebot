@@ -149,6 +149,5 @@ class TestYaml(unittest.TestCase):
         config = sb.systems.generators.yaml.loadConfig()
         self.validateYaml(config)
 
-
 if __name__ == '__main__':
     unittest.main()
