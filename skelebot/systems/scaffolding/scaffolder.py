@@ -104,9 +104,7 @@ class Scaffolder:
         for component in componentFactory.buildComponents():
             component = component.scaffold()
             if (component is not None):
-                if (isinstance(component, list)):
-                    components += component
-                else: components.append(component)
+                components.append(component)
 
         # Confirm user input - allow them to back out before generating files
         print("--:-" * 5, "-:--" * 5)

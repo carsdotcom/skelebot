@@ -123,13 +123,11 @@ class TestScaffolder(unittest.TestCase):
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
         mock_dict_comp = mock.MagicMock()
         mock_dict_comp.scaffold.return_value = mock_dict_comp
         mock_dict_comp.toDict.return_value = {"fake_attr": "aaaa"}
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp, mock_dict_comp
+            mock_single_comp, mock_dict_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
@@ -198,11 +196,8 @@ class TestScaffolder(unittest.TestCase):
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
-
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp
+            mock_single_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
@@ -261,11 +256,8 @@ class TestScaffolder(unittest.TestCase):
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
-
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp
+            mock_single_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
