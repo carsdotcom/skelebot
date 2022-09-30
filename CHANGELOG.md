@@ -3,7 +3,16 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.33.2
+## v1.33.5
+#### Changed
+- **Skelebot Main** | Full test coverage for skelebot `__init__`.
+- **Scaffolding** | Fixed a bug in scaffolding where scaffolded dict-like components would raise an error in configs with no `components` defined. Also increase test coverge of this module to 100%.
+
+---
+
+## v1.33.4
+#### Merged: 2022-09-23
+#### Released: 2022-09-21
 #### Changed
 - **Scaffolding** | Fixed a bug in scaffolding where templates were not having components loaded in the config section
 
