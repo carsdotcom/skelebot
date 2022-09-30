@@ -133,6 +133,8 @@ class Scaffolder:
         # Build the config object based on the user inputs
         cfg = self.__format_config(template["config"])
         cfg["name"] = name
+        if "components" not in cfg:
+            cfg["components"] = {}
         for component in components:
             component_dict = component.toDict()
             if component_dict != {}:
