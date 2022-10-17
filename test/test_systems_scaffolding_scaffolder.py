@@ -117,16 +117,17 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                     "Python", "Git", "git@repo", "data-prod", True]
 
-        mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
+        exp_cfg = copy.deepcopy(TEMPLATE)
+        mock_pyyaml.load.return_value = exp_cfg
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
-
+        mock_dict_comp = mock.MagicMock()
+        mock_dict_comp.scaffold.return_value = mock_dict_comp
+        mock_dict_comp.toDict.return_value = {"fake_attr": "aaaa"}
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp
+            mock_single_comp, mock_dict_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
@@ -141,7 +142,10 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-        mock_config.load.assert_called_once()
+        exp_cfg["config"]["language"] = "Python"
+        exp_cfg["config"]["name"] = "test"
+        exp_cfg["config"]["components"] = {"magicmock": {"fake_attr": "aaaa"}}
+        mock_config.load.assert_called_once_with(exp_cfg["config"])
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
         dirname = os.path.dirname(os.path.dirname(__file__))
@@ -192,11 +196,8 @@ class TestScaffolder(unittest.TestCase):
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
-
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp
+            mock_single_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
@@ -255,11 +256,8 @@ class TestScaffolder(unittest.TestCase):
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
         mock_single_comp.scaffold.return_value = Bump()
-        mock_list_comp = mock.MagicMock()
-        mock_list_comp.scaffold.return_value = [Bump(), Bump()]
-
         mock_cFactory.return_value.buildComponents.return_value = [
-            mock_single_comp, mock_list_comp
+            mock_single_comp
         ]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)

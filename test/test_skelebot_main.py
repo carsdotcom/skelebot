@@ -1,4 +1,5 @@
 import unittest
+import runpy
 from unittest import mock
 
 from schema import SchemaError
@@ -55,7 +56,7 @@ class TestSkelebotMain(unittest.TestCase):
     @mock.patch('skelebot.systems.execution.executor.execute')
     @mock.patch('skelebot.systems.generators.yaml.loadConfig')
     @mock.patch('skelebot.systems.parsing.skeleParser.SkeleParser')
-    def test_skelebot_main_job_env(self, mock_parser, mock_yaml, mock_executor):
+    def test_skelebot_main_job_env_skip_build(self, mock_parser, mock_yaml, mock_executor):
         mock_parser.return_value = "parser"
         mock_yaml.return_value = "config"
         mock_executor.return_value = 0
@@ -88,3 +89,9 @@ class TestSkelebotMain(unittest.TestCase):
 
         print_mock.assert_called_once_with(Fore.RED + "ERROR" + Style.RESET_ALL + " | Environment Not Found")
         exit_mock.assert_called_once_with(1)
+
+
+    @mock.patch('skelebot.skelebot.main')
+    def test_skelebot_init(self, mock_main):
+        runpy.run_module('skelebot.__init__', run_name='__main__')
+        mock_main.assert_called_once_with()

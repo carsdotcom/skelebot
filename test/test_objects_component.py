@@ -14,7 +14,7 @@ class StoreUtterance(sb.objects.component.Component):
 
     def scaffold(self):
         self.utterance = sb.systems.scaffolding.prompt.promptUser("Say something")
-        return self.utterance
+        return self
 
 class TestComponent(unittest.TestCase):
 

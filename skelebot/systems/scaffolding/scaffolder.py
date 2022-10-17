@@ -104,9 +104,7 @@ class Scaffolder:
         for component in componentFactory.buildComponents():
             component = component.scaffold()
             if (component is not None):
-                if (isinstance(component, list)):
-                    components += component
-                else: components.append(component)
+                components.append(component)
 
         # Confirm user input - allow them to back out before generating files
         print("--:-" * 5, "-:--" * 5)
@@ -133,6 +131,8 @@ class Scaffolder:
         # Build the config object based on the user inputs
         cfg = self.__format_config(template["config"])
         cfg["name"] = name
+        if "components" not in cfg:
+            cfg["components"] = {}
         for component in components:
             component_dict = component.toDict()
             if component_dict != {}:
