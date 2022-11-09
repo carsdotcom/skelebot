@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.33.6
+#### Changed
+- **Semver object** | Fix bug with version comparison and add dedicated unit tests.
+
+---
+
 ## v1.33.5
+#### Merged: 2022-10-17
 #### Changed
 - **Skelebot Main** | Full test coverage for skelebot `__init__`.
 - **Scaffolding** | Fixed a bug in scaffolding where scaffolded dict-like components would raise an error in configs with no `components` defined. Also increase test coverge of this module to 100%.
