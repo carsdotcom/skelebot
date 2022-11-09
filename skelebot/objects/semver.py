@@ -13,9 +13,9 @@ class Semver():
     def __init__(self, version):
         """ Initialize the Major, Minor, and Patch numbers of a semantic version number """
         parts = version.split(".")
-        self.major = parts[0]
-        self.minor = parts[1]
-        self.patch = parts[2]
+        self.major = int(parts[0])
+        self.minor = int(parts[1])
+        self.patch = int(parts[2])
 
     def __str__(self):
         """ When converting to a String the format should read as major.minor.patch """
@@ -58,4 +58,3 @@ class Semver():
             compat = True
 
         return compat
-
