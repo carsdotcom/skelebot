@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.34.0
+#### Changed
+- **Python 3.10** | Adding support for Python 3.10
+
+---
+
 ## v1.33.6
 #### Changed
 - **Semver object** | Fix bug with version comparison and add dedicated unit tests.
