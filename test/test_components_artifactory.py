@@ -2,7 +2,7 @@ import argparse
 import copy
 import unittest
 from unittest import mock
-
+from requests.exceptions import MissingSchema
 from schema import SchemaError
 
 import skelebot as sb
@@ -62,6 +62,23 @@ class TestArtifactory(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             self.artifactory.execute(config, args)
+
+        mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=('sean', 'abc123'))
+        mock_copy.assert_called_with("test.pkl", "test_v1.0.0.pkl")
+        mock_remove.assert_called_with("test_v1.0.0.pkl")
+
+    @mock.patch('shutil.copyfile')
+    @mock.patch('os.remove')
+    @mock.patch('artifactory.ArtifactoryPath')
+    def test_execute_push_missing_schema(self, mock_artifactory, mock_remove, mock_copy):
+        mock_path = mock.MagicMock()
+        mock_path.exists = mock.MagicMock(side_effect=MissingSchema())
+        mock_artifactory.return_value = mock_path
+
+        config = sb.objects.config.Config(version="1.0.0")
+        args = argparse.Namespace(job="push", force=False, artifact='test', user='sean', token='abc123')
+
+        self.artifactory.execute(config, args)
 
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v1.0.0.pkl", auth=('sean', 'abc123'))
         mock_copy.assert_called_with("test.pkl", "test_v1.0.0.pkl")
