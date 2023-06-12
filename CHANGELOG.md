@@ -3,13 +3,22 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.35.0
+#### Changed
+- **Spaced Params** | Adding support parameters and arguments with spaces by wrapping them in single quotes
+
+---
+
 ## v1.34.0
+#### Merged: 2023-05-10
+#### Released: 2023-05-10
 #### Changed
 - **Python 3.10** | Adding support for Python 3.10
 
 ---
 
 ## v1.33.6
+#### Merged: 2022-11-09
 #### Changed
 - **Semver object** | Fix bug with version comparison and add dedicated unit tests.
 

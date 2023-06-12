@@ -45,6 +45,9 @@ def buildArgs(argParams, args):
     if (argParams is not None):
         for arg in argParams:
             value = args.get(arg.name.replace("-", "_"))
+            if (isinstance(value, str)):
+                value = f"'{value}'" if (" " in value) else value
+
             if (value is not None):
                 argString += " {}".format(value)
 
@@ -58,12 +61,15 @@ def buildParams(jobParams, args):
         for param in jobParams:
             dash_prefix = '--' if len(param.name) > 1 else '-'
             value = args.get(param.name.replace("-", "_"), param.default)
+            if (isinstance(value, str)):
+                value = f"'{value}'" if (" " in value) else value
+
             if (param.accepts == "boolean"):
                 if (value):
-                    paramString += " {dash_prefix}{name}".format(dash_prefix = dash_prefix, name=param.name)
+                    paramString += " {dash_prefix}{name}".format(dash_prefix=dash_prefix, name=param.name)
             elif (value is not None):
                 if (param.accepts == "list"):
                     value = " ".join(map(str, value))
-                paramString += " {dash_prefix}{name} {value}".format(dash_prefix = dash_prefix, name=param.name, value=value)
+                paramString += " {dash_prefix}{name} {value}".format(dash_prefix=dash_prefix, name=param.name, value=value)
 
     return paramString
