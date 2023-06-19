@@ -31,15 +31,6 @@ class ArtifactoryRepo(ArtifactRepo):
         self.repo = repo
         self.path = path
 
-        artifactory.global_config = {
-            self.url: {
-                'username': None,
-                'verify': True,
-                'cert': None,
-                'password': None
-            }
-        }
-
     def getUsername(self):
         """ Prompt for an Artifactory username """
         return input("Please provide a valid Artifactory user: ")
