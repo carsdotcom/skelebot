@@ -69,11 +69,13 @@ class TestRepository(TestCase):
         self.assertNotEqual(subparsers.choices["push"], None)
         self.assertNotEqual(subparsers.choices["pull"], None)
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('os.rename')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_push_conflict_artifactory(self, mock_artifactory, mock_rename, mock_input):
+    def test_execute_push_conflict_artifactory(self, mock_artifactory, mock_rename, mock_input, mock_pass):
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
         config = sb.objects.config.Config(version="1.0.0")
         args = argparse.Namespace(job="push", force=False, artifact='test', user=None, token=None, prefix=None)
         expectedException = "This artifact version already exists. Please bump the version or use the force parameter (-f) to overwrite the artifact."
@@ -251,11 +253,13 @@ class TestRepository(TestCase):
         self.s3_subfolder.execute(config, args)
         mock_client.upload_file.assert_called_with("test.pkl", "my-bucket", "sub/folder/test_v1.0.0.pkl")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_artifactory(self, mock_artifactory, mock_open, mock_input):
+    def test_execute_pull_artifactory(self, mock_artifactory, mock_open, mock_input, mock_pass):
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
 
         config = sb.objects.config.Config(version="1.0.0")
         args = argparse.Namespace(job="pull", version='0.1.0', artifact='test', user=None, token=None, override=False)
@@ -265,11 +269,13 @@ class TestRepository(TestCase):
         mock_artifactory.assert_called_with("artifactory.test.com/ml/test/test_v0.1.0.pkl", auth=("abc", "abc"))
         mock_open.assert_called_with("test_v0.1.0.pkl", "wb")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_artifactory_singular(self, mock_artifactory, mock_open, mock_input):
+    def test_execute_pull_artifactory_singular(self, mock_artifactory, mock_open, mock_input, mock_pass):
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
 
         config = sb.objects.config.Config(version="1.0.0")
         args = argparse.Namespace(job="pull", version='0.1.0', artifact='test3', user=None, token=None, override=False)
@@ -318,12 +324,14 @@ class TestRepository(TestCase):
         self.s3_subfolder.execute(config, args)
         mock_client.download_file.assert_called_with("my-bucket", "sub/folder/test3.pkl", "test3.pkl")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_lcv_artifactory(self, mock_artifactory, mock_open, mock_input):
+    def test_execute_pull_lcv_artifactory(self, mock_artifactory, mock_open, mock_input, mock_pass):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
         mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="1.0.9")
@@ -366,12 +374,14 @@ class TestRepository(TestCase):
         mock_client.get_object.assert_called_with(Bucket="my-bucket", Key="test_v1.0.5.pkl")
         mock_streambody.read.assert_called_once()
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_lcv_not_found_artifactory(self, mock_artifactory, mock_open, mock_input):
+    def test_execute_pull_lcv_not_found_artifactory(self, mock_artifactory, mock_open, mock_input, mock_pass):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
         mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="3.0.9")
@@ -400,12 +410,14 @@ class TestRepository(TestCase):
         except RuntimeError as err:
             self.assertEqual(str(err), "No Compatible Version Found")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('builtins.open')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_override_and_lcv_artifactory(self, mock_artifactory, mock_open, mock_input):
+    def test_execute_pull_override_and_lcv_artifactory(self, mock_artifactory, mock_open, mock_input, mock_pass):
         mock_apath = mock_artifactory.return_value
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
         mock_apath.__iter__.return_value = ["test_v1.1.0", "test_v0.2.4", "test_v1.0.0", "test_v2.0.1"]
 
         config = sb.objects.config.Config(version="0.6.9")
@@ -431,10 +443,12 @@ class TestRepository(TestCase):
 
         mock_client.download_file.assert_called_with("my-bucket", "test_v1.0.0.pkl", "test.pkl")
 
+    @mock.patch('skelebot.components.repository.artifactoryRepo.getpass')
     @mock.patch('skelebot.components.repository.artifactoryRepo.input')
     @mock.patch('artifactory.ArtifactoryPath')
-    def test_execute_pull_not_found(self, mock_artifactory, mock_input):
+    def test_execute_pull_not_found(self, mock_artifactory, mock_input, mock_pass):
         mock_input.return_value = "abc"
+        mock_pass.return_value = "abc"
         path = mock_artifactory.return_value
         path.exists.return_value = False
 

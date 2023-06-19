@@ -1,6 +1,7 @@
-import artifactory
 import shutil
 import os
+from getpass import getpass
+import artifactory
 from schema import Schema, And
 from .artifactRepo import ArtifactRepo
 from ...objects.semver import Semver
@@ -45,7 +46,7 @@ class ArtifactoryRepo(ArtifactRepo):
 
     def getToken(self):
         """ Prompt for an Artifactory token """
-        return input("Please provide a valid Artifactory token: ")
+        return getpass("Please provide a valid Artifactory token: ")
 
     def getLatestCompatibleVersion(self, artifact, currentVersion, user, token):
         """ Search for the latest compatible version for the provided version number """
