@@ -102,8 +102,11 @@ class Repository(Component):
         self.s3 = s3
         self.artifactory = artifactory
 
-    def requiresPassword(self):
-        return self.artifactory is not None
+    def requiresUsername(self):
+        return (self.artifactory is not None) and (self.artifactory.requiresUsername())
+
+    def requiresToken(self):
+        return (self.artifactory is not None) and (self.artifactory.requiresToken())
 
     def addParsers(self, subparsers):
         """
@@ -123,17 +126,19 @@ class Repository(Component):
         parser.add_argument("artifact", choices=artifactNames)
         parser.add_argument("-f", "--force", action='store_true', help="Force the push")
         parser.add_argument("-p", "--prefix", help="Prefix the artifact name or names with text")
-        if (self.requiresPassword()):
+        if (self.requiresUsername()):
             parser.add_argument("-u", "--user", help="Auth user for Artifactory")
-            parser.add_argument("-t", "--token", help="Auth token for Artifactory")
+        if (self.requiresToken()):
+            parser.add_argument("-t", "--token", help="Auth password/token/apikey for Artifactory")
 
         parser = subparsers.add_parser("pull", help="Pull an artifact from {}".format(repo))
         parser.add_argument("artifact", choices=artifactNames)
         parser.add_argument("version", help="The version of the artifact to pull")
         parser.add_argument("-o", "--override", action='store_true',  help="Override the model in the existing directory")
-        if (self.requiresPassword()):
+        if (self.requiresUsername()):
             parser.add_argument("-u", "--user", help="Auth user for Artifactory")
-            parser.add_argument("-t", "--token", help="Auth token for Artifactory")
+        if (self.requiresToken()):
+            parser.add_argument("-t", "--token", help="Auth password/token/apikey for Artifactory")
 
         return subparsers
 
@@ -142,8 +147,9 @@ class Repository(Component):
         # Obtain the user and token if required
         user = None
         token = None
-        if (self.requiresPassword()):
+        if (self.requiresUsername()):
             user = args.user
+        if (self.requiresToken()):
             token = args.token
 
         # Obtain the configured artifact repository

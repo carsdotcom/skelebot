@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.36.0
+#### Changed
+- **Artifactory** | Added support for token and api key methods of Artifactory authentication. Also added support to read authentication credentials from AWS Secrets Manager.
+
+---
+
 ## v1.35.0
+#### Merged: 2023-06-12
 #### Changed
 - **Spaced Params** | Adding support parameters and arguments with spaces by wrapping them in single quotes
 

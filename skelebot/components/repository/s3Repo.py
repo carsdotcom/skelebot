@@ -32,7 +32,7 @@ class S3Repo(ArtifactRepo):
         client = session.client('s3')
         return client
 
-    def push(self, artifact, version, force=False, user=None, password=None, prefix=None):
+    def push(self, artifact, version, force=False, user=None, token=None, prefix=None):
         """ Push an artifact to S3 with the given version number """
 
         bucket_parts = self.bucket.split("/")
@@ -51,7 +51,7 @@ class S3Repo(ArtifactRepo):
         # Upload the artifact with the versioned name
         client.upload_file(artifact.file, bucket, path)
 
-    def pull(self, artifact, version, currentVersion=None, override=False, user=None, password=None, in_memory=False):
+    def pull(self, artifact, version, currentVersion=None, override=False, user=None, token=None, in_memory=False):
         """ Pull an artifact from S3 with the given version or the LATEST compatible version """
 
         # Identify the latest compatible version

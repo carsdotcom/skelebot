@@ -57,6 +57,34 @@ The artifacts are defined with three fields.
  - The `file` field specifies the location of the file in the project folder structure.
  - The `singular` field is optional and defaults to False. If set to True the artifact will not be appended with a version number when it is pushed. This means there will be only one artifact stored and overrided each time.
 
+### Authentication
+
+A username and password are required for pushing and pulling artifacts to and from Artifactory, but for S3 the credentials are pulled from the `.aws/` folder as mentioned above. The user and password can either be provided via the prompts that display when executing the commands, or they can be passed as parameters in the command itself.
+
+ - `--user (-u)` - The Artifactory username
+ - `--token (-t)` - The password associated to the Artifactory username
+
+Skelebot also supports token and api key-based authentication methods for Artifactory either at runtime (using the same above `--token` prompt) or retrieved from AWS Secrets Manager. This can be configured using the optional `auth` subsection:
+
+```
+components:
+  repository:
+    artifactory:
+      url: artifactory.me.com
+      repo: ml-models
+      path: my-model
+      auth:
+        authType: token         # One of token, api_key, user_pass (default)
+        aws: true               # Optionally read auth from secretsManager. Defaults to false
+        awsSecret: my-secret    # Defaults to 'Artifactory'
+        awsProfile: dev         # Defaults to 'default'
+        awsRegion: us-east-1    # Defaults to 'us-east-1'
+```
+
+The above configuration will try to retrieve the field `token` from the AWS secret with ID `my-secret` available to users with profile `dev` in region `us-east-1`.
+
+Also note that if `aws: true` then neither username (`-u`) nor password/token/apikey (`-t`) will be asked for at runtime.
+
 ### Pushing
 
 To push an artifact that is specified in your skelebot.yaml, simply use the push command along with the name of the artifact.
@@ -76,11 +104,6 @@ To pull an artifact that is specified in your skelebot.yaml file, you can use th
 ```
 > skelebot pull artifact-name 0.1.0
 ```
-
-A username and token are required for pushing and pulling artifacts to and from Artifactory, but the for S3 the credentials are pulled from the `.aws/` folder as mentioned above. The user and token can either be provided via the prompts that display when executing the commands, or they can be passed as parameters in the command itself.
-
- - `--user (-u)` - The Artifactory username
- - `--token (-t)` - The token associated to the Artifactory username
 
 #### Latest Compatible Version
 
