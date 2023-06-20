@@ -5,12 +5,12 @@ class TestArtifactRepo(TestCase):
 
     def test_push_pass(self):
         artifactRepo = sb.components.repository.artifactRepo.ArtifactRepo()
-        nothing = artifactRepo.push("artifact", "1.1.0", force=False, user=None, password=None, prefix=None)
+        nothing = artifactRepo.push("artifact", "1.1.0", force=False, user=None, token=None, prefix=None)
         self.assertTrue(nothing is None)
 
     def test_pull_pass(self):
         artifactRepo = sb.components.repository.artifactRepo.ArtifactRepo()
-        nothing = artifactRepo.pull("artifact", "1.1.0", currentVersion="1.2.0", override=False, user=None, password=None)
+        nothing = artifactRepo.pull("artifact", "1.1.0", currentVersion="1.2.0", override=False, user=None, token=None)
         self.assertTrue(nothing is None)
 
 if __name__ == '__main__':

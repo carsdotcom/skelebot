@@ -521,7 +521,7 @@ class TestRepository(TestCase):
         try:
             sb.components.repository.artifactoryRepo.ArtifactoryRepo.validate(artifactoryDict)
         except SchemaError as error:
-            self.assertEqual(error.code, "Artifactory '{attr}' must be a {expected}".format(attr=attr, expected=expected))
+            self.assertEqual(error.code, "Artifactory '{attr}' must be a{expected}".format(attr=attr, expected=expected))
 
     def validate_error_artifact(self, attr, reset, expected):
         artifactDict = copy.deepcopy(self.artifactDict)
@@ -536,9 +536,10 @@ class TestRepository(TestCase):
         self.validate_error_s3('bucket', 123, 'String')
         self.validate_error_s3('region', 123, 'String')
         self.validate_error_s3('profile', 123, 'String')
-        self.validate_error_artifactory('url', 123, 'String')
-        self.validate_error_artifactory('repo', 123, 'String')
-        self.validate_error_artifactory('path', 123, 'String')
+        self.validate_error_artifactory('url', 123, ' String')
+        self.validate_error_artifactory('repo', 123, ' String')
+        self.validate_error_artifactory('path', 123, ' String')
+        self.validate_error_artifactory('auth', 123, 'n Object')
         self.validate_error_artifact('name', 123, 'String')
         self.validate_error_artifact('file', 123, 'String')
 
