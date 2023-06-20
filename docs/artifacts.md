@@ -59,7 +59,7 @@ The artifacts are defined with three fields.
 
 ### Authentication
 
-A username and password are required for pushing and pulling artifacts to and from Artifactory, but the for S3 the credentials are pulled from the `.aws/` folder as mentioned above. The user and password can either be provided via the prompts that display when executing the commands, or they can be passed as parameters in the command itself.
+A username and password are required for pushing and pulling artifacts to and from Artifactory, but for S3 the credentials are pulled from the `.aws/` folder as mentioned above. The user and password can either be provided via the prompts that display when executing the commands, or they can be passed as parameters in the command itself.
 
  - `--user (-u)` - The Artifactory username
  - `--token (-t)` - The password associated to the Artifactory username
