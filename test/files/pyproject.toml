@@ -3,7 +3,7 @@ name = "test"
 description = "Just a test"
 dependencies = [
     "requests",
-    "numpy==1.15.4",
+    "numpy==1.22.0",
     "pandas~=1.1",
     'scikit-learn<=2.0.0 ; python_version<="3.6"',
 ]

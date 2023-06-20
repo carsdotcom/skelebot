@@ -277,7 +277,7 @@ COPY libs/ml_lib-0.1.0-py3-none-any.whl libs/ml_lib-0.1.0-py3-none-any.whl
 RUN ["pip", "install", "/app/libs/ml_lib-0.1.0-py3-none-any.whl"]
 COPY requirements.txt requirements.txt
 RUN ["pip", "install", "-r", "/app/requirements.txt"]
-RUN ["pip", "install", "requests", "numpy==1.15.4", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<=\'3.6\'", "pytest ~= 6.2", "pytest-cov ~= 3.0", "fake-package == 1.2.3", "not-real"]
+RUN ["pip", "install", "requests", "numpy==1.22.0", "pandas~=1.1", "scikit-learn<=2.0.0 ; python_version<=\'3.6\'", "pytest ~= 6.2", "pytest-cov ~= 3.0", "fake-package == 1.2.3", "not-real"]
 RUN ["pip", "install", "dtable==9.0"]
 COPY . /app
 RUN rm -rf build/
