@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.36.1
+#### Changed
+- **Artifactory** | Using the default aws profile should pass `None` to boto3 Session.
+
+---
+
 ## v1.36.0
+#### Merged: 2023-06-20
+#### Released: 2023-06-20
 #### Changed
 - **Artifactory** | Added support for token and api key methods of Artifactory authentication. Also added support to read authentication credentials from AWS Secrets Manager.
 
