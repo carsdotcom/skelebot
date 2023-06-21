@@ -22,6 +22,22 @@ class TestAuth(TestCase):
         mock_boto3_session.assert_called_with(profile_name="bar")
 
     @mock.patch('boto3.Session')
+    def test_load_aws_default_credentials(self, mock_boto3_session):
+        mock_client = mock.Mock()
+        mock_session = mock.Mock()
+        mock_boto3_session.return_value = mock_session
+        mock_session.client.return_value = mock_client
+        mock_client.get_secret_value.return_value = {"SecretString": '{"a": 1}'}
+
+        auth = sb.components.repository.artifactoryRepo.Auth(aws=True)
+        actual_creds = auth.loadAwsCredentials()
+
+        assert actual_creds == {"a": 1}
+        mock_client.get_secret_value.assert_called_with(SecretId="Artifactory")
+        mock_session.client.assert_called_with(service_name="secretsmanager", region_name="us-east-1")
+        mock_boto3_session.assert_called_with(profile_name=None)
+
+    @mock.patch('boto3.Session')
     def test_get_credentials_aws_user_pass(self, mock_boto3_session):
         mock_client = mock.Mock()
         mock_session = mock.Mock()

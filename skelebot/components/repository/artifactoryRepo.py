@@ -33,7 +33,7 @@ class Auth(SkeleYaml):
     awsProfile = None
     awsRegion = None
 
-    def __init__(self, authType="user_pass", aws=False, awsSecret="Artifactory", awsProfile="default",
+    def __init__(self, authType="user_pass", aws=False, awsSecret="Artifactory", awsProfile=None,
                  awsRegion="us-east-1"):
         """Instantiate the Auth Class Object based on the provided parameters"""
         self.authType = authType
