@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v1.37.0
+#### Changed
+- **Python 3.11** | Adding support for Python 3.11
+
+---
+
 ## v1.36.1
+#### Merged: 2023-06-21
+#### Released: 2023-06-21
 #### Changed
 - **Artifactory** | Using the default aws profile should pass `None` to boto3 Session.
 
