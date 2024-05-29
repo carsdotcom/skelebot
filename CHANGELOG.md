@@ -5,6 +5,8 @@ Documenting All Changes to the Skelebot Project
 
 ## v1.37.0
 #### Changed
+- **Python versions** | Support for python versions 3.6, 3.7, and 3.8, including base docker images, is **deprecated** and will be removed in skelebot 2.0
+- **R support** | All support for `R` and `R+Python` projects, including base docker images, is **deprecated** and will be removed in skelebot 2.0
 - **Python 3.11** | Adding support for Python 3.11
 
 ---

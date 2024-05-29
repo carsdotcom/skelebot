@@ -5,7 +5,7 @@ from .job import Job
 from .param import Param
 from .skeleYaml import SkeleYaml
 from .component import Activation
-from ..common import LANGUAGE_IMAGE, PYTHON_VERSIONS
+from ..common import LANGUAGE_IMAGE, PYTHON_VERSIONS, DEPRECATED_VERSIONS, DEPRECATION_WARNING
 from ..components.componentFactory import ComponentFactory
 
 class Config(SkeleYaml):
@@ -92,6 +92,13 @@ class Config(SkeleYaml):
         self.commands = commands if commands is not None else []
         self.pythonVersion = pythonVersion
         self.gpu = gpu
+
+        if self.pythonVersion in DEPRECATED_VERSIONS:
+            print(DEPRECATION_WARNING.format(
+                code=f"Python version {self.pythonVersion}",
+                version="1.37.0",
+                msg="Please use a higher version."
+            ))
 
     def toDict(self):
         """
