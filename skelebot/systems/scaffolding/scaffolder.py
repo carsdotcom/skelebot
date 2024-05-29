@@ -9,7 +9,8 @@ from subprocess import call
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
-from ...common import LANGUAGE_DEPENDENCIES, TEMPLATES, TEMPLATE_PATH, GITHUB_RAW
+from ...common import (LANGUAGE_DEPENDENCIES, TEMPLATES, TEMPLATE_PATH, GITHUB_RAW,
+                       DEPRECATED_LANGUAGES, DEPRECATION_WARNING)
 from .prompt import promptUser
 
 class Scaffolder:
@@ -74,7 +75,16 @@ class Scaffolder:
         description = promptUser("Enter a PROJECT DESCRIPTION")
         maintainer = promptUser("Enter a MAINTAINER NAME")
         contact = promptUser("Enter a CONTACT EMAIL")
-        language = promptUser("Select a LANGUAGE", options=list(LANGUAGE_DEPENDENCIES.keys()))
+        language = promptUser("Select a LANGUAGE",
+                              options=list(LANGUAGE_DEPENDENCIES.keys()),
+                              deprecated_options=DEPRECATED_LANGUAGES)
+
+        if language in DEPRECATED_LANGUAGES:
+            print(DEPRECATION_WARNING.format(
+                code=f"support for {language} language",
+                version="1.37.0",
+                msg="Please use a different language."
+            ))
 
         # Configure Template Variables
         self.variables["name"] = name

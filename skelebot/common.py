@@ -40,7 +40,10 @@ LANGUAGE_DEPENDENCIES = {
     "R": _all_deps["R"],
     "R+Python": _all_deps,
 }
-PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9', '3.10']
+DEPRECATED_LANGUAGES = ["R", "R+Python"]
+
+PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11']
+DEPRECATED_VERSIONS = ['3.6', '3.7', '3.8']
 
 TEMPLATE_PATH = "templates/{name}"
 TEMPLATES = {

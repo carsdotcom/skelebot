@@ -16,6 +16,7 @@ docker build -t skelebot/python-base:3.7 base-images/python-base/3.7/
 docker build -t skelebot/python-base:3.8 base-images/python-base/3.8/
 docker build -t skelebot/python-base:3.9 base-images/python-base/3.9/
 docker build -t skelebot/python-base:3.10 base-images/python-base/3.10/
+docker build -t skelebot/python-base:3.11 base-images/python-base/3.11/
 
 # Build python-krb
 docker build -t skelebot/python-krb base-images/python-krb/

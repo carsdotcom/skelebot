@@ -3,6 +3,8 @@ import copy
 import unittest
 from unittest import mock
 
+from colorama import Fore, Style
+
 import skelebot as sb
 from skelebot.components.bump import Bump
 
@@ -62,9 +64,41 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
             mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
             mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-            mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+            mock_prompt.assert_any_call("Select a LANGUAGE",
+                                        options=["Python", "R", "R+Python"],
+                                        deprecated_options=["R", "R+Python"])
             mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
+    @mock.patch('skelebot.systems.scaffolding.scaffolder.print')
+    def test_execute_scaffold_deprecated(self, mock_print, mock_prompt, mock_cFactory,
+                                         mock_getcwd, mock_expanduser):
+        mock_expanduser.return_value = "test/plugins"
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R", "Default", False]
+        try:
+            scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
+            scaffolder.scaffold()
+            self.fail("Exception Expected")
+        except Exception as exc:
+            self.assertEqual(str(exc), "Aborting Scaffolding Process")
+
+            mock_prompt.assert_any_call("Enter a PROJECT NAME")
+            mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
+            mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
+            mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
+            mock_prompt.assert_any_call("Select a LANGUAGE",
+                                        options=["Python", "R", "R+Python"],
+                                        deprecated_options=["R", "R+Python"])
+            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Git"])
+            mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
+
+            mock_print.assert_any_call(Fore.YELLOW + "WARN" + Style.RESET_ALL
+                                       + " | The support for R language has been deprecated as of v1.37.0."
+                                       + " Please use a different language.")
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -85,7 +119,9 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE",
+                                    options=["Python", "R", "R+Python"],
+                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
@@ -137,7 +173,9 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE",
+                                    options=["Python", "R", "R+Python"],
+                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
@@ -207,7 +245,9 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE",
+                                    options=["Python", "R", "R+Python"],
+                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
@@ -267,7 +307,9 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE", options=["Python", "R", "R+Python"])
+        mock_prompt.assert_any_call("Select a LANGUAGE",
+                                    options=["Python", "R", "R+Python"],
+                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
