@@ -95,7 +95,7 @@ class TestScaffolder(unittest.TestCase):
                                         deprecated_options=["R", "R+Python"])
             mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Git"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
-            print(mock_print.call_args_list)
+
             mock_print.assert_any_call(Fore.YELLOW + "WARN" + Style.RESET_ALL
                                        + " | The support for R language has been deprecated as of v1.37.0."
                                        + " Please use a different language.")

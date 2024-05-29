@@ -1,5 +1,8 @@
 import copy
 import unittest
+from unittest import mock
+
+from colorama import Fore, Style
 
 from schema import SchemaError
 
@@ -44,6 +47,15 @@ class TestConfigValidate(unittest.TestCase):
             sb.objects.config.Config.validate(self.config)
         except:
             self.fail("Validation Raised Exception Unexpectedly")
+
+    @mock.patch('skelebot.objects.config.print')
+    def test_valid_deprecated(self, mock_print):
+        _ = sb.objects.config.Config(pythonVersion='3.6')
+        mock_print.assert_called_once_with(
+            Fore.YELLOW + "WARN" + Style.RESET_ALL
+            + " | The support for Python version 3.6 has been deprecated as of v1.37.0."
+            + " Please use a higher version."
+        )
 
     def test_invalid_mising(self):
         config = copy.deepcopy(self.config)

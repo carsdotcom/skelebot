@@ -95,7 +95,7 @@ class Config(SkeleYaml):
 
         if self.pythonVersion in DEPRECATED_VERSIONS:
             print(DEPRECATION_WARNING.format(
-                code=f"Python version {self.pythonVersion}",
+                code=f"support for Python version {self.pythonVersion}",
                 version="1.37.0",
                 msg="Please use a higher version."
             ))
