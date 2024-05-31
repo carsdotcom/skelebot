@@ -5,13 +5,11 @@ contact: sshookman@cars.com
 ephemeral: False
 timezone: America/Chicago
 
-language: Python
 dependencies:
 - req:requirements.txt
 
 ignores:
 - '**/*.zip'
-- '**/*.RData'
 - '**/*.pkl'
 - '**/*.csv'
 - '**/*.model'

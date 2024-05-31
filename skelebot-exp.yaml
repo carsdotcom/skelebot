@@ -17,7 +17,6 @@ dependencies:
 - tomli>=1.1.0
 ignores:
 - '**/*.zip'
-- '**/*.RData'
 - '**/*.pkl'
 - '**/*.csv'
 - '**/*.model'
