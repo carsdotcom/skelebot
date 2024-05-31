@@ -14,13 +14,8 @@ except ModuleNotFoundError:
 FILE_PATH = "{path}/Dockerfile"
 
 PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version}{profile} --format pypi --asset {asset} libs/{asset}"
-PY_INSTALL = 'RUN ["pip", "install", "{dep}"]\n'
-PY_INSTALL_VERSION = 'RUN ["pip", "install", "{depName}=={version}"]\n'
-PY_INSTALL_GITHUB = 'RUN ["pip", "install", "git+{depPath}"]\n'
-PY_INSTALL_FILE = "COPY {depPath} {depPath}\n"
-PY_INSTALL_FILE += 'RUN ["pip", "install", "/app/{depPath}"]\n'
-PY_INSTALL_REQ = "COPY {depPath} {depPath}\n"
-PY_INSTALL_REQ += 'RUN ["pip", "install", "-r", "/app/{depPath}"]\n'
+COPY_FILE = "COPY {depPath} {depPath}\n"
+PY_INSTALL = 'RUN ["pip", "install", "{deps}"]\n'
 TIMEZONE = "ENV TZ={timezone}\nRUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone\n"
 
 DOCKERFILE = """
@@ -42,7 +37,7 @@ def parse_pyproj(pyproject_file):
     # break the Dockerfile
     deps = [d.replace('"', "'") for d in deps]
 
-    return '", "'.join(deps)
+    return deps
 
 
 def buildDockerfile(config):
@@ -57,15 +52,18 @@ def buildDockerfile(config):
     if (config.timezone is not None):
         docker += TIMEZONE.format(timezone=config.timezone)
 
-    # Add dependencies
+    # Copy any needed files first then install all dependencies together
+    docker_deps = []
     for dep in config.dependencies:
         depSplit = dep.split(":")
         if (dep.startswith("github:")):
-            docker += PY_INSTALL_GITHUB.format(depPath=dep.split(":", maxsplit=1)[1])
+            docker_deps.append("git+" + dep.split(":", maxsplit=1)[1])
         elif (dep.startswith("file:")):
-            docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
+            docker += COPY_FILE.format(depPath=depSplit[1])
+            docker_deps.append(f"/app/{depSplit[1]}")
         elif (dep.startswith("req:")):
-            docker += PY_INSTALL_REQ.format(depPath=depSplit[1])
+            docker += COPY_FILE.format(depPath=depSplit[1])
+            docker_deps += ["-r", f"/app/{depSplit[1]}"]
         elif (dep.startswith("ca_file:")):
             domain = depSplit[1]
             owner = depSplit[2]
@@ -80,16 +78,20 @@ def buildDockerfile(config):
             if (status != 0):
                 raise Exception("Failed to Obtain CodeArtifact Package")
 
-            docker += PY_INSTALL_FILE.format(depPath=f"libs/{asset}")
+            docker += COPY_FILE.format(depPath=f"libs/{asset}")
+            docker_deps.append(f"/app/libs/{asset}")
+        # For pyprojects the source code does not exist at this point inside the docker
+        # image so we install only the dependencies
         elif (dep.startswith("proj:")):
-            deps = parse_pyproj(depSplit[1])
-            docker += PY_INSTALL.format(dep=deps)
+            docker_deps += parse_pyproj(depSplit[1])
         # if using PIP version specifiers, will be handled as a standard case
         elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
             verSplit = dep.split("=")
-            docker += PY_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
+            docker_deps.append(f"{verSplit[0]}=={verSplit[1]}")
         else:
-            docker += PY_INSTALL.format(dep=dep)
+            docker_deps.append(f"{dep}")
+
+    docker += PY_INSTALL.format(deps='", "'.join(docker_deps))
 
     # Copy the project into the /app folder of the Docker Image
     # Ignores anything in the .dockerignore file of the project

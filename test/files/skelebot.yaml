@@ -2,13 +2,6 @@ commands:
 - rm -rf build/
 - rm -rf dist/
 components:
-  artifactory:
-    artifacts:
-    - file: test
-      name: test
-    path: test
-    repo: cars-ml-core
-    url: https://repository.cars.com/artifactory
   jupyter:
     folder: notebooks/
     lab: false
@@ -70,7 +63,6 @@ jobs:
     default: csv
     name: f
   source: test_short.sh
-language: Python
 maintainer: Mega Man
 name: test
 params:
@@ -84,4 +76,4 @@ params:
   name: log
 primaryExe: CMD
 primaryJob: build
-pythonVersion: '3.6'
+pythonVersion: '3.9'

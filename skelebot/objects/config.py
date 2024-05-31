@@ -124,13 +124,10 @@ class Config(SkeleYaml):
         else:
             image = LANGUAGE_IMAGE["base"].format(pythonVersion=self.pythonVersion)
 
-            variant = "base"
             for component in self.components:
                 if component.__class__.__name__.lower() == "kerberos":
-                    variant = "krb"
+                    image = LANGUAGE_IMAGE["krb"]
                     break
-
-            image = LANGUAGE_IMAGE[variant]
 
         return image
 
