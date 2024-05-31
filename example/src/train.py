@@ -24,6 +24,7 @@ if ("glm" == args.algorithm):
     model.fit(df[['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']], df['target'])
 
     print("Saving Model")
-    pickle.dump(model, open(filename, 'wb'))
+    with open(filename, 'wb') as fobj:
+        pickle.dump(model, fobj)
 else:
     print("ALGORITHM NOT YET SUPPORTED")

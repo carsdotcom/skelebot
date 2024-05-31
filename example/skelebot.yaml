@@ -1,11 +1,12 @@
 components:
-  artifactory:
+  repository:
+    artifactory:
+      path: models
+      repo: iris-example
+      url: http://my-artifactory-url.com
     artifacts:
     - file: models/model.pkl
       name: model
-    path: models
-    repo: iris-example
-    url: http://my-artifactory-url.com
   jupyter:
     folder: .
     port: 8888
@@ -34,7 +35,7 @@ jobs:
     help: the algorithm to use for modeling (only glm currently supported)
   help: Use the data loaded in the loadData job to train the iris model
   mappings:
-  - /Users/seanshookman/Code/open-source/skelebot/example/models/:/app/models/
+  - models/
   mode: i
   name: train
   params:
@@ -50,7 +51,7 @@ jobs:
 - help: Use the model that was built in the train job to score new data against the
     iris model
   mappings:
-  - ~/Code/open-source/skelebot/example/scored/:/app/scored/
+  - scored
   mode: i
   name: score
   params:
@@ -63,6 +64,5 @@ jobs:
     name: output
     help: the name of the output file to be written
   source: src/score.py
-language: Python
 maintainer: Sean Shookman
 name: iris-example
