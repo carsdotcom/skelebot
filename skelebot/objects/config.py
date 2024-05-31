@@ -23,7 +23,6 @@ class Config(SkeleYaml):
         Optional('maintainer'): And(str, error='\'maintainer\' must be a String'),
         Optional('contact'): And(str, error='\'contact\' must be a String'),
         Optional('host'): And(str, error='\'host\' must be a String'),
-        'language': And(str, error='\'language\' must be a String'),
         Optional('baseImage'): And(str, error='\'baseImage\' must be a String'),
         Optional('timezone'): And(str, error='\'timezone\' must be a String'),
         Optional('primaryJob'): And(str, error='\'primaryJob\' must be a String'),
@@ -47,7 +46,6 @@ class Config(SkeleYaml):
     maintainer = None
     contact = None
     host = None
-    language = None
     baseImage = None
     timezone = None
     primaryJob = None
@@ -64,7 +62,7 @@ class Config(SkeleYaml):
     gpu = False
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
-                 contact=None, host=None, language=None, baseImage=None, timezone=None,
+                 contact=None, host=None, baseImage=None, timezone=None,
                  primaryJob=None, primaryExe=None, ephemeral=None, dependencies=None, ignores=None,
                  jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.9',
                  gpu = False):
@@ -77,7 +75,6 @@ class Config(SkeleYaml):
         self.maintainer = maintainer
         self.contact = contact
         self.host = host
-        self.language = language
         self.baseImage = baseImage
         self.timezone = timezone
         self.primaryJob = primaryJob
@@ -118,24 +115,22 @@ class Config(SkeleYaml):
 
     def getBaseImage(self):
         """
-        Returns the proper base image based on the values for language and kerberos,
+        Returns the proper base image based on the values for python version and kerberos,
         or returns the user defined base image if provided in the config yaml
         """
 
         if self.baseImage:
             image = self.baseImage
         else:
-            language = self.language if self.language is not None else "NA"
-            image = LANGUAGE_IMAGE[language]
-            if language == 'Python':
-                image['base'] = image['base'].format(pythonVersion = self.pythonVersion)
+            image = LANGUAGE_IMAGE["base"].format(pythonVersion=self.pythonVersion)
 
             variant = "base"
             for component in self.components:
                 if component.__class__.__name__.lower() == "kerberos":
                     variant = "krb"
+                    break
 
-            image = image[variant]
+            image = LANGUAGE_IMAGE[variant]
 
         return image
 

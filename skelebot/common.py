@@ -17,14 +17,8 @@ PLUGINS_HOME = "{home}/plugins".format(home=SKELEBOT_HOME)
 PLUGINS_QUARANTINE = "{home}/plugins-quarantine".format(home=SKELEBOT_HOME)
 
 LANGUAGE_IMAGE = {
-    "NA": {
-        "base": "ubuntu:22.04",
-        "krb": "ubuntu:22.04"
-    },
-    "Python": {
-        "base": "skelebot/python-base:{pythonVersion}",
-        "krb": "skelebot/python-krb"
-    },
+    "base": "skelebot/python-base:{pythonVersion}",
+    "krb": "skelebot/python-krb"
 }
 
 PYTHON_VERSIONS = ['3.9', '3.10', '3.11']
