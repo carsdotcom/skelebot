@@ -3,8 +3,6 @@ import copy
 import unittest
 from unittest import mock
 
-from colorama import Fore, Style
-
 import skelebot as sb
 from skelebot.components.bump import Bump
 
@@ -32,7 +30,7 @@ TEMPLATE = {
         }
     ],
     "config": {
-        "language": "{language}",
+        "name": "{name}",
         "dependencies": ["dash~=2.0"],
         "ports": ["5000:5000"],
         "primaryJob": "run",

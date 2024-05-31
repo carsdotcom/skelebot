@@ -26,7 +26,6 @@ class TestDockerignore(unittest.TestCase):
 # Editing this file manually is not advised as all changes will be overwritten by Skelebot
 
 **/*.zip
-**/*.RData
 **/*.pkl
 **/*.csv
 **/*.model
@@ -36,7 +35,7 @@ class TestDockerignore(unittest.TestCase):
         sb.systems.generators.dockerignore.buildDockerignore(self.config)
 
         data = None
-        with open(filePath, "r") as file:
+        with open(filePath, "r", encoding="utf-8") as file:
             data = file.read()
         self.assertTrue(data is not None)
         self.assertEqual(data, expected)

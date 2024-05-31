@@ -19,7 +19,6 @@ description: test cases
 gpu: false
 ignores:
 - '**/*.zip'
-- '**/*.RData'
 - '**/*.pkl'
 - '**/*.csv'
 - '**/*.model'
