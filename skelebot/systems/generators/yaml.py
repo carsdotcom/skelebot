@@ -27,7 +27,7 @@ def saveConfig(config):
     config.version = None
     yml = yaml.dump(config.toDict(), default_flow_style=False)
 
-    with open(FILE_PATH.format(path=os.getcwd()), "w") as file:
+    with open(FILE_PATH.format(path=os.getcwd()), "w", encoding="utf-8") as file:
         file.write(yml)
 
 def loadVersion():
@@ -36,14 +36,14 @@ def loadVersion():
     version = None
     versionFile = VERSION_PATH.format(path=os.getcwd())
     if os.path.isfile(versionFile):
-        with open(versionFile, 'r') as file:
+        with open(versionFile, "r", encoding="utf-8") as file:
             version = file.read().replace("\n", "")
     return version
 
 def saveVersion(version):
     """Overwrite the version number in the VERSION file with a new version"""
 
-    with open(VERSION_PATH.format(path=os.getcwd()), 'w') as file:
+    with open(VERSION_PATH.format(path=os.getcwd()), "w", encoding="utf-8") as file:
         file.write(version)
 
 def readYaml(env=None):
@@ -53,12 +53,12 @@ def readYaml(env=None):
     cwd = os.getcwd()
     cfgFile = FILE_PATH.format(path=cwd)
     if os.path.isfile(cfgFile):
-        with open(cfgFile, 'r') as stream:
+        with open(cfgFile, "r", encoding="utf-8") as stream:
             yamlData = yaml.load(stream, Loader=yaml.FullLoader)
             if (env is not None):
                 envFile = ENV_FILE_PATH.format(path=cwd, env=env)
                 if os.path.isfile(envFile):
-                    with open(envFile, 'r') as stream:
+                    with open(envFile, "r", encoding="utf-8") as stream:
                         overrideYaml = yaml.load(stream, Loader=yaml.FullLoader)
                         yamlData = override(yamlData, overrideYaml)
                 else:

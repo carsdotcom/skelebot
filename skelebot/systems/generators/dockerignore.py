@@ -23,6 +23,6 @@ def buildDockerignore(config):
     for component in config.components:
         docker += component.appendDockerignore()
 
-    dockerignore = open(FILE_PATH.format(path=os.getcwd()), "w")
+    dockerignore = open(FILE_PATH.format(path=os.getcwd()), "w", encoding="utf-8")
     dockerignore.write(docker)
     dockerignore.close()

@@ -55,7 +55,7 @@ class RunCommandBuilder():
         self.entrypoint = True
         self.cmd += " --entrypoint"
         return self
-    
+
     def set_gpu(self):
         self.cmd += " --gpus all --ipc=host"
         return self
