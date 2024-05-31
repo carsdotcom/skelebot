@@ -60,13 +60,13 @@ class Config(SkeleYaml):
     components = None
     params = None
     commands = None
-    pythonVersion = '3.6'
+    pythonVersion = '3.9'
     gpu = False
 
     def __init__(self, name=None, env=None, description=None, version=None, maintainer=None,
                  contact=None, host=None, language=None, baseImage=None, timezone=None,
                  primaryJob=None, primaryExe=None, ephemeral=None, dependencies=None, ignores=None,
-                 jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.6',
+                 jobs=None, ports=None, components=None, params=None, commands=None, pythonVersion = '3.9',
                  gpu = False):
         """Initialize the config object with all provided optional attributes"""
 

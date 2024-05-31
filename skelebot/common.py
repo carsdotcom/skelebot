@@ -18,50 +18,24 @@ PLUGINS_QUARANTINE = "{home}/plugins-quarantine".format(home=SKELEBOT_HOME)
 
 LANGUAGE_IMAGE = {
     "NA": {
-        "base": "ubuntu:18.04",
-        "krb": "ubuntu:18.04"
+        "base": "ubuntu:22.04",
+        "krb": "ubuntu:22.04"
     },
     "Python": {
         "base": "skelebot/python-base:{pythonVersion}",
         "krb": "skelebot/python-krb"
     },
-    "R": {
-        "base": "skelebot/r-base",
-        "krb": "skelebot/r-krb"
-    },
-    "R+Python": {
-        "base": "skelebot/r-base",
-        "krb": "skelebot/r-krb"
-    }
 }
-_all_deps: dict = {"Python":["numpy", "pandas", "scipy", "scikit-learn"],"R":["data.table", "here", "stringr", "readr", "testthat", "yaml"]}
-LANGUAGE_DEPENDENCIES = {
-    "Python": _all_deps["Python"],
-    "R": _all_deps["R"],
-    "R+Python": _all_deps,
-}
-DEPRECATED_LANGUAGES = ["R", "R+Python"]
 
-PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11']
-DEPRECATED_VERSIONS = ['3.6', '3.7', '3.8']
+PYTHON_VERSIONS = ['3.9', '3.10', '3.11']
+DEPRECATED_VERSIONS = []
 
 TEMPLATE_PATH = "templates/{name}"
-TEMPLATES = {
-    "Python": {
-        "Default": "python",
-        "Dash": "python_dash",
-        "Git": "git"
-    },
-    "R": {
-        "Default": "r",
-        "Git": "git"
-    },
-    "R+Python": {
-        "Default": "r_python",
-        "Git": "git"
-    }
+TEMPLATES =  {
+    "Default": "python",
+    "Dash": "python_dash",
+    "Git": "git"
 }
-GITHUB_RAW = "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{filepath}"
 
 EXT_COMMAND = {"py":"python -u ", "R":"Rscript ", "sh":"bash ", "None":""}
 

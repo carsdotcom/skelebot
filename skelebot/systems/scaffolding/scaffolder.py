@@ -2,15 +2,14 @@
 
 import os
 import re
-import json
-import requests
-import yaml as pyyaml
 from subprocess import call
+
+import yaml as pyyaml
+
 from ...objects.config import Config
 from ...components.componentFactory import ComponentFactory
 from ...systems.generators import dockerfile, dockerignore, readme, yaml
-from ...common import (LANGUAGE_DEPENDENCIES, TEMPLATES, TEMPLATE_PATH, GITHUB_RAW,
-                       DEPRECATED_LANGUAGES, DEPRECATION_WARNING)
+from ...common import TEMPLATES, TEMPLATE_PATH
 from .prompt import promptUser
 
 class Scaffolder:
@@ -50,7 +49,7 @@ class Scaffolder:
 
         path = TEMPLATE_PATH.format(name=name)
         path = os.path.join(os.path.dirname(__file__), path)
-        with open(f"{path}/template.yaml", "r") as yaml_file:
+        with open(f"{path}/template.yaml", "r", encoding="utf-8") as yaml_file:
             yaml_text = self.__format_variables(yaml_file.read())
             template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
 
@@ -75,16 +74,6 @@ class Scaffolder:
         description = promptUser("Enter a PROJECT DESCRIPTION")
         maintainer = promptUser("Enter a MAINTAINER NAME")
         contact = promptUser("Enter a CONTACT EMAIL")
-        language = promptUser("Select a LANGUAGE",
-                              options=list(LANGUAGE_DEPENDENCIES.keys()),
-                              deprecated_options=DEPRECATED_LANGUAGES)
-
-        if language in DEPRECATED_LANGUAGES:
-            print(DEPRECATION_WARNING.format(
-                code=f"support for {language} language",
-                version="1.37.0",
-                msg="Please use a different language."
-            ))
 
         # Configure Template Variables
         self.variables["name"] = name
@@ -92,12 +81,11 @@ class Scaffolder:
         self.variables["description"] = description
         self.variables["maintainer"] = maintainer
         self.variables["contact"] = contact
-        self.variables["language"] = language
 
         # Load the Template Config
-        options = list(TEMPLATES[language].keys())
+        options = list(TEMPLATES.keys())
         template = promptUser("Select a TEMPLATE", options=options)
-        template_name = TEMPLATES[language][template.capitalize()]
+        template_name = TEMPLATES[template.capitalize()]
         if (template_name == "git"):
             url = promptUser("Enter Git Repo URL")
             template = self.__load_git_template(url)
@@ -133,8 +121,8 @@ class Scaffolder:
             # Setting up the file templates for the project
             print("Attaching fiber optic ligaments...")
             for file_dict in template.get("files", []):
-                with open(file_dict["template"], "r") as tmp_file:
-                    with open(file_dict["name"], "w") as dst_file:
+                with open(file_dict["template"], "r", encoding="utf-8") as tmp_file:
+                    with open(file_dict["name"], "w", encoding="utf-8") as dst_file:
                         dst_file.write(self.__format_variables(tmp_file.read()))
 
         print("Soldering the micro-computer to the skele-skull...")
