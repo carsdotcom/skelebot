@@ -13,7 +13,6 @@ from .kerberos import Kerberos
 from .bump import Bump
 from .prime import Prime
 from .dexec import Dexec
-from .artifactory import Artifactory
 from .registry import Registry
 from .repository.repository import Repository
 from .environments import Environments
@@ -41,7 +40,6 @@ class ComponentFactory():
             Bump.__name__.lower(): Bump,
             Prime.__name__.lower(): Prime,
             Dexec.__name__.lower(): Dexec,
-            Artifactory.__name__.lower(): Artifactory,
             Registry.__name__.lower(): Registry,
             Repository.__name__.lower(): Repository,
             Environments.__name__.lower(): Environments
