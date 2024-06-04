@@ -1,6 +1,7 @@
+pip install .[dev]
 if [ "--coverage" = "$1" ]
 then
-    coverage run --source=skelebot setup.py test && coverage report -m
+    coverage run --source=skelebot -m pytest && coverage report -m
 else
-    python setup.py test
+    pytest .
 fi

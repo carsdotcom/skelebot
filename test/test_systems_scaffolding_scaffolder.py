@@ -145,7 +145,7 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once_with(exp_cfg["config"])
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r", encoding="utf-8")
         mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r", encoding="utf-8")
@@ -211,7 +211,7 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r", encoding="utf-8")
         mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r", encoding="utf-8")
@@ -270,7 +270,7 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/app_py"), "r", encoding="utf-8")
         mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
         mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/server_py"), "r", encoding="utf-8")

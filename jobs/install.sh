@@ -1,1 +1,1 @@
-python setup.py clean --all install test
+pip install .[dev]

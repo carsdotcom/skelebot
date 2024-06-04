@@ -6,7 +6,7 @@ ephemeral: False
 timezone: America/Chicago
 
 dependencies:
-- req:requirements.txt
+  - proj:pyproject.toml
 
 ignores:
 - '**/*.zip'

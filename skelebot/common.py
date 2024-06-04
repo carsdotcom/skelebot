@@ -1,10 +1,10 @@
 """Common Global Variables"""
 
-import pkg_resources
+from importlib import metadata
 
 from colorama import Fore, Style
 
-VERSION = pkg_resources.get_distribution("skelebot").version
+VERSION = metadata.version("skelebot")
 DESCRIPTION = Style.BRIGHT + "{project}" + Style.RESET_ALL + """
 {desc}
 -----------------------------------
