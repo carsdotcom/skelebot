@@ -42,8 +42,13 @@ skelebot = "skelebot:main"
 path = "VERSION"
 pattern = "(?P<version>[^']+)"
 
-[tool.hatch.build]
+[tool.hatch.build.targets.sdist]
 include = [
   "skelebot/**/*.py",
-  "skelebot/systems/scaffolding/templates/*"
+  "skelebot/systems/scaffolding/templates/*",
+  "/test",
+  "/VERSION",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["skelebot"]
