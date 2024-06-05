@@ -35,7 +35,6 @@ Enter a PROJECT NAME (no spaces): my-ml-project
 Enter a PROJECT DESCRIPTION: A Machine Learning Project
 Enter a MAINTAINER NAME: Firstname Lastname
 Enter a CONTACT EMAIL: flastname@gmail.com
-Select a LANGUAGE [Python, R]: Python
 Select a TEMPLATE [Default, Dash, Git]: Dash
 -:---:---:---:---:---:---:---:---:---:-- SKELEBOT --:---:---:---:---:---:---:---:---:---:-
 Setting up the my-ml-project Skelebot project in the current directory

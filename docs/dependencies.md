@@ -4,52 +4,39 @@
 
 # Dependencies
 
-For both R and Python projects, Skelebot offers the ability to list your dependencies directly in the skelebot.yaml file and have these dependencies installed into your Docker image automatically.
+Skelebot offers the ability to list your Python dependencies directly in the skelebot.yaml file and have these dependencies installed into your Docker image automatically.
 
 ```
 ...
 dependencies:
-- data.table=1.11.2
-- stringr
+- numpy=1.11.2
+- pandas
 - ...
 ```
 
-By default R dependencies are installed using install.packages from CRAN.
+By default dependencies are installed using pip install.
 
-By default Python dependencies are installed using pip install.
+Versions for packages can be specified by appending `={version}`, `=={version}`, `>={version}`, etc. to the end of the dependency name. Skelebot supports most of the standard python [version specifiers](https://packaging.python.org/en/latest/specifications/version-specifiers/#id5).
 
-Versions for packages in R can be specified by appending `={version}` to the end of the dependency name.
-
-Versions for packages in Python can be specified by appending `={version}` or `=={version}` to the end of the dependency name.
-
-R and Python also both support dependencies to be installed from the local file system as well as from GitHub using the following structure.
-
-Python also allows for installs using a text file via `req:requirements.txt` syntax or using a [`pyproject.toml`](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html) via `proj:pyproject.toml` syntax. When using the later, all specified required and optional set(s) of dependencies will be installed.
+Skelebot also supports dependencies to be installed from the local file system, GitHub repo, requirements file, or [`pyproject.toml`](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html) file:
 
 ```
-language: R
 dependencies:
-- {type}:{source}:{name}
-- file:libs/myPackage.tgz:mypack
-- github:myGitHub/fakeRepo:fakeRepo
-```
-
-```
-language: Python
-dependencies:
-- {type}:{source}
+- req:requirement.txt
+- proj:pyproject.toml
 - file:libs/myPackage.tgz
 - req:requirements.txt
 - github:myGitHub/fakeRepo
 - proj:pyproject.toml
 ```
 
+When using a pyproject file, *all* specified required and optional set(s) of dependencies will be installed.
+
 ### CodeArtifact Python Packages
 
 Skelebot also supports pulling Python packages that are stored in AWS CodeArtifact. This requires a good deal of information in order to authenticate and pull the correct asset for the package.
 
 ```
-language: Python
 dependencies:
 - ca_file:{domain}:{owner}:{repo}:{pkg}:{version}:{profile}
 ```

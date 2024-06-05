@@ -3,7 +3,7 @@
 ---
 
 <h1 align='center'>Skelebot API</h1>
-<div align='center'>Version 1</div>
+<div align='center'>Version 2</div>
 
 ---
 

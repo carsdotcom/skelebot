@@ -9,7 +9,7 @@ When a docker build is run, any file contained within the root folder of the pro
 ```
 ...
 ignores:
-- '**/*.RData'
+- '**/*.pyc'
 - '**/*.pkl'
 - '**/*.csv'
 - '**/*.model'
