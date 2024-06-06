@@ -21,7 +21,7 @@ All of these values are optional. By default the port will be set to 8888, the f
 components:
   jupyter:
     port: 1127
-    folder: my-notebooks/r-notebooks
+    folder: my-notebooks/python-notebooks
     lab: False
 ...
 ```

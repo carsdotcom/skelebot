@@ -14,23 +14,8 @@ except ModuleNotFoundError:
 FILE_PATH = "{path}/Dockerfile"
 
 PY_DOWNLOAD_CA = "aws codeartifact get-package-version-asset --domain {domain} --domain-owner {owner} --repository {repo} --package {pkg} --package-version {version}{profile} --format pypi --asset {asset} libs/{asset}"
-PY_INSTALL = "RUN [\"pip\", \"install\", \"{dep}\"]\n"
-PY_INSTALL_VERSION = "RUN [\"pip\", \"install\", \"{depName}=={version}\"]\n"
-PY_INSTALL_GITHUB = "RUN [\"pip\", \"install\", \"git+{depPath}\"]\n"
-PY_INSTALL_FILE = "COPY {depPath} {depPath}\n"
-PY_INSTALL_FILE += "RUN [\"pip\", \"install\", \"/app/{depPath}\"]\n"
-PY_INSTALL_REQ = "COPY {depPath} {depPath}\n"
-PY_INSTALL_REQ += "RUN [\"pip\", \"install\", \"-r\", \"/app/{depPath}\"]\n"
-PY_R_INSTALL = "RUN [\"pip3\", \"install\", \"{dep}\"]\n"
-PY_R_INSTALL_VERSION = "RUN [\"pip3\", \"install\", \"{depName}=={version}\"]\n"
-PY_R_INSTALL_GITHUB = "RUN [\"pip3\", \"install\", \"git+{depPath}\"]\n"
-PY_R_INSTALL_FILE = "COPY {depPath} {depPath}\n"
-PY_R_INSTALL_FILE += "RUN [\"pip3\", \"install\", \"/app/{depPath}\"]\n"
-R_INSTALL = "RUN [\"Rscript\", \"-e\", \"install.packages('{dep}', repo='https://cloud.r-project.org'); library({dep})\"]\n"
-R_INSTALL_VERSION = "RUN [\"Rscript\", \"-e\", \"library(devtools); install_version('{depName}', version='{version}', repos='http://cran.us.r-project.org'); library({depName})\"]\n"
-R_INSTALL_GITHUB = "RUN [\"Rscript\", \"-e\", \"library(devtools); install_github('{depPath}'); library({depName})\"]\n"
-R_INSTALL_FILE = "COPY {depPath} {depPath}\n"
-R_INSTALL_FILE += "RUN [\"Rscript\", \"-e\", \"install.packages('/app/{depPath}', repos=NULL, type='source'); library({depName})\"]\n"
+COPY_FILE = "COPY {depPath} {depPath}\n"
+PY_INSTALL = 'RUN ["pip", "install", "{deps}"]\n'
 TIMEZONE = "ENV TZ={timezone}\nRUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone\n"
 
 DOCKERFILE = """
@@ -52,7 +37,7 @@ def parse_pyproj(pyproject_file):
     # break the Dockerfile
     deps = [d.replace('"', "'") for d in deps]
 
-    return '", "'.join(deps)
+    return deps
 
 
 def buildDockerfile(config):
@@ -67,92 +52,46 @@ def buildDockerfile(config):
     if (config.timezone is not None):
         docker += TIMEZONE.format(timezone=config.timezone)
 
-    # Add language dependencies
-    if (config.language == "Python"):
-        for dep in config.dependencies:
-            depSplit = dep.split(":")
-            if (dep.startswith("github:")):
-                docker += PY_INSTALL_GITHUB.format(depPath=dep.split(":", maxsplit=1)[1])
-            elif (dep.startswith("file:")):
-                docker += PY_INSTALL_FILE.format(depPath=depSplit[1])
-            elif (dep.startswith("req:")):
-                docker += PY_INSTALL_REQ.format(depPath=depSplit[1])
-            elif (dep.startswith("ca_file:")):
-                domain = depSplit[1]
-                owner = depSplit[2]
-                repo = depSplit[3]
-                pkg = depSplit[4]
-                version = depSplit[5]
-                asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
-                profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
-                cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
-                os.makedirs(os.path.join(os.getcwd(), 'libs'), exist_ok=True)
-                status = call(cmd, shell=True)
-                if (status != 0):
-                    raise Exception("Failed to Obtain CodeArtifact Package")
+    # Copy any needed files first then install all dependencies together
+    docker_deps = []
+    for dep in config.dependencies:
+        depSplit = dep.split(":")
+        if (dep.startswith("github:")):
+            docker_deps.append("git+" + dep.split(":", maxsplit=1)[1])
+        elif (dep.startswith("file:")):
+            docker += COPY_FILE.format(depPath=depSplit[1])
+            docker_deps.append(f"/app/{depSplit[1]}")
+        elif (dep.startswith("req:")):
+            docker += COPY_FILE.format(depPath=depSplit[1])
+            docker_deps += ["-r", f"/app/{depSplit[1]}"]
+        elif (dep.startswith("ca_file:")):
+            domain = depSplit[1]
+            owner = depSplit[2]
+            repo = depSplit[3]
+            pkg = depSplit[4]
+            version = depSplit[5]
+            asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
+            profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
+            cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
+            os.makedirs(os.path.join(os.getcwd(), 'libs'), exist_ok=True)
+            status = call(cmd, shell=True)
+            if (status != 0):
+                raise Exception("Failed to Obtain CodeArtifact Package")
 
-                docker += PY_INSTALL_FILE.format(depPath=f"libs/{asset}")
-            elif (dep.startswith("proj:")):
-                deps = parse_pyproj(depSplit[1])
-                docker += PY_INSTALL.format(dep=deps)
-            # if using PIP version specifiers, will be handled as a standard case
-            elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
-                verSplit = dep.split("=")
-                docker += PY_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
-            else:
-                docker += PY_INSTALL.format(dep=dep)
-    if (config.language == "R"):
-        for dep in config.dependencies:
-            depSplit = dep.split(":")
-            if (dep.startswith("github:")):
-                docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])
-            elif (dep.startswith("file:")):
-                docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])
-            elif ("=" in dep):
-                verSplit = dep.split("=")
-                docker += R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
-            else:
-                docker += R_INSTALL.format(dep=dep)
+            docker += COPY_FILE.format(depPath=f"libs/{asset}")
+            docker_deps.append(f"/app/libs/{asset}")
+        # For pyprojects the source code does not exist at this point inside the docker
+        # image so we install only the dependencies
+        elif (dep.startswith("proj:")):
+            docker_deps += parse_pyproj(depSplit[1])
+        # if using PIP version specifiers, will be handled as a standard case
+        elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
+            verSplit = dep.split("=")
+            docker_deps.append(f"{verSplit[0]}=={verSplit[1]}")
+        else:
+            docker_deps.append(f"{dep}")
 
-    if (config.language == "R+Python"):
-        for dep in config.dependencies["Python"]:
-            depSplit = dep.split(":")
-            if (dep.startswith("github:")):
-                docker += PY_R_INSTALL_GITHUB.format(depPath=dep.split(":", maxsplit=1)[1])
-            elif (dep.startswith("file:")):
-                docker += PY_R_INSTALL_FILE.format(depPath=depSplit[1])
-            elif (dep.startswith("ca_file:")):
-                domain = depSplit[1]
-                owner = depSplit[2]
-                repo = depSplit[3]
-                pkg = depSplit[4]
-                version = depSplit[5]
-                asset = f"{pkg.replace('-', '_')}-{version}-py3-none-any.whl"
-                profile = f" --profile {depSplit[6]}" if (len(depSplit) > 6) else ""
-                cmd = PY_DOWNLOAD_CA.format(domain=domain, owner=owner, repo=repo, pkg=pkg, version=version, asset=asset, profile=profile)
-                os.makedirs(os.path.join(os.getcwd(), 'libs'), exist_ok=True)
-                status = call(cmd, shell=True)
-                if (status != 0):
-                    raise Exception("Failed to Obtain CodeArtifact Package")
-
-                docker += PY_R_INSTALL_FILE.format(depPath=f"libs/{asset}")
-            # if using PIP version specifiers, will be handled as a standard case
-            elif dep.count("=") == 1 and not re.search(r"[!<>~]", dep):
-                verSplit = dep.split("=")
-                docker += PY_R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
-            else:
-                docker += PY_R_INSTALL.format(dep=dep)
-        for dep in config.dependencies["R"]:
-            depSplit = dep.split(":")
-            if (dep.startswith("github:")):
-                docker += R_INSTALL_GITHUB.format(depPath=depSplit[1], depName=depSplit[2])
-            elif (dep.startswith("file:")):
-                docker += R_INSTALL_FILE.format(depPath=depSplit[1], depName=depSplit[2])
-            elif ("=" in dep):
-                verSplit = dep.split("=")
-                docker += R_INSTALL_VERSION.format(depName=verSplit[0], version=verSplit[1])
-            else:
-                docker += R_INSTALL.format(dep=dep)
+    docker += PY_INSTALL.format(deps='", "'.join(docker_deps))
 
     # Copy the project into the /app folder of the Docker Image
     # Ignores anything in the .dockerignore file of the project
@@ -189,6 +128,5 @@ def buildDockerfile(config):
 
             break
 
-    dockerfile = open(FILE_PATH.format(path=os.getcwd()), "w")
-    dockerfile.write(docker)
-    dockerfile.close()
+    with open(FILE_PATH.format(path=os.getcwd()), "w", encoding="utf-8") as dockerfile:
+        dockerfile.write(docker)

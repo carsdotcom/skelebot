@@ -3,7 +3,7 @@
 ---
 
 <h1 align='center'>Skelebot API</h1>
-<div align='center'>Version 1</div>
+<div align='center'>Version 2</div>
 
 ---
 
@@ -12,12 +12,12 @@
 Skelebot exposes a number of functions that can be called inside of a plugin in order to execute
 and leverage important parts of the Skelebot System.
 
-This document specifies the API contract for v1 of Skelebot.
+This document specifies the API contract for v2 of Skelebot.
 
 There are packages and classes outside of this API that are technically accessible via Skelebot,
-but since they are not included in this specification, they are not part of the v1 contract for
+but since they are not included in this specification, they are not part of the v2 contract for
 Skelebot. As such it is not advised to use any function or Class that is not specified in this
-document because it may be subject to change throughout iterations of v1.
+document because it may be subject to change throughout iterations of v2.
 
 ---
 
@@ -35,17 +35,6 @@ document because it may be subject to change throughout iterations of v1.
   - [Dockerignore](api/dockerignore.md) -- The dockerignore generator for constructing the project .dockerignore
 - Scaffolding
   - [Prompt](api/prompt.md) -- The function used to present prompts to the user for scaffolding purposes
-
----
-
-### Updates
-
-_v1.1.0 Additions_
-
-- SkeleYaml
-  - schema (attribute)
-  - loadList (method)
-  - validate (method)
 
 ---
 

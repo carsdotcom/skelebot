@@ -56,8 +56,7 @@ class Jupyter(Component):
 
         status = docker.build(config)
         if (status == 0):
-            root = " --allow-root" if config.language == "R" else ""
-            command = "jupyter notebook --ip=0.0.0.0 --port=8888{root} --notebook-dir={folder}".format(root=root, folder=self.folder)
+            command = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir={folder}".format(folder=self.folder)
             ports = ["{port}:8888".format(port=self.port)]
 
             return docker.run(config, command, "i", ports, ".", "jupyter")

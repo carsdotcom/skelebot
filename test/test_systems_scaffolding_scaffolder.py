@@ -3,8 +3,6 @@ import copy
 import unittest
 from unittest import mock
 
-from colorama import Fore, Style
-
 import skelebot as sb
 from skelebot.components.bump import Bump
 
@@ -32,7 +30,7 @@ TEMPLATE = {
         }
     ],
     "config": {
-        "language": "{language}",
+        "name": "{name}",
         "dependencies": ["dash~=2.0"],
         "ports": ["5000:5000"],
         "primaryJob": "run",
@@ -52,7 +50,7 @@ class TestScaffolder(unittest.TestCase):
     @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
     def test_execute_scaffold_abort(self, mock_prompt, mock_cFactory, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Python", "Default", False]
+        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "Default", False]
         try:
             scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
             scaffolder.scaffold()
@@ -64,41 +62,9 @@ class TestScaffolder(unittest.TestCase):
             mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
             mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
             mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-            mock_prompt.assert_any_call("Select a LANGUAGE",
-                                        options=["Python", "R", "R+Python"],
-                                        deprecated_options=["R", "R+Python"])
             mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
             mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-    @mock.patch('os.path.expanduser')
-    @mock.patch('os.getcwd')
-    @mock.patch('skelebot.systems.scaffolding.scaffolder.ComponentFactory')
-    @mock.patch('skelebot.systems.scaffolding.scaffolder.promptUser')
-    @mock.patch('skelebot.systems.scaffolding.scaffolder.print')
-    def test_execute_scaffold_deprecated(self, mock_print, mock_prompt, mock_cFactory,
-                                         mock_getcwd, mock_expanduser):
-        mock_expanduser.return_value = "test/plugins"
-        mock_prompt.side_effect = ["test", "test proj", "sean", "email", "R", "Default", False]
-        try:
-            scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=False)
-            scaffolder.scaffold()
-            self.fail("Exception Expected")
-        except Exception as exc:
-            self.assertEqual(str(exc), "Aborting Scaffolding Process")
-
-            mock_prompt.assert_any_call("Enter a PROJECT NAME")
-            mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
-            mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
-            mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-            mock_prompt.assert_any_call("Select a LANGUAGE",
-                                        options=["Python", "R", "R+Python"],
-                                        deprecated_options=["R", "R+Python"])
-            mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Git"])
-            mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
-
-            mock_print.assert_any_call(Fore.YELLOW + "WARN" + Style.RESET_ALL
-                                       + " | The support for R language has been deprecated as of v1.37.0."
-                                       + " Please use a different language.")
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -110,7 +76,7 @@ class TestScaffolder(unittest.TestCase):
                                             mock_makedirs, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
-                                    "Python", "Dash", True]
+                                   "Dash", True]
 
         scaffolder = sb.systems.scaffolding.scaffolder.Scaffolder(existing=True)
         scaffolder.scaffold()
@@ -119,9 +85,6 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE",
-                                    options=["Python", "R", "R+Python"],
-                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
@@ -151,7 +114,7 @@ class TestScaffolder(unittest.TestCase):
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
-                                    "Python", "Git", "git@repo", "data-prod", True]
+                                    "Git", "git@repo", "data-prod", True]
 
         exp_cfg = copy.deepcopy(TEMPLATE)
         mock_pyyaml.load.return_value = exp_cfg
@@ -173,28 +136,24 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE",
-                                    options=["Python", "R", "R+Python"],
-                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
 
-        exp_cfg["config"]["language"] = "Python"
         exp_cfg["config"]["name"] = "test"
         exp_cfg["config"]["components"] = {"magicmock": {"fake_attr": "aaaa"}}
         mock_config.load.assert_called_once_with(exp_cfg["config"])
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r")
-        mock_open.assert_any_call("src/app.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r")
-        mock_open.assert_any_call("src/server.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/config_py"), "r")
-        mock_open.assert_any_call("src/config.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/style_css"), "r")
-        mock_open.assert_any_call("src/assets/style.css", "w")
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/server.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/config_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/config.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/style_css"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/assets/style.css", "w", encoding="utf-8")
 
         mock_dockerfile.buildDockerfile.assert_called_once()
         mock_dignore.buildDockerignore.assert_called_once()
@@ -227,7 +186,7 @@ class TestScaffolder(unittest.TestCase):
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
-                                    "Python", "Git", "git@repo", "data-prod", True]
+                                   "Git", "git@repo", "data-prod", True]
 
         mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
 
@@ -245,9 +204,6 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE",
-                                    options=["Python", "R", "R+Python"],
-                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
@@ -255,15 +211,15 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r")
-        mock_open.assert_any_call("src/app.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r")
-        mock_open.assert_any_call("src/server.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/config_py"), "r")
-        mock_open.assert_any_call("src/config.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/style_css"), "r")
-        mock_open.assert_any_call("src/assets/style.css", "w")
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/app_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/server_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/server.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/config_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/config.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo/files/style_css"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/assets/style.css", "w", encoding="utf-8")
 
         mock_dockerfile.buildDockerfile.assert_called_once()
         mock_dignore.buildDockerignore.assert_called_once()
@@ -289,7 +245,7 @@ class TestScaffolder(unittest.TestCase):
                               mock_makedirs, mock_getcwd, mock_expanduser):
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
-                                    "Python", "Dash", "data-prod",  True]
+                                   "Dash", "data-prod",  True]
 
         mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
 
@@ -307,9 +263,6 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.assert_any_call("Enter a PROJECT DESCRIPTION")
         mock_prompt.assert_any_call("Enter a MAINTAINER NAME")
         mock_prompt.assert_any_call("Enter a CONTACT EMAIL")
-        mock_prompt.assert_any_call("Select a LANGUAGE",
-                                    options=["Python", "R", "R+Python"],
-                                    deprecated_options=["R", "R+Python"])
         mock_prompt.assert_any_call("Select a TEMPLATE", options=["Default", "Dash", "Git"])
         mock_prompt.assert_any_call("Enter AWS-PROD PROFILE")
         mock_prompt.assert_any_call("Confirm Skelebot Setup", boolean=True)
@@ -317,15 +270,15 @@ class TestScaffolder(unittest.TestCase):
         mock_config.load.assert_called_once()
 
         mock_makedirs.assert_any_call("src/assets/", exist_ok=True)
-        dirname = os.path.dirname(os.path.dirname(__file__))
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/app_py"), "r")
-        mock_open.assert_any_call("src/app.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/server_py"), "r")
-        mock_open.assert_any_call("src/server.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/config_py"), "r")
-        mock_open.assert_any_call("src/config.py", "w")
-        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/style_css"), "r")
-        mock_open.assert_any_call("src/assets/style.css", "w")
+        dirname = os.path.dirname(os.path.dirname(sb.__file__))
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/app_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/app.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/server_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/server.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/config_py"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/config.py", "w", encoding="utf-8")
+        mock_open.assert_any_call(os.path.join(dirname, "skelebot/systems/scaffolding/templates/python_dash/files/style_css"), "r", encoding="utf-8")
+        mock_open.assert_any_call("src/assets/style.css", "w", encoding="utf-8")
 
         mock_dockerfile.buildDockerfile.assert_called_once()
         mock_dignore.buildDockerignore.assert_called_once()

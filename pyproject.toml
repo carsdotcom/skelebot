@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "skelebot"
+description = "ML Build Tool"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Sean Shookman", email = "sshookman@cars.com"},
+  {name = "Joao Moreira", email = "jmoreira@cars.com"},
+]
+requires-python = ">=3.9"
+dependencies = [
+  "PyYAML>=5.1.2",
+  "dohq-artifactory>=0.1.17",
+  "schema>=0.7.0",
+  "colorama>=0.4.1",
+  "boto3>=1.10",
+  "tomli>=1.1.0 ; python_version < '3.11'",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+# Development-only dependencies
+dev = [
+  "pytest~=8.2",
+  "coverage~=7.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/carsdotcom/skelebot"
+Documentation = "https://carsdotcom.github.io/skelebot/"
+Issues = "https://github.com/carsdotcom/skelebot/issues"
+Changelog = "https://github.com/carsdotcom/skelebot/blob/master/CHANGELOG.md"
+
+[project.scripts]
+skelebot = "skelebot:main"
+
+[tool.hatch.version]
+path = "VERSION"
+pattern = "(?P<version>[^']+)"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "skelebot/**/*.py",
+  "skelebot/systems/scaffolding/templates/*",
+  "/test",
+  "/VERSION",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["skelebot"]

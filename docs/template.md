@@ -32,12 +32,11 @@ files:
   template: files/trainer.py
 
 config:
-    language: {language}
     dependencies:
     - pandas~=1.1
     - numpy~=1.19
     commands:
-    - "python setup.py install"
+    - "pip install ."
     primaryJob: score
     jobs:
     - name: train
@@ -73,13 +72,12 @@ The default scaffolding process will prompt for and store a number of variables 
 - **description** - The PROJECT DESCRIPTION
 - **maintainer** - The MAINTAINER NAME
 - **contact** - The CONTACT EMAIL
-- **language** - The PROJECT LANGUAGE
 
-These variables, as well as any variables setup by the template's `prompts`, can be used within the template.yaml and any file templates as well by using the `{varable_name}` syntax.
+These variables, as well as any variables setup by the template's `prompts`, can be used within the template.yaml and any file templates as well by using the `{variable_name}` syntax.
 
 ```
 config:
-    language: {language}
+    name: {name}
 ```
 
 ### Scaffolding Directories
@@ -117,12 +115,11 @@ The skelebot.yaml config file can also be scaffolded with the template as well. 
 
 ```
 config:
-    language: {language}
     dependencies:
     - pandas~=1.1
     - numpy~=1.19
     commands:
-    - "python setup.py install"
+    - "pip install ."
     primaryJob: score
     jobs:
     - name: train

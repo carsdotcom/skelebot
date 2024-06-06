@@ -20,14 +20,13 @@ class TestYaml(unittest.TestCase):
         self.assertEqual(config.version, "6.6.6")
         self.assertEqual(config.maintainer, "Mega Man")
         self.assertEqual(config.contact, "megaman@cars.com")
-        self.assertEqual(config.language, "Python")
         self.assertEqual(config.primaryJob, "build")
         self.assertEqual(config.ephemeral, True if isTestEnv else None)
         self.assertEqual(config.dependencies, ["pyyaml", "artifactory", "argparse", "coverage", "pytest"])
         if isTestEnv:
             self.assertEqual(config.ignores, ['data/', 'libs/'])
         else:
-            self.assertEqual(config.ignores, ['**/*.zip', '**/*.RData', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
+            self.assertEqual(config.ignores, ['**/*.zip', '**/*.pkl', '**/*.csv', '**/*.model', '**/*.pyc'])
         self.assertEqual(config.commands, ["rm -rf build/", "rm -rf dist/"])
         self.assertEqual(config.jobs[0].name, "build")
         self.assertEqual(config.jobs[0].source, "build.sh")
@@ -51,9 +50,7 @@ class TestYaml(unittest.TestCase):
                 self.assertEqual(component.folder, "notebooks/")
 
         expectedComponents = ["Registry", "Plugin", "Jupyter", "Bump", "Prime", "Environments", "Dexec", "AddNumbers"]
-        if not isTestEnv:
-            expectedComponents.append("Artifactory")
-        else:
+        if isTestEnv:
             expectedComponents.append("Repository")
         self.assertTrue(all(elem in components for elem in expectedComponents))
         self.assertTrue(all(elem in expectedComponents for elem in components))
@@ -121,7 +118,6 @@ class TestYaml(unittest.TestCase):
         self.assertEqual(config.version, None)
         self.assertEqual(config.maintainer, None)
         self.assertEqual(config.contact, None)
-        self.assertEqual(config.language, None)
         self.assertEqual(config.primaryJob, None)
         self.assertEqual(config.ephemeral, None)
         self.assertEqual(config.dependencies, [])

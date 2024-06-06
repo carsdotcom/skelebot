@@ -12,7 +12,6 @@ files:
   template: files/style_css
 
 config:
-    language: Python
     dependencies:
     - dash~=2.0
     ports:

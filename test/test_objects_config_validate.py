@@ -16,7 +16,6 @@ class TestConfigValidate(unittest.TestCase):
         'description': 'test',
         'maintainer': 'test',
         'contact': 'test',
-        'language': 'test',
         'baseImage': 'test',
         'primaryJob': 'test',
         'host': 'test',
@@ -28,7 +27,7 @@ class TestConfigValidate(unittest.TestCase):
         'components': {},
         'params': [1, 2],
         'commands': [],
-        'pythonVersion': '3.8',
+        'pythonVersion': '3.9',
         'gpu': True
     }
 
@@ -48,6 +47,7 @@ class TestConfigValidate(unittest.TestCase):
         except:
             self.fail("Validation Raised Exception Unexpectedly")
 
+    @mock.patch.object(sb.objects.config, 'DEPRECATED_VERSIONS', ['3.6'])
     @mock.patch('skelebot.objects.config.print')
     def test_valid_deprecated(self, mock_print):
         _ = sb.objects.config.Config(pythonVersion='3.6')
@@ -60,12 +60,11 @@ class TestConfigValidate(unittest.TestCase):
     def test_invalid_mising(self):
         config = copy.deepcopy(self.config)
         del config['name']
-        del config['language']
 
         try:
             sb.objects.config.Config.validate(config)
         except SchemaError as error:
-            self.assertEqual(error.code, "Missing keys: 'language', 'name'")
+            self.assertEqual(error.code, "Missing key: 'name'")
 
     def test_invalid(self):
         self.validate_error('name', 123, 'a String')
@@ -73,7 +72,6 @@ class TestConfigValidate(unittest.TestCase):
         self.validate_error('description', 123, 'a String')
         self.validate_error('maintainer', 123, 'a String')
         self.validate_error('contact', 123, 'a String')
-        self.validate_error('language', 123, 'a String')
         self.validate_error('baseImage', 123, 'a String')
         self.validate_error('primaryJob', 123, 'a String')
         self.validate_error('primaryExe', 123, 'CMD or ENTRYPOINT')

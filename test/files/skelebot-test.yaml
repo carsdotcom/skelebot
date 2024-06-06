@@ -19,13 +19,3 @@ components:
     artifacts:
     - file: test
       name: test
-  artifactory:
-    artifacts:
-    - file: test
-      name: test
-    - file: test2
-      name: test2
-      singular: True
-    path: test
-    repo: cars-ml-core
-    url: https://repository.cars.com/artifactory

@@ -32,7 +32,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 
@@ -50,7 +50,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_omit_latest(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=True)
 
@@ -68,7 +68,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_omit_version(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=True, omit_latest=False)
 
@@ -86,7 +86,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_skip_build(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=True, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 
@@ -103,7 +103,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_host(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 
@@ -121,7 +121,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_aws(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 
@@ -142,7 +142,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_aws_host(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=None, skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 
@@ -163,7 +163,7 @@ class TestRegistry(unittest.TestCase):
     def test_execute_tags(self, mock_docker):
         mock_docker.build.return_value = 0
 
-        config = sb.objects.config.Config(language="R")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(tags=["test", "dev", "stage"], skip_build_global=False, verbose_global=False,
                                     omit_version=False, omit_latest=False)
 

@@ -4,19 +4,24 @@
 
 # Base Images
 
-By default Skelebot will select and use a base image based on the language you have selected for the project (Python or R).
+By default Skelebot will select and use a base image based on python 3.9. This can be customized by adding the `pythonVersion` config field to the top level of the skelebot.yaml:
 
-### Without Language
+```
+pythonVersion: '3.11'
+```
 
-If no language is specified, the image will default to ubuntu:18.04 and certain features, such as dependency management, may not work.
+The desired Python version should be specified as a string.
+
+As of Skelebot v2.0.0, the available versions are 3.9, 3.10, 3.11.
+
 
 ### Custom Base Image
 
 ```
-baseImage: ubuntu:16.04
+baseImage: ubuntu:22.04
 ```
 
-A custom base image can be specified by adding the `baseImage` config field to the top level of the skelebot.yaml. This custom image can be anything, but will need to have the right language based dependencies installed in order to function properly. The custom base image provides flexibility, but the behavior of Skelebot cannot be garunteed when using a custom base image.
+A custom base image can be specified by adding the `baseImage` config field to the top level of the skelebot.yaml. This custom image can be anything, but will need to have the right language based dependencies installed in order to function properly. The custom base image provides flexibility, but the behavior of Skelebot cannot be guaranteed when using a custom base image.
 
 ---
 

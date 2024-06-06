@@ -2,9 +2,8 @@
 
 import os
 import re
-from schema import Schema, And, Optional
+
 from ..objects.component import Activation, Component
-from ..systems.execution import docker
 
 HELP_MESSAGE = "Display the available environments for the project"
 
@@ -22,7 +21,7 @@ class Environments(Component):
         """
         SkeleParser Hook
 
-        Adds a parser for the envs command to list the available skelebot environments. 
+        Adds a parser for the envs command to list the available skelebot environments.
         """
 
         subparsers.add_parser("envs", help=HELP_MESSAGE)

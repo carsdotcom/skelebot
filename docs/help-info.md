@@ -13,17 +13,18 @@ The most important command in Skelebot is the help command. This command will pr
 If this command is executed from inside a folder that is not a Skelebot project, you will be met with a simple message stating that your only options from this particular directory are to scaffold a new project, or install a plugin.
 
 ```
-usage: skelebot [-h] {plugin,scaffold} ...
+usage: skelebot [-h] [-v] {scaffold,plugin} ...
 
-Skelebot Version: 1.0.0
+Skelebot Version: 2.0.0
 
 positional arguments:
-  {plugin,scaffold}
+  {scaffold,plugin}
+    scaffold         Scaffold a new or existing project with Skelebot
     plugin           Install a plugin for skelebot from a local zip file
-    scaffold         Scaffold a new skelebot project from scratch
 
 optional arguments:
   -h, --help         show this help message and exit
+  -v, --version      Display the version number of Skelebot
 ```
 
 If the help command is run from inside a Skelebot project, the output looks quite different. The scaffold option is no longer available, as it is not needed, and the rest of the Standard Tasks are now present. More details for each task can be obtained by running the desired command with `-h` appended.
@@ -33,37 +34,41 @@ There are also more optional arguments available for these tasks, which allows y
 NOTE: The Artifactory tasks (push and pull) will only be present if artifacts are configuring in the skelebot.yaml file of the project.
 
 ```
-usage: skelebot [-h] [-e ENV] [-s] [-d]
-                {plugin,bump,prime,exec,jupyter,push,pull,loadData,train,score}
-                ...
+usage: skelebot [-h] [-v] [-e ENV] [-d HOST] [-s] [-n] [-c] [-V] {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec,publish,envs} ...
 
 Iris Example
 Example Skelebot Project
 -----------------------------------
-Version: 0.1.0
+Version: 1.1.0
 Environment: None
-Skelebot Version: 1.8.1
+Skelebot Version: 2.0.0
 -----------------------------------
 
 positional arguments:
-  {plugin,bump,prime,exec,jupyter,push,pull,loadData,train,score}
-    plugin              Install a plugin for skelebot from a local zip file
-    bump                Increment the version of the project
-    prime               Prime skelebot with latest config
-    exec                Start the Docker container and access it via bash
-    jupyter             Start a Jupyter notebook inside of Docker
-    push                Push an artifact to artifactory
-    pull                Pull an artifact from artifactory
+  {loadData,train,score,push,pull,jupyter,plugin,bump,prime,exec,publish,envs}
     loadData            Load the Iris Dataset and save it into the data folder for the train job to access (src/loadData.py)
     train               Use the data loaded in the loadData job to train the iris model (src/train.py)
     score               Use the model that was built in the train job to score new data against the iris model (src/score.py)
+    push                Push an artifact to Artifactory
+    pull                Pull an artifact from Artifactory
+    jupyter             Spin up Jupyter in a Docker Container (port=8888, folder=.)
+    plugin              Install a plugin for skelebot from a local zip file
+    bump                Bump the skelebot.yaml project version
+    prime               Generate Dockerfile and .dockerignore and build the docker image
+    exec                Exec into the running Docker container
+    publish             Publish your versioned Docker Image to the registry
+    envs                Display the available environments for the project
 
 optional arguments:
   -h, --help            show this help message and exit
+  -v, --version         Display the version number of Skelebot
   -e ENV, --env ENV     Specify the runtime environment configurations
+  -d HOST, --docker-host HOST
+                        Set the Docker Host on which the command will be executed
   -s, --skip-build      Skip the build process and attempt to use previous docker build
   -n, --native          Run natively instead of through Docker
-  -v, --version         Display the version number of Skelebot
+  -c, --contact         Display the contact email of the Skelebot project
+  -V, --verbose         Print all job commands to the screen just before execution
 ```
 
 ### Version Parameter
@@ -71,7 +76,7 @@ The version of Skelebot is printed in the help output, but sometimes that is the
 
 ```
 > skelebot --version
-Skelebot v.1.8.1
+Skelebot v.2.0.0
 ```
 
 ### Contact Parameter

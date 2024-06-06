@@ -3,7 +3,7 @@
 ---
 
 <h1 align='center'>Skelebot API</h1>
-<div align='center'>Version 1</div>
+<div align='center'>Version 2</div>
 
 ---
 
@@ -50,5 +50,5 @@ This function can be used during a component's scaffolding process in order to g
 user to populate the attributes of a component. By default, the function will allow for any String
 of text to be entered as a response. The options parameter allows for the prompt to lock the user's
 response to a list of choices. The boolean parameter, if set to True, will ensure that the user's
-response is either True or False. 
+response is either True or False.
 ```

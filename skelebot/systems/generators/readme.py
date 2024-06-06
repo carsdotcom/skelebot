@@ -27,6 +27,6 @@ def buildREADME(config):
     readme = README.format(name=name, description=desc, version=version, maintainer=maintainer,
                            contact=contact)
 
-    readmeFile = open(FILE_PATH.format(path=os.getcwd()), "w")
+    readmeFile = open(FILE_PATH.format(path=os.getcwd()), "w", encoding="utf-8")
     readmeFile.write(readme)
     readmeFile.close()

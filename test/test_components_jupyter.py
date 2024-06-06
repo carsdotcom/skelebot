@@ -24,25 +24,9 @@ class TestJupyter(unittest.TestCase):
         self.assertNotEqual(subparsers.choices["jupyter"], None)
 
     @mock.patch('skelebot.components.jupyter.docker')
-    def test_execute_R(self, mock_docker):
+    def test_execute(self, mock_docker):
         mock_docker.build.return_value = 0
-        config = sb.objects.config.Config(language="R")
-        args = argparse.Namespace(verbose_global=False)
-
-        jupyter = sb.components.jupyter.Jupyter(port=1127, folder="notebooks/")
-        jupyter.execute(config, args)
-
-        expectedCommand = "jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=notebooks/"
-
-        mock_docker.build.assert_called_with(config, host=None, verbose=False)
-        mock_docker.run.assert_called_with(
-            config, expectedCommand, "it", ["1127:8888"], ["."], "jupyter", host=None, verbose=False
-        )
-
-    @mock.patch('skelebot.components.jupyter.docker')
-    def test_execute_Python(self, mock_docker):
-        mock_docker.build.return_value = 0
-        config = sb.objects.config.Config(language="Python")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(verbose_global=False)
 
         jupyter = sb.components.jupyter.Jupyter(port=1127, folder="notebooks/", mappings = ["other_project/data"])
@@ -59,7 +43,7 @@ class TestJupyter(unittest.TestCase):
     @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_host(self, mock_docker):
         mock_docker.build.return_value = 0
-        config = sb.objects.config.Config(language="Python")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(verbose_global=False)
 
         jupyter = sb.components.jupyter.Jupyter(port=1127, folder="notebooks/")
@@ -75,7 +59,7 @@ class TestJupyter(unittest.TestCase):
     @mock.patch('skelebot.components.jupyter.docker')
     def test_execute_lab(self, mock_docker):
         mock_docker.build.return_value = 0
-        config = sb.objects.config.Config(language="Python")
+        config = sb.objects.config.Config()
         args = argparse.Namespace(verbose_global=False)
 
         jupyter = sb.components.jupyter.Jupyter(port=1127, folder="notebooks/", mappings=["other_project/data"], lab=True)

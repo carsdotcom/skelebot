@@ -2,29 +2,6 @@
 
 ---
 
-# Artifactory - DEPRECATED v1.11
-
-**The Artifactory component has been deprecated as of v1.11 and should no longer be used. The same functionality (and more) is provided with the Repository component as detailed below. The manner in which the components operate is identical (push and pull commands), they merely utilize a different config structure that allows the Repository component to handle more than just Artifactory repositories.**
-
----
-
-~~Skelebot currently only supports deploying artifacts to Artifactory. This can be setup by editing the skelebot.yaml file and adding the following `artifactory` section to the components section of the config.~~
-
-```
-components:
-  artifactory:
-    url: http://my-host:5000/artifactory
-    repo: my-repo
-    path: path/to/artifact/folder
-    artifacts:
-      name: artifact-name
-      file: path/to/artifact.ext
-```
-
-~~The artifacts field accepts a list of artifacts names and path to the actual artifact object file. The url, repo, and path fields specify where the artifact will end up when it is pushed (or from where it will be pulled).~~
-
----
-
 # Repository
 
 Skelebot supports the management of artifacts in either Artifactory or S3 with the Repository component. This can be setup by editing the skelebot.yaml file and adding the following `repository` section to the components section of the config.

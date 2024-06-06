@@ -4,7 +4,7 @@
 
 # Installing
 
-Skelebot requires Python version 3.6 or later to run.
+Skelebot requires Python version 3.9 or later to run.
 
 ### Pip Install
 
@@ -17,17 +17,26 @@ Skelebot can be installed via pip.
 ### Install From Source
 
 To install from source, copy or clone the repository onto your machine. Then, navigate
-to the root of the project and execute the install.sh script.
+to the root of the project and execute this command:
 
 
 ```
-> ./jobs/install.sh
+> pip install .
 ```
 
-If you do not have proper access on the machine you are using, Skelebot can be installed locally with the following command.
+If you do not have proper access on the machine you are using, Skelebot can be installed locally with the following command:
 
 ```
-> python setup.py clean --all install --user
+> pip install --user .
+```
+
+### Development Install
+
+Skelebot developers should first install the package with the additional `dev` dependencies and then test their installation:
+
+```
+> pip install .[dev]
+> pytest .
 ```
 
 # Executing

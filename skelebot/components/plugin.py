@@ -46,6 +46,5 @@ class Plugin(Component):
             os.makedirs(pluginsHome, exist_ok=True)
 
         # Unzip the plugin into the plugins folder
-        zip_ref = zipfile.ZipFile(args.plugin, 'r')
-        zip_ref.extractall(pluginsHome)
-        zip_ref.close()
+        with zipfile.ZipFile(args.plugin, "r") as zip_ref:
+            zip_ref.extractall(pluginsHome)
