@@ -3,11 +3,28 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v1.37.0
+## v2.0.0
 #### Changed
+- **Dependencies** | All project dependencies, regardless of source (individual packages, local or remote files, requirements files, pyproject scripts) are now installed together in a single `pip install ...` command.
+- **Build system** | Refactored build system to use a single `pyproject.toml` script. Switched build backend from `setuptools` to `hatchling`.
+
+#### Removed
+- **Config** | Removed now unnecessary `language` config variable. Existing projects may keep that variable and it will be ignored going forward.
+- **Artifactory** | Removed old deprecated Artifactory component.
+- **Python versions** | Support for python versions 3.6, 3.7, and 3.8, including base docker images, is **removed**.
+- **R support** | All support for `R` and `R+Python` projects, including base docker images, is **removed**.
+
+---
+
+## v1.37.0
+#### Merged: 2023-05-29
+#### Released: 2024-05-29
+#### Deprecated
 - **Python versions** | Support for python versions 3.6, 3.7, and 3.8, including base docker images, is **deprecated** and will be removed in skelebot 2.0
 - **R support** | All support for `R` and `R+Python` projects, including base docker images, is **deprecated** and will be removed in skelebot 2.0
-- **Python 3.11** | Adding support for Python 3.11
+
+#### Added
+- **Python 3.11** | Adding support for Python 3.11.
 
 ---
 
