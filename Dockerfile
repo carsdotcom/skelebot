@@ -7,6 +7,6 @@ MAINTAINER Sean Shookman <sshookman@cars.com>
 WORKDIR /app
 ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN ["pip", "install", "PyYAML>=5.1.2", "dohq-artifactory>=0.1.17", "schema>=0.7.0", "colorama>=0.4.1", "boto3>=1.10", "tomli>=1.1.0 ; python_version < '3.11'", "pytest~=5.1", "coverage~=4.5.4"]
+RUN ["pip", "install", "PyYAML>=5.1.2", "dohq-artifactory>=0.1.17", "schema>=0.7.0", "colorama>=0.4.1", "boto3>=1.10", "tomli>=1.1.0 ; python_version < '3.11'", "pytest~=8.2", "coverage~=7.5"]
 COPY . /app
 ENTRYPOINT ["bash", "jobs/test.sh"]
