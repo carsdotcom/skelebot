@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Publish image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: base-images/python-base/${{ matrix.version }}/
           tags: skelebot/python-base:${{ matrix.version }}
@@ -80,7 +80,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Publish Python Kerberos image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: base-images/python-krb/
           tags: skelebot/python-krb
