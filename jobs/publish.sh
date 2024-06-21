@@ -1,3 +1,6 @@
+# The preferred way to publish to Docker Hub is now via .github/workflows/publish-base-images.yaml
+# We keep this script in case there is a need for a manual push
+
 # Login to Docker Hub with Skelebot user
 docker login -u skelebot
 
