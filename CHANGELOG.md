@@ -11,7 +11,7 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v2.0.0
-#### Merged: 2023-06-06
+#### Merged: 2024-06-06
 #### Released: 2024-06-06
 #### Changed
 - **Dependencies** | All project dependencies, regardless of source (individual packages, local or remote files, requirements files, pyproject scripts) are now installed together in a single `pip install ...` command.
