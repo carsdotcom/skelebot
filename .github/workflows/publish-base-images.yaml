@@ -1,11 +1,5 @@
 name: Publish Skelebot base Docker images
 
-
-https://github.com/marketplace/actions/build-and-push-docker-images#path-context
-https://docs.docker.com/reference/cli/docker/buildx/build/#load
-https://docs.docker.com/build/ci/github-actions/share-image-jobs/
-https://docs.docker.com/build/ci/github-actions/
-
 # Run when base-images folder is modified and also allow manual run
 on:
   push:
