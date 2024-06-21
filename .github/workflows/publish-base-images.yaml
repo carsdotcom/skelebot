@@ -43,8 +43,8 @@ jobs:
         if:  ${{ matrix.version == '3.9' }}
         uses: actions/upload-artifact@v4
         with:
-          name: myimage
-          path: /tmp/skelebot_base_${{ matrix.version }}.tar
+          name: skelebot_base_3.9
+          path: /tmp/skelebot_base_3.9.tar
 
 
   publish_py_krb:
@@ -61,7 +61,7 @@ jobs:
       - name: Download Python 3.9 base image from cache
         uses: actions/download-artifact@v4
         with:
-          name: skelebot_base_3.9.tar
+          name: skelebot_base_3.9
           path: /tmp
 
       - name: Load cached Python 3.9 base image into context
