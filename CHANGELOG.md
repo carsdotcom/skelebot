@@ -3,7 +3,16 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.0.1
+#### Changed
+- **Base Images** | Added `git` to all the base images.
+- **CI/CD** | Upload base images to Docker Hub via GitHub Action whenever there's an update.
+
+---
+
 ## v2.0.0
+#### Merged: 2024-06-06
+#### Released: 2024-06-06
 #### Changed
 - **Dependencies** | All project dependencies, regardless of source (individual packages, local or remote files, requirements files, pyproject scripts) are now installed together in a single `pip install ...` command.
 - **Build system** | Refactored build system to use a single `pyproject.toml` script. Switched build backend from `setuptools` to `hatchling`.
