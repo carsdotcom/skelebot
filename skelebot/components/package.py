@@ -5,7 +5,7 @@ from subprocess import call
 from ..objects.component import Activation, Component
 
 HELP_TEMPLATE = "Package the codebase into a single zip file ({path}.zip)"
-COMMAND_TEMPLATE = "zip -r {path}.zip . -x {ignores}"
+COMMAND_TEMPLATE = "zip -r {path} . -x {ignores}"
 
 class Package(Component):
     """
@@ -38,7 +38,7 @@ class Package(Component):
         Adds a parser for the package command that zips up the codebase
         """
 
-        helpMessage = HELP_TEMPLATE.format(name=self.name)
+        helpMessage = HELP_TEMPLATE.format(path=self.path)
         subparsers.add_parser("package", help=helpMessage)
         return subparsers
 
@@ -50,5 +50,5 @@ class Package(Component):
         while ingoring a list of folders and files in the process
         """
 
-        command = COMMMAND_TEMPLATE.format(path=self.path, ignores=" ".join(self.ignores))
+        command = COMMAND_TEMPLATE.format(path=self.path, ignores=" ".join(self.ignores))
         return call(command, shell=True)
