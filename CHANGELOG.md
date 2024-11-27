@@ -3,7 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.1.0
+#### Added
+- **Package Component** | Added `package` component to allow easy zipping of codebase
+
+---
+
 ## v2.0.1
+#### Merged: 2024-06-27
 #### Changed
 - **Base Images** | Added `git` to all the base images.
 - **CI/CD** | Upload base images to Docker Hub via GitHub Action whenever there's an update.

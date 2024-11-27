@@ -8,6 +8,7 @@ from colorama import Fore, Style
 from ..objects.component import Activation
 from ..common import PLUGINS_HOME, PLUGINS_QUARANTINE
 from .plugin import Plugin
+from .package import Package
 from .jupyter import Jupyter
 from .kerberos import Kerberos
 from .bump import Bump
@@ -35,6 +36,7 @@ class ComponentFactory():
 
         self.COMPONENTS = {
             Plugin.__name__.lower(): Plugin,
+            Package.__name__.lower(): Package,
             Jupyter.__name__.lower(): Jupyter,
             Kerberos.__name__.lower(): Kerberos,
             Bump.__name__.lower(): Bump,

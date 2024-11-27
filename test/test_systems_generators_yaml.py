@@ -49,7 +49,7 @@ class TestYaml(unittest.TestCase):
                 self.assertEqual(component.port, 1128 if isTestEnv else 1127)
                 self.assertEqual(component.folder, "notebooks/")
 
-        expectedComponents = ["Registry", "Plugin", "Jupyter", "Bump", "Prime", "Environments", "Dexec", "AddNumbers"]
+        expectedComponents = ["Registry", "Plugin", "Package", "Jupyter", "Bump", "Prime", "Environments", "Dexec", "AddNumbers"]
         if isTestEnv:
             expectedComponents.append("Repository")
         self.assertTrue(all(elem in components for elem in expectedComponents))
