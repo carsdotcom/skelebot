@@ -4,7 +4,7 @@ from schema import Schema, And, Optional
 from subprocess import call
 from ..objects.component import Activation, Component
 
-HELP_TEMPLATE = "Package the codebase into a single zip file ({path}.zip)"
+HELP_TEMPLATE = "Package the codebase into a single zip file ({path})"
 COMMAND_TEMPLATE = "zip -r {path} . -x {ignores}"
 
 class Package(Component):
