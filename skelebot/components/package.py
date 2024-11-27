@@ -1,11 +1,11 @@
 """Package Component"""
 
-from schema import Schema, And, Optional
 from subprocess import call
+from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
 
 HELP_TEMPLATE = "Package the codebase into a single zip file ({path})"
-COMMAND_TEMPLATE = "zip -r {path} . -x {ignores}"
+COMMAND_TEMPLATE = "zip -r {path} .{ignores}"
 
 class Package(Component):
     """
@@ -18,7 +18,7 @@ class Package(Component):
     commands = ["package"]
 
     schema = Schema({
-        'path': And(str, error='Package \'path\' must be an String'),
+        'path': And(str, error='Package \'path\' must be a String'),
         Optional('ignores'): And(list, error='Package \'ignores\' must be a List')
     }, ignore_extra_keys=True)
 
@@ -29,7 +29,7 @@ class Package(Component):
         """Initialize the class with simple default values for path and ignores"""
 
         self.path = path
-        self.ignores = ignores if (ignores is not None) else []
+        self.ignores = ignores
 
     def addParsers(self, subparsers):
         """
@@ -50,5 +50,6 @@ class Package(Component):
         while ingoring a list of folders and files in the process
         """
 
-        command = COMMAND_TEMPLATE.format(path=self.path, ignores=" ".join(self.ignores))
+        ignores = f" -x {' '.join(self.ignores)}" if (self.ignores is not None) else ""
+        command = COMMAND_TEMPLATE.format(path=self.path, ignores=ignores)
         return call(command, shell=True)
