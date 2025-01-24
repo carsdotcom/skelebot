@@ -3,7 +3,15 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.1.1
+#### Added
+- **Package Component** | Updated `package` component to delete destination path if it already exists before archiving the codebase.
+
+---
+
 ## v2.1.0
+#### Released: 2024-11-27
+#### Merged: 2024-11-27
 #### Added
 - **Package Component** | Added `package` component to allow easy zipping of codebase
 
