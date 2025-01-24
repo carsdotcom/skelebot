@@ -1,5 +1,6 @@
 """Package Component"""
 
+import os
 from subprocess import call
 from schema import Schema, And, Optional
 from ..objects.component import Activation, Component
@@ -49,6 +50,9 @@ class Package(Component):
         Executed when the package command is provided it zips the codebase into a single file
         while ingoring a list of folders and files in the process
         """
+        # Ensure we always create a new zipfile
+        if os.path.exists(self.path):
+            os.remove(self.path)
 
         ignores = f" -x {' '.join(self.ignores)}" if (self.ignores is not None) else ""
         command = COMMAND_TEMPLATE.format(path=self.path, ignores=ignores)
