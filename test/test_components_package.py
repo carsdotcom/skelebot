@@ -35,6 +35,23 @@ class TestPlugin(unittest.TestCase):
 
         mock_call.assert_called_once_with("zip -r test.zip .", shell=True)
 
+    @mock.patch('os.remove')
+    @mock.patch('os.path.exists')
+    @mock.patch('skelebot.components.package.call')
+    def test_execute_existing(self, mock_call, mock_exists, mock_remove):
+        mock_call.return_value = 0
+        mock_exists.return_value = True
+
+        config = sb.objects.config.Config()
+        args = argparse.Namespace()
+
+        package = sb.components.package.Package(path="test.zip")
+        package.execute(config, args)
+
+        mock_call.assert_called_once_with("zip -r test.zip .", shell=True)
+        mock_exists.assert_called_once_with("test.zip")
+        mock_remove.assert_called_once_with("test.zip")
+
     @mock.patch('skelebot.components.package.call')
     def test_execute_ignores(self, mock_call):
         mock_call.return_value = 0
@@ -42,10 +59,10 @@ class TestPlugin(unittest.TestCase):
         config = sb.objects.config.Config()
         args = argparse.Namespace()
 
-        package = sb.components.package.Package(path="test.zip", ignores=["folder/**\*", "file.txt"])
+        package = sb.components.package.Package(path="test.zip", ignores=[r"folder/**\*", "file.txt"])
         package.execute(config, args)
 
-        mock_call.assert_called_once_with("zip -r test.zip . -x folder/**\* file.txt", shell=True)
+        mock_call.assert_called_once_with(r"zip -r test.zip . -x folder/**\* file.txt", shell=True)
 
     def test_validate_valid(self):
         try:
