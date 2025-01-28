@@ -7,6 +7,9 @@ on:
       - master
     paths:
       - 'base-images/**'
+  schedule:
+    # Run automatically at 06:02 on every 1st and 15th day of the month
+    - cron:  '2 6 1,15 * *'
   workflow_dispatch:
 
 jobs:
