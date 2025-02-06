@@ -2,9 +2,17 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+## v2.1.2
+#### Changed
+- **CI/CD** | Set up a schedule to automatically update all base images twice a month
+- **Base Images** | Security update: Apply OS-level updates and set `setuptools` minimum version to 70.0.0 for all base images
+
+---
 
 ## v2.1.1
-#### Added
+#### Released: 2025-01-25
+#### Merged: 2025-01-25
+#### Changed
 - **Package Component** | Updated `package` component to delete destination path if it already exists before archiving the codebase.
 
 ---
