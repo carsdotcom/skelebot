@@ -5,7 +5,7 @@ Documenting All Changes to the Skelebot Project
 
 ## v2.1.3
 #### Changed
-- **CI/CD** | Make all images work in both Intel (amd64) and Mac (arm64) CPUs.
+- **CI/CD** | Make all images work in both Intel (amd64) and Apple (arm64) CPUs.
 
 ---
 
