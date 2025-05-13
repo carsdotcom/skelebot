@@ -2,7 +2,15 @@
 Documenting All Changes to the Skelebot Project
 
 ---
+
+## v2.1.3
+#### Changed
+- **CI/CD** | Make all images work in both Intel (amd64) and Mac (arm64) CPUs.
+
+---
+
 ## v2.1.2
+#### Merged: 2025-02-06
 #### Changed
 - **CI/CD** | Set up a schedule to automatically update all base images twice a month
 - **Base Images** | Security update: Apply OS-level updates and set `setuptools` minimum version to 70.0.0 for all base images
