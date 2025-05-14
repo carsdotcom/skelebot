@@ -3,9 +3,10 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
-## v2.1.3
+## v2.2.0
 #### Changed
 - **CI/CD** | Make all images work in both Intel (amd64) and Apple (arm64) CPUs.
+- **Base Images** | The `python-krb` base image is **deprecated** and will be removed in skelebot 3.0
 
 ---
 
