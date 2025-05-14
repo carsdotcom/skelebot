@@ -1,4 +1,4 @@
-FROM skelebot/python-base
+FROM skelebot/python-base:3.9
 MAINTAINER Sean Shookman <sshookman@cars.com>
 
 RUN apt-get update && \

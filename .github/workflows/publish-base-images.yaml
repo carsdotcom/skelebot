@@ -26,6 +26,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Used to build multi-platform images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -35,21 +39,12 @@ jobs:
       - name: Publish image
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           context: base-images/python-base/${{ matrix.version }}/
           tags: skelebot/python-base:${{ matrix.version }}
-          outputs: |
-            type=registry
-            type=docker,dest=/tmp/skelebot_base_${{ matrix.version }}.tar
+          push: true
 
-      # Save 3.9 base image locally to use as base for Kerberos image
-      - name: Cache Python 3.9 base image
-        if:  ${{ matrix.version == '3.9' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: skelebot_base_3.9
-          path: /tmp/skelebot_base_3.9.tar
-
-
+  # DEPRECATED: Code will be removed in skelebot 3.0
   publish_py_krb:
     name: Publish Python Kerberos base image
     runs-on: ubuntu-latest
@@ -61,14 +56,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Download Python 3.9 base image from cache
-        uses: actions/download-artifact@v4
-        with:
-          name: skelebot_base_3.9
-          path: /tmp
-
-      - name: Load cached Python 3.9 base image into context
-        run: docker load --input /tmp/skelebot_base_3.9.tar
+      # Used to build multi-platform images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -79,6 +69,7 @@ jobs:
       - name: Publish Python Kerberos image
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           context: base-images/python-krb/
           tags: skelebot/python-krb
           push: true
