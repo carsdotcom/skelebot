@@ -3,9 +3,10 @@
 # https://docs.docker.com/desktop/features/containerd/
 
 # Build python-base
-docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.9 -t skelebot/python-base:latest base-images/python-base/3.9/
+docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.9 base-images/python-base/3.9/
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.10 base-images/python-base/3.10/
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.11 base-images/python-base/3.11/
+docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.12 base-images/python-base/3.12/
 
 # Build python-krb
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-krb base-images/python-krb/

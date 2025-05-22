@@ -21,7 +21,7 @@ LANGUAGE_IMAGE = {
     "krb": "skelebot/python-krb"
 }
 
-PYTHON_VERSIONS = ['3.9', '3.10', '3.11']
+PYTHON_VERSIONS = ['3.9', '3.10', '3.11', '3.12']
 DEPRECATED_VERSIONS = []
 
 TEMPLATE_PATH = "templates/{name}"
