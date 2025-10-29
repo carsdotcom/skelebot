@@ -51,7 +51,7 @@ class Scaffolder:
         path = os.path.join(os.path.dirname(__file__), path)
         with open(f"{path}/template.yaml", "r", encoding="utf-8") as yaml_file:
             yaml_text = self.__format_variables(yaml_file.read())
-            template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
+            template = pyyaml.safe_load(yaml_text)
 
         # Update file paths in the template
         for file_dict in template.get("files", []):

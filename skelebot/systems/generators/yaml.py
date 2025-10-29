@@ -54,12 +54,12 @@ def readYaml(env=None):
     cfgFile = FILE_PATH.format(path=cwd)
     if os.path.isfile(cfgFile):
         with open(cfgFile, "r", encoding="utf-8") as stream:
-            yamlData = yaml.load(stream, Loader=yaml.FullLoader)
+            yamlData = yaml.safe_load(stream)
             if (env is not None):
                 envFile = ENV_FILE_PATH.format(path=cwd, env=env)
                 if os.path.isfile(envFile):
                     with open(envFile, "r", encoding="utf-8") as stream:
-                        overrideYaml = yaml.load(stream, Loader=yaml.FullLoader)
+                        overrideYaml = yaml.safe_load(stream)
                         yamlData = override(yamlData, overrideYaml)
                 else:
                     raise RuntimeError("Environment Not Found")

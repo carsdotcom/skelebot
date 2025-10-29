@@ -117,7 +117,7 @@ class TestScaffolder(unittest.TestCase):
                                     "Git", "git@repo", "data-prod", True]
 
         exp_cfg = copy.deepcopy(TEMPLATE)
-        mock_pyyaml.load.return_value = exp_cfg
+        mock_pyyaml.safe_load.return_value = exp_cfg
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -188,7 +188,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                    "Git", "git@repo", "data-prod", True]
 
-        mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
+        mock_pyyaml.safe_load.return_value = copy.deepcopy(TEMPLATE)
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -247,7 +247,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                    "Dash", "data-prod",  True]
 
-        mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
+        mock_pyyaml.safe_load.return_value = copy.deepcopy(TEMPLATE)
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
