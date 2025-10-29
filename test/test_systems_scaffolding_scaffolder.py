@@ -110,7 +110,6 @@ class TestScaffolder(unittest.TestCase):
         mock_exists.return_value = True
 
         mock_call.return_value = 0
-        mock_call.configure_mock(shell=True)
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
@@ -160,7 +159,7 @@ class TestScaffolder(unittest.TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
         template_path = os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo")
-        mock_call.assert_called_once_with(f"cd {template_path} && git pull --rebase", shell=True)
+        mock_call.assert_called_once_with(["cd", template_path, "&&", "git", "pull", "--rebase"])
 
     @mock.patch('os.path.exists')
     @mock.patch('os.path.expanduser')
@@ -182,7 +181,6 @@ class TestScaffolder(unittest.TestCase):
         mock_exists.return_value = False
 
         mock_call.return_value = 0
-        mock_call.configure_mock(shell=True)
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
@@ -226,7 +224,7 @@ class TestScaffolder(unittest.TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
         template_path = os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo")
-        mock_call.assert_called_once_with(f"git clone git@repo {template_path}", shell=True)
+        mock_call.assert_called_once_with(["git", "clone", "git@repo", template_path])
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
