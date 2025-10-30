@@ -110,14 +110,13 @@ class TestScaffolder(unittest.TestCase):
         mock_exists.return_value = True
 
         mock_call.return_value = 0
-        mock_call.configure_mock(shell=True)
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                     "Git", "git@repo", "data-prod", True]
 
         exp_cfg = copy.deepcopy(TEMPLATE)
-        mock_pyyaml.load.return_value = exp_cfg
+        mock_pyyaml.safe_load.return_value = exp_cfg
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -160,7 +159,7 @@ class TestScaffolder(unittest.TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
         template_path = os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo")
-        mock_call.assert_called_once_with(f"cd {template_path} && git pull --rebase", shell=True)
+        mock_call.assert_called_once_with(["cd", template_path, "&&", "git", "pull", "--rebase"])
 
     @mock.patch('os.path.exists')
     @mock.patch('os.path.expanduser')
@@ -182,13 +181,12 @@ class TestScaffolder(unittest.TestCase):
         mock_exists.return_value = False
 
         mock_call.return_value = 0
-        mock_call.configure_mock(shell=True)
 
         mock_expanduser.return_value = "test/plugins"
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                    "Git", "git@repo", "data-prod", True]
 
-        mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
+        mock_pyyaml.safe_load.return_value = copy.deepcopy(TEMPLATE)
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()
@@ -226,7 +224,7 @@ class TestScaffolder(unittest.TestCase):
         mock_readme.buildREADME.assert_called_once()
         mock_yaml.saveConfig.assert_called_once()
         template_path = os.path.join(dirname, "skelebot/systems/scaffolding/templates/git_repo")
-        mock_call.assert_called_once_with(f"git clone git@repo {template_path}", shell=True)
+        mock_call.assert_called_once_with(["git", "clone", "git@repo", template_path])
 
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
@@ -247,7 +245,7 @@ class TestScaffolder(unittest.TestCase):
         mock_prompt.side_effect = ["test", "test proj", "sean", "email",
                                    "Dash", "data-prod",  True]
 
-        mock_pyyaml.load.return_value = copy.deepcopy(TEMPLATE)
+        mock_pyyaml.safe_load.return_value = copy.deepcopy(TEMPLATE)
 
         # Set up mock components with scaffolding
         mock_single_comp = mock.MagicMock()

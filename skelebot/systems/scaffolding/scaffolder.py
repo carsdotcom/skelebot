@@ -1,5 +1,6 @@
 """Scaffolder System"""
 
+import ast
 import os
 import re
 from subprocess import call
@@ -26,7 +27,7 @@ class Scaffolder:
         return text
 
     def __format_config(self, config):
-        return eval(self.__format_variables(str(config)))
+        return ast.literal_eval(self.__format_variables(str(config)))
 
     def __load_git_template(self, url):
         # Construct template_name (folder name) and template path
@@ -37,10 +38,10 @@ class Scaffolder:
         # Clone or pull the template from the Git URL into the template folder
         if (os.path.exists(template_path)):
             # If the template has been cloned before, just pull --rebase
-            status = call(f"cd {template_path} && git pull --rebase", shell=True)
+            status = call(["cd", template_path, "&&", "git", "pull", "--rebase"])
         else:
             # If the template has NOT been cloned before, clone it
-            status = call(f"git clone {url} {template_path}", shell=True)
+            status = call(["git", "clone", url, template_path])
 
         return self.__load_template(template_name)
 
@@ -51,7 +52,7 @@ class Scaffolder:
         path = os.path.join(os.path.dirname(__file__), path)
         with open(f"{path}/template.yaml", "r", encoding="utf-8") as yaml_file:
             yaml_text = self.__format_variables(yaml_file.read())
-            template = pyyaml.load(yaml_text, Loader=pyyaml.FullLoader)
+            template = pyyaml.safe_load(yaml_text)
 
         # Update file paths in the template
         for file_dict in template.get("files", []):
