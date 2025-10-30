@@ -3,7 +3,18 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.3.1
+#### Changed
+- **README** | Update Dev Version badge and remove Codacy badge
+- **Argument Parsing** | Improve security of user argument parsing process
+- **Scaffolder** | Improve security of scaffolding process
+- **Yaml** | Replace yaml.load with yaml.safe_load for better security
+
+---
+
 ## v2.3.0
+#### Released: 2025-05-22
+#### Merged: 2025-05-22
 #### Added
 - **Python 3.12** | Add support for python 3.12.
 
