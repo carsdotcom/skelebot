@@ -1,5 +1,6 @@
 """Skelebot - Machine Learning Project Development Tool"""
 
+import shlex
 import sys
 from schema import SchemaError
 from .common import ERROR, SCHEMA_ERROR
@@ -33,7 +34,7 @@ def get_env():
     baseArgs = {None, "-s", "--skip-build", "-n", "--native", "-v", "--version", "-c", "--contact"}
     for arg in sys.argv:
         if (prevArg == "-e") or (prevArg == "--env"):
-            env = arg
+            env = shlex.quote(arg)
             break
         elif (prevArg not in baseArgs) and (prevArg.endswith("skelebot") == False):
             break

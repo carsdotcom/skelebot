@@ -1,5 +1,6 @@
 """Execution System"""
 
+import shlex
 import sys
 from subprocess import call
 from ...common import VERSION
@@ -45,7 +46,7 @@ def getCommands(args):
             commands.append(command)
             command = []
         else:
-            command.append(arg)
+            command.append(shlex.quote(arg))
     commands.append(command)
 
     return commands
