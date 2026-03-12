@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.3.2
+#### Changed
+- **PyProject** | Adding typing_extensions dependency to resolve error in Python3.9
+
+---
+
 ## v2.3.1
 #### Changed
 - **README** | Update Dev Version badge and remove Codacy badge
