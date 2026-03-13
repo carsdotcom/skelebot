@@ -19,6 +19,7 @@ dependencies = [
   "colorama>=0.4.1",
   "boto3>=1.10",
   "tomli>=1.1.0 ; python_version < '3.11'",
+  "typing-extensions>=4.15.0 ; python_version < '3.11'"
 ]
 dynamic = ["version"]
 
