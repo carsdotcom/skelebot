@@ -2,7 +2,6 @@
 <p align="center"><img src="logo.gif"></p>
 <h1 align="center">Machine Learning Project Development Tool</h1>
 
-[![CircleCI token](https://circleci.com/gh/carsdotcom/skelebot/tree/master.svg?style=svg)](https://circleci.com/gh/carsdotcom/skelebot)
 [![codecov](https://codecov.io/gh/carsdotcom/skelebot/branch/master/graph/badge.svg)](https://codecov.io/gh/carsdotcom/skelebot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcarsdotcom%2Fskelebot%2Frefs%2Fheads%2Fmaster%2FVERSION&search=(%5Cd%5B%5C.%5Cd%5D*)&label=Dev%20Version&color=purple)

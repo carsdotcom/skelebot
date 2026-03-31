@@ -3,6 +3,12 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.4.1
+#### Removed
+- **CircleCI Badge** | Removed CircleCI Badge from README
+
+---
+
 ## v2.4.0
 #### Added
 - **Github Action** | GitHub Action for runing the CircleCI process
