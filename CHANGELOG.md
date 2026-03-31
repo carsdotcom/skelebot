@@ -3,6 +3,14 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.4.0
+#### Added
+- **Github Action** | GitHub Action for runing the CircleCI process
+#### Removed
+- **CircleCI** | Replacing CircleCI with GitHub Actions
+
+---
+
 ## v2.3.2
 #### Changed
 - **PyProject** | Adding typing_extensions dependency to resolve error in Python3.9
