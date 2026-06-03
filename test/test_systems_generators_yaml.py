@@ -82,6 +82,22 @@ class TestYaml(unittest.TestCase):
         mock_makedirs.assert_called_with("{path}/test/plugins-bad".format(path=self.path))
         mock_shutil.assert_called_with(folder, folder)
 
+    # Test to ensure that plugins which share a name with a builtin component are skipped
+    @mock.patch('skelebot.components.componentFactory.print')
+    @mock.patch('os.listdir')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.path.expanduser')
+    @mock.patch('os.getcwd')
+    def test_loadConfig_with_colliding_plugin(self, mock_getcwd, mock_expanduser, mock_exists, mock_listdir, mock_print):
+        mock_expanduser.return_value = "{path}/test/plugins".format(path=self.path)
+        mock_getcwd.return_value = "{path}/test/files".format(path=self.path)
+        mock_exists.return_value = True
+        mock_listdir.return_value = ["bump"]
+
+        sb.systems.generators.yaml.loadConfig()
+
+        mock_print.assert_any_call(Fore.YELLOW + "WARNING" + Style.RESET_ALL + " | The bump plugin name collides with a builtin component - Skipping")
+
     # Test to ensure that the config loads from skelebot.yaml and overwrites with skelebot-test.yaml properly
     @mock.patch('os.path.expanduser')
     @mock.patch('os.getcwd')
