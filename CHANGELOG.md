@@ -3,13 +3,21 @@ Documenting All Changes to the Skelebot Project
 
 ---
 
+## v2.4.2
+#### Changed
+- **Plugin** | Validate plugin contents against unsafe paths before extracting them.
+
+---
+
 ## v2.4.1
+#### Merged: 2026-04-02
 #### Removed
 - **CircleCI Badge** | Removed CircleCI Badge from README
 
 ---
 
 ## v2.4.0
+#### Merged: 2026-03-31
 #### Added
 - **Github Action** | GitHub Action for runing the CircleCI process
 #### Removed
@@ -18,12 +26,15 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v2.3.2
+#### Released: 2026-03-13
+#### Merged: 2026-03-13
 #### Changed
 - **PyProject** | Adding typing_extensions dependency to resolve error in Python3.9
 
 ---
 
 ## v2.3.1
+#### Merged: 2025-10-30
 #### Changed
 - **README** | Update Dev Version badge and remove Codacy badge
 - **Argument Parsing** | Improve security of user argument parsing process
