@@ -45,6 +45,18 @@ class Plugin(Component):
         if (os.path.exists(pluginsHome) is False):
             os.makedirs(pluginsHome, exist_ok=True)
 
-        # Unzip the plugin into the plugins folder
+        # Unzip the plugin into the plugins folder, validating each member
+        # path stays inside pluginsHome before writing it to disk
         with zipfile.ZipFile(args.plugin, "r") as zip_ref:
-            zip_ref.extractall(pluginsHome)
+            pluginsRoot = os.path.realpath(pluginsHome)
+            for member in zip_ref.infolist():
+                target = os.path.realpath(os.path.join(pluginsRoot, member.filename))
+                if target != pluginsRoot and not target.startswith(pluginsRoot + os.sep):
+                    raise RuntimeError(f"Unsafe path in plugin zip: {member.filename}")
+                if member.is_dir():
+                    os.makedirs(target, exist_ok=True)
+                else:
+                    os.makedirs(os.path.dirname(target), exist_ok=True)
+                    with zip_ref.open(member) as source:
+                        with open(target, "wb") as sink:
+                            sink.write(source.read())
