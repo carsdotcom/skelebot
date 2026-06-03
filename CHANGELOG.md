@@ -5,7 +5,8 @@ Documenting All Changes to the Skelebot Project
 
 ## v2.4.2
 #### Changed
-- **Plugin** | Validate plugin contents against unsafe paths before extracting them.
+- **Component Factory** | Check for plugin collisions with built-in components
+- **Plugin** | Validate plugin contents against unsafe paths before extracting them
 
 ---
 
