@@ -20,6 +20,7 @@ from .environments import Environments
 
 WARNING_HEADER = Fore.YELLOW + "WARNING" + Style.RESET_ALL
 PLUGIN_WARNING = WARNING_HEADER + " | The {} plugin contains errors - Adding plugin to Quarantine"
+PLUGIN_COLLISION = WARNING_HEADER + " | The {} plugin name collides with a builtin component - Skipping"
 
 class ComponentFactory():
     """
@@ -48,11 +49,15 @@ class ComponentFactory():
         }
 
         # Add the plugin components to the master list
+        builtinNames = set(self.COMPONENTS.keys())
         pluginsHome = os.path.expanduser(PLUGINS_HOME)
         if (os.path.exists(pluginsHome)):
             sys.path.append(pluginsHome)
             for pluginName in os.listdir(pluginsHome):
                 if (pluginName[0] != "_"):
+                    if (pluginName.lower() in builtinNames):
+                        print(PLUGIN_COLLISION.format(pluginName))
+                        continue
                     try:
                         module = importlib.import_module("{name}.{name}".format(name=pluginName))
                         plugin = getattr(module, pluginName[0].upper() + pluginName[1:])
