@@ -35,7 +35,7 @@ If you do not have proper access on the machine you are using, Skelebot can be i
 Skelebot developers should first install the package with the additional `dev` dependencies and then test their installation:
 
 ```
-> pip install .[dev]
+> pip install '.[dev]'
 > pytest .
 ```
 
