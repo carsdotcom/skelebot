@@ -4,13 +4,16 @@ Documenting All Changes to the Skelebot Project
 ---
 
 ## v2.5.0
+#### Released: 2026-10-21
+#### Merged: 2026-10-21
 #### Added
 - **Python 3.13** | Add support for python 3.13.
 
 ---
 
 ## v2.4.2
-#### Merged: 2026-06-04
+#### Released: 2026-10-21
+#### Merged: 2026-10-21
 #### Changed
 - **Component Factory** | Check for plugin collisions with built-in components
 - **Plugin** | Validate plugin contents against unsafe paths before extracting them
