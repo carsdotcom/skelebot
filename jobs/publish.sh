@@ -13,6 +13,7 @@ docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.9 base
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.10 base-images/python-base/3.10/
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.11 base-images/python-base/3.11/
 docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.12 base-images/python-base/3.12/
+docker build --platform=linux/amd64,linux/arm64 -t skelebot/python-base:3.13 base-images/python-base/3.13/
 # Newer Docker clients will push latest by default and will need to do `docker push skelebot/python-base --all-tags`
 docker push skelebot/python-base --all-tags
 
